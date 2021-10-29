@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-project(libes2-estts)
+project(estts)
 
 add_subdirectory(src)
 add_subdirectory(examples/estts-demo1)
