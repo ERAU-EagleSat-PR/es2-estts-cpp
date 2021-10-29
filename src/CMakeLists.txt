@@ -4,7 +4,7 @@
 # finding things easier for future maintainers.
 
 set(
-        es2-libestts-src
+        libes2-estts-src
         fapi/feature_api.cpp
         sapi/system_api.cpp
         ti/transmission_interface.cpp
@@ -18,37 +18,37 @@ set(
         ${CMAKE_CURRENT_SOURCE_DIR}/ti
 )
 
-set(es2-libestts_include_directories ${include_directories} PARENT_SCOPE)
+set(libes2-estts_include_directories ${include_directories} PARENT_SCOPE)
 
 # Configure build targets
 add_library(
-        es2-libestts
+        libes2-estts
         SHARED
-        ${es2-libestts-src}
+        ${libes2-estts-src}
 )
 target_include_directories(
-        es2-libestts
+        libes2-estts
         PUBLIC
         ${include_directories}
 )
 
 if(BUILD_DEBUG)
     target_compile_definitions(
-            es2-libestts
+            libes2-estts
             PRIVATE
     )
     target_compile_options(
-            es2-libestts
+            libes2-estts
             PRIVATE
             -Wall
     )
 else()
     target_compile_definitions(
-            es2-libestts
+            libes2-estts
             PRIVATE
     )
     target_compile_options(
-            es2-libestts
+            libes2-estts
             PRIVATE
             -w
     )

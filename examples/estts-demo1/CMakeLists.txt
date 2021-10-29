@@ -8,8 +8,8 @@ add_executable(estts-demo1 src/main.cpp)
 target_include_directories(
         estts-demo1
         PUBLIC
-        ${es2-libestts_include_directories}
+        ${libes2-estts_include_directories}
 )
 
 # Link GSTTS library to build
-target_link_libraries(estts-demo1 PUBLIC es2-libestts)
+target_link_libraries(estts-demo1 PUBLIC libes2-estts)
