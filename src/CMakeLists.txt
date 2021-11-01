@@ -6,6 +6,8 @@
 set(
         estts-src
         fapi/feature_api.cpp
+        utils/logger.cpp
+        utils/port.cpp
         sapi/system_api.cpp
         ti/transmission_interface.cpp
 )
@@ -16,6 +18,7 @@ set(
         ${CMAKE_CURRENT_SOURCE_DIR}/fapi
         ${CMAKE_CURRENT_SOURCE_DIR}/sapi
         ${CMAKE_CURRENT_SOURCE_DIR}/ti
+        ${CMAKE_CURRENT_SOURCE_DIR}/utils
 )
 
 set(estts_include_directories ${include_directories} PARENT_SCOPE)
