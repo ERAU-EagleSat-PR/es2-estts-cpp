@@ -17,8 +17,8 @@ these are available in your executable path.
 ```build``` directory
 
     ```asm
-    cd /build 
-    mkdir build 
+    mkdir build
+    cd /build
     cd build
     ```
 2. Build the project using CMake
@@ -44,8 +44,8 @@ to your computer's library directory. This is unnecessary for now..
    ```build``` directory
 
     ```asm
-    cd /build 
-    mkdir build 
+    mkdir build
+    cd /build
     cd build
     ```
 3. Build and install the library
