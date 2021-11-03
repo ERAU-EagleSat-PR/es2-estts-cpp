@@ -42,7 +42,7 @@ class InfoField {
 
 public:
     /* Constructors */
-    InfoField() : address(""), 
+    InfoField() : address(""),
                        timeStamp(""),
                        sequence(""), 
                        commandID(""),
@@ -63,7 +63,7 @@ public:
                    data(data) {}
     
     /* Converts hex string to binary */
-    std::string convertHexToBin(static const short int size, const std::string hexField);
+    std::string convertHexToBin(const short int size, const std::string& hexField);
 
     /* Setters (Accepts hex strings) */
     inline void setAddress(const std::string address) { this->address = address;  }

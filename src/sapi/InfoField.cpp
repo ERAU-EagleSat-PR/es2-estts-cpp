@@ -8,7 +8,7 @@ using std::stringstream;
 using std::string;
 
 /* Convert hex string to binary string */ 
-string InfoField::convertHexToBin(static const short int size, const string hexField) {
+string InfoField::convertHexToBin(const short int size, const string& hexField) {
     stringstream bitStream;
     int bitPadding = size - ((hexField.length()-2) * 4);
 
