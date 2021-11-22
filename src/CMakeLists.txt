@@ -6,7 +6,8 @@
 set(
         estts-src
         fapi/feature_api.cpp
-        sapi/InfoField.cpp
+        sapi/frame_constructor.cpp
+        sapi/info_field.cpp
         utils/logger.cpp
         utils/port.cpp
         sapi/system_api.cpp

@@ -1,9 +1,11 @@
-#pragma once
+#ifndef ES2_ESTTS_CPP_INFOFIELD_H
+#define ES2_ESTTS_CPP_INFOFIELD_H
+
 #include <string>
 #include <unordered_map>
-#include <sstream>
 
-class InfoField {
+class info_field {
+private:
     /* Container used to convert Hex characters(Key) to Binary strings(Value) */
     const std::unordered_map<char, std::string> hexToBin = {
         {'0', "0000"},
@@ -40,16 +42,21 @@ class InfoField {
     std::string method;
     std::string data;
 
+    /* Converts hex string to binary */
+    std::string convertHexToBin(const short int size, const std::string& hexField);
+
+    /* Getters */
+    std::string getAddressBits();
+    std::string getTimeStampBits();
+    std::string getSequenceBits();
+    std::string getCommandIDBits();
+    char getMethodBits();
+    std::string getDataBits();
 public:
     /* Constructors */
-    InfoField() : address(""),
-                       timeStamp(""),
-                       sequence(""), 
-                       commandID(""),
-                       method(""),
-                       data("") {}
+    info_field() : info_field("", "", "", "", "", "") {}
 
-    InfoField(std::string address, 
+    info_field(std::string address, 
                    std::string timeStamp,
                    std::string sequence, 
                    std::string commandID,
@@ -62,9 +69,6 @@ public:
                    method(method), 
                    data(data) {}
     
-    /* Converts hex string to binary */
-    std::string convertHexToBin(const short int size, const std::string& hexField);
-
     /* Setters (Accepts hex strings) */
     inline void setAddress(const std::string address) { this->address = address;  }
     inline void setTimeStamp(const std::string timeStamp) { this->timeStamp = timeStamp; }
@@ -73,14 +77,8 @@ public:
     inline void setMethod(const std::string method) { this->method = method; }
     inline void setData(const std::string data) { this->data = data; }
 
-    /* Getters */
-    std::string getAddressBits();
-    std::string getTimeStampBits();
-    std::string getSequenceBits();
-    std::string getCommandIDBits();
-    char getMethodBits();
-    std::string getDataBits();
-
-    std::string getInfoField();
+    /* Encoded Information Field Getter */
+    std::string encode();
 };
 
+#endif

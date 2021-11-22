@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include "constants.h"
-#include "InfoField.h"
+#include "info_field.h"
 using namespace std;
 
 namespace sapi {
