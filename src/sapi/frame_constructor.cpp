@@ -9,6 +9,7 @@ using std::cout;
 using std::endl;
 using std::string;
 using std::stringstream;
+using std::strlen;
 using std::hex;
 
 // ~~~~~~~~~~~ CONVERSION FUNCTIONS ~~~~~~~~~~~
@@ -30,7 +31,7 @@ string frame_constructor::convertToBin(const unsigned char field[]) {
 
     /* Convert each character in the array into a hex string and append them together */
     hexStream << "0x" << hex;
-    for (int i = 0; i < sizeof(field)/sizeof(*field); ++i)
+    for (int i = 0; i < strlen((char*)field); ++i)
         hexStream << (int)field[i];
     
     return convertHexToBin(hexStream.str());
