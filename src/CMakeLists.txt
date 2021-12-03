@@ -10,7 +10,7 @@ set(
         utils/port.cpp
         sapi/system_api.cpp
         ti/transmission_interface.cpp
-)
+        sapi/endurosat_scrambling.cpp)
 
 set(
         include_directories
