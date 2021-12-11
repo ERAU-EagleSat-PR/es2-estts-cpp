@@ -1,0 +1,9 @@
+[submodule "gnuradio"]
+	path = gnuradio
+	url = https://github.com/gnuradio/gnuradio.git
+[submodule "lib/gnuradio"]
+	path = lib/gnuradio
+	url = https://github.com/gnuradio/gnuradio.git
+[submodule "lib/spdlog"]
+	path = lib/spdlog
+	url = https://github.com/ERAU-EagleSat-PR/spdlog.git
