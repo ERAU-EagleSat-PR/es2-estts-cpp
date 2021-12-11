@@ -3,14 +3,18 @@
 # Please add any additions alphabetically to avoid duplication and make
 # finding things easier for future maintainers.
 
+# Add new files in order
 set(
         estts-src
         fapi/feature_api.cpp
         utils/logger.cpp
         utils/port.cpp
         sapi/system_api.cpp
-        ti/transmission_interface.cpp
-        sapi/endurosat_scrambling.cpp)
+        ti/ti_esttc.cpp
+        ti/ti_serial_handler.cpp
+        sapi/endurosat_scrambling.cpp
+        sapi/InfoField.cpp
+)
 
 set(
         include_directories
