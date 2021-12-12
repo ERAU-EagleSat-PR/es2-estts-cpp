@@ -4,12 +4,13 @@
 
 #include <iostream>
 #include "ti_serial_handler.h"
+#include "ti_esttc.h"
 
 int main() {
 
-    const char * port = "/dev/tty.usbmodem2101";
+    const char * port = "/dev/tty.usbmodem1101";
     int baud = 115200;
-
+    /*
     auto serial = new ti_serial_handler(port, baud);
     unsigned char msg[] = { 'H', 'e', 'l', 'l', 'o', '\r', '\0' };
 
@@ -21,5 +22,9 @@ int main() {
     // serial->write_serial_uc(msg);
 
     delete serial;
+    */
 
+    auto esttc_handler = new ti_esttc(port, baud);
+    esttc_handler->get_temp();
+    delete esttc_handler;
 }

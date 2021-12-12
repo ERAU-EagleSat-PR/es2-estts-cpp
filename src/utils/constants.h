@@ -11,13 +11,18 @@ namespace estts {
     /*
      * AX.25 Related constants
      */
-    const unsigned char AX25_FLAG = 0x7E; // Flag is constant
-    const unsigned char AX25_DESTINATION_ADDRESS[] = "NABC  "; // Max 48-bit (6-byte)
-    const unsigned char AX25_SSID0 = 0xE0;
-    const unsigned char AX25_SOURCE_ADDRESS[] = "NBCA  "; // Max 48-bit (6-byte)
-    const unsigned char AX25_SSID1 = 0xE1;
-    const unsigned char AX25_CONTROL = 0x03; // 03 = Unnumbered Information
-    const unsigned char AX25_PID = 0xF0; // F0 = No layer 3 protocol implemented
+    namespace ax25 {
+        class header {
+        public:
+            const unsigned char AX25_FLAG = 0x7E; // Flag is constant
+            const char * AX25_DESTINATION_ADDRESS = "NABC  "; // Max 48-bit (6-byte)
+            const unsigned char AX25_SSID0 = 0xE0;
+            const char * AX25_SOURCE_ADDRESS = "NBCA  "; // Max 48-bit (6-byte)
+            const unsigned char AX25_SSID1 = 0xE1;
+            const unsigned char AX25_CONTROL = 0x03; // 03 = Unnumbered Information
+            const unsigned char AX25_PID = 0xF0; // F0 = No layer 3 protocol implemented
+        };
+    }
 
     // TODO Change enumeration types to SCOPED BASED enumerations
     /* Generic response code enumeration for return codes */
@@ -80,6 +85,21 @@ namespace estts {
         EnduroSat_OK,
         EnduroSat_Fail
     };
+
+    namespace endurosat {
+        class esttc {
+        public:
+            const char * HEADER = "ES+";
+            const char METHOD_READ = 'R';
+            const char METHOD_WRITE = 'W';
+            const char * ADDRESS = "22";
+            const char * BLANK = " ";
+            const char * END = "\r";
+            const char * COMMAND_SOFTWARE_BUILD = "F9";
+            const char * COMMAND_TEMP_SENSOR = "0A";
+            const char * COMMAND_SCW = "00";
+        };
+    }
 }
 
 

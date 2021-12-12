@@ -4,8 +4,6 @@
 
 #include "ti_serial_handler.h"
 
-
-
 using namespace estts;
 
 // Reference https://www.cmrr.umn.edu/~strupp/serial.html
@@ -14,10 +12,11 @@ using namespace estts;
  * @brief Takes argument for a pointer to an unsigned char
  * and transmits it across the open serial port.
  * @param data Unsigned char * containing bytes to be written
+ * @param size Size of data being transmitted
  * @return Returns -1 if write failed, or the number of bytes written if call succeeded
  */
-ssize_t ti_serial_handler::write_serial_uc(unsigned char * data) const {
-    ssize_t written = write(serial_port, data, sizeof(data));
+ssize_t ti_serial_handler::write_serial_uc(unsigned char * data, int size) const {
+    ssize_t written = write(serial_port, data, size);
     if (written < 1) {
         return -1;
     }
@@ -131,7 +130,7 @@ ssize_t ti_serial_handler::write_serial_s(const std::string& data) const {
     // Cast string to const unsigned char *, then cast away const to pass
     // to method that writes unsigned char
     auto csc_data = const_cast<unsigned char *>(reinterpret_cast<const unsigned char *>(data.c_str()));
-    return this->write_serial_uc(csc_data);
+    return this->write_serial_uc(csc_data, (int)data.length());
 }
 
 /**

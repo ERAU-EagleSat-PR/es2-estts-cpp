@@ -36,17 +36,8 @@ private:
     unsigned char * crc16;
     unsigned char * information_field;
     sapi::SAPICommandStructure * command;
-    std::string buildFrameHeader();
 public:
-    explicit System_API() : flag(estts::AX25_FLAG), destAddr(estts::AX25_DESTINATION_ADDRESS), ssid0(estts::AX25_SSID0),
-                            srcAddr(estts::AX25_SOURCE_ADDRESS), ssid1(estts::AX25_SSID1), control(estts::AX25_CONTROL),
-                            pid(estts::AX25_PID), crc16(nullptr), information_field(nullptr), command(nullptr) {}
 
-    explicit System_API(sapi::SAPICommandStructure * command) : System_API() {
-        this->information_field = (unsigned char *)0x55555; // TODO - populate information field inside constructor
-        this->command = command;
-    };
-    static estts::Status buildAX25Frame();
 };
 
 
