@@ -1,30 +1,18 @@
+//
+// Created by Cody on 12/17/2021.
+//
+
 #ifndef ES2_ESTTS_CPP_INFOFIELD_H
 #define ES2_ESTTS_CPP_INFOFIELD_H
 
 #include <string>
 #include <unordered_map>
+#include "bin_converter.h"
 
 class info_field {
 private:
-    /* Container used to convert Hex characters(Key) to Binary strings(Value) */
-    const std::unordered_map<char, std::string> hexToBin = {
-        {'0', "0000"},
-        {'1', "0001"},
-        {'2', "0010"},
-        {'3', "0011"},
-        {'4', "0100"},
-        {'5', "0101"},
-        {'6', "0110"},
-        {'7', "0111"},
-        {'8', "1000"},
-        {'9', "1001"},
-        {'a', "1010"},
-        {'b', "1011"},
-        {'c', "1100"},
-        {'d', "1101"},
-        {'e', "1110"},
-        {'f', "1111"}
-    };
+    /* Binary converter */
+    bin_converter binConverter;
 
     /* Bit sizes of each section in AX.25 Packet Information Field */
     const unsigned char ADDRESS_SIZE = 8;
@@ -41,9 +29,6 @@ private:
     std::string commandID;
     std::string method;
     std::string data;
-
-    /* Converts hex string to binary */
-    std::string convertHexToBin(const short int size, const std::string& hexField);
 
     /* Getters */
     std::string getAddressBits();
@@ -62,7 +47,7 @@ public:
                    std::string commandID,
                    std::string method, 
                    std::string data) :
-                   address(address), 
+                   address(address),
                    timeStamp(timeStamp),
                    sequence(sequence), 
                    commandID(commandID),

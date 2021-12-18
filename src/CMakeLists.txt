@@ -5,6 +5,7 @@
 
 set(
         estts-src
+        utils/bin_converter.cpp
         fapi/feature_api.cpp
         sapi/frame_constructor.cpp
         sapi/info_field.cpp

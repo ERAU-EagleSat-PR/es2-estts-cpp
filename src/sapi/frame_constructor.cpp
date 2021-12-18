@@ -1,6 +1,9 @@
+//
+// Created by Cody on 12/17/2021.
+//
+
 #include <iostream>
-#include <string>
-#include <sstream>
+#include <cstring>
 #include "frame_constructor.h"
 #include "constants.h"
 
@@ -12,79 +15,69 @@ using std::stringstream;
 using std::strlen;
 using std::hex;
 
-// ~~~~~~~~~~~ CONVERSION FUNCTIONS ~~~~~~~~~~~
-
-/* Convert hex string to binary string */ 
-string frame_constructor::convertHexToBin(const string hexField) {
-    string bitStream;
-        
-    /* Convert each hex character to binary */
-    for (unsigned int i = 2; i < hexField.length(); ++i) 
-        bitStream += hexToBin.find(hexField[i])->second;
-
-    return bitStream;
-}
-
-/* Convert a ASCII character array to hex */
-string frame_constructor::convertToBin(const unsigned char field[]) {
-    stringstream hexStream;
-
-    /* Convert each character in the array into a hex string and append them together */
-    hexStream << "0x" << hex;
-    for (int i = 0; i < strlen((char*)field); ++i)
-        hexStream << (int)field[i];
-    
-    return convertHexToBin(hexStream.str());
-}
-
-/* Convert an unsigned character hex value to binary */
-string frame_constructor::convertToBin(const unsigned char field) {
-    stringstream hexStream;
-
-    hexStream << "0x" << hex << (int)field;
-
-    return convertHexToBin(hexStream.str());
-}
-
 // ~~~~~~~~~~~ FRAME HEADER GETTERS  ~~~~~~~~~~~
 
-/* Get flag as a bit string */
+/**
+ * @description Encodes the Flag field of the AX.25 Frame Header
+ * @return string of bits (e.g. "10010101")
+ */
 string frame_constructor::getFlag() {
-    return convertToBin(estts::AX25_FLAG);
+    return binConverter.toBinary(estts::AX25_FLAG);
 }
 
-/* Get destination address section as a bit string */
+/**
+ * @description Encodes the Destination Address field of the AX.25 Frame Header
+ * @return string of bits (e.g. "10010101")
+ */
 string frame_constructor::getDestAddr() {
-    return convertToBin(estts::AX25_DESTINATION_ADDRESS);
+    return binConverter.toBinary(estts::AX25_DESTINATION_ADDRESS);
 }
 
-/* Get address SSID0 as a bit string */
+/**
+ * @description Encodes the first SSID field of the AX.25 Frame Header
+ * @return @return string of bits (e.g. "10010101")
+ */
 string frame_constructor::getSSID0() {
-    return convertToBin(estts::AX25_SSID0);
+    return binConverter.toBinary(estts::AX25_SSID0);
 }
 
-/* Get source address section as a bit string */
+/**
+ * @description Encodes the Source Address field of the AX.25 Frame Header
+ * @return string of bits (e.g. "10010101")
+ */
 string frame_constructor::getSrcAddr() {
-    return convertToBin(estts::AX25_SOURCE_ADDRESS);
+    return binConverter.toBinary(estts::AX25_SOURCE_ADDRESS);
 }
 
-/* Get SSID1 section as a bit string */
+/**
+ * @description Encodes the second SSID field of the AX.25 Frame Header
+ * @return @return string of bits (e.g. "10010101")
+ */
 string frame_constructor::getSSID1() {
-    return convertToBin(estts::AX25_SSID1);
+    return binConverter.toBinary(estts::AX25_SSID1);
 }
 
-/* Get control section as a bit string */
+/**
+ * @description Encodes the Control field of the AX.25 Frame Header
+ * @return string of bits (e.g. "10010101")
+ */
 string frame_constructor::getControl() {
     // By default, the leading zero for 0x03 will get deleted, so prepending "0000" will compensate
-    return string(4, '0') + convertToBin(estts::AX25_CONTROL);
+    return string(4, '0') + binConverter.toBinary(estts::AX25_CONTROL);
 }
 
-/* Get PID section as a bit string */
+/**
+ * @description Encodes the PID field of the AX.25 Frame Header
+ * @return string of bits (e.g. "10010101")
+ */
 string frame_constructor::getPID() {
-    return convertToBin(estts::AX25_PID);
+    return binConverter.toBinary(estts::AX25_PID);
 }
 
-/* Get information field as a bit string */
+/**
+ * @description Retrieves the encoded AX.25 Information Field
+ * @return string of bits (e.g. "10010101")
+ */
 string frame_constructor::getInfoField() {
     if (informationField == nullptr) {
         cerr << "Error [frame_constructor] - Invalid information field: informationField = nullptr";
@@ -95,7 +88,10 @@ string frame_constructor::getInfoField() {
     }
 }
 
-/* Get FCS section as a bit string */
+/**
+ * @description Encodes the Frame Check Sequence field of the AX.25 Frame Header
+ * @return @return string of bits (e.g. "10010101")
+ */
 string frame_constructor::getFCSBits() {
     /* Throw an error if FCS doesn't start with "0x" or if it is the incorrect size */
     if (FCS.substr(0, 2) != "0x" || ((FCS.length() - 2) * 4) != FCS_SIZE) {
@@ -103,15 +99,18 @@ string frame_constructor::getFCSBits() {
 
         return string(FCS_SIZE, '0');
     } else {
-        return convertHexToBin(FCS);
+        return binConverter.toBinary(FCS);
     }
 }
 
 // ~~~~~~~~~~~ ENCODING ~~~~~~~~~~~
 
-/*  Encode and get the entire AX.25 frame as a bit string */
+/**
+ * @description Retrieves the encodings of the entire AX.25 Frame
+ * @return string of bits (e.g. "10010101...")
+ */
  string frame_constructor::encode() {
-    string encodedFrame = "";
+    string encodedFrame;
 
     encodedFrame += getFlag() + getDestAddr() + getSSID0() 
                                 + getSrcAddr() + getSSID1() + getControl() + getPID();
@@ -119,5 +118,4 @@ string frame_constructor::getFCSBits() {
     encodedFrame += getFCSBits() + getFlag(); 
 
     return encodedFrame;
-    
  }
