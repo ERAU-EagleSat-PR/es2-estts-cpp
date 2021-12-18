@@ -6,14 +6,16 @@
 # Add new files in order
 set(
         estts-src
+        utils/bin_converter.cpp
+        sapi/endurosat_scrambling.cpp
         fapi/feature_api.cpp
+        sapi/frame_constructor.cpp
+        sapi/info_field.cpp
         utils/logger.cpp
         utils/port.cpp
         sapi/system_api.cpp
         ti/ti_esttc.cpp
         ti/ti_serial_handler.cpp
-        sapi/endurosat_scrambling.cpp
-        sapi/InfoField.cpp
 )
 
 set(
