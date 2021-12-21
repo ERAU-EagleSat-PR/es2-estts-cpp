@@ -7,8 +7,8 @@
 #include "ti_esttc.h"
 
 int main() {
-
-    const char * port = "/dev/tty.usbmodem1101";
+    // Important note: Always use the 'cu.' port. TTY is used for reading from UNIX sockets.
+    const char * port = "/dev/cu.usbserial-A10JVB3P";
     int baud = 115200;
     /*
     auto serial = new ti_serial_handler(port, baud);
@@ -25,6 +25,8 @@ int main() {
     */
 
     auto esttc_handler = new ti_esttc(port, baud);
+    if (!esttc_handler->successful_init)
+        return -1;
     esttc_handler->get_temp();
     delete esttc_handler;
 }

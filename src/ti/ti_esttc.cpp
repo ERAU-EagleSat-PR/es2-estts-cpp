@@ -4,6 +4,7 @@
 
 #include <string>
 #include <sstream>
+#include <iostream>
 #include "ti_esttc.h"
 
 using std::stringstream;
@@ -27,6 +28,8 @@ double ti_esttc::get_temp() {
         throw std::runtime_error("Failed to transmit command");
     }
     auto ret = this->read_serial_s();
+    ret.replace(ret.find("OK +"), 4, "");
+    std::cout << "Transceiver internal temperature is " << ret << std::endl;
 
     return 0;
 }

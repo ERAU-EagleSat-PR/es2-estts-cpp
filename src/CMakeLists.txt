@@ -41,6 +41,8 @@ target_include_directories(
         ${include_directories}
 )
 
+target_link_libraries(estts PUBLIC spdlog::spdlog)
+
 if(BUILD_DEBUG)
     target_compile_definitions(
             estts

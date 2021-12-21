@@ -2,79 +2,40 @@
 // Created by Hayden Roszell on 12/10/21.
 //
 
+#include <iostream>
 #include "ti_serial_handler.h"
+#include "spdlog/spdlog.h"
 
 using namespace estts;
 
 // Reference https://www.cmrr.umn.edu/~strupp/serial.html
 
 /**
- * @brief Takes argument for a pointer to an unsigned char
- * and transmits it across the open serial port.
- * @param data Unsigned char * containing bytes to be written
- * @param size Size of data being transmitted
- * @return Returns -1 if write failed, or the number of bytes written if call succeeded
- */
-ssize_t ti_serial_handler::write_serial_uc(unsigned char * data, int size) const {
-    ssize_t written = write(serial_port, data, size);
-    if (written < 1) {
-        return -1;
-    }
-    return written;
-}
-
-/**
- * @brief Reads available data from open serial port
- * @return Returns empty unsigned char * if nothing was read, or the data read
- * from serial port if read was successful (and data was available)
- */
-unsigned char * ti_serial_handler::read_serial_uc() const {
-    unsigned char buf[MAX_SERIAL_READ];
-    ssize_t n = read(serial_port, &buf, sizeof(buf));
-    if (n < 1) {
-        return (unsigned char *)"";
-    }
-    return buf;
-}
-
-/**
  * @brief Base constructor that initializes port and baud, opens specified port
- * as serial port, and configures it using Terminos.
- * @param port Serial port (EX "/dev/tty.usbmodem")
+ * as serial port, and configures it using Terminos. NOTE: After calling constructor,
+ * program MUST check if successful_init is true.
+ * @param port Serial port (EX "/dev/cu.usbmodem")
  * @param baud Serial baud rate (EX 115200)
  * @return None
  */
 ti_serial_handler::ti_serial_handler(const char * port, int baud) {
+    spdlog::debug("Constructor for TI serial handler called on {}", fmt::ptr(this));
     this->baud = baud;
     this->port = port;
     serial_port = -1; // Serial port initialized in open_port() method
     // Todo - Better exception handling
     // Attempt to open serial port
     if (ES_OK != open_port()) {
+        successful_init = false;
         throw std::runtime_error("Failed to open serial port.");
     }
 
     // Attempt to initialize serial port
     if (ES_OK != initialize_serial_port()) {
+        successful_init = false;
         throw std::runtime_error("Failed to initialize serial port.");
     }
-}
-
-/**
- * Opens the port initialized by constructor using open() system call. Doesn't assign
- * controlling terminal to port
- * @return #ES_OK if port opens successfully, or #ES_UNSUCCESSFUL if not
- */
-estts::Status ti_serial_handler::open_port() {
-    // Open port stored in object with read/write
-    serial_port = open(this->port, O_RDWR | O_NOCTTY | O_NDELAY);
-
-    // Check for errors
-    if (serial_port < 0) {
-        printf("Error %i from open: %s\n", errno, strerror(errno)); // TODO implement logging class
-        return ES_UNSUCCESSFUL;
-    }
-    return ES_OK;
+    successful_init = true;
 }
 
 /**
@@ -117,8 +78,64 @@ estts::Status ti_serial_handler::initialize_serial_port() const {
     return ES_OK;
 }
 
-ti_serial_handler::~ti_serial_handler() {
-    close(serial_port);
+/**
+ * Opens the port initialized by constructor using open() system call. Doesn't assign
+ * controlling terminal to port
+ * @return #ES_OK if port opens successfully, or #ES_UNSUCCESSFUL if not
+ */
+estts::Status ti_serial_handler::open_port() {
+    // Open port stored in object with read/write
+    serial_port = open(this->port, O_RDWR | O_NOCTTY | O_NDELAY);
+
+    // Check for errors
+    if (serial_port < 0) {
+        // printf("Error %i from open: %s\n", errno, strerror(errno)); // TODO implement logging class
+        spdlog::error("Error %i from open: %s", errno, strerror(errno));
+        return ES_UNSUCCESSFUL;
+    }
+    return ES_OK;
+}
+
+/**
+ * @brief Takes argument for a pointer to an unsigned char
+ * and transmits it across the open serial port.
+ * @param data Unsigned char * containing bytes to be written
+ * @param size Size of data being transmitted
+ * @return Returns -1 if write failed, or the number of bytes written if call succeeded
+ */
+ssize_t ti_serial_handler::write_serial_uc(unsigned char * data, int size) const {
+    // If serial port isn't open, error out
+    if (serial_port < 0) {
+        return -1;
+    }
+    ssize_t written = write(serial_port, data, size);
+    if (written < 1) {
+        return -1;
+    }
+    return written;
+}
+
+/**
+ * @brief Reads available data from open serial port
+ * @return Returns nullptr if nothing was read, or the data read
+ * from serial port if read was successful (and data was available).
+ *
+ * CRITICAL NOTE: delete MUST be called when done with the value returned. If this
+ * is not done, a memory leak will be created.
+ */
+unsigned char * ti_serial_handler::read_serial_uc() const {
+    // If serial port isn't open, error out
+    if (serial_port < 0) {
+        return nullptr;
+    }
+    auto buf = new unsigned char [MAX_SERIAL_READ];
+    ssize_t n = read(serial_port, buf, sizeof(buf));
+    if (n < 1) {
+        return nullptr;
+    }
+    // Add null terminator at the end of transmission for easier processing by parent class(s)
+    buf[n] = '\0';
+    return buf;
 }
 
 /**
@@ -127,6 +144,10 @@ ti_serial_handler::~ti_serial_handler() {
  * @return Number of bytes transferred across open serial port
  */
 ssize_t ti_serial_handler::write_serial_s(const std::string& data) const {
+    // If serial port isn't open, error out
+    if (serial_port < 0) {
+        return -1;
+    }
     // Cast string to const unsigned char *, then cast away const to pass
     // to method that writes unsigned char
     auto csc_data = const_cast<unsigned char *>(reinterpret_cast<const unsigned char *>(data.c_str()));
@@ -138,10 +159,22 @@ ssize_t ti_serial_handler::write_serial_s(const std::string& data) const {
  * @return Returns translated string of received data
  */
 std::string ti_serial_handler::read_serial_s() const {
+    // If serial port isn't open, error out
+    if (serial_port < 0) {
+        return "";
+    }
     // Read serial data
     auto read = this->read_serial_uc();
+    if (read == nullptr) {
+        return "";
+    }
     // Type cast unsigned char (auto) to a char *
     // Then call std::string constructor
-    std::string string_read(reinterpret_cast<char*>(read));
+    std::string string_read(reinterpret_cast<char const*>(read));
+    delete read;
     return string_read;
+}
+
+ti_serial_handler::~ti_serial_handler() {
+    close(serial_port);
 }
