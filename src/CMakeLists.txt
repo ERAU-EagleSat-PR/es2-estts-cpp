@@ -8,6 +8,12 @@ set(
         estts-src
         utils/bin_converter.cpp
         sapi/endurosat_scrambling.cpp
+        fapi/command_handler/acs_command.cpp
+        fapi/command_handler/crp_command.cpp
+        fapi/command_handler/eps_command.cpp
+        fapi/command_handler/fapi_command_handler.cpp
+        fapi/command_handler/mde_command.cpp
+        fapi/command_handler/obc_command.cpp
         fapi/feature_api.cpp
         sapi/frame_constructor.cpp
         sapi/info_field.cpp
@@ -15,12 +21,14 @@ set(
         sapi/system_api.cpp
         ti/ti_esttc.cpp
         ti/ti_serial_handler.cpp
+        ti/transmission_interface.cpp
 )
 
 set(
         include_directories
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/fapi
+        ${CMAKE_CURRENT_SOURCE_DIR}/fapi/command_handler
         ${CMAKE_CURRENT_SOURCE_DIR}/sapi
         ${CMAKE_CURRENT_SOURCE_DIR}/ti
         ${CMAKE_CURRENT_SOURCE_DIR}/utils
