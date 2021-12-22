@@ -2,7 +2,6 @@
 // Created by Hayden Roszell on 12/10/21.
 //
 
-#include <iostream>
 #include "ti_serial_handler.h"
 #include "spdlog/spdlog.h"
 
@@ -23,19 +22,17 @@ ti_serial_handler::ti_serial_handler(const char * port, int baud) {
     this->baud = baud;
     this->port = port;
     serial_port = -1; // Serial port initialized in open_port() method
-    // Todo - Better exception handling
     // Attempt to open serial port
     if (ES_OK != open_port()) {
-        successful_init = false;
+        spdlog::error("Failed to open serial port {}", port);
         throw std::runtime_error("Failed to open serial port.");
     }
 
     // Attempt to initialize serial port
     if (ES_OK != initialize_serial_port()) {
-        successful_init = false;
+        spdlog::error("Failed to open serial port {}", port);
         throw std::runtime_error("Failed to initialize serial port.");
     }
-    successful_init = true;
 }
 
 /**
@@ -45,7 +42,7 @@ ti_serial_handler::ti_serial_handler(const char * port, int baud) {
 estts::Status ti_serial_handler::initialize_serial_port() const {
     struct termios tty{};
     if(tcgetattr(serial_port, &tty) != 0) {
-        printf("Error %i from tcgetattr: %s\n", errno, strerror(errno)); // TODO implement logging class
+        spdlog::error("Error %i from tcgetattr: %s\n", errno, strerror(errno));
         return ES_UNSUCCESSFUL;
     }
     // Initialize Terminos structure
@@ -72,9 +69,10 @@ estts::Status ti_serial_handler::initialize_serial_port() const {
 
     // Save tty settings, also check for error
     if (tcsetattr(serial_port, TCSANOW, &tty) != 0) {
-        printf("Error %i from tcsetattr: %s\n", errno, strerror(errno));
+        spdlog::error("Error {} from tcsetattr: {}", errno, strerror(errno));
         return ES_UNSUCCESSFUL;
     }
+    spdlog::debug("Successfully initialized port {} with fd {}", port, serial_port);
     return ES_OK;
 }
 
@@ -90,9 +88,10 @@ estts::Status ti_serial_handler::open_port() {
     // Check for errors
     if (serial_port < 0) {
         // printf("Error %i from open: %s\n", errno, strerror(errno)); // TODO implement logging class
-        spdlog::error("Error %i from open: %s", errno, strerror(errno));
+        spdlog::error("Error {} from open: {}", errno, strerror(errno));
         return ES_UNSUCCESSFUL;
     }
+    spdlog::debug("Successfully opened port {} with fd {}", port, serial_port);
     return ES_OK;
 }
 
@@ -112,6 +111,7 @@ ssize_t ti_serial_handler::write_serial_uc(unsigned char * data, int size) const
     if (written < 1) {
         return -1;
     }
+    spdlog::trace("Wrote '{}' (size={}) to {}", data, written, port);
     return written;
 }
 
@@ -121,7 +121,7 @@ ssize_t ti_serial_handler::write_serial_uc(unsigned char * data, int size) const
  * from serial port if read was successful (and data was available).
  *
  * CRITICAL NOTE: delete MUST be called when done with the value returned. If this
- * is not done, a memory leak will be created.
+ * is not done, a memory leak will be created. To avoid this issue, use read_serial_s
  */
 unsigned char * ti_serial_handler::read_serial_uc() const {
     // If serial port isn't open, error out
@@ -135,6 +135,7 @@ unsigned char * ti_serial_handler::read_serial_uc() const {
     }
     // Add null terminator at the end of transmission for easier processing by parent class(s)
     buf[n] = '\0';
+    spdlog::trace("Read '{}' from {}", buf, port);
     return buf;
 }
 
