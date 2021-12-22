@@ -30,6 +30,7 @@ namespace estts {
         ES_OK = 0,
         ES_SUCCESS = 0,
         ES_UNSUCCESSFUL = 1,
+        ES_UNINITIALIZED = 2,
         ES_BAD_OPTION = 405,
         ES_UNAUTHORIZED = 403
     };

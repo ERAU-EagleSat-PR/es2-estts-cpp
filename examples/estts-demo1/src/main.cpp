@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <spdlog/spdlog.h>
 #include "ti_serial_handler.h"
 #include "ti_esttc.h"
 
@@ -23,10 +24,11 @@ int main() {
 
     delete serial;
     */
-
-    auto esttc_handler = new ti_esttc(port, baud);
-    if (!esttc_handler->successful_init)
-        return -1;
-    esttc_handler->get_temp();
-    delete esttc_handler;
+    try {
+        auto esttc_handler = new ti_esttc(port, baud);
+        esttc_handler->get_temp();
+        delete esttc_handler;
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to open serial port");
+    }
 }

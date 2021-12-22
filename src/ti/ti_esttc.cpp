@@ -4,10 +4,20 @@
 
 #include <string>
 #include <sstream>
-#include <iostream>
 #include "ti_esttc.h"
+#include "spdlog/spdlog.h"
 
 using std::stringstream;
+
+/**
+ * @brief ti_esttc default constructor that initializes ti_serial_handler
+ * @param port Serial port (EX "/dev/tty.usbmodem")
+ * @param baud Serial baud rate (EX 115200)
+ * @return None
+ */
+ti_esttc::ti_esttc(const char *es_transmitter_port, int baud) : ti_serial_handler(es_transmitter_port, baud) {
+    esttc_symbols = new estts::endurosat::esttc;
+}
 
 /**
  * @brief Enables transparent pipe mode on Endurosat UHF Transceiver module.
@@ -29,8 +39,7 @@ double ti_esttc::get_temp() {
     }
     auto ret = this->read_serial_s();
     ret.replace(ret.find("OK +"), 4, "");
-    std::cout << "Transceiver internal temperature is " << ret << std::endl;
-
+    spdlog::info("Transceiver internal temperature is {}°C", ret);
     return 0;
 }
 /**
@@ -49,6 +58,7 @@ std::string ti_esttc::build_esttc_command(char method, const char * command_code
     if (body != nullptr)
         command << body;
     command << esttc_symbols->END;
+    spdlog::trace("build_esttc_command: built command '{}'", command.str());
     return command.str();
 }
 
@@ -60,16 +70,6 @@ std::string ti_esttc::build_esttc_command(char method, const char * command_code
 std::string ti_esttc::calculate_crc32(std::string string) {
     // TODO Taylor's task for sprint #3
     return string;
-}
-
-/**
- * @brief ti_esttc default constructor that initializes ti_serial_handler
- * @param port Serial port (EX "/dev/tty.usbmodem")
- * @param baud Serial baud rate (EX 115200)
- * @return None
- */
-ti_esttc::ti_esttc(const char *es_transmitter_port, int baud) : ti_serial_handler(es_transmitter_port, baud) {
-    esttc_symbols = new estts::endurosat::esttc;
 }
 
 ti_esttc::~ti_esttc() {
