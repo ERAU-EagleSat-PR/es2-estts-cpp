@@ -65,8 +65,7 @@ string info_field::getData() {
     if (this->command->data != nullptr) {
         spdlog::trace("Setting info field data to {}", this->command->data);
         return reinterpret_cast<char const *>(this->command->data);
-    }
-    else return "";
+    } else return "";
 }
 
 /**

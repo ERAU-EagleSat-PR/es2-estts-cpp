@@ -10,14 +10,19 @@
 
 class ti_esttc : virtual public ti_serial_handler {
 private:
-    estts::endurosat::esttc * esttc_symbols;
+    estts::endurosat::esttc *esttc_symbols;
 
-    std::string build_esttc_command(char method, const char * command_code, const char * body);
+    std::string build_esttc_command(char method, const char *command_code, const char *body);
+
 public:
-    ti_esttc(const char * es_transmitter_port, int baud);
+    ti_esttc(const char *es_transmitter_port, int baud);
+
     estts::Status enable_pipe();
+
     double get_temp();
+
     static std::string calculate_crc32(std::string string);
+
     ~ti_esttc();
 };
 

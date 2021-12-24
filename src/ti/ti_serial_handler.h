@@ -12,23 +12,32 @@
 #include <termios.h> // Contains POSIX terminal control definitions
 
 #include "constants.h"
+
 using std::string;
 
 class ti_serial_handler {
 private:
     // Private variables
     int serial_port;
+
     // Private functions
     estts::Status open_port();
+
     estts::Status initialize_serial_port() const;
-    const char * port;
+
+    const char *port;
     int baud;
 protected:
-    ti_serial_handler(const char * port, int baud);
+    ti_serial_handler(const char *port, int baud);
+
     ~ti_serial_handler();
-    ssize_t write_serial_uc(unsigned char * data, int size) const;
-    unsigned char * read_serial_uc() const;
-    ssize_t write_serial_s(const std::string& data) const;
+
+    ssize_t write_serial_uc(unsigned char *data, int size) const;
+
+    unsigned char *read_serial_uc() const;
+
+    ssize_t write_serial_s(const std::string &data) const;
+
     std::string read_serial_s() const;
 };
 

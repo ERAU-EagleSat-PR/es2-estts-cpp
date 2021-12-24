@@ -13,4 +13,5 @@ project(estts)
 
 add_subdirectory(src)
 add_subdirectory(examples/estts-demo1)
+add_subdirectory(examples/estts-sapi-test)
 add_subdirectory(lib/spdlog)

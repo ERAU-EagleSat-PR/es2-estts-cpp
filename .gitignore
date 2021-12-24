@@ -35,6 +35,7 @@
 cmake-build-debug
 build
 .idea
+.vscode
 
 # MacOS generated files
 .DS_Store
