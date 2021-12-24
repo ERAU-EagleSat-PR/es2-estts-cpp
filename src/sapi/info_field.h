@@ -1,5 +1,9 @@
 //
+<<<<<<< HEAD
+// Created by Cody on 12/17/2021.
+=======
 // Created by Cody Park on 12/17/2021.
+>>>>>>> main
 //
 
 #ifndef ES2_ESTTS_CPP_INFOFIELD_H
@@ -7,6 +11,38 @@
 
 #include <string>
 #include <unordered_map>
+<<<<<<< HEAD
+#include <utility>
+#include "bin_converter.h"
+#include "constants.h"
+
+class info_field {
+private:
+    /* Getters */
+    std::string getData();
+
+    std::string getAddress();
+
+    std::string getTimeStamp();
+
+    std::string getSequence();
+
+    std::string getCommandID();
+
+    std::string getMethod();
+
+protected:
+    estts::command_object *command;
+
+    /* Encoded Information Field Getter */
+    std::string build_info_field();
+
+public:
+    explicit info_field(estts::command_object *esttsCommand) : command(esttsCommand) {}
+};
+
+#endif
+=======
 #include "bin_converter.h"
 
 class info_field {
@@ -60,3 +96,4 @@ public:
 };
 
 #endif //ES2_ESTTS_CPP_INFOFIELD_H
+>>>>>>> main

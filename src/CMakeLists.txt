@@ -7,6 +7,14 @@
 set(
         estts-src
         utils/bin_converter.cpp
+<<<<<<< HEAD
+        fapi/feature_api.cpp
+        sapi/frame_constructor.cpp
+        sapi/info_field.cpp
+        utils/logger.cpp
+        utils/port.cpp
+        ti/transmission_interface.cpp
+=======
         sapi/endurosat_scrambling.cpp
         fapi/feature_api.cpp
         sapi/frame_constructor.cpp
@@ -15,6 +23,7 @@ set(
         sapi/system_api.cpp
         ti/ti_esttc.cpp
         ti/ti_serial_handler.cpp
+>>>>>>> main
 )
 
 set(
@@ -42,7 +51,11 @@ target_include_directories(
 
 target_link_libraries(estts PUBLIC spdlog::spdlog)
 
+<<<<<<< HEAD
+if (BUILD_DEBUG)
+=======
 if(BUILD_DEBUG)
+>>>>>>> main
     target_compile_definitions(
             estts
             PRIVATE
@@ -52,7 +65,7 @@ if(BUILD_DEBUG)
             PRIVATE
             -Wall
     )
-else()
+else ()
     target_compile_definitions(
             estts
             PRIVATE
@@ -62,4 +75,4 @@ else()
             PRIVATE
             -w
     )
-endif()
+endif ()
