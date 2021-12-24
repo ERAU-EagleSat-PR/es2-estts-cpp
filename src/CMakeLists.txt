@@ -12,6 +12,16 @@ set(
         utils/logger.cpp
         utils/port.cpp
         ti/transmission_interface.cpp
+        sapi/endurosat_scrambling.cpp
+        fapi/feature_api.cpp
+        sapi/frame_constructor.cpp
+        sapi/info_field.cpp
+        utils/logger.cpp
+        utils/port.cpp
+        ti/transmission_interface.cpp
+        sapi/system_api.cpp
+        ti/ti_esttc.cpp
+        ti/ti_serial_handler.cpp
 )
 
 set(
@@ -39,7 +49,7 @@ target_include_directories(
 
 target_link_libraries(estts PUBLIC spdlog::spdlog)
 
-if (BUILD_DEBUG)
+if(BUILD_DEBUG)
     target_compile_definitions(
             estts
             PRIVATE
