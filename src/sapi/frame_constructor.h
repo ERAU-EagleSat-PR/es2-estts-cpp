@@ -6,11 +6,12 @@
 #define ES2_ESTTS_CPP_FRAME_CONSTRUCTOR_H
 
 #include <string>
+#include <sstream>
 #include <unordered_map>
 #include "info_field.h"
 #include "bin_converter.h"
 
-class frame_constructor {
+class frame_constructor : virtual public info_field {
 private:
     /* Binary converter */
     bin_converter binConverter;
@@ -19,35 +20,31 @@ private:
     static const unsigned int INFO_FIELD_SIZE = 616;
     static const unsigned char FCS_SIZE = 16;
 
-    /* Information Field */
-    info_field* informationField;
-
-    /* Frame Check Sequence */
-    std::string FCS;
-
     /* Getters for Header Field */
-    std::string getFlag();
-    std::string getDestAddr();
-    std::string getSSID0();
-    std::string getSrcAddr();
-    std::string getSSID1();
-    std::string getControl();
-    std::string getPID();
+    static std::string getFlag();
+
+    static std::string getDestAddr();
+
+    static std::string getSSID0();
+
+    static std::string getSrcAddr();
+
+    static std::string getSSID1();
+
+    static std::string getControl();
+
+    static std::string getPID();
+
     std::string getInfoField();
+
     std::string getFCSBits();
+
 public:
     /* Constructors */
-    frame_constructor() : frame_constructor(nullptr) {}
-    
-    frame_constructor(info_field* informationField) :
-        informationField(informationField) {}
+    explicit frame_constructor(estts::command_object *command) : info_field(command) {}
 
-    /* Setters */
-    inline void setInfoField(info_field* informationField) { this->informationField = informationField; }
-    inline void setFCS(const std::string FCS) { this->FCS = FCS; }
-
-    /* Encoded AX.25 Frame Getter */
-    std::string encode();
+    /* Encoded AX.25 Frame Constructor */
+    std::string construct_ax25();
 };
 
 #endif

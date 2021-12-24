@@ -4,7 +4,9 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 #include "info_field.h"
+#include "spdlog/spdlog.h"
 
 using std::cerr;
 using std::endl;
@@ -14,69 +16,67 @@ using std::string;
  * @description Encodes the Address section of the AX.25 Information Field
  * @return string of bits (e.g. "10010101")
  */
-string info_field::getAddressBits() {
-    return binConverter.toBinary(ADDRESS_SIZE, address);
+string info_field::getAddress() {
+    spdlog::trace("Setting info field address to {}", this->command->address);
+    return reinterpret_cast<char const *>(this->command->address);
 }
 
 /**
  * @description Encodes the Timestamp section of the AX.25 Information Field
  * @return string of bits (e.g. "10010101")
  */
-string info_field::getTimeStampBits() {
-    return binConverter.toBinary(TIMESTAMP_SIZE, timeStamp);
+string info_field::getTimeStamp() {
+    spdlog::trace("Setting info field timestamp to {}", this->command->timeStamp);
+    return reinterpret_cast<char const *>(this->command->timeStamp);
 }
 
 /**
  * @description Encodes the Sequence section of the AX.25 Information Field
  * @return string of bits (e.g. "10010101")
  */
-string info_field::getSequenceBits() {
-    return binConverter.toBinary(SEQUENCE_SIZE, sequence);
+string info_field::getSequence() {
+    spdlog::trace("Setting info field frame sequence to {}", this->command->sequence);
+    return std::to_string(this->command->sequence);
 }
 
 /**
  * @description Encodes the Command ID section of the AX.25 Information Field
  * @return string of bits (e.g. "10010101")
  */
-string info_field::getCommandIDBits() {
-    return binConverter.toBinary(COMMANDID_SIZE, commandID);
+string info_field::getCommandID() {
+    spdlog::trace("Setting info field command ID to {}", this->command->commandID);
+    return reinterpret_cast<char const *>(this->command->commandID);
 }
 
 /**
  * @description Encodes the Method section of the AX.25 Information Field
  * @return One bit as a char (e.g. "1")
  */
-char info_field::getMethodBits() {
-    /* If input is valid, return associated bit string
-     * Else, send error then return */
-    if (method == "0x1" || method == "0x0") {
-        return method.back();
-    } else {
-        cerr << "Error [info_field] - Invalid hex value: "<< method
-                << "\nExpected size: " << METHOD_SIZE << endl;
-
-        return '0';
-    }
+string info_field::getMethod() {
+    spdlog::trace("Setting info field method to {}", this->command->method);
+    return {1, this->command->method};
 }
 
 /**
  * @description Encodes the Data section of the AX.25 Information Field
  * @return string of bits (e.g. "10010101...")
  */
-string info_field::getDataBits() {
-    return binConverter.toBinary(DATA_SIZE, data);
+string info_field::getData() {
+    if (this->command->data != nullptr) {
+        spdlog::trace("Setting info field data to {}", this->command->data);
+        return reinterpret_cast<char const *>(this->command->data);
+    }
+    else return "";
 }
 
 /**
  * @description Retrieves the encodings of the entire AX.25 Information Field
  * @return string of bits (e.g. "10010101...")
  */
-string info_field::encode() {
-    string infoFieldStream;
+string info_field::build_info_field() {
+    std::stringstream infoFieldStream;
+    infoFieldStream << getAddress() << getTimeStamp() << getSequence() << getCommandID() << getMethod() << getData();
+    spdlog::debug("SAPI Info Field encoded to {}", infoFieldStream.str());
 
-    infoFieldStream += getAddressBits() + getTimeStampBits()
-        + getSequenceBits() + getCommandIDBits()
-        + getMethodBits() + getDataBits(); 
-
-    return infoFieldStream;
+    return infoFieldStream.str();
 }

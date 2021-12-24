@@ -11,7 +11,6 @@ set(
         sapi/info_field.cpp
         utils/logger.cpp
         utils/port.cpp
-        sapi/system_api.cpp
         ti/transmission_interface.cpp
 )
 
@@ -38,7 +37,9 @@ target_include_directories(
         ${include_directories}
 )
 
-if(BUILD_DEBUG)
+target_link_libraries(estts PUBLIC spdlog::spdlog)
+
+if (BUILD_DEBUG)
     target_compile_definitions(
             estts
             PRIVATE
@@ -48,7 +49,7 @@ if(BUILD_DEBUG)
             PRIVATE
             -Wall
     )
-else()
+else ()
     target_compile_definitions(
             estts
             PRIVATE
@@ -58,4 +59,4 @@ else()
             PRIVATE
             -w
     )
-endif()
+endif ()

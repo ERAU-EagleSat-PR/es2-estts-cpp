@@ -18,9 +18,9 @@ using std::hex;
  * @param const short int size, const string& hexField
  * @return string of bits (e.g. "10010101")
  */
-string bin_converter::toBinary(const short int size, const string& hexField) {
+string bin_converter::toBinary(const short int size, const string &hexField) {
     string bitStream;
-    int bitPadding = size - ((hexField.length()-2) * 4);
+    int bitPadding = size - ((hexField.length() - 2) * 4);
 
     /* If padding zeros are needed, prepend them to the string.
      * Else if there is an invalid number of hex values,
@@ -45,7 +45,7 @@ string bin_converter::toBinary(const short int size, const string& hexField) {
  * @param const string hexField
  * @return string of bits (e.g. "10010101")
  */
-string bin_converter::toBinary(const string& hexField) {
+string bin_converter::toBinary(const string &hexField) {
     string bitStream;
 
     /* Convert each hex character to binary */
@@ -65,8 +65,8 @@ string bin_converter::toBinary(const unsigned char field[]) {
 
     /* Convert each character in the array into a hex string and append them together */
     hexStream << "0x" << hex;
-    for (int i = 0; i < strlen((char*)field); ++i)
-        hexStream << (int)field[i];
+    for (int i = 0; i < strlen((char *) field); ++i)
+        hexStream << (int) field[i];
 
     return toBinary(hexStream.str());
 }
@@ -79,7 +79,7 @@ string bin_converter::toBinary(const unsigned char field[]) {
 string bin_converter::toBinary(const unsigned char field) {
     stringstream hexStream;
 
-    hexStream << "0x" << hex << (int)field;
+    hexStream << "0x" << hex << (int) field;
 
     return toBinary(hexStream.str());
 }
