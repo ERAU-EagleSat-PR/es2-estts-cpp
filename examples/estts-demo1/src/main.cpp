@@ -3,10 +3,13 @@
 //
 
 #include <iostream>
-#include "system_api.h"
+#include "frame_constructor.h"
+#include "ti_esttc.h"
+#include "constants.h"
+#include "spdlog/spdlog.h"
 
 int main() {
-  
+
     // Important note: Always use the 'cu.' port. TTY is used for reading from UNIX sockets.
     const char * port = "/dev/cu.usbserial-A10JVB3P";
     int baud = 115200;
@@ -27,14 +30,4 @@ int main() {
     } catch (const std::exception& e) {
         spdlog::error("Failed to open serial port");
     }
-
-    auto command_data = new sapi::SAPICommandStructure;
-    command_data->address = estts::ES_ACS;
-    command_data->method = estts::ES_READ;
-    command_data->command = estts::ACS_GET_POS;
-    command_data->body = nullptr;
-
-    auto command1 = new System_API(command_data);
-    cout << command1->buildFrameHeader();
-    delete command1;
 }

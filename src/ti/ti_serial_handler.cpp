@@ -17,7 +17,7 @@ using namespace estts;
  * @param baud Serial baud rate (EX 115200)
  * @return None
  */
-ti_serial_handler::ti_serial_handler(const char * port, int baud) {
+ti_serial_handler::ti_serial_handler(const char *port, int baud) {
     spdlog::debug("Constructor for TI serial handler called on {}", fmt::ptr(this));
     this->baud = baud;
     this->port = port;
@@ -41,7 +41,7 @@ ti_serial_handler::ti_serial_handler(const char * port, int baud) {
  */
 estts::Status ti_serial_handler::initialize_serial_port() const {
     struct termios tty{};
-    if(tcgetattr(serial_port, &tty) != 0) {
+    if (tcgetattr(serial_port, &tty) != 0) {
         spdlog::error("Error %i from tcgetattr: %s\n", errno, strerror(errno));
         return ES_UNSUCCESSFUL;
     }
@@ -57,7 +57,8 @@ estts::Status ti_serial_handler::initialize_serial_port() const {
     tty.c_lflag &= ~ECHONL;  // Disable new-line echo
     tty.c_lflag &= ~ISIG;    // Disable interpretation of INTR, QUIT and SUSP
     tty.c_iflag &= ~(IXON | IXOFF | IXANY); // Disable software flow control
-    tty.c_iflag &= ~(IGNBRK|BRKINT|PARMRK|ISTRIP|INLCR|IGNCR|ICRNL); // Disable any special handling of received bytes
+    tty.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR |
+                     ICRNL); // Disable any special handling of received bytes
 
     // Set baud rate
     cfsetispeed(&tty, baud);
@@ -102,7 +103,7 @@ estts::Status ti_serial_handler::open_port() {
  * @param size Size of data being transmitted
  * @return Returns -1 if write failed, or the number of bytes written if call succeeded
  */
-ssize_t ti_serial_handler::write_serial_uc(unsigned char * data, int size) const {
+ssize_t ti_serial_handler::write_serial_uc(unsigned char *data, int size) const {
     // If serial port isn't open, error out
     if (serial_port < 0) {
         return -1;
@@ -123,12 +124,12 @@ ssize_t ti_serial_handler::write_serial_uc(unsigned char * data, int size) const
  * CRITICAL NOTE: delete MUST be called when done with the value returned. If this
  * is not done, a memory leak will be created. To avoid this issue, use read_serial_s
  */
-unsigned char * ti_serial_handler::read_serial_uc() const {
+unsigned char *ti_serial_handler::read_serial_uc() const {
     // If serial port isn't open, error out
     if (serial_port < 0) {
         return nullptr;
     }
-    auto buf = new unsigned char [MAX_SERIAL_READ];
+    auto buf = new unsigned char[MAX_SERIAL_READ];
     ssize_t n = read(serial_port, buf, sizeof(buf));
     if (n < 1) {
         return nullptr;
@@ -144,7 +145,7 @@ unsigned char * ti_serial_handler::read_serial_uc() const {
  * @param data String argument
  * @return Number of bytes transferred across open serial port
  */
-ssize_t ti_serial_handler::write_serial_s(const std::string& data) const {
+ssize_t ti_serial_handler::write_serial_s(const std::string &data) const {
     // If serial port isn't open, error out
     if (serial_port < 0) {
         return -1;
@@ -152,7 +153,7 @@ ssize_t ti_serial_handler::write_serial_s(const std::string& data) const {
     // Cast string to const unsigned char *, then cast away const to pass
     // to method that writes unsigned char
     auto csc_data = const_cast<unsigned char *>(reinterpret_cast<const unsigned char *>(data.c_str()));
-    return this->write_serial_uc(csc_data, (int)data.length());
+    return this->write_serial_uc(csc_data, (int) data.length());
 }
 
 /**
@@ -171,7 +172,7 @@ std::string ti_serial_handler::read_serial_s() const {
     }
     // Type cast unsigned char (auto) to a char *
     // Then call std::string constructor
-    std::string string_read(reinterpret_cast<char const*>(read));
+    std::string string_read(reinterpret_cast<char const *>(read));
     delete read;
     return string_read;
 }
