@@ -1,0 +1,6 @@
+[submodule "lib/gnuradio"]
+	path = lib/gnuradio
+	url = https://github.com/gnuradio/gnuradio.git
+[submodule "lib/spdlog"]
+	path = lib/spdlog
+	url = https://github.com/gabime/spdlog.git

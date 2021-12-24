@@ -1,0 +1,25 @@
+//
+// Created by Hayden Roszell on 12/10/21.
+//
+
+#ifndef ESTTS_TI_ESTTC_H
+#define ESTTS_TI_ESTTC_H
+
+#include "ti_serial_handler.h"
+#include "constants.h"
+
+class ti_esttc : virtual public ti_serial_handler {
+private:
+    estts::endurosat::esttc * esttc_symbols;
+
+    std::string build_esttc_command(char method, const char * command_code, const char * body);
+public:
+    ti_esttc(const char * es_transmitter_port, int baud);
+    estts::Status enable_pipe();
+    double get_temp();
+    static std::string calculate_crc32(std::string string);
+    ~ti_esttc();
+};
+
+
+#endif //ESTTS_TI_ESTTC_H
