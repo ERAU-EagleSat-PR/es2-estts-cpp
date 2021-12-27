@@ -14,14 +14,16 @@ private:
 
     std::string build_esttc_command(char method, const char *command_code, const char *body);
 
-public:
-    ti_esttc(const char *es_transmitter_port, int baud);
+protected:
 
     estts::Status enable_pipe();
 
     double get_temp();
 
     static std::string calculate_crc32(std::string string);
+
+public:
+    ti_esttc(const char *es_transmitter_port, int baud);
 
     ~ti_esttc();
 };

@@ -1,6 +1,13 @@
 ## EagleSat II Telemetry & Telecommand System
 EagleSat II ESTTS shared library source code and associated examples
 
+### Cloning locally
+ESTTS uses two submodules that are required for normal operation. For this reason,
+the ```--recurse-submodules``` flag must be specified. Ex:
+```shell
+git clone https://github.com/ERAU-EagleSat-PR/es2-estts-cpp.git --recurse-submodules
+```
+
 ### Building From Source
 
 The EagleSat Telemetry & Telecommand System is built as a shared 
@@ -16,14 +23,14 @@ these are available in your executable path.
 2. Change to the root repository directory and create a 
 ```build``` directory
 
-    ```asm
+    ```shell
     mkdir build
     cd /build
     cd build
     ```
 2. Build the project using CMake
    * For Make build systems:
-       ```asm
+       ```shell
        cmake .. -DCMAKE_BUILD_TYPE=Debug
        make
        ```
@@ -43,13 +50,13 @@ to your computer's library directory. This is unnecessary for now..
 2. Change to the root repository directory and create a
    ```build``` directory
 
-    ```asm
+    ```shell
     mkdir build
     cd /build
     cd build
     ```
 3. Build and install the library
-    ```asm
+    ```shell
     cmake .. -DCMAKE_BUILD_TYPE=Debug
     make
     make install

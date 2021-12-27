@@ -14,7 +14,7 @@ int main() {
     command_object->commandID = estts::es2_commands::eps::EPS_GET_HEALTH;
     command_object->method = estts::es2_commands::method::ES_READ;
     command_object->sequence = 1;
-    command_object->timeStamp = "112";
+    command_object->timeStamp = 112;
 
     auto command = new frame_constructor(command_object);
     spdlog::info("AX.25 frame: {}", command->construct_ax25());

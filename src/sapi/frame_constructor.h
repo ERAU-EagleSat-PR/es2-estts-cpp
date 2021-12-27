@@ -13,12 +13,6 @@
 
 class frame_constructor : virtual public info_field {
 private:
-    /* Binary converter */
-    bin_converter binConverter;
-
-    /* Constant sizes */
-    static const unsigned int INFO_FIELD_SIZE = 616;
-    static const unsigned char FCS_SIZE = 16;
 
     /* Getters for Header Field */
     static std::string getFlag();
@@ -37,7 +31,15 @@ private:
 
     std::string getInfoField();
 
-    std::string getFCSBits();
+    static std::string perform_nrzi_encoding(std::string raw);
+
+    static std::string calculate_crc16_ccit(std::string value);
+
+    static std::string scramble_frame(std::string raw);
+
+protected:
+
+    std::string encode_ax25_frame(std::string raw);
 
 public:
     /* Constructors */

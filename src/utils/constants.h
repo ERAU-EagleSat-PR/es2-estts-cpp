@@ -7,7 +7,8 @@
 
 #define MAX_SERIAL_READ 256
 namespace estts {
-
+    const int ESTTS_MAX_RETRIES = 2;
+    const int ESTTS_RETRY_WAIT_SEC = 1;
     /* AX.25 Related constants */
     namespace ax25 {
         const char AX25_FLAG[] = "7E"; // Flag is constant
@@ -64,14 +65,11 @@ namespace estts {
         }
     }
 
-    /* EnduroSat specific */
-
-    enum EnduroSatReturn {
-        EnduroSat_OK,
-        EnduroSat_Fail
-    };
-
     namespace endurosat {
+        const int MAX_RETRIES = 2;
+        const int WAIT_TIME_SEC = 2;
+        const int ES_BAUD = 115200;
+        const int MAX_ES_TXVR_TEMP = 50;
         class esttc {
         public:
             const char *HEADER = "ES+";
@@ -88,12 +86,22 @@ namespace estts {
 
     typedef struct estts_command {
         const char *address{};
-        const char *timeStamp{};
+        int timeStamp{};
         int sequence{};
         const char *commandID{};
         char method{};
         const char *data{};
     } command_object;
+
+    typedef struct estts_telemetry {
+        const char *address{};
+        int response_code{};
+        int timeStamp{};
+        int sequence{};
+        const char *commandID{};
+        char method{};
+        const char *data{};
+    } telemetry_object;
 }
 
 

@@ -18,11 +18,11 @@ using namespace estts;
  * @return None
  */
 ti_serial_handler::ti_serial_handler(const char *port, int baud) {
-    spdlog::debug("Constructor for TI serial handler called on {}", fmt::ptr(this));
     this->baud = baud;
     this->port = port;
     serial_port = -1; // Serial port initialized in open_port() method
     // Attempt to open serial port
+#ifndef __TI_DEV_MODE__ // Set at compile time
     if (ES_OK != open_port()) {
         spdlog::error("Failed to open serial port {}", port);
         throw std::runtime_error("Failed to open serial port.");
@@ -33,6 +33,10 @@ ti_serial_handler::ti_serial_handler(const char *port, int baud) {
         spdlog::error("Failed to open serial port {}", port);
         throw std::runtime_error("Failed to initialize serial port.");
     }
+#else
+    spdlog::debug("Initializing transmission interface in dev mode. No serial port will be opened.");
+    serial_port = 0;
+#endif
 }
 
 /**
@@ -104,6 +108,7 @@ estts::Status ti_serial_handler::open_port() {
  * @return Returns -1 if write failed, or the number of bytes written if call succeeded
  */
 ssize_t ti_serial_handler::write_serial_uc(unsigned char *data, int size) const {
+#ifndef __TI_DEV_MODE__
     // If serial port isn't open, error out
     if (serial_port < 0) {
         return -1;
@@ -114,6 +119,10 @@ ssize_t ti_serial_handler::write_serial_uc(unsigned char *data, int size) const 
     }
     spdlog::trace("Wrote '{}' (size={}) to {}", data, written, port);
     return written;
+#else
+    // Todo - SAPI test bench should connect to a UNIX port. This is where that is handled on the WRITE side.
+    return size;
+#endif
 }
 
 /**
@@ -125,6 +134,7 @@ ssize_t ti_serial_handler::write_serial_uc(unsigned char *data, int size) const 
  * is not done, a memory leak will be created. To avoid this issue, use read_serial_s
  */
 unsigned char *ti_serial_handler::read_serial_uc() const {
+#ifndef __TI_DEV_MODE__
     // If serial port isn't open, error out
     if (serial_port < 0) {
         return nullptr;
@@ -138,6 +148,10 @@ unsigned char *ti_serial_handler::read_serial_uc() const {
     buf[n] = '\0';
     spdlog::trace("Read '{}' from {}", buf, port);
     return buf;
+#else
+    // Todo - SAPI test bench should connect to a UNIX port. This is where that is handled on the READ side.
+    return (unsigned char *) "Hello\r";
+#endif
 }
 
 /**
@@ -145,15 +159,14 @@ unsigned char *ti_serial_handler::read_serial_uc() const {
  * @param data String argument
  * @return Number of bytes transferred across open serial port
  */
-ssize_t ti_serial_handler::write_serial_s(const std::string &data) const {
+estts::Status ti_serial_handler::write_serial_s(const std::string &data) const {
     // If serial port isn't open, error out
-    if (serial_port < 0) {
-        return -1;
-    }
+    if (serial_port < 0) return estts::ES_UNINITIALIZED;
     // Cast string to const unsigned char *, then cast away const to pass
     // to method that writes unsigned char
     auto csc_data = const_cast<unsigned char *>(reinterpret_cast<const unsigned char *>(data.c_str()));
-    return this->write_serial_uc(csc_data, (int) data.length());
+    if (this->write_serial_uc(csc_data, (int) data.length()) < 0) return estts::ES_UNSUCCESSFUL;
+    return estts::ES_OK;
 }
 
 /**
@@ -173,7 +186,9 @@ std::string ti_serial_handler::read_serial_s() const {
     // Type cast unsigned char (auto) to a char *
     // Then call std::string constructor
     std::string string_read(reinterpret_cast<char const *>(read));
+#ifndef __TI_DEV_MODE__
     delete read;
+#endif
     return string_read;
 }
 

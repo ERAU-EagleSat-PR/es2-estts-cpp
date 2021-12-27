@@ -18,10 +18,9 @@ namespace eps {
 }
 
 class eps_command : virtual public fapi_command_handler {
-private:
-    const unsigned char eps_address = estts::ES_EPS;
 public:
-    eps::vitals get_vitals();
+    explicit eps_command(transmission_interface * ti);
+    eps::vitals * get_vitals();
 };
 
 

@@ -33,14 +33,20 @@ estts::Status ti_esttc::enable_pipe() {
  * @return Double representing internal IMU temperature in Celsius
  */
 double ti_esttc::get_temp() {
+#ifdef __TI_DEV_MODE__
+    return 26;
+#else
     auto command = build_esttc_command(esttc_symbols->METHOD_READ, esttc_symbols->COMMAND_TEMP_SENSOR, nullptr);
     if (this->write_serial_s(command) < 0) {
-        throw std::runtime_error("Failed to transmit command");
+        spdlog::error("Failed to transmit command");
+        return -1;
     }
     auto ret = this->read_serial_s();
     ret.replace(ret.find("OK +"), 4, "");
     spdlog::info("Transceiver internal temperature is {}°C", ret);
+    // TODO make this actually return the temperature
     return 0;
+#endif
 }
 
 /**
@@ -50,7 +56,7 @@ double ti_esttc::get_temp() {
  * @param body Request body for command if writing
  * @return String containing constructed ESTTC command frame (including \\r)
  */
-std::string ti_esttc::build_esttc_command(char method, const char *command_code, const char *body) {
+std::string ti_esttc::build_esttc_command(char method, const char *command_code, const char * body) {
     stringstream command;
     command << esttc_symbols->HEADER;
     command << method;
