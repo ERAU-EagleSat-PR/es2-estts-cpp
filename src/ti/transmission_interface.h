@@ -8,11 +8,13 @@
 
 #include "ti_esttc.h"
 
-class transmission_interface {
+class transmission_interface : virtual public ti_esttc {
 private:
-    ti_esttc esttc_handle;
+    estts::Status initialize_ti();
+    estts::Status check_ti_health();
 public:
-    transmission_interface();
+    explicit transmission_interface(const char *port);
+    estts::Status transmit(const std::string& value);
 };
 
 

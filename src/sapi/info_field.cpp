@@ -27,7 +27,7 @@ string info_field::getAddress() {
  */
 string info_field::getTimeStamp() {
     spdlog::trace("Setting info field timestamp to {}", this->command->timeStamp);
-    return reinterpret_cast<char const *>(this->command->timeStamp);
+    return std::to_string(this->command->timeStamp);
 }
 
 /**

@@ -69,3 +69,11 @@ else ()
             -w
     )
 endif ()
+
+if (TI_DEV_MODE)
+    target_compile_definitions(
+            estts
+            PRIVATE
+            __TI_DEV_MODE__
+    )
+endif()

@@ -36,7 +36,7 @@ protected:
 
     unsigned char *read_serial_uc() const;
 
-    ssize_t write_serial_s(const std::string &data) const;
+    estts::Status write_serial_s(const std::string &data) const;
 
     std::string read_serial_s() const;
 };

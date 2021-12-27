@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <cstring>
+#include <utility>
 #include <spdlog/spdlog.h>
 #include "frame_constructor.h"
 #include "constants.h"
@@ -23,7 +24,6 @@ using std::hex;
  * @return string of bits (e.g. "10010101")
  */
 string frame_constructor::getFlag() {
-    spdlog::trace("Setting AX.25 frame flag to {}", estts::ax25::AX25_FLAG);
     return reinterpret_cast<char const *>(estts::ax25::AX25_FLAG);
 }
 
@@ -32,7 +32,6 @@ string frame_constructor::getFlag() {
  * @return string of bits (e.g. "10010101")
  */
 string frame_constructor::getDestAddr() {
-    spdlog::trace("Setting AX.25 frame destination address to {}", estts::ax25::AX25_DESTINATION_ADDRESS);
     return reinterpret_cast<char const *>(estts::ax25::AX25_DESTINATION_ADDRESS);
 }
 
@@ -41,7 +40,6 @@ string frame_constructor::getDestAddr() {
  * @return @return string of bits (e.g. "10010101")
  */
 string frame_constructor::getSSID0() {
-    spdlog::trace("Setting AX.25 frame SSID0 to {}", estts::ax25::AX25_SSID0);
     return reinterpret_cast<char const *>(estts::ax25::AX25_SSID0);
 }
 
@@ -50,7 +48,6 @@ string frame_constructor::getSSID0() {
  * @return string of bits (e.g. "10010101")
  */
 string frame_constructor::getSrcAddr() {
-    spdlog::trace("Setting AX.25 frame source address to {}", estts::ax25::AX25_SOURCE_ADDRESS);
     return reinterpret_cast<char const *>(estts::ax25::AX25_SOURCE_ADDRESS);
 }
 
@@ -59,7 +56,6 @@ string frame_constructor::getSrcAddr() {
  * @return @return string of bits (e.g. "10010101")
  */
 string frame_constructor::getSSID1() {
-    spdlog::trace("Setting AX.25 frame SSID1 to {}", estts::ax25::AX25_SSID1);
     return reinterpret_cast<char const *>(estts::ax25::AX25_SSID1);
 }
 
@@ -68,7 +64,6 @@ string frame_constructor::getSSID1() {
  * @return string of bits (e.g. "10010101")
  */
 string frame_constructor::getControl() {
-    spdlog::trace("Setting AX.25 frame control to {}", estts::ax25::AX25_CONTROL);
     return reinterpret_cast<char const *>(estts::ax25::AX25_CONTROL);
 }
 
@@ -77,7 +72,6 @@ string frame_constructor::getControl() {
  * @return string of bits (e.g. "10010101")
  */
 string frame_constructor::getPID() {
-    spdlog::trace("Setting AX.25 frame PID to {}", estts::ax25::AX25_PID);
     return reinterpret_cast<char const *>(estts::ax25::AX25_PID);
 }
 
@@ -87,37 +81,76 @@ string frame_constructor::getPID() {
  */
 string frame_constructor::getInfoField() {
     auto info_field = this->build_info_field();
-    spdlog::trace("Setting AX.25 frame information field to {}", info_field);
     return info_field;
-}
-
-/**
- * @description Encodes the Frame Check Sequence field of the AX.25 Frame Header
- * @return string of bits (e.g. "10010101")
- */
-string frame_constructor::getFCSBits() {
-    spdlog::trace("Setting AX.25 frame sequence number to {}", this->command->sequence);
-    return reinterpret_cast<char const *>(this->command->sequence);
 }
 
 // ~~~~~~~~~~~ ENCODING ~~~~~~~~~~~
 
 /**
- * @description Retrieves the encodings of the entire AX.25 Frame
- * @return string of bits (e.g. "10010101...")
+ * @brief Constructs and encodes AX.25 frame using AX.25 constant values
+ * @return Returns constructed and encoded AX.25 frame according to EnduroSat specification
  */
 string frame_constructor::construct_ax25() {
-    std::stringstream encodedFrame;
+    std::stringstream frameStream;
 
-    encodedFrame << getFlag();
-    encodedFrame << getDestAddr();
-    encodedFrame << getSSID0();
-    encodedFrame << getSrcAddr();
-    encodedFrame << getSSID1();
-    encodedFrame << getControl();
-    encodedFrame << getPID();
-    encodedFrame << getInfoField();
-    encodedFrame << getFlag();
+    frameStream << getFlag();
+    frameStream << getDestAddr();
+    frameStream << getSSID0();
+    frameStream << getSrcAddr();
+    frameStream << getSSID1();
+    frameStream << getControl();
+    frameStream << getPID();
+    std::string info_field = getInfoField();
+    frameStream << info_field;
+    frameStream << calculate_crc16_ccit(info_field);
+    frameStream << getFlag();
 
-    return encodedFrame.str();
+    spdlog::trace("Built AX.25 frame with value {}", frameStream.str());
+
+    std::string encoded_frame = this->encode_ax25_frame(frameStream.str());
+
+    spdlog::trace("Encoded AX.25 frame to {}", encoded_frame);
+
+    return encoded_frame;
+}
+
+/**
+ * @brief Performs NRZI encoding on an inputted raw string. Input should all be hexadecimal.
+ * @param raw Raw hexadecimal string to perform encoding on.
+ * @return Returns an NRZI encoded string of hexidecimal values, or the same string if encoding fails
+ */
+std::string frame_constructor::perform_nrzi_encoding(std::string raw) {
+    // TODO ESTTS-145 Integrate NRZI encoding - Place NRZI encoding in this function
+    return raw;
+}
+
+/**
+ * @brief Calculates the CRC16-CCIT as specified by FCS of AX.25 ISO standard.
+ * @param value Raw hexadecimal value to calculate CRC16 on
+ * @return Returns calculated CRC16 of inputted string
+ */
+std::string frame_constructor::calculate_crc16_ccit(std::string value) {
+    // TODO ESTTS-144 Integrate CRC16-CCIT calculation - Place code in this function.
+    return "";
+}
+
+/**
+ * @brief Scrambles inputted AX.25 frame according to EnduroSat scrambling specification
+ * @param raw Raw hexadecimal AX.25 frame to be scrambled
+ * @return Returns scrambled AX.25 frame
+ */
+std::string frame_constructor::scramble_frame(std::string raw) {
+    // TODO ESTTS-146 Integrate EnduroSat scrambler - Place scrambling code in this function
+    return raw;
+}
+
+/**
+ * @brief Encodes AX.25 frame for transmission. Encoding includes scrambling and NRZI.
+ * @param raw Raw hexadecimal AX.25 frame
+ * @return Returns encoded frame for transmission
+ */
+std::string frame_constructor::encode_ax25_frame(std::string raw) {
+    std::string encoded = this->scramble_frame(this->perform_nrzi_encoding(std::move(raw)));
+    // TODO Add logic to perform bit stuffing in accordance with ISO AX.25 Frame Specification
+    return encoded;
 }
