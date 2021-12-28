@@ -9,6 +9,7 @@
 namespace estts {
     const int ESTTS_MAX_RETRIES = 2;
     const int ESTTS_RETRY_WAIT_SEC = 1;
+    const int ESTTS_AWAIT_RESPONSE_PERIOD_SEC = 10;
     /* AX.25 Related constants */
     namespace ax25 {
         const char AX25_FLAG[] = "7E"; // Flag is constant
