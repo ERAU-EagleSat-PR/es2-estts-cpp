@@ -82,7 +82,20 @@ estts::Status fapi_command_handler::send_command(const std::vector<estts::comman
     return estts::ES_OK;
 }
 
+/**
+ * @brief Waits for a response from the satellite after command has been sent. This function waits the number of seconds
+ * specified by ESTTS_AWAIT_RESPONSE_PERIOD_SEC.
+ * @return ES_OK if response was received, or ES_UNSUCCESSFUL if timeout elapses.
+ */
 estts::Status fapi_command_handler::await_response() {
+    using namespace std::this_thread; // sleep_for, sleep_until
+    using namespace std::chrono; // nanoseconds, system_clock, seconds
+    int seconds_elapsed;
+    spdlog::info("Waiting for a response from EagleSat II");
+    for (seconds_elapsed = 0; seconds_elapsed < estts::ESTTS_AWAIT_RESPONSE_PERIOD_SEC; seconds_elapsed++) {
+        // TODO poll a serial interface or mailbox
+        sleep_until(system_clock::now() + seconds(1));
+    }
     return estts::ES_OK;
 }
 
