@@ -61,8 +61,8 @@ namespace estts {
             const char OBC_GET_HEALTH[] = "01";
         }
         namespace method {
-            const char ES_READ = 'r'; // ASCII 'r'
-            const char ES_WRITE = 'w'; // ASCII 'w'
+            const char ES_READ[] = "72"; // ASCII 'r'
+            const char ES_WRITE[] = "77"; // ASCII 'w'
         }
     }
 
@@ -90,17 +90,16 @@ namespace estts {
         int timeStamp{};
         int sequence{};
         const char *commandID{};
-        char method{};
+        const char *method{};
         const char *data{};
     } command_object;
 
     typedef struct estts_telemetry {
         const char *address{};
-        int response_code{};
         int timeStamp{};
         int sequence{};
         const char *commandID{};
-        char method{};
+        const char *response_code{};
         const char *data{};
     } telemetry_object;
 }

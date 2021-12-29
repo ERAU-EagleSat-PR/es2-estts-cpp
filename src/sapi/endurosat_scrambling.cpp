@@ -2,6 +2,7 @@
 #include <string>
 #include <array>
 #include <sstream>
+
 using namespace std;
 
 string convertString(string input, int arrIndex) {
@@ -14,11 +15,10 @@ string scrambleHex(string hexArray = nullptr) {
     string newHexArray;
     if (hexArray.length() <= 77) {
         //int* binaryArray = static_cast<int *>(malloc(sizeof(int) * 4 * hexArray.length()));
-        int binaryArray[hexArray.length()*4];
+        int binaryArray[hexArray.length() * 4];
         try {
             for (int i = 0; i < hexArray.length() * 4; i += 4) {
-                switch (toupper(hexArray[i / 4]))
-                {
+                switch (toupper(hexArray[i / 4])) {
                     case '0':
                         binaryArray[i] = 0;
                         binaryArray[i + 1] = 0;
@@ -117,7 +117,7 @@ string scrambleHex(string hexArray = nullptr) {
                         binaryArray[i + 3] = 1;
                         break;
                     default:
-                        throw("Error: Not a hex array");
+                        throw ("Error: Not a hex array");
                         break;
                 }
 
@@ -126,12 +126,10 @@ string scrambleHex(string hexArray = nullptr) {
                 if (i + 1 >= 12) {
                     if (i + 1 >= 17) {
                         binaryArray[i] = binaryArray[i] ^ (binaryArray[i - 12] ^ binaryArray[i - 17]);
-                    }
-                    else if (i + 1 < 17) {
+                    } else if (i + 1 < 17) {
                         binaryArray[i] = binaryArray[i] ^ (binaryArray[i - 12] ^ 0);
                     }
-                }
-                else if (i + 1 < 12) {
+                } else if (i + 1 < 12) {
                     binaryArray[i] = binaryArray[i] ^ 0;
                 }
 
@@ -158,50 +156,35 @@ string scrambleHex(string hexArray = nullptr) {
             if (i + 3 <= hexArray.length()) {
                 if (convertString(hexArray, i) == "0000") {
                     newHexArray.append("0");
-                }
-                else if (convertString(hexArray, i) == "0001") {
+                } else if (convertString(hexArray, i) == "0001") {
                     newHexArray.append("1");
-                }
-                else if (convertString(hexArray, i) == "0010") {
+                } else if (convertString(hexArray, i) == "0010") {
                     newHexArray.append("2");
-                }
-                else if (convertString(hexArray, i) == "0011") {
+                } else if (convertString(hexArray, i) == "0011") {
                     newHexArray.append("3");
-                }
-                else if (convertString(hexArray, i) == "0100") {
+                } else if (convertString(hexArray, i) == "0100") {
                     newHexArray.append("4");
-                }
-                else if (convertString(hexArray, i) == "0101") {
+                } else if (convertString(hexArray, i) == "0101") {
                     newHexArray.append("5");
-                }
-                else if (convertString(hexArray, i) == "0110") {
+                } else if (convertString(hexArray, i) == "0110") {
                     newHexArray.append("6");
-                }
-                else if (convertString(hexArray, i) == "0111") {
+                } else if (convertString(hexArray, i) == "0111") {
                     newHexArray.append("7");
-                }
-                else if (convertString(hexArray, i) == "1000") {
+                } else if (convertString(hexArray, i) == "1000") {
                     newHexArray.append("8");
-                }
-                else if (convertString(hexArray, i) == "1001") {
+                } else if (convertString(hexArray, i) == "1001") {
                     newHexArray.append("9");
-                }
-                else if (convertString(hexArray, i) == "1010") {
+                } else if (convertString(hexArray, i) == "1010") {
                     newHexArray.append("A");
-                }
-                else if (convertString(hexArray, i) == "1011") {
+                } else if (convertString(hexArray, i) == "1011") {
                     newHexArray.append("B");
-                }
-                else if (convertString(hexArray, i) == "1100") {
+                } else if (convertString(hexArray, i) == "1100") {
                     newHexArray.append("C");
-                }
-                else if (convertString(hexArray, i) == "1101") {
+                } else if (convertString(hexArray, i) == "1101") {
                     newHexArray.append("D");
-                }
-                else if (convertString(hexArray, i) == "1110") {
+                } else if (convertString(hexArray, i) == "1110") {
                     newHexArray.append("E");
-                }
-                else if (convertString(hexArray, i) == "1111") {
+                } else if (convertString(hexArray, i) == "1111") {
                     newHexArray.append("F");
                 }
             }
