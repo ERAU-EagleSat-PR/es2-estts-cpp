@@ -37,7 +37,7 @@ private:
     std::string raw_frame;
 
 public:
-    explicit frame_destructor(std::string raw) : info_field() {raw_frame = std::move(raw);}
+    explicit frame_destructor(std::string raw) : info_field() { raw_frame = std::move(raw); }
 
     std::vector<estts::telemetry_object *> destruct_ax25();
 };

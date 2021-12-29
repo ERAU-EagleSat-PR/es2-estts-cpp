@@ -27,7 +27,6 @@ int main() {
     delete command;
 
     std::string frame = "7E7E7E7E7E7E7E7E7E4e4544434241E04e4142434445E103F0021121101727E7E7E7E7E7E7E7E7E7E7E7E7E4e4544434241E04e4142434445E103F0021121101727E7E7E7E7E7E7E7E7E7E7E7E7E4e4544434241E04e4142434445E103F0021121101727E7E7E7E";
-    spdlog::info("AX.25 frame: {}", frame);
 
     auto command_destructor = new frame_destructor(frame);
     auto telem = command_destructor->destruct_ax25();

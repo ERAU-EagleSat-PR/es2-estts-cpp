@@ -80,7 +80,7 @@ string info_field::build_info_field() {
     return infoFieldStream.str();
 }
 
-estts::telemetry_object * info_field::build_telemetry_object(std::string info_field) {
+estts::telemetry_object *info_field::build_telemetry_object(std::string info_field) {
     auto resp = new estts::telemetry_object;
 
     // TODO put info field stuff into a new info field constructor
@@ -100,6 +100,8 @@ estts::telemetry_object * info_field::build_telemetry_object(std::string info_fi
     resp->response_code = info_field.substr(10, 2).c_str();
 
     // resp->data = info_field.substr(12).c_str(); todo figure this shit out
+
+    spdlog::trace("Frame info field decoded successfully. Telemetry object stored at {}", static_cast<const void*>(resp));
 
     return resp;
 }
