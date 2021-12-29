@@ -8,6 +8,7 @@
 #include <spdlog/spdlog.h>
 #include "frame_constructor.h"
 #include "constants.h"
+#include "helper.h"
 
 using std::cerr;
 using std::cout;
@@ -32,7 +33,8 @@ string frame_constructor::getFlag() {
  * @return string of bits (e.g. "10010101")
  */
 string frame_constructor::getDestAddr() {
-    return reinterpret_cast<char const *>(estts::ax25::AX25_DESTINATION_ADDRESS);
+    // Convert const char to HEX
+    return ascii_to_hex(estts::ax25::AX25_DESTINATION_ADDRESS);
 }
 
 /**
@@ -48,7 +50,7 @@ string frame_constructor::getSSID0() {
  * @return string of bits (e.g. "10010101")
  */
 string frame_constructor::getSrcAddr() {
-    return reinterpret_cast<char const *>(estts::ax25::AX25_SOURCE_ADDRESS);
+    return ascii_to_hex(estts::ax25::AX25_SOURCE_ADDRESS);
 }
 
 /**
@@ -93,9 +95,15 @@ string frame_constructor::getInfoField() {
 string frame_constructor::construct_ax25() {
     std::stringstream frameStream;
 
+    // Preamble
+    for (int i = 0; i < 8; i++)
+        frameStream << getFlag();
+
     frameStream << getFlag();
+    // Destination address (hex encoded)
     frameStream << getDestAddr();
     frameStream << getSSID0();
+    // Source address (hex encoded)
     frameStream << getSrcAddr();
     frameStream << getSSID1();
     frameStream << getControl();
@@ -104,6 +112,10 @@ string frame_constructor::construct_ax25() {
     frameStream << info_field;
     frameStream << calculate_crc16_ccit(info_field);
     frameStream << getFlag();
+
+    // Postamble
+    for (int i = 0; i < 3; i++)
+        frameStream << getFlag();
 
     spdlog::trace("Built AX.25 frame with value {}", frameStream.str());
 

@@ -6,6 +6,7 @@
 set(
         estts-src
         utils/bin_converter.cpp
+        utils/helper.cpp
         utils/port.cpp
         sapi/endurosat_scrambling.cpp
         fapi/command_handler/acs_command.cpp
@@ -16,6 +17,7 @@ set(
         fapi/command_handler/obc_command.cpp
         fapi/feature_api.cpp
         sapi/frame_constructor.cpp
+        sapi/frame_destructor.cpp
         sapi/info_field.cpp
         ti/ti_esttc.cpp
         ti/ti_serial_handler.cpp
