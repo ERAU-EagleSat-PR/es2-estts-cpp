@@ -86,6 +86,8 @@ namespace estts {
     }
     
     namespace ti_socket {
+        const int MAX_RETRIES = 2;
+        const int WAIT_TIME_SEC = 2;
         const int TI_SOCKET_PORT = 8080;
         const int TI_SOCKET_BUF_SZ = 1024;
     }
