@@ -7,11 +7,12 @@
 #include "spdlog/spdlog.h"
 #include "transmission_interface.h"
 
-transmission_interface::transmission_interface(const char *address) : ti_socket_handler(address, estts::ti_socket::TI_SOCKET_PORT),
-                                                                   ti_esttc(address,
-                                                                            estts::endurosat::ES_BAUD),
-                                                                   ti_serial_handler(address,
-                                                                                     estts::endurosat::ES_BAUD) {
+transmission_interface::transmission_interface(const char *address) : ti_socket_handler(address,
+                                                                                        estts::ti_socket::TI_SOCKET_PORT),
+                                                                      ti_esttc(address,
+                                                                               estts::endurosat::ES_BAUD),
+                                                                      ti_serial_handler(address,
+                                                                                        estts::endurosat::ES_BAUD) {
     if (initialize_ti() != estts::ES_OK) {
         spdlog::error("Failed initialize transmission interface.");
         throw std::runtime_error("Failed to open serial port.");

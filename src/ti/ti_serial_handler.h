@@ -40,7 +40,7 @@ protected:
 
     std::string read_serial_s() const;
 
-    unsigned char * read_serial_us_async();
+    unsigned char *read_serial_us_async();
 };
 
 

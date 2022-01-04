@@ -12,10 +12,14 @@
 class transmission_interface : virtual public ti_esttc, virtual public ti_socket_handler {
 private:
     estts::Status initialize_ti();
+
     estts::Status check_ti_health();
+
 public:
     explicit transmission_interface(const char *address);
-    estts::Status transmit(const std::string& value);
+
+    estts::Status transmit(const std::string &value);
+
     std::string receive();
 };
 

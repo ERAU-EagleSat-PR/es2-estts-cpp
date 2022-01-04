@@ -11,8 +11,7 @@ using namespace estts;
 
 /**
  * @brief Base constructor that initializes port and baud, opens specified port
- * as serial port, and configures it using Terminos. NOTE: After calling constructor,
- * program MUST check if successful_init is true.
+ * as serial port, and configures it using Terminos.
  * @param port Serial port (EX "/dev/cu.usbmodem")
  * @param baud Serial baud rate (EX 115200)
  * @return None
@@ -178,9 +177,7 @@ std::string ti_serial_handler::read_serial_s() const {
     // Type cast unsigned char (auto) to a char *
     // Then call std::string constructor
     std::string string_read(reinterpret_cast<char const *>(read));
-#ifndef __TI_DEV_MODE__
     delete read;
-#endif
     return string_read;
 }
 

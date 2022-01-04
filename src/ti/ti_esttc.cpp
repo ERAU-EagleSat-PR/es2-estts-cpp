@@ -56,7 +56,7 @@ double ti_esttc::get_temp() {
  * @param body Request body for command if writing
  * @return String containing constructed ESTTC command frame (including \\r)
  */
-std::string ti_esttc::build_esttc_command(char method, const char *command_code, const char * body) {
+std::string ti_esttc::build_esttc_command(char method, const char *command_code, const char *body) {
     stringstream command;
     command << esttc_symbols->HEADER;
     command << method;
