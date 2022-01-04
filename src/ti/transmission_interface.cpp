@@ -26,10 +26,10 @@ transmission_interface::transmission_interface(const char *address) : ti_socket_
  * @return ES_OK if transmission was successful
  */
 estts::Status transmission_interface::transmit(const std::string &value) {
-#ifndef __TI_DEV_MODE__
     using namespace std::this_thread; // sleep_for, sleep_until
     using namespace std::chrono; // nanoseconds, system_clock, seconds
     int retries = 0;
+#ifndef __TI_DEV_MODE__
     if (check_ti_health() != estts::ES_OK) return estts::ES_UNSUCCESSFUL;
     spdlog::trace("Transceiver passed checks.");
     retries = 0;
@@ -51,7 +51,14 @@ estts::Status transmission_interface::transmit(const std::string &value) {
     }
     return estts::ES_OK;
 #else
-    // TODO socket stuff
+    spdlog::debug("Transmitting frame with value:\n{}", value);
+    while (this->write_socket_s(value) != estts::ES_OK) {
+        spdlog::error("Failed to transmit. Waiting {} seconds", estts::ti_socket::WAIT_TIME_SEC);
+        sleep_until(system_clock::now() + seconds(estts::ti_socket::WAIT_TIME_SEC));
+        retries++;
+        if (retries > estts::ti_socket::MAX_RETRIES) return estts::ES_UNSUCCESSFUL;
+        spdlog::info("Retrying transmit (retry {}/{})", retries, estts::ti_socket::MAX_RETRIES);
+    }
     return estts::ES_OK;
 #endif
 }
@@ -90,6 +97,6 @@ std::string transmission_interface::receive() {
     auto buf = this->read_serial_s();
     return buf;
 #else
-    return "";
+    return this->read_socket_s();
 #endif
 }
