@@ -84,6 +84,10 @@ namespace estts {
             const char *COMMAND_SCW = "00";
         };
     }
+    
+    namespace ti_socket {
+        const int TI_SOCKET_PORT = 8080;
+    }
 
     typedef struct estts_command {
         const char *address{};
