@@ -39,6 +39,8 @@ protected:
     estts::Status write_serial_s(const std::string &data) const;
 
     std::string read_serial_s() const;
+
+    unsigned char *read_serial_us_async();
 };
 
 
