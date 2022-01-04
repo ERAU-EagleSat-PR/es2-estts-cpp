@@ -21,6 +21,7 @@ set(
         sapi/info_field.cpp
         ti/ti_esttc.cpp
         ti/ti_serial_handler.cpp
+        ti/ti_socket_handler.cpp
         ti/transmission_interface.cpp
 )
 
