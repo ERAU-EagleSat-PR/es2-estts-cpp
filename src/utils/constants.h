@@ -87,6 +87,7 @@ namespace estts {
     
     namespace ti_socket {
         const int TI_SOCKET_PORT = 8080;
+        const int TI_SOCKET_BUF_SZ = 1024;
     }
 
     typedef struct estts_command {
