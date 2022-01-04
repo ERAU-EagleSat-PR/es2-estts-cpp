@@ -96,6 +96,10 @@ estts::Status frame_destructor::build_telemetry_objects() {
             // Assuming that the frame transmission had no loss, this method should work.
             unsigned long frame_start_flag;
             auto raw_length = raw_frame.length();
+            if (raw_length < 1) {
+                spdlog::error("Trying to decode empty frame. Exiting");
+                return estts::ES_UNSUCCESSFUL;
+            }
             for (int i = 0; i < raw_length; i++) {
                 if (raw_frame[i] == estts::ax25::AX25_FLAG[0] && raw_frame[i + 1] == estts::ax25::AX25_FLAG[1]) {
                     i++;

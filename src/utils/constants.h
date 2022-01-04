@@ -23,13 +23,13 @@ namespace estts {
 
     /* Endpoint names for all communication systems */
     namespace es2_endpoint {
-        const char ES_OBC[] = "01";
-        const char ES_EPS[] = "02";
-        const char ES_ACS[] = "03";
-        const char ES_CRP[] = "05";
-        const char ES_MDE[] = "04";
-        const char ES_OFFLINE_LOG[] = "0A";
-        const char ES_TELEMETRY[] = "0B";
+        const int ES_OBC = 01;
+        const int ES_EPS = 02;
+        const int ES_ACS = 03;
+        const int ES_CRP = 05;
+        const int ES_MDE = 04;
+        const int ES_OFFLINE_LOG = 05;
+        const int ES_TELEMETRY = 06;
     }
 
     /* Generic response code enumeration for return codes */
@@ -44,25 +44,25 @@ namespace estts {
 
     namespace es2_commands {
         namespace acs {
-            const char ACS_GET_GPS_LAT[] = "01";
-            const char ACS_GET_GPS_LONG[] = "02";
-            const char ACS_GET_POS[] = "03";
+            const int ACS_GET_GPS_LAT = 01;
+            const int ACS_GET_GPS_LONG = 02;
+            const int ACS_GET_POS = 03;
         }
         namespace eps {
-            const char EPS_GET_HEALTH[] = "01";
+            const int EPS_GET_HEALTH = 01;
         }
         namespace mde {
-            const char MDE_GET_STATUS[] = "01";
+            const int MDE_GET_STATUS = 01;
         }
         namespace crp {
-            const char CRP_GET_DATA[] = "01";
+            const int CRP_GET_DATA = 01;
         }
         namespace obc {
-            const char OBC_GET_HEALTH[] = "01";
+            const int OBC_GET_HEALTH = 01;
         }
         namespace method {
-            const char ES_READ[] = "72"; // ASCII 'r'
-            const char ES_WRITE[] = "77"; // ASCII 'w'
+            const int ES_READ = 72; // ASCII 'r'
+            const int ES_WRITE = 77; // ASCII 'w'
         }
     }
 
@@ -93,20 +93,20 @@ namespace estts {
     }
 
     typedef struct estts_command {
-        const char *address{};
+        int address{};
         int timeStamp{};
         int sequence{};
-        const char *commandID{};
-        const char *method{};
+        int commandID{};
+        int method{};
         const char *data{};
     } command_object;
 
     typedef struct estts_telemetry {
-        const char *address{};
+        int address{};
         int timeStamp{};
         int sequence{};
-        const char *commandID{};
-        const char *response_code{};
+        int commandID{};
+        int response_code{};
         const char *data{};
     } telemetry_object;
 }

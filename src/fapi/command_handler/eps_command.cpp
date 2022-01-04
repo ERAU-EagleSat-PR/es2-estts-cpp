@@ -16,8 +16,8 @@ eps::vitals * eps_command::get_vitals() {
     command[0]->address = estts::es2_endpoint::ES_EPS;
     command[0]->commandID = estts::es2_commands::eps::EPS_GET_HEALTH;
     command[0]->method = estts::es2_commands::method::ES_READ;
-    command[0]->sequence = 1;
-    command[0]->timeStamp = get_timestamp();
+    command[0]->sequence = 01;
+    command[0]->timeStamp = 8456;
 
     if (this->send_command(command) != estts::ES_OK) {
         return nullptr;

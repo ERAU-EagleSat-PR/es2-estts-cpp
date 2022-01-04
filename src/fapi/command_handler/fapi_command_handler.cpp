@@ -6,9 +6,11 @@
 #include <thread>
 #include <iostream>
 #include <vector>
+#include <sstream>
 #include "spdlog/spdlog.h"
 #include "fapi_command_handler.h"
 #include "frame_constructor.h"
+#include "frame_destructor.h"
 
 fapi_command_handler::fapi_command_handler(transmission_interface * ti) {
     this->ti = ti;
@@ -92,10 +94,20 @@ estts::Status fapi_command_handler::await_response() {
     using namespace std::chrono; // nanoseconds, system_clock, seconds
     int seconds_elapsed;
     spdlog::info("Waiting for a response from EagleSat II");
+    std::stringstream resp;
     for (seconds_elapsed = 0; seconds_elapsed < estts::ESTTS_AWAIT_RESPONSE_PERIOD_SEC; seconds_elapsed++) {
-        // TODO poll a serial interface or mailbox
+        auto temp = ti->receive();
+        if (!temp.empty()) {
+            resp << temp;
+            break;
+        }
         sleep_until(system_clock::now() + seconds(1));
     }
+    spdlog::trace("Starting frame deconstruction on {}", resp.str());
+    auto destructor = new frame_destructor(resp.str());
+    auto telem = destructor->destruct_ax25();
+    if (telem[0]->response_code == 0)
+        spdlog::info("Received successful telemetry response with response code {}", telem[0]->response_code);
     return estts::ES_OK;
 }
 

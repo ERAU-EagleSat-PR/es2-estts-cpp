@@ -2,6 +2,8 @@
 // Created by Hayden Roszell on 1/3/22.
 //
 
+#include <chrono>
+#include <thread>
 #include "ti_socket_handler.h"
 #include <arpa/inet.h>
 #include <unistd.h>
@@ -79,6 +81,10 @@ estts::Status ti_socket_handler::configure_socket() {
         return estts::ES_UNSUCCESSFUL;
     }
     spdlog::trace("Handshake succeeded - transmitted {}, got back {}", hello, buffer);
+
+    using namespace std::this_thread; // sleep_for, sleep_until
+    using namespace std::chrono; // nanoseconds, system_clock, seconds
+    sleep_until(system_clock::now() + seconds(2));
     return estts::ES_OK;
 }
 
