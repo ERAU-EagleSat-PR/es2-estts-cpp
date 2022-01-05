@@ -19,8 +19,9 @@ namespace eps {
 
 class eps_command : virtual public fapi_command_handler {
 public:
-    explicit eps_command(transmission_interface * ti);
-    eps::vitals * get_vitals();
+    explicit eps_command(transmission_interface *ti);
+
+    eps::vitals *get_vitals();
 };
 
 

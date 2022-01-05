@@ -7,12 +7,12 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
-#include "spdlog/spdlog.h"
+
 #include "fapi_command_handler.h"
 #include "frame_constructor.h"
 #include "frame_destructor.h"
 
-fapi_command_handler::fapi_command_handler(transmission_interface * ti) {
+fapi_command_handler::fapi_command_handler(transmission_interface *ti) {
     this->ti = ti;
 }
 
@@ -35,13 +35,13 @@ int fapi_command_handler::get_timestamp() {
  * @param command Contains an array of command_object objects
  * @return Returns an array of telemetry objects
  */
-estts::Status fapi_command_handler::send_command(const std::vector<estts::command_object *>& command) {
+estts::Status fapi_command_handler::send_command(const std::vector<estts::command_object *> &command) {
     try {
         using namespace std::this_thread; // sleep_for, sleep_until
         using namespace std::chrono; // nanoseconds, system_clock, seconds
         // Create transmission interface object
         for (int i = 0; i < command.size(); i++) {
-            spdlog::info("Sending command (frame {}/{})", i+1, command.size());
+            SPDLOG_INFO("Sending command (frame {}/{})", i + 1, command.size());
             bool retry = true;
             int retries = 0;
             std::string frame;
@@ -54,7 +54,7 @@ estts::Status fapi_command_handler::send_command(const std::vector<estts::comman
                     sleep_until(system_clock::now() + seconds(estts::ESTTS_RETRY_WAIT_SEC));
                     retries++;
                     if (retries > estts::endurosat::MAX_RETRIES) return estts::ES_UNSUCCESSFUL;
-                    spdlog::info("Retrying construction (retry {}/{})", retries, estts::ESTTS_MAX_RETRIES);
+                    SPDLOG_INFO("Retrying construction (retry {}/{})", retries, estts::ESTTS_MAX_RETRIES);
                 }
                 retry = false;
                 delete sapi_tx;
@@ -66,18 +66,22 @@ estts::Status fapi_command_handler::send_command(const std::vector<estts::comman
                 sleep_until(system_clock::now() + seconds(estts::ESTTS_RETRY_WAIT_SEC));
                 retries++;
                 if (retries > estts::endurosat::MAX_RETRIES) return estts::ES_UNSUCCESSFUL;
-                spdlog::info("Retrying transmit ({}/{})", retries, estts::ESTTS_MAX_RETRIES);
+                SPDLOG_INFO("Retrying transmit ({}/{})", retries, estts::ESTTS_MAX_RETRIES);
             }
             // If we got this far,
-            spdlog::debug("Successfully transmitted command (frame {}/{})", i+1, command.size());
+            SPDLOG_DEBUG("Successfully transmitted command (frame {}/{})", i + 1, command.size());
 
             // Pass handler to await response
             if (await_response() != estts::ES_OK)
                 return estts::ES_UNSUCCESSFUL;
+
+            // De-allocate memory for command objects
+            for (auto i : command)
+                delete i;
         }
     }
-    catch (const std::exception& e) {
-        // TODO catch exceptions
+    catch (const std::exception &e) {
+        // TODO catch exceptions & do something smart with them
         spdlog::error("We failed somewhere");
         return estts::ES_UNSUCCESSFUL;
     }
@@ -93,7 +97,7 @@ estts::Status fapi_command_handler::await_response() {
     using namespace std::this_thread; // sleep_for, sleep_until
     using namespace std::chrono; // nanoseconds, system_clock, seconds
     int seconds_elapsed;
-    spdlog::info("Waiting for a response from EagleSat II");
+    SPDLOG_INFO("Waiting for a response from EagleSat II");
     std::stringstream resp;
     for (seconds_elapsed = 0; seconds_elapsed < estts::ESTTS_AWAIT_RESPONSE_PERIOD_SEC; seconds_elapsed++) {
         auto temp = ti->receive();
@@ -103,12 +107,31 @@ estts::Status fapi_command_handler::await_response() {
         }
         sleep_until(system_clock::now() + seconds(1));
     }
-    spdlog::trace("Starting frame deconstruction on {}", resp.str());
+    if (resp.str().empty())
+        return estts::ES_UNSUCCESSFUL;
+    SPDLOG_DEBUG("Got response from EagleSat II");
+    SPDLOG_TRACE("Starting frame deconstruction on {}", resp.str());
     auto destructor = new frame_destructor(resp.str());
     auto telem = destructor->destruct_ax25();
-    if (telem[0]->response_code == 0)
-        spdlog::info("Received successful telemetry response with response code {}", telem[0]->response_code);
+
+    // The feature API command handler doesn't care if the response was successful. Update telem attribute & exit
+    // todo there are likely error cases here that aren't accounted for. Find & fix them
+    telemetry = telem;
     return estts::ES_OK;
+}
+
+estts::Status fapi_command_handler::validate_response_code(int code) {
+    if (code == estts::estts_response_code::SUCCESS)
+        return estts::ES_SUCCESS;
+    else if (code == estts::estts_response_code::UNRECOGNIZED_REQUEST)
+        return estts::ES_BAD_OPTION;
+    else if (code == estts::estts_response_code::OBC_FAILURE)
+        return estts::ES_SERVER_ERROR;
+    else return estts::ES_UNINITIALIZED;
+}
+
+estts::Status fapi_command_handler::validate_telemetry_response() {
+    return estts::ES_UNINITIALIZED;
 }
 
 fapi_command_handler::~fapi_command_handler() = default;

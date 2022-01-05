@@ -7,7 +7,7 @@
 #include "ti_socket_handler.h"
 #include <arpa/inet.h>
 #include <unistd.h>
-#include "spdlog/spdlog.h"
+
 
 /**
  * @brief Base constructor that initializes address and port, opens specified port
@@ -21,7 +21,7 @@ ti_socket_handler::ti_socket_handler(const char *address, int port) {
     sock = -1;
     serv_addr = {0};
     this->port = port;
-    spdlog::debug("Opening socket at port {} for TI emulation", port);
+    SPDLOG_DEBUG("Opening socket at port {} for TI emulation", port);
     this->address = address;
     if (estts::ES_OK != open_socket()) {
         spdlog::error("Failed to open socket.");
@@ -29,10 +29,10 @@ ti_socket_handler::ti_socket_handler(const char *address, int port) {
     }
     if (estts::ES_OK != configure_socket()) {
         spdlog::error("Failed to configure socket.");
-        spdlog::warn("Is the ESTTS server running? See documentation for more.");
+        SPDLOG_WARN("Is the ESTTS server running? See documentation for more.");
         throw std::runtime_error("Failed to configure socket.");
     }
-    spdlog::debug("Socket configuration complete.");
+    SPDLOG_DEBUG("Socket configuration complete.");
 #endif
 }
 
@@ -60,13 +60,13 @@ estts::Status ti_socket_handler::configure_socket() {
         return estts::ES_UNSUCCESSFUL;
     }
 
-    spdlog::debug("Attempting to connect to socket at address {}:{}", address, port);
+    SPDLOG_DEBUG("Attempting to connect to socket at address {}:{}", address, port);
 
     if (connect(sock, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
         spdlog::error("Error {} from connect(): {}", errno, strerror(errno));
         return estts::ES_UNSUCCESSFUL;
     }
-    spdlog::trace("Connection succeeded. Attempting handshake.");
+    SPDLOG_TRACE("Connection succeeded. Attempting handshake.");
 
     char *hello = "es2-estts-cpp";
     char buffer[estts::ti_socket::TI_SOCKET_BUF_SZ] = {0};
@@ -80,7 +80,7 @@ estts::Status ti_socket_handler::configure_socket() {
         spdlog::error("Failed to read from socket");
         return estts::ES_UNSUCCESSFUL;
     }
-    spdlog::trace("Handshake succeeded - transmitted {}, got back {}", hello, buffer);
+    SPDLOG_TRACE("Handshake succeeded - transmitted {}, got back {}", hello, buffer);
 
     using namespace std::this_thread; // sleep_for, sleep_until
     using namespace std::chrono; // nanoseconds, system_clock, seconds
@@ -104,7 +104,7 @@ ssize_t ti_socket_handler::write_socket_uc(unsigned char *data, int size) const 
     if (written < 1) {
         return -1;
     }
-    spdlog::trace("Wrote '{}' (size={}) to {}", data, written, port);
+    SPDLOG_TRACE("Wrote '{}' (size={}) to {}", data, written, port);
     return written;
 }
 
@@ -131,7 +131,7 @@ unsigned char *ti_socket_handler::read_socket_uc() const {
     }
     // Add null terminator at the end of transmission for easier processing by parent class(s)
     buf[r] = '\0';
-    spdlog::trace("Read '{}' from {}", buf, port);
+    SPDLOG_TRACE("Read '{}' from {}", buf, port);
     return buf;
 }
 
