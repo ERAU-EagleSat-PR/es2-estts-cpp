@@ -5,6 +5,11 @@
 #ifndef ESTTS_CONSTANTS_H
 #define ESTTS_CONSTANTS_H
 
+// Configure spdlog
+#undef SPDLOG_ACTIVE_LEVEL
+#define SPDLOG_ACTIVE_LEVEL 0
+#include "spdlog/spdlog.h"
+
 #define MAX_SERIAL_READ 256
 namespace estts {
     const int ESTTS_MAX_RETRIES = 2;
@@ -21,15 +26,21 @@ namespace estts {
         const char AX25_PID[] = "F0"; // F0 = No layer 3 protocol implemented
     }
 
+    namespace estts_response_code {
+        const int SUCCESS = 0;
+        const int UNRECOGNIZED_REQUEST = 1;
+        const int OBC_FAILURE = 2;
+    }
+
     /* Endpoint names for all communication systems */
     namespace es2_endpoint {
-        const char ES_OBC[] = "01";
-        const char ES_EPS[] = "02";
-        const char ES_ACS[] = "03";
-        const char ES_CRP[] = "05";
-        const char ES_MDE[] = "04";
-        const char ES_OFFLINE_LOG[] = "0A";
-        const char ES_TELEMETRY[] = "0B";
+        const int ES_OBC = 01;
+        const int ES_EPS = 02;
+        const int ES_ACS = 03;
+        const int ES_CRP = 05;
+        const int ES_MDE = 04;
+        const int ES_OFFLINE_LOG = 05;
+        const int ES_TELEMETRY = 06;
     }
 
     /* Generic response code enumeration for return codes */
@@ -39,30 +50,31 @@ namespace estts {
         ES_UNSUCCESSFUL = 1,
         ES_UNINITIALIZED = 2,
         ES_BAD_OPTION = 405,
-        ES_UNAUTHORIZED = 403
+        ES_UNAUTHORIZED = 403,
+        ES_SERVER_ERROR = 500
     };
 
     namespace es2_commands {
         namespace acs {
-            const char ACS_GET_GPS_LAT[] = "01";
-            const char ACS_GET_GPS_LONG[] = "02";
-            const char ACS_GET_POS[] = "03";
+            const int ACS_GET_GPS_LAT = 01;
+            const int ACS_GET_GPS_LONG = 02;
+            const int ACS_GET_POS = 03;
         }
         namespace eps {
-            const char EPS_GET_HEALTH[] = "01";
+            const int EPS_GET_HEALTH = 01;
         }
         namespace mde {
-            const char MDE_GET_STATUS[] = "01";
+            const int MDE_GET_STATUS = 01;
         }
         namespace crp {
-            const char CRP_GET_DATA[] = "01";
+            const int CRP_GET_DATA = 01;
         }
         namespace obc {
-            const char OBC_GET_HEALTH[] = "01";
+            const int OBC_GET_HEALTH = 01;
         }
         namespace method {
-            const char ES_READ[] = "72"; // ASCII 'r'
-            const char ES_WRITE[] = "77"; // ASCII 'w'
+            const int ES_READ = 0;
+            const int ES_WRITE = 1;
         }
     }
 
@@ -93,20 +105,20 @@ namespace estts {
     }
 
     typedef struct estts_command {
-        const char *address{};
+        int address{};
         int timeStamp{};
         int sequence{};
-        const char *commandID{};
-        const char *method{};
+        int commandID{};
+        int method{};
         const char *data{};
     } command_object;
 
     typedef struct estts_telemetry {
-        const char *address{};
+        int address{};
         int timeStamp{};
         int sequence{};
-        const char *commandID{};
-        const char *response_code{};
+        int commandID{};
+        int response_code{};
         const char *data{};
     } telemetry_object;
 }

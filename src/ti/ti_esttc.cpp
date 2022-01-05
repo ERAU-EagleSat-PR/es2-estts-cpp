@@ -5,7 +5,7 @@
 #include <string>
 #include <sstream>
 #include "ti_esttc.h"
-#include "spdlog/spdlog.h"
+
 
 using std::stringstream;
 
@@ -43,7 +43,7 @@ double ti_esttc::get_temp() {
     }
     auto ret = this->read_serial_s();
     ret.replace(ret.find("OK +"), 4, "");
-    spdlog::info("Transceiver internal temperature is {}°C", ret);
+    SPDLOG_INFO("Transceiver internal temperature is {}°C", ret);
     // TODO make this actually return the temperature
     return 0;
 #endif
@@ -65,7 +65,7 @@ std::string ti_esttc::build_esttc_command(char method, const char *command_code,
     if (body != nullptr)
         command << body;
     command << esttc_symbols->END;
-    spdlog::trace("build_esttc_command: built command '{}'", command.str());
+    SPDLOG_TRACE("build_esttc_command: built command '{}'", command.str());
     return command.str();
 }
 

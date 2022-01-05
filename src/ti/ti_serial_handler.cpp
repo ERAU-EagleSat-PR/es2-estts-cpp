@@ -3,7 +3,7 @@
 //
 
 #include "ti_serial_handler.h"
-#include "spdlog/spdlog.h"
+
 
 using namespace estts;
 
@@ -22,7 +22,7 @@ ti_serial_handler::ti_serial_handler(const char *port, int baud) {
     serial_port = -1; // Serial port initialized in open_port() method
     // Attempt to open serial port
 #ifndef __TI_DEV_MODE__ // Set at compile time
-    spdlog::debug("Opening serial port {} with {} baud", port, baud);
+    SPDLOG_DEBUG("Opening serial port {} with {} baud", port, baud);
     if (ES_OK != open_port()) {
         spdlog::error("Failed to open serial port {}", port);
         throw std::runtime_error("Failed to open serial port.");
@@ -34,7 +34,7 @@ ti_serial_handler::ti_serial_handler(const char *port, int baud) {
         throw std::runtime_error("Failed to initialize serial port.");
     }
 #else
-    spdlog::debug("Initializing transmission interface in dev mode. No serial port will be opened.");
+    SPDLOG_DEBUG("Initializing transmission interface in dev mode. No serial port will be opened.");
     serial_port = 0;
 #endif
 }
@@ -47,7 +47,7 @@ estts::Status ti_serial_handler::initialize_serial_port() const {
     struct termios tty{};
     if (tcgetattr(serial_port, &tty) != 0) {
         spdlog::error("Error %i from tcgetattr: %s\n", errno, strerror(errno));
-        spdlog::info("Did you mean to use TI Dev Mode? See README.md");
+        SPDLOG_INFO("Did you mean to use TI Dev Mode? See README.md");
         return ES_UNSUCCESSFUL;
     }
     // Initialize Terminos structure
@@ -78,7 +78,7 @@ estts::Status ti_serial_handler::initialize_serial_port() const {
         spdlog::error("Error {} from tcsetattr: {}", errno, strerror(errno));
         return ES_UNSUCCESSFUL;
     }
-    spdlog::debug("Successfully initialized port {} with fd {}", port, serial_port);
+    SPDLOG_DEBUG("Successfully initialized port {} with fd {}", port, serial_port);
     return ES_OK;
 }
 
@@ -97,7 +97,7 @@ estts::Status ti_serial_handler::open_port() {
         spdlog::error("Error {} from open: {}", errno, strerror(errno));
         return ES_UNSUCCESSFUL;
     }
-    spdlog::debug("Successfully opened port {} with fd {}", port, serial_port);
+    SPDLOG_DEBUG("Successfully opened port {} with fd {}", port, serial_port);
     return ES_OK;
 }
 
@@ -117,7 +117,7 @@ ssize_t ti_serial_handler::write_serial_uc(unsigned char *data, int size) const 
     if (written < 1) {
         return -1;
     }
-    spdlog::trace("Wrote '{}' (size={}) to {}", data, written, port);
+    SPDLOG_TRACE("Wrote '{}' (size={}) to {}", data, written, port);
     return written;
 }
 
@@ -141,7 +141,7 @@ unsigned char *ti_serial_handler::read_serial_uc() const {
     }
     // Add null terminator at the end of transmission for easier processing by parent class(s)
     buf[n] = '\0';
-    spdlog::trace("Read '{}' from {}", buf, port);
+    SPDLOG_TRACE("Read '{}' from {}", buf, port);
     return buf;
 }
 

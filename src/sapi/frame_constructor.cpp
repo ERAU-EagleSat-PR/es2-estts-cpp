@@ -117,11 +117,11 @@ string frame_constructor::construct_ax25() {
     for (int i = 0; i < 3; i++)
         frameStream << getFlag();
 
-    spdlog::trace("Built AX.25 frame with value {}", frameStream.str());
+    SPDLOG_TRACE("Built AX.25 frame with value {}", frameStream.str());
 
     std::string encoded_frame = this->encode_ax25_frame(frameStream.str());
 
-    spdlog::trace("Encoded AX.25 frame to {}", encoded_frame);
+    SPDLOG_TRACE("Encoded AX.25 frame to {}", encoded_frame);
 
     return encoded_frame;
 }

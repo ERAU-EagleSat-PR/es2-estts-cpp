@@ -11,15 +11,25 @@
 
 class fapi_command_handler {
 private:
-    transmission_interface * ti;
+    transmission_interface *ti;
     std::vector<estts::telemetry_object *> telemetry;
-protected:
-    explicit fapi_command_handler(transmission_interface * ti);
-    ~fapi_command_handler();
-    static int get_timestamp();
-    estts::Status send_command(const std::vector<estts::command_object *>& command);
+
     estts::Status await_response();
-    std::vector<estts::telemetry_object *> get_telemetry_response() {return telemetry;}
+
+protected:
+    explicit fapi_command_handler(transmission_interface *ti);
+
+    ~fapi_command_handler();
+
+    static int get_timestamp();
+
+    estts::Status send_command(const std::vector<estts::command_object *> &command);
+
+    std::vector<estts::telemetry_object *> get_telemetry_response() { return telemetry; }
+
+    estts::Status validate_response_code(int code);
+
+    estts::Status validate_telemetry_response();
 };
 
 

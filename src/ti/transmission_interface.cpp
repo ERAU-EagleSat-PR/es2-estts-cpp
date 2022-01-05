@@ -4,7 +4,7 @@
 
 #include <chrono>
 #include <thread>
-#include "spdlog/spdlog.h"
+
 #include "transmission_interface.h"
 
 transmission_interface::transmission_interface(const char *address) : ti_socket_handler(address,
@@ -31,33 +31,33 @@ estts::Status transmission_interface::transmit(const std::string &value) {
     int retries = 0;
 #ifndef __TI_DEV_MODE__
     if (check_ti_health() != estts::ES_OK) return estts::ES_UNSUCCESSFUL;
-    spdlog::trace("Transceiver passed checks.");
+    SPDLOG_TRACE("Transceiver passed checks.");
     retries = 0;
     while (this->enable_pipe() != estts::ES_OK) {
         spdlog::error("Failed to enable pipe. Waiting {} seconds", estts::endurosat::WAIT_TIME_SEC);
         sleep_until(system_clock::now() + seconds(estts::endurosat::WAIT_TIME_SEC));
         retries++;
         if (retries > estts::endurosat::MAX_RETRIES) return estts::ES_UNSUCCESSFUL;
-        spdlog::info("Retrying transmit (retry {}/{})", retries, estts::endurosat::MAX_RETRIES);
+        SPDLOG_INFO("Retrying transmit (retry {}/{})", retries, estts::endurosat::MAX_RETRIES);
     }
-    spdlog::debug("Transmitting frame with value:\n{}", value);
+    SPDLOG_DEBUG("Transmitting frame with value:\n{}", value);
     retries = 0;
     while (this->write_serial_s(value) != estts::ES_OK) {
         spdlog::error("Failed to transmit. Waiting {} seconds", estts::endurosat::WAIT_TIME_SEC);
         sleep_until(system_clock::now() + seconds(estts::endurosat::WAIT_TIME_SEC));
         retries++;
         if (retries > estts::endurosat::MAX_RETRIES) return estts::ES_UNSUCCESSFUL;
-        spdlog::info("Retrying transmit (retry {}/{})", retries, estts::endurosat::MAX_RETRIES);
+        SPDLOG_INFO("Retrying transmit (retry {}/{})", retries, estts::endurosat::MAX_RETRIES);
     }
     return estts::ES_OK;
 #else
-    spdlog::debug("Transmitting frame with value:\n{}", value);
+    SPDLOG_DEBUG("Transmitting {}", value);
     while (this->write_socket_s(value) != estts::ES_OK) {
         spdlog::error("Failed to transmit. Waiting {} seconds", estts::ti_socket::WAIT_TIME_SEC);
         sleep_until(system_clock::now() + seconds(estts::ti_socket::WAIT_TIME_SEC));
         retries++;
         if (retries > estts::ti_socket::MAX_RETRIES) return estts::ES_UNSUCCESSFUL;
-        spdlog::info("Retrying transmit (retry {}/{})", retries, estts::ti_socket::MAX_RETRIES);
+        SPDLOG_INFO("Retrying transmit (retry {}/{})", retries, estts::ti_socket::MAX_RETRIES);
     }
     return estts::ES_OK;
 #endif
@@ -87,7 +87,7 @@ estts::Status transmission_interface::check_ti_health() {
         sleep_until(system_clock::now() + seconds(estts::endurosat::WAIT_TIME_SEC));
         retries++;
         if (retries > estts::endurosat::MAX_RETRIES) return estts::ES_UNSUCCESSFUL;
-        spdlog::info("Retrying transmit (retry {}/{})", retries, estts::endurosat::MAX_RETRIES);
+        SPDLOG_INFO("Retrying transmit (retry {}/{})", retries, estts::endurosat::MAX_RETRIES);
     }
     return estts::ES_OK;
 }
