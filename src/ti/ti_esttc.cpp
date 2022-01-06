@@ -24,7 +24,14 @@ ti_esttc::ti_esttc(const char *es_transmitter_port, int baud) : ti_serial_handle
  * @return #ES_OK if pipe mode enabled successfully, or #ES_UNSUCCESSFUL if not
  */
 estts::Status ti_esttc::enable_pipe() {
-    // TODO Stephen's task for Sprint #3
+	// command as binary ref UHF Transciever User Manual 0011 0011 0010 0011
+	char enablePipeModeCommand = "3323"
+	auto command = build_esttc_command(esttc_symbols->METHOD_WRITE, esttc_symbols->COMMAND_SCW, enablePipeModeCommand);
+	
+	if (this->write_serial_s(command) < 0) {
+        spdlog::error("Failed to transmit command");
+        return estts::ES_UNSUCCESSFUL;
+    }
     return estts::ES_OK;
 }
 
