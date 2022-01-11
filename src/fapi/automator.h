@@ -8,7 +8,8 @@
 
 class automator {
 private:
-    double battery_voltage
+    double battery_voltage;
+
 };
 
 

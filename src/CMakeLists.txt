@@ -11,6 +11,7 @@ set(
         utils/stack.cpp
         utils/queue.cpp
         sapi/endurosat_scrambling.cpp
+        fapi/automator.cpp
         fapi/command_handler/acs_command.cpp
         fapi/command_handler/crp_command.cpp
         fapi/command_handler/eps_command.cpp
