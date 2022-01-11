@@ -13,10 +13,12 @@ transmission_interface::transmission_interface(const char *address) : ti_socket_
                                                                                estts::endurosat::ES_BAUD),
                                                                       ti_serial_handler(address,
                                                                                         estts::endurosat::ES_BAUD) {
+    mtx.lock();
     if (initialize_ti() != estts::ES_OK) {
         spdlog::error("Failed initialize transmission interface.");
         throw std::runtime_error("Failed to open serial port.");
     }
+    mtx.unlock();
 }
 
 /**
@@ -29,6 +31,7 @@ estts::Status transmission_interface::transmit(const std::string &value) {
     using namespace std::this_thread; // sleep_for, sleep_until
     using namespace std::chrono; // nanoseconds, system_clock, seconds
     int retries = 0;
+    mtx.lock();
 #ifndef __TI_DEV_MODE__
     if (check_ti_health() != estts::ES_OK) return estts::ES_UNSUCCESSFUL;
     SPDLOG_TRACE("Transceiver passed checks.");
@@ -37,7 +40,10 @@ estts::Status transmission_interface::transmit(const std::string &value) {
         spdlog::error("Failed to enable pipe. Waiting {} seconds", estts::endurosat::WAIT_TIME_SEC);
         sleep_until(system_clock::now() + seconds(estts::endurosat::WAIT_TIME_SEC));
         retries++;
-        if (retries > estts::endurosat::MAX_RETRIES) return estts::ES_UNSUCCESSFUL;
+        if (retries > estts::endurosat::MAX_RETRIES) {
+            mtx.unlock();
+            return estts::ES_UNSUCCESSFUL;
+        }
         SPDLOG_INFO("Retrying transmit (retry {}/{})", retries, estts::endurosat::MAX_RETRIES);
     }
     SPDLOG_DEBUG("Transmitting frame with value:\n{}", value);
@@ -46,21 +52,27 @@ estts::Status transmission_interface::transmit(const std::string &value) {
         spdlog::error("Failed to transmit. Waiting {} seconds", estts::endurosat::WAIT_TIME_SEC);
         sleep_until(system_clock::now() + seconds(estts::endurosat::WAIT_TIME_SEC));
         retries++;
-        if (retries > estts::endurosat::MAX_RETRIES) return estts::ES_UNSUCCESSFUL;
+        if (retries > estts::endurosat::MAX_RETRIES) {
+            mtx.unlock();
+            return estts::ES_UNSUCCESSFUL;
+        }
         SPDLOG_INFO("Retrying transmit (retry {}/{})", retries, estts::endurosat::MAX_RETRIES);
     }
-    return estts::ES_OK;
 #else
     SPDLOG_DEBUG("Transmitting {}", value);
     while (this->write_socket_s(value) != estts::ES_OK) {
         spdlog::error("Failed to transmit. Waiting {} seconds", estts::ti_socket::WAIT_TIME_SEC);
         sleep_until(system_clock::now() + seconds(estts::ti_socket::WAIT_TIME_SEC));
         retries++;
-        if (retries > estts::ti_socket::MAX_RETRIES) return estts::ES_UNSUCCESSFUL;
+        if (retries > estts::ti_socket::MAX_RETRIES) {
+            mtx.unlock();
+            return estts::ES_UNSUCCESSFUL;
+        }
         SPDLOG_INFO("Retrying transmit (retry {}/{})", retries, estts::ti_socket::MAX_RETRIES);
     }
-    return estts::ES_OK;
 #endif
+    mtx.unlock();
+    return estts::ES_OK;
 }
 
 /**
@@ -93,10 +105,28 @@ estts::Status transmission_interface::check_ti_health() {
 }
 
 std::string transmission_interface::receive() {
+    mtx.lock();
 #ifndef __TI_DEV_MODE__
     auto buf = this->read_serial_s();
+    mtx.unlock();
     return buf;
 #else
-    return this->read_socket_s();
+    std::string received;
+    do {
+
+    }
+    while ((received = this->read_socket_s()).empty());
+    mtx.unlock();
+    return received;
 #endif
+}
+
+transmission_interface::~transmission_interface() {
+    mtx.lock();
+
+#ifdef __TI_DEV_MODE__
+    this->write_socket_s("close");
+#endif
+
+    mtx.unlock();
 }
