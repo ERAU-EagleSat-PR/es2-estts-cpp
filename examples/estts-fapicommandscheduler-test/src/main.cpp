@@ -16,7 +16,7 @@ int main() {
 
     auto schedule = new command_scheduler();
 
-    auto ti = new transmission_interface("127.0.0.1");
+    auto ti = new transmission_interface();
     auto eps = new eps_command(ti);
 
     // Bind eps object to method using lambda

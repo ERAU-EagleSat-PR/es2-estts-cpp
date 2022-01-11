@@ -96,12 +96,17 @@ namespace estts {
             const char *COMMAND_SCW = "00";
         };
     }
+
+    namespace ti_serial {
+        const char TI_SERIAL_ADDRESS[] = "/dev/cu.";
+    }
     
     namespace ti_socket {
         const int MAX_RETRIES = 2;
         const int WAIT_TIME_SEC = 2;
-        const int TI_SOCKET_PORT = 8080;
         const int TI_SOCKET_BUF_SZ = 1024;
+        const char TI_SOCKET_ADDRESS[] = "127.0.0.1";
+        const int TI_SOCKET_PORT = 8080;
     }
 
     typedef struct estts_command {

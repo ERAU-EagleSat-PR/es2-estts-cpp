@@ -7,11 +7,11 @@
 
 #include "transmission_interface.h"
 
-transmission_interface::transmission_interface(const char *address) : ti_socket_handler(address,
+transmission_interface::transmission_interface() : ti_socket_handler(estts::ti_socket::TI_SOCKET_ADDRESS,
                                                                                         estts::ti_socket::TI_SOCKET_PORT),
-                                                                      ti_esttc(address,
+                                                                      ti_esttc(estts::ti_serial::TI_SERIAL_ADDRESS,
                                                                                estts::endurosat::ES_BAUD),
-                                                                      ti_serial_handler(address,
+                                                                      ti_serial_handler(estts::ti_serial::TI_SERIAL_ADDRESS,
                                                                                         estts::endurosat::ES_BAUD) {
     mtx.lock();
     if (initialize_ti() != estts::ES_OK) {

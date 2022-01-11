@@ -7,7 +7,7 @@
 
 int main() {
     spdlog::set_level(spdlog::level::trace);
-    auto ti = new transmission_interface("127.0.0.1");
+    auto ti = new transmission_interface();
     auto eps_test = new eps_command(ti);
     eps_test->get_vitals();
     delete ti;

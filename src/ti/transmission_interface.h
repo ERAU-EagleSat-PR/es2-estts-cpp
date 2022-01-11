@@ -18,7 +18,7 @@ private:
     estts::Status check_ti_health();
 
 public:
-    explicit transmission_interface(const char *address);
+    explicit transmission_interface();
 
     ~transmission_interface();
 
