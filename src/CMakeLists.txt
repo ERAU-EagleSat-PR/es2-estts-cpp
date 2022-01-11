@@ -8,6 +8,8 @@ set(
         utils/bin_converter.cpp
         utils/helper.cpp
         utils/port.cpp
+        utils/stack.cpp
+        utils/queue.cpp
         sapi/endurosat_scrambling.cpp
         fapi/command_handler/acs_command.cpp
         fapi/command_handler/crp_command.cpp
@@ -15,7 +17,7 @@ set(
         fapi/command_handler/fapi_command_handler.cpp
         fapi/command_handler/mde_command.cpp
         fapi/command_handler/obc_command.cpp
-        fapi/feature_api.cpp
+        fapi/command_scheduler.cpp
         sapi/frame_constructor.cpp
         sapi/frame_destructor.cpp
         sapi/info_field.cpp

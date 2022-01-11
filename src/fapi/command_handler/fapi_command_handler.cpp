@@ -71,13 +71,8 @@ estts::Status fapi_command_handler::send_command(const std::vector<estts::comman
             // If we got this far,
             SPDLOG_DEBUG("Successfully transmitted command (frame {}/{})", i + 1, command.size());
 
-            // Pass handler to await response
-            if (await_response() != estts::ES_OK)
-                return estts::ES_UNSUCCESSFUL;
-
-            // De-allocate memory for command objects
-            for (auto i : command)
-                delete i;
+            // De-allocate memory for command object
+            delete command[i];
         }
     }
     catch (const std::exception &e) {
@@ -85,6 +80,10 @@ estts::Status fapi_command_handler::send_command(const std::vector<estts::comman
         spdlog::error("We failed somewhere");
         return estts::ES_UNSUCCESSFUL;
     }
+
+    // Pass handler to await response
+    if (await_response() != estts::ES_OK)
+        return estts::ES_UNSUCCESSFUL;
     return estts::ES_OK;
 }
 
