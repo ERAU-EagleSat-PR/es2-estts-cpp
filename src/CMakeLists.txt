@@ -18,7 +18,8 @@ set(
         fapi/command_handler/fapi_command_handler.cpp
         fapi/command_handler/mde_command.cpp
         fapi/command_handler/obc_command.cpp
-        fapi/command_scheduler.cpp
+        fapi/command_dispatcher.cpp
+        fapi/telemetry_handler.cpp
         sapi/frame_constructor.cpp
         sapi/frame_destructor.cpp
         sapi/info_field.cpp

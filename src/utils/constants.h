@@ -51,8 +51,14 @@ namespace estts {
         ES_UNINITIALIZED = 2,
         ES_BAD_OPTION = 405,
         ES_UNAUTHORIZED = 403,
-        ES_SERVER_ERROR = 500
+        ES_SERVER_ERROR = 500,
+        ES_INPROGRESS = 300,
+        ES_NOTFOUND = 404
     };
+
+    namespace dispatcher {
+        const int MAX_COMPLETED_CACHE = 20; // Maximum number of completed commands to remember
+    }
 
     namespace es2_commands {
         namespace acs {
@@ -75,6 +81,16 @@ namespace estts {
         namespace method {
             const int ES_READ = 0;
             const int ES_WRITE = 1;
+        }
+    }
+
+    namespace es2_telemetry {
+        namespace eps {
+            struct vitals {
+                double battery_voltage;
+                double brownouts;
+                double charge_time_mins;
+            };
         }
     }
 
