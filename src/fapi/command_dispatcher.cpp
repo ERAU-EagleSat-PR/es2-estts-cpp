@@ -19,6 +19,10 @@ using Command = std::function<estts::Status()>;
 // Finally, there should be a function that takes argument for a serial number associated
 // with a command, and returns the completion status.
 
+/**
+ * @brief Creates 16-character serial number using C++ random library
+ * @return 16-character serial number
+ */
 std::string generate_serial_number() {
     auto len = 16;
     static const char alphanum[] =
@@ -42,8 +46,8 @@ std::string generate_serial_number() {
  * @brief Function that takes argument for a command to schedule. If scheduling is successful, the
  * command will be carried out in the order that the request was received. Only one
  * command can be processed at a time.
- * @param command Function object as std::function<void()> to be called
- * @return Returns ES_OK if scheduling is successful
+ * @param command Function object as std::function<estts::Status()> to be called
+ * @return Returns serial number of scheduled command if scheduling is successful
  */
 std::string command_dispatcher::schedule_command(const Command& command) {
     // If the thread is active, add the command.
@@ -118,6 +122,10 @@ void command_dispatcher::await_completion() {
         worker.join();
 }
 
+/**
+ * @brief Removes and cleans up completed command queue when size is
+ * greater than dispatcher::MAX_COMPLETED_CACHE
+ */
 void command_dispatcher::clean_completed_cache() {
     if (completed.size() >= estts::dispatcher::MAX_COMPLETED_CACHE) {
         auto temp = completed.back();
@@ -126,6 +134,13 @@ void command_dispatcher::clean_completed_cache() {
     }
 }
 
+/**
+ * @brief Takes argument for a serial number, returns status of completed command
+ * if found, ES_INPROGRESS if command hasn't run yet, or ES_NOTFOUND if
+ * serial number was not found.
+ * @param serial_number Serial number returned by schedule_command()
+ * @return Status of scheduled job
+ */
 estts::Status command_dispatcher::get_command_status(std::string serial_number) {
     // Search completed queue for serial number
     for (auto &i : completed)
@@ -141,6 +156,9 @@ estts::Status command_dispatcher::get_command_status(std::string serial_number) 
     return estts::ES_NOTFOUND;
 }
 
+/**
+ * @brief Cleans up internal structures
+ */
 command_dispatcher::~command_dispatcher() {
     for (auto &i : completed)
         delete i;
