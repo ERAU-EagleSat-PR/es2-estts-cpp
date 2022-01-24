@@ -8,12 +8,13 @@
 
 #include <constants.h>
 #include "fapi_command_handler.h"
+#include "communication_handler.h"
 
 class eps_command : virtual public fapi_command_handler {
 public:
     explicit eps_command(transmission_interface *ti);
 
-    estts::Status get_vitals();
+    estts::Status get_vitals(communication_handler * telem_handle);
 };
 
 

@@ -6,7 +6,7 @@
 
 #include "eps_command.h"
 
-estts::Status eps_command::get_vitals() {
+estts::Status eps_command::get_vitals(telemetry_handler * telem_handle) {
     SPDLOG_INFO("Getting EagleSat II EPS Vitals");
     std::vector<estts::command_object *> command;
     auto temp = new estts::command_object;
@@ -41,9 +41,12 @@ estts::Status eps_command::get_vitals() {
 
     auto vitals = new estts::es2_telemetry::eps::vitals;
 
-    vitals->battery_voltage = 8.4;
+    vitals->battery_voltage = 9.0;
     vitals->brownouts = 0;
     vitals->charge_time_mins = 24;
+
+    if (estts::ES_OK != telem_handle->store_eps_vitals(vitals))
+        return estts::ES_UNSUCCESSFUL;
 
     SPDLOG_INFO("EPS Vitals: battery voltage: {} - brownouts: {} - charge time (min) {}", vitals->battery_voltage, vitals->brownouts, vitals->charge_time_mins);
 

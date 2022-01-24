@@ -9,6 +9,7 @@
 #include <vector>
 #include <queue>
 #include "constants.h"
+#include "telemetry_handler.h"
 
 class command_dispatcher {
 private:
@@ -23,7 +24,6 @@ private:
     } waiting_command;
 
     std::thread worker;
-    //std::deque<std::function<estts::Status()>> command_queue;
 
     std::vector<completed_command *> completed;
     std::deque<waiting_command *> waiting;

@@ -4,6 +4,7 @@
 
 #include <functional>
 #include <thread>
+#include "communication_handler.h"
 #include "command_dispatcher.h"
 #include "eps_command.h"
 #include "constants.h"
@@ -20,30 +21,29 @@ int main() {
     spdlog::set_level(spdlog::level::debug); // This setting is missed in the wiki
 
     auto schedule = new command_dispatcher();
-
+    auto telemetry = new communication_handler();
     auto ti = new transmission_interface();
     auto eps = new eps_command(ti);
-    eps->get_vitals();
 
-    auto sn = schedule->schedule_command([eps] () -> estts::Status { return eps->get_vitals(); });
+    auto sn = schedule->schedule_command([eps, telemetry] () -> estts::Status { return eps->get_vitals(telemetry); });
 
     SPDLOG_INFO("Command status for {}: {}", sn, schedule->get_command_status(sn));
 
     // Schedule a few more
-    sn = schedule->schedule_command([eps] () -> estts::Status { return eps->get_vitals(); });
+    sn = schedule->schedule_command([eps, telemetry] () -> estts::Status { return eps->get_vitals(telemetry); });
 
     SPDLOG_INFO("Command status for {}: {}", sn, schedule->get_command_status(sn));
 
-    sn = schedule->schedule_command([eps] () -> estts::Status { return eps->get_vitals(); });
+    sn = schedule->schedule_command([eps, telemetry] () -> estts::Status { return eps->get_vitals(telemetry); });
 
     SPDLOG_INFO("Command status for {}: {}", sn, schedule->get_command_status(sn));
 
-    sn = schedule->schedule_command([eps] () -> estts::Status { return eps->get_vitals(); });
+    sn = schedule->schedule_command([eps, telemetry] () -> estts::Status { return eps->get_vitals(telemetry); });
 
     SPDLOG_INFO("Command status for {}: {}", sn, schedule->get_command_status(sn));
 
     // Test that scheduler is thread safe
-    if (schedule->schedule_command([eps] () -> estts::Status { return eps->get_vitals(); }).empty()) {
+    if (schedule->schedule_command([eps, telemetry] () -> estts::Status { return eps->get_vitals(telemetry); }).empty()) {
         SPDLOG_ERROR("Failed to schedule command");
     }
 
