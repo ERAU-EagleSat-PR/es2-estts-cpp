@@ -17,6 +17,8 @@ private:
 protected:
 
     estts::Status enable_pipe();
+    char* get_radio_freq();
+    estts::Status config_radio_freq(const char* fractional, const char* divider);
 
     double get_temp();
 

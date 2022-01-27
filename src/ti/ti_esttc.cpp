@@ -29,6 +29,39 @@ estts::Status ti_esttc::enable_pipe() {
 }
 
 /**
+ * @brief Get the radio frequency and the last RSSI (Received signal strength indication) of the UHF Transceiver module.
+ * @return //TODO - This should return a struct to the specific answer format of this command
+ */
+char* ti_esttc::get_radio_freq() {
+    auto command = build_esttc_command(esttc_symbols->METHOD_READ, esttc_symbols->COMMAND_RFC, nullptr);
+
+    auto response = this->read_serial_s();
+
+    // TODO - Figure out how to return the data (directly from here or using an answer decoder)
+
+}
+
+/**
+ * @brief Writes (configures) the radio frequency of the Endurosat UHF Transceiver module.
+ * @param fractional Fractional part of the radio PLL synthesizer in HEX format (default = "")
+ * @param divider Integer divider of the radio PLL synthesizer in HEX format (default = "")
+ * @return #ES_OK if radio frequency was configured successfully, or #ES_UNSUCCESSFUL if not
+ */
+estts::Status ti_esttc:: ti_esttc::config_radio_freq(const char *fractional, const char *divider) {
+    std::string command_body = fractional;
+    command_body += divider;
+
+    auto command = build_esttc_command(esttc_symbols->METHOD_WRITE, esttc_symbols->COMMAND_RFC, command_body.c_str());
+
+    if (this->write_serial_s(command) < 0) {
+        spdlog::error("Failed to transmit command");
+        return estts::ES_UNSUCCESSFUL;
+    }
+
+    return estts::ES_OK;
+}
+
+/**
  * @brief Gets internal IMU temperature of EnduroSat UHF Transceiver module
  * @return Double representing internal IMU temperature in Celsius
  */

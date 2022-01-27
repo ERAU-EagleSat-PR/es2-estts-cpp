@@ -94,6 +94,7 @@ namespace estts {
             const char *COMMAND_SOFTWARE_BUILD = "F9";
             const char *COMMAND_TEMP_SENSOR = "0A";
             const char *COMMAND_SCW = "00";
+            const char *COMMAND_RFC = "01";
         };
     }
 
