@@ -18,7 +18,8 @@ set(
         fapi/command_handler/fapi_command_handler.cpp
         fapi/command_handler/mde_command.cpp
         fapi/command_handler/obc_command.cpp
-        fapi/command_scheduler.cpp
+        fapi/command_dispatcher.cpp
+        fapi/communication_handler.cpp
         sapi/frame_constructor.cpp
         sapi/frame_destructor.cpp
         sapi/info_field.cpp
@@ -53,6 +54,7 @@ target_include_directories(
 )
 
 target_link_libraries(estts PUBLIC spdlog::spdlog)
+target_link_libraries(estts PUBLIC nlohmann_json::nlohmann_json)
 
 if (BUILD_DEBUG)
     target_compile_definitions(

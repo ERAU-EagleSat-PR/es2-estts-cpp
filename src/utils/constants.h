@@ -26,6 +26,10 @@ namespace estts {
         const char AX25_PID[] = "F0"; // F0 = No layer 3 protocol implemented
     }
 
+    namespace telem_handler {
+        const char TELEM_HANDLER_STATE_FILE[] = "es2_state.json";
+    }
+
     namespace estts_response_code {
         const int SUCCESS = 0;
         const int UNRECOGNIZED_REQUEST = 1;
@@ -51,8 +55,14 @@ namespace estts {
         ES_UNINITIALIZED = 2,
         ES_BAD_OPTION = 405,
         ES_UNAUTHORIZED = 403,
-        ES_SERVER_ERROR = 500
+        ES_SERVER_ERROR = 500,
+        ES_INPROGRESS = 300,
+        ES_NOTFOUND = 404
     };
+
+    namespace dispatcher {
+        const int MAX_COMPLETED_CACHE = 20; // Maximum number of completed commands to remember
+    }
 
     namespace es2_commands {
         namespace acs {
@@ -75,6 +85,16 @@ namespace estts {
         namespace method {
             const int ES_READ = 0;
             const int ES_WRITE = 1;
+        }
+    }
+
+    namespace es2_telemetry {
+        namespace eps {
+            struct vitals {
+                double battery_voltage;
+                double brownouts;
+                double charge_time_mins;
+            };
         }
     }
 
