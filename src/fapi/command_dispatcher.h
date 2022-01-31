@@ -5,38 +5,36 @@
 #ifndef ESTTS_COMMAND_SCHEDULER_H
 #define ESTTS_COMMAND_SCHEDULER_H
 
+#include <functional>
+#include <mutex>
 #include <thread>
 #include <vector>
 #include <queue>
 #include "constants.h"
-#include "telemetry_handler.h"
+#include "command_handler.h"
 
-class command_dispatcher {
+class command_dispatcher : virtual public command_handler {
 private:
-    typedef struct {
-        estts::Status response_code;
-        std::string serial_number;
-    } completed_command;
+    transmission_interface *ti;
+    std::thread dispatch_worker;
+    std::vector<estts::waiting_command *> waiting;
 
-    typedef struct {
-        std::function<estts::Status()> command;
-        std::string serial_number;
-    } waiting_command;
+    void dispatch();
 
-    std::thread worker;
-
-    std::vector<completed_command *> completed;
-    std::deque<waiting_command *> waiting;
-
-    void clean_completed_cache();
+    bool satellite_connected;
 public:
-    command_dispatcher();
+    explicit command_dispatcher();
+
     ~command_dispatcher();
-    std::string schedule_command(const std::function<estts::Status()>& command);
-    estts::Status get_command_status(std::string serial_number);
+
+    std::string schedule_command(const std::vector<estts::command_object *> &command,
+                                 std::function<estts::Status(std::vector<estts::telemetry_object *>)> decomp_callback);
+
+    estts::Status get_command_status(const std::string &serial_number);
+
     void await_completion();
 
-    void schedule();
+    estts::Status dispatcher_init();
 };
 
 

@@ -3,22 +3,16 @@
 //
 
 #include <functional>
-#include <thread>
-#include "command_dispatcher.h"
-#include "eps_command.h"
 #include "constants.h"
-#include "telemetry_handler.h"
+#include "communication_handler.h"
 
 int main() {
 
-    spdlog::set_level(spdlog::level::debug); // This setting is missed in the wiki
-
-    auto schedule = new command_dispatcher();
-    auto telemetry = new telemetry_handler();
-    auto ti = new transmission_interface();
-    auto eps = new eps_command(ti);
+    spdlog::set_level(spdlog::level::trace); // This setting is missed in the wiki
 
     /******************************************************************************************************************/
+    auto telemetry = new communication_handler();
+    // telemetry->communication_init();
     // Test telemetry handler without using the pipe
     auto eps_telem = new estts::es2_telemetry::eps::vitals;
 
@@ -31,24 +25,16 @@ int main() {
 
     SPDLOG_INFO("Recent battery voltage: {}", telemetry->get_recent_battery_voltage());
     delete eps_telem;
+    delete telemetry;
     /******************************************************************************************************************/
-
-    /******************************************************************************************************************/
-    // Test telemetry handler using command pipe
-
-    auto sn = schedule->schedule_command([eps, telemetry] () -> estts::Status { return eps->get_vitals(telemetry); });
-
-    SPDLOG_INFO("Command status for {}: {}", sn, schedule->get_command_status(sn));
-
-    schedule->await_completion();
-
-    SPDLOG_INFO("Command status for {}: {}", sn, schedule->get_command_status(sn));
-
-    SPDLOG_INFO("Recent battery voltage returned by command with SN {}: {}", sn, telemetry->get_recent_battery_voltage());
-
-    // delete ti;
-    // delete eps;
-    delete schedule;
+    // test communication handler for its function abstractions
+    auto comm_handle = new communication_handler();
+    comm_handle->communication_init();
+    comm_handle->get_eps_vitals(comm_handle->dispatch_lambda(), [comm_handle](estts::es2_telemetry::eps::vitals *vitals) -> estts::Status {
+        return comm_handle->store_eps_vitals(vitals);
+    });
+    comm_handle->await_dispatcher();
+    delete comm_handle;
 
     return 0;
 }
