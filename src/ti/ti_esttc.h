@@ -17,10 +17,14 @@ private:
 protected:
     estts::Status enable_pipe();
     estts::Status write_scw(uint16_t scw_command);
-    estts::Status read_swc(std::string &RSSI, std::string &dvc_addr, std::string &rst_ctr, std::string &scw);
+    estts::Status read_scw(std::string &RSSI, std::string &dvc_addr, std::string &rst_ctr, std::string &scw);
 
-    estts::Status config_radio_freq(const std::string& frac, const std::string& div);
-    estts::Status get_radio_freq(std::string &RSSI, std::string &frac, std::string &div);
+    estts::Status write_radio_freq_config(const std::string& frac, const std::string& div);
+    estts::Status read_radio_freq(std::string &RSSI, std::string &frac, std::string &div);
+
+    double read_temp();
+
+    estts::Status read_uptime(std::string &RSSI, std::string &uptime);
 
     static std::string calculate_crc32(std::string string);
 

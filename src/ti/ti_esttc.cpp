@@ -37,6 +37,8 @@ estts::Status ti_esttc::enable_pipe() {
 estts::Status ti_esttc::write_scw(uint16_t scw_command) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
+
+    // TODO - Handle when the scw_command > stopper
     string command_body = esttc_symbols->scw_body[scw_command];
 
     return_status = build_esttc_command(
@@ -63,7 +65,7 @@ estts::Status ti_esttc::write_scw(uint16_t scw_command) {
  * @param scw The current Status Control Word
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::read_swc(std::string &RSSI, std::string &dvc_addr, std::string &rst_ctr, std::string &scw) {
+estts::Status ti_esttc::read_scw(std::string &RSSI, std::string &dvc_addr, std::string &rst_ctr, std::string &scw) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
 
@@ -90,7 +92,7 @@ estts::Status ti_esttc::read_swc(std::string &RSSI, std::string &dvc_addr, std::
  * @param div Integer divider of the radio PLL synthesizer in HEX format (default = "")
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc:: ti_esttc::config_radio_freq(const string& frac, const string& div) {
+estts::Status ti_esttc:: ti_esttc::write_radio_freq_config(const string& frac, const string& div) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
     string command_body;
@@ -114,7 +116,7 @@ estts::Status ti_esttc:: ti_esttc::config_radio_freq(const string& frac, const s
  * @param div Integer divider of the radio PLL synthesizer in HEX format
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::get_radio_freq(string &RSSI, string &frac, string &div) {
+estts::Status ti_esttc::read_radio_freq(string &RSSI, string &frac, string &div) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
 
@@ -134,13 +136,30 @@ estts::Status ti_esttc::get_radio_freq(string &RSSI, string &frac, string &div) 
 
 // 10.3 - READ UPTIME ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+estts::Status ti_esttc::read_uptime(std::string &RSSI, std::string &uptime) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_READ,
+            esttc_symbols->CMD_READ_UPTIME,
+            response);
+
+    if (return_status == estts::ES_SUCCESS) {
+        RSSI = response.substr(3, 2);
+        uptime = response.substr(5, 8);
+    }
+
+    return return_status;
+}
+
 // TODO - Code the Read uptime command builder
 
 /**
  * @brief Gets internal IMU temperature of EnduroSat UHF Transceiver module
  * @return Double representing internal IMU temperature in Celsius
  */
-//double ti_esttc::get_temp() {
+double ti_esttc::read_temp() {
 //#ifdef __TI_DEV_MODE__
 //    return 26;
 //#else
@@ -155,7 +174,9 @@ estts::Status ti_esttc::get_radio_freq(string &RSSI, string &frac, string &div) 
 //    // TODO make this actually return the temperature
 //    return 0;
 //#endif
-//}
+
+    return 0;
+}
 
 /**
  * @brief Builds ESTTC command in format specified by EnduroSat ESTTC Specification
@@ -179,7 +200,6 @@ estts::Status ti_esttc::build_esttc_command(const char method, const char *comma
     if (method == esttc_symbols->METHOD_WRITE) {
         command << body;
     }
-
     //command << ' ' << calculate_crc32(command.str());
     command << esttc_symbols->END;
 
