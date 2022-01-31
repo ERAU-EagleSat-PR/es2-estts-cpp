@@ -6,8 +6,8 @@
 #include <sstream>
 #include "ti_esttc.h"
 
-
 using std::stringstream;
+using std::string;
 
 /**
  * @brief ti_esttc default constructor that initializes ti_serial_handler
@@ -19,87 +19,200 @@ ti_esttc::ti_esttc(const char *es_transmitter_port, int baud) : ti_serial_handle
     esttc_symbols = new estts::endurosat::esttc;
 }
 
+// 10.1 - STATUS CONTROL WORD ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 /**
  * @brief Enables transparent pipe mode on Endurosat UHF Transceiver module.
- * @return #ES_OK if pipe mode enabled successfully, or #ES_UNSUCCESSFUL if not
+ * @return estts::Status indication success/failure of ESTTC command transmission
  */
 estts::Status ti_esttc::enable_pipe() {
-    // TODO Stephen's task for Sprint #3
-    return estts::ES_OK;
+    return write_scw(esttc_symbols->enable_pipe);
+};
+
+/**
+ *  @brief Sends a command with a Status Control Word (SCW) that changes the Endurosat UHF Transceiver's settings
+ *  @param scw_command A command to change the SCW to a different configuration (e.g. enable_pipe)
+ * @return estts::Status indication success/failure of ESTTC command transmission
+ */
+estts::Status ti_esttc::write_scw(uint16_t scw_command) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+    string command_body = esttc_symbols->scw_body[scw_command];
+
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_WRITE,
+            esttc_symbols->CMD_SCW,
+            response,
+            command_body);
+
+    if (return_status == estts::ES_SUCCESS && response.length() >= 7) {
+        if (response.substr(3, 4) == "C3C3") {
+            SPDLOG_INFO("Successfully commanded UHF to enter Bootloader mode from from Application mode");
+        } else if (response.substr(3, 4) == "8787") {
+            SPDLOG_INFO("Successfully commanded UHF to enter Application mode from from Bootloader mode");
+        }
+    }
+    return return_status;
 }
 
 /**
- * @brief Get the radio frequency and the last RSSI (Received signal strength indication) of the UHF Transceiver module.
- * @return //TODO - This should return a struct to the specific answer format of this command
+ * @brief Send a command to read the current status of the Transceiver given its current Status Control Word (SCW)
+ * @param RSSI Received Signal Strength Indicator
+ * @param dvc_addr The device address in HEX format
+ * @param rst_ctr  Reset Counter - Counts number of times the device has been reset
+ * @param scw The current Status Control Word
+ * @return estts::Status indication success/failure of ESTTC command transmission
  */
-char* ti_esttc::get_radio_freq() {
-    auto command = build_esttc_command(esttc_symbols->METHOD_READ, esttc_symbols->COMMAND_RFC, nullptr);
+estts::Status ti_esttc::read_swc(std::string &RSSI, std::string &dvc_addr, std::string &rst_ctr, std::string &scw) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
 
-    auto response = this->read_serial_s();
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_READ,
+            esttc_symbols->CMD_SCW,
+            response);
 
-    // TODO - Figure out how to return the data (directly from here or using an answer decoder)
+    if (return_status == estts::ES_SUCCESS) {
+        RSSI = response.substr(3, 2); // [RR]
+        dvc_addr = response.substr(5, 2); // [AA]
+        rst_ctr = response.substr(7, 2); // [BB]
+        scw = response.substr(9, 4); // [WWWW]
+    }
 
+    return return_status;
 }
+
+// 10.2 - RADIO FREQUENCY CONFIGURATION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 /**
  * @brief Writes (configures) the radio frequency of the Endurosat UHF Transceiver module.
- * @param fractional Fractional part of the radio PLL synthesizer in HEX format (default = "")
- * @param divider Integer divider of the radio PLL synthesizer in HEX format (default = "")
- * @return #ES_OK if radio frequency was configured successfully, or #ES_UNSUCCESSFUL if not
+ * @param frac Fractional part of the radio PLL synthesizer in HEX format (default = "")
+ * @param div Integer divider of the radio PLL synthesizer in HEX format (default = "")
+ * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc:: ti_esttc::config_radio_freq(const char *fractional, const char *divider) {
-    std::string command_body = fractional;
-    command_body += divider;
+estts::Status ti_esttc:: ti_esttc::config_radio_freq(const string& frac, const string& div) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+    string command_body;
 
-    auto command = build_esttc_command(esttc_symbols->METHOD_WRITE, esttc_symbols->COMMAND_RFC, command_body.c_str());
+    command_body += frac;
+    command_body += div;
 
-    if (this->write_serial_s(command) < 0) {
-        spdlog::error("Failed to transmit command");
-        return estts::ES_UNSUCCESSFUL;
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_WRITE,
+            esttc_symbols->CMD_RADIO_FREQ_CONFIG,
+            response,
+            command_body);
+
+    return return_status;
+}
+
+/**
+ * @brief Get the radio frequency and the last RSSI (Received signal strength indication) of the UHF Transceiver module
+ * @param RSSI  Received Signal Strength Indicator
+ * @param frac Fractional part of the radio PLL synthesizer in HEX format
+ * @param div Integer divider of the radio PLL synthesizer in HEX format
+ * @return estts::Status indication success/failure of ESTTC command transmission
+ */
+estts::Status ti_esttc::get_radio_freq(string &RSSI, string &frac, string &div) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_READ,
+            esttc_symbols->CMD_RADIO_FREQ_CONFIG,
+            response);
+
+    if (return_status == estts::ES_SUCCESS) {
+        RSSI = response.substr(3, 2);
+        frac = response.substr(5, 6);
+        div = response.substr(11, 2);
     }
 
-    return estts::ES_OK;
+    return return_status;
 }
+
+// 10.3 - READ UPTIME ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// TODO - Code the Read uptime command builder
 
 /**
  * @brief Gets internal IMU temperature of EnduroSat UHF Transceiver module
  * @return Double representing internal IMU temperature in Celsius
  */
-double ti_esttc::get_temp() {
-#ifdef __TI_DEV_MODE__
-    return 26;
-#else
-    auto command = build_esttc_command(esttc_symbols->METHOD_READ, esttc_symbols->COMMAND_TEMP_SENSOR, nullptr);
-    if (this->write_serial_s(command) < 0) {
-        spdlog::error("Failed to transmit command");
-        return -1;
-    }
-    auto ret = this->read_serial_s();
-    ret.replace(ret.find("OK +"), 4, "");
-    SPDLOG_INFO("Transceiver internal temperature is {}°C", ret);
-    // TODO make this actually return the temperature
-    return 0;
-#endif
-}
+//double ti_esttc::get_temp() {
+//#ifdef __TI_DEV_MODE__
+//    return 26;
+//#else
+//    auto command = build_esttc_command(esttc_symbols->METHOD_READ, esttc_symbols->COMMAND_TEMP_SENSOR, nullptr);
+//    if (this->write_serial_s(command) < 0) {
+//        spdlog::error("Failed to transmit command");
+//        return -1;
+//    }
+//    auto ret = this->read_serial_s();
+//    ret.replace(ret.find("OK +"), 4, "");
+//    SPDLOG_INFO("Transceiver internal temperature is {}°C", ret);
+//    // TODO make this actually return the temperature
+//    return 0;
+//#endif
+//}
 
 /**
  * @brief Builds ESTTC command in format specified by EnduroSat ESTTC Specification
  * @param method Command method ('r' or 'w')
  * @param command_code EnduroSat ESTTC command code
+ * @param response String to be filled with ESTTC command answer
  * @param body Request body for command if writing
- * @return String containing constructed ESTTC command frame (including \\r)
+ * @return estts::Status indication success/failure of ESTTC command transmission
  */
-std::string ti_esttc::build_esttc_command(char method, const char *command_code, const char *body) {
+estts::Status ti_esttc::build_esttc_command(const char method, const char *command_code, string &response, const string& body) {
+    estts::Status return_status = estts::ES_UNINITIALIZED;
+    estts::Status serial_status = estts::ES_UNSUCCESSFUL;
     stringstream command;
+
+    /* Build ESTTC command*/
     command << esttc_symbols->HEADER;
     command << method;
     command << esttc_symbols->ADDRESS;
     command << command_code;
-    if (body != nullptr)
+
+    if (method == esttc_symbols->METHOD_WRITE) {
         command << body;
+    }
+
+    //command << ' ' << calculate_crc32(command.str());
     command << esttc_symbols->END;
-    SPDLOG_TRACE("build_esttc_command: built command '{}'", command.str());
-    return command.str();
+
+    /*Attempt to transmit ESTTC command */
+    for (uint8_t i = 0; i < esttc_symbols->NUM_OF_RETRIES; ++i ) {
+        serial_status = this->write_serial_s(command.str());
+
+        if (serial_status == estts::ES_SUCCESS) {
+            response = this->read_serial_s();
+
+            if (response.length() >= 2 && response.substr(0, 2) == "OK") {
+                return_status = estts::ES_SUCCESS;
+                break;
+            } else if (response.length() >= 3 && response.substr(0, 3) == "ERR") {
+                return_status = estts::ES_UNSUCCESSFUL;
+            } else if (response.length() >= 7 && response.substr(0, 7) == "ERR+VAL") {
+                return_status = estts::ES_BAD_OPTION;
+            }
+        } else {
+            return_status = serial_status;
+        }
+    }
+
+    /* Check for transmission failure and send message indicating status */
+    if (return_status == estts::ES_SUCCESS) {
+        SPDLOG_INFO("Successfully transmitted ESTTC command: {}", command.str());
+    } else if (return_status == estts::ES_BAD_OPTION) {
+        spdlog::error("Invalid  ESTTC command input data");
+    } else {
+        spdlog::error("Failed to transmit  ESTTC command");
+    }
+
+    return return_status;
 }
 
 /**
@@ -107,9 +220,9 @@ std::string ti_esttc::build_esttc_command(char method, const char *command_code,
  * @param string String input to calculate CRC32
  * @return Calculated CRC32 of inputted string
  */
-std::string ti_esttc::calculate_crc32(std::string string) {
+std::string ti_esttc::calculate_crc32(string string) {
     // TODO Taylor's task for sprint #3
-    return string;
+    return "";
 }
 
 ti_esttc::~ti_esttc() {

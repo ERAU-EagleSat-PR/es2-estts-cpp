@@ -12,15 +12,15 @@ class ti_esttc : virtual public ti_serial_handler {
 private:
     estts::endurosat::esttc *esttc_symbols;
 
-    std::string build_esttc_command(char method, const char *command_code, const char *body);
+    estts::Status build_esttc_command(char method, const char *command_code,  string &response, const string& body = "");
 
 protected:
-
     estts::Status enable_pipe();
-    char* get_radio_freq();
-    estts::Status config_radio_freq(const char* fractional, const char* divider);
+    estts::Status write_scw(uint16_t scw_command);
+    estts::Status read_swc(std::string &RSSI, std::string &dvc_addr, std::string &rst_ctr, std::string &scw);
 
-    double get_temp();
+    estts::Status config_radio_freq(const std::string& frac, const std::string& div);
+    estts::Status get_radio_freq(std::string &RSSI, std::string &frac, std::string &div);
 
     static std::string calculate_crc32(std::string string);
 

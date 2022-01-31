@@ -85,16 +85,52 @@ namespace estts {
         const int MAX_ES_TXVR_TEMP = 50;
         class esttc {
         public:
+            const uint8_t NUM_OF_RETRIES = 5;
             const char *HEADER = "ES+";
             const char METHOD_READ = 'R';
             const char METHOD_WRITE = 'W';
             const char *ADDRESS = "22";
             const char *BLANK = " ";
             const char *END = "\r";
-            const char *COMMAND_SOFTWARE_BUILD = "F9";
-            const char *COMMAND_TEMP_SENSOR = "0A";
-            const char *COMMAND_SCW = "00";
-            const char *COMMAND_RFC = "01";
+            const char *CMD_SCW = "00"; // Status Control Word
+            const char *CMD_RADIO_FREQ_CONFIG = "01"; //  Radio Frequency Configuration
+            const char *CMD_READ_UPTIME = "02"; // Read Uptime
+            const char *CMD_READ_TRANS_PCKTS = "03"; // Read Number of Transmitted Packets
+            const char *CMD_READ_RECEIV_PCKTS = "04"; // Read Number of Received Packets
+            const char *CMD_READ_TRANS_PCKTS_CRC = "05"; // Read Number of Transmitted Packets With CRC Error
+            const char *CMD_PIPE_MODE_TMOUT_CONFIG = "06"; // Transparent (Pipe) Mode Timeout Period Configuration
+            const char *CMD_BCN_MSG_TRANS_CONFIG = "07"; //  Beacon Message Transmission Period Configuration
+            const char *CMD_AUDIO_BCN_P_TRANS = "08"; // Audio Beacon Period Between Transmissions
+            const char *CMD_RESTORE = "09"; // Restore Default Values
+            const char *CMD_TEMP_VAL = "0A"; // Internal Temperature Sensor Measurement Value
+            const char *CMD_I2C_RESIST_CONFIG = "0B"; // I2C Pull-Up Resistors Configuration Read/Write
+            const char *CMD_TERM_RESIST_CONFIG = "EC"; // Terminating Resistor Configuration Read/Write
+            const char *CMD_ENABLE_DISABLE_RADIO_CRC = "ED"; // Enabling/Disabling Radio Packet CRC16
+            const char *CMD_FORCE_BCN_CMD = "EE"; // Force Beacon Command
+            const char *CMD_AUTO_AX25_DECODE = "EF"; // Enabling/Disabling Automatic AX.25 Decoding
+            const char *CMD_READ_WRITE_I2C = "F1"; // Generic Write and/or Read From an I2C Device
+            const char *CMD_ANT_RELEASE_CONFIG = "F2"; // UHF Antenna Release Configuration
+            const char *CMD_ANT_READ_WRITE = "F3"; // UHF Antenna Read/Write
+            const char *CMD_LOW_PWR_MODE = "F4"; // Low Power Mode
+            const char *CMD_DEST_CALL_SIGN = "F5"; // Destination Call Sign
+            const char *CMD_SRC_CALL_SIGN = "F6"; // Source Call Sign
+            const char *CMD_READ_SFTWR_VER = "F9"; // Read Software Version Build
+            const char *CMD_READ_DVC_PAYLOAD = "FA"; // Read Device Payload Size
+            const char *CMD_BCN_MSG_CONFIG = "FB"; // Beacon Message Content Configuration
+            const char *CMD_DVC_ADDR_CONFIG = "FC"; // Device Address Configuration
+            const char *CMD_FRAM_MEM_READ_WRITE = "FD"; // FRAM Memory Read/Write
+            const char *CMD_RADIO_TRNS_PROP_CONFIG = "FE"; // Radio Transceiver Property Configuration
+            const char *CMD_SECURE_MODE = "FF"; // Secure Mode
+            const char *CMD_FRMWRE_UPDATE = "AA"; // Firmware Update
+
+            enum SCW_Commands {
+                enable_pipe,
+                scw_stopper
+            };
+
+            const char *scw_body[scw_stopper] = {
+                    "3323" // enable_pipe - 0011 0011 0010 0011
+            };
         };
     }
 
