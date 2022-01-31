@@ -129,7 +129,7 @@ namespace estts {
         const int TI_SOCKET_PORT = 8080;
     }
 
-    typedef struct estts_command {
+    typedef struct command_object {
         int address{};
         int timeStamp{};
         int sequence{};
@@ -138,7 +138,7 @@ namespace estts {
         const char *data{};
     } command_object;
 
-    typedef struct estts_telemetry {
+    typedef struct telemetry_object {
         int address{};
         int timeStamp{};
         int sequence{};
@@ -146,6 +146,22 @@ namespace estts {
         int response_code{};
         const char *data{};
     } telemetry_object;
+
+    typedef struct dispatched_command {
+        std::vector<command_object *> command;
+        std::vector<telemetry_object *> telem;
+        Status response_code;
+        std::string serial_number;
+        std::function<estts::Status(std::vector<estts::telemetry_object *>)> callback;
+    } dispatched_command;
+
+    typedef struct waiting_command {
+        std::vector<command_object *> command;
+        std::string serial_number;
+        std::function<estts::Status(std::vector<estts::telemetry_object *>)> callback;
+    } waiting_command;
+
+    typedef std::function<std::string(std::vector<estts::command_object *>, std::function<estts::Status(std::vector<estts::telemetry_object *>)>)> dispatch_fct;
 }
 
 

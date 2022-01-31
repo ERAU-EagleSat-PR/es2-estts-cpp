@@ -5,16 +5,15 @@
 #ifndef ESTTS_EPS_COMMAND_H
 #define ESTTS_EPS_COMMAND_H
 
-
+#include <functional>
 #include <constants.h>
-#include "fapi_command_handler.h"
-#include "communication_handler.h"
 
-class eps_command : virtual public fapi_command_handler {
+class eps_command {
 public:
-    explicit eps_command(transmission_interface *ti);
+    explicit eps_command();
 
-    estts::Status get_vitals(communication_handler * telem_handle);
+    estts::Status get_eps_vitals(const estts::dispatch_fct &dispatch, const std::function<estts::Status(
+            estts::es2_telemetry::eps::vitals *)> &telem_callback);
 };
 
 

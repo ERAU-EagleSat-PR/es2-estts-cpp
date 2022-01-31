@@ -4,9 +4,9 @@
 
 #include <condition_variable>
 #include <random>
+#include <utility>
 #include "command_dispatcher.h"
 
-using Command = std::function<estts::Status()>;
 // https://stackoverflow.com/questions/15752659/thread-pooling-in-c11
 
 // Idea: schedule command takes in a function pointer. Then, a new command scheduler
@@ -43,72 +43,35 @@ std::string generate_serial_number() {
 }
 
 /**
- * @brief Function that takes argument for a command to schedule. If scheduling is successful, the
- * command will be carried out in the order that the request was received. Only one
- * command can be processed at a time.
- * @param command Function object as std::function<estts::Status()> to be called
- * @return Returns serial number of scheduled command if scheduling is successful
+ * @brief Function that takes argument to a vector of command objects and a callback function expecting a pointer to a
+ * telemetry object as argument. It's implied that this function should handle whatever telemetry is returned by the
+ * dispatch process. This function creates a waiting_command object and stores a serial number, the callback function,
+ * and the command frames (as command_objects) expected to dispatch during the next satellite pass.
+ * @param command Vector of command_object pointers to schedule for dispatching.
+ * @param decomp_callback Callback pointer to a function that returns a Status and takes argument for a vector of
+ * telemetry_objects. It's implied that this callback function knows how to decode a vector of telemetry frames.
+ * @return Returns a unique string serial number for later retrieval of the command status.
  */
-std::string command_dispatcher::schedule_command(const Command& command) {
-    // If the thread is active, add the command.
-    if (worker.joinable()) {
-        auto new_command = new waiting_command;
-        new_command->command = command;
-        new_command->serial_number = generate_serial_number();
-        waiting.push_back(new_command);
+std::string command_dispatcher::schedule_command(const std::vector<estts::command_object *>& command, std::function<estts::Status(std::vector<estts::telemetry_object *>)> decomp_callback) {
+    auto new_command = new estts::waiting_command;
+    new_command->command = command;
+    new_command->serial_number = generate_serial_number();
+    new_command->callback = std::move(decomp_callback);
 
-        SPDLOG_DEBUG("Scheduled new command with serial number {}", new_command->serial_number);
-        return new_command->serial_number;
-    }
-    SPDLOG_WARN("Failed to queue command; scheduler inactive.");
-    return "";
+    waiting.push_back(new_command);
+
+    SPDLOG_DEBUG("Scheduled new command with serial number {}", new_command->serial_number);
+    return new_command->serial_number;
 }
 
 /**
- * @brief Constructor for command scheduler. Creates thread and starts indefinitely looping function running
+ * @brief Default constructor for command scheduler. Creates new transmission interface and initializes the
+ * command handler. Note that in order to run the dispatcher, dispatcher_init must be called.
  */
 command_dispatcher::command_dispatcher() {
-    // Create a new thread, pass in schedule() function and current object
-    worker = std::thread(&command_dispatcher::schedule, this);
-    SPDLOG_TRACE("Created scheduler thread with ID {}", std::hash<std::thread::id>{}(worker.get_id()));
-}
-
-/**
- * @brief Function that loops while commands are available.
- */
-void command_dispatcher::schedule() {
-    using namespace std::this_thread; // sleep_for, sleep_until
-    using namespace std::chrono; // nanoseconds, system_clock, seconds
-    int wait = 0;
-    // Loop indefinitely
-    for (;;) {
-        // If the queue isn't empty, process commands
-        if (!waiting.empty()) {
-            auto command = waiting.back(); // Get the oldest command in the queue
-
-            auto current_running = new completed_command;
-            current_running->serial_number = command->serial_number;
-
-            SPDLOG_DEBUG("Processing command with serial number {}", current_running->serial_number);
-
-            current_running->response_code = command->command(); // This is where the command is run
-            completed.push_back(current_running); // Update list of completed commands
-            clean_completed_cache(); // Make sure we don't remember all completed commands
-            waiting.pop_back(); // Remove completed job from queue
-            delete command;
-
-            sleep_until(system_clock::now() + seconds(estts::ESTTS_RETRY_WAIT_SEC));
-            wait = 0;
-        } else {
-            // If no command is added to queue within ESTTS_AWAIT_RESPONSE_PERIOD_SEC seconds, exit.
-            sleep_until(system_clock::now() + seconds(1));
-            wait++;
-            if (wait > estts::ESTTS_AWAIT_RESPONSE_PERIOD_SEC) {
-                SPDLOG_WARN("Scheduler inactive; didn't receive a command within {} seconds. Exiting", estts::ESTTS_AWAIT_RESPONSE_PERIOD_SEC);
-                return;
-            }
-        }
-    }
+    satellite_connected = false;
+    this->ti = new transmission_interface();
+    this->init_command_handler(ti);
 }
 
 /**
@@ -118,20 +81,8 @@ void command_dispatcher::schedule() {
 void command_dispatcher::await_completion() {
     // If the thread is joinable (IE it's active), join the thread
     // Join blocks until the thread returns.
-    if (worker.joinable())
-        worker.join();
-}
-
-/**
- * @brief Removes and cleans up completed command queue when size is
- * greater than dispatcher::MAX_COMPLETED_CACHE
- */
-void command_dispatcher::clean_completed_cache() {
-    if (completed.size() >= estts::dispatcher::MAX_COMPLETED_CACHE) {
-        auto temp = completed.back();
-        completed.pop_back();
-        delete temp;
-    }
+    if (dispatch_worker.joinable())
+        dispatch_worker.join();
 }
 
 /**
@@ -141,12 +92,11 @@ void command_dispatcher::clean_completed_cache() {
  * @param serial_number Serial number returned by schedule_command()
  * @return Status of scheduled job
  */
-estts::Status command_dispatcher::get_command_status(std::string serial_number) {
+estts::Status command_dispatcher::get_command_status(const std::string& serial_number) {
     // Search completed queue for serial number
-    for (auto &i : completed)
+    for (auto &i : dispatched)
         if (i->serial_number == serial_number)
             return i->response_code;
-
     // If not found in completed, search waiting. Maybe something is broken
     for (auto &i : waiting) {
         if (i->serial_number == serial_number)
@@ -160,8 +110,52 @@ estts::Status command_dispatcher::get_command_status(std::string serial_number) 
  * @brief Cleans up internal structures
  */
 command_dispatcher::~command_dispatcher() {
-    for (auto &i : completed)
-        delete i;
-    for (auto &i : waiting)
-        delete i;
+    await_completion();
+    delete ti;
+    if (!dispatched.empty())
+        for (auto &i : dispatched)
+            delete i;
+    if (!waiting.empty())
+        for (auto &i : waiting)
+            delete i;
+}
+
+/**
+ * @brief Initializes the dispatcher by creating a new worker thread.
+ * @return ES_OK if successful
+ */
+estts::Status command_dispatcher::dispatcher_init() {
+    // Create a new thread, pass in schedule() function and current object
+    dispatch_worker = std::thread(&command_dispatcher::dispatch, this);
+    SPDLOG_TRACE("Created scheduler thread with ID {}", std::hash<std::thread::id>{}(dispatch_worker.get_id()));
+    return estts::ES_OK;
+}
+
+/**
+ * @brief Dispatcher that runs in an infinite loop as long as commands are available. If a command isn't received for
+ * ESTTS_AWAIT_RESPONSE_PERIOD_SEC seconds, the dispatcher thread exits and must be re-initialized. When the satellite
+ * is deemed in range, the dispatcher uses the command handler to execute the commands loaded into the waiting queue.
+ */
+void command_dispatcher::dispatch() {
+    using namespace std::this_thread; // sleep_for, sleep_until
+    using namespace std::chrono; // nanoseconds, system_clock, seconds
+    int wait = 0;
+    for (;;) {
+        // TODO implement satellite location (IE listen for beacon)
+
+        if (!waiting.empty()) {
+            //Wait 10 seconds for shits and giggles
+            sleep_until(system_clock::now() + seconds(10));
+            this->execute(waiting); // Execute the queue of waiting commands.
+            waiting.clear();
+        } else {
+        // If no command is added to queue within ESTTS_AWAIT_RESPONSE_PERIOD_SEC seconds, exit.
+        sleep_until(system_clock::now() + seconds(1));
+        wait++;
+        if (wait > estts::ESTTS_AWAIT_RESPONSE_PERIOD_SEC) {
+            SPDLOG_WARN("Scheduler inactive; didn't receive a command within {} seconds. Exiting", estts::ESTTS_AWAIT_RESPONSE_PERIOD_SEC);
+            return;
+        }
+        }
+    }
 }
