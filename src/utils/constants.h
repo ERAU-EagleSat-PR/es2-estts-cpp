@@ -49,6 +49,7 @@ namespace estts {
         ES_SUCCESS = 0,
         ES_UNSUCCESSFUL = 1,
         ES_UNINITIALIZED = 2,
+        ES_MEMORY_ERROR = 3,
         ES_BAD_OPTION = 405,
         ES_UNAUTHORIZED = 403,
         ES_SERVER_ERROR = 500
@@ -89,9 +90,12 @@ namespace estts {
             const char *HEADER = "ES+";
             const char METHOD_READ = 'R';
             const char METHOD_WRITE = 'W';
+            const char METHOD_FIRMWARE_UPDATE = 'D';
             const char *ADDRESS = "22";
             const char *BLANK = " ";
             const char *END = "\r";
+            const char* DOWNLINK_XOR = "AB7563CD";
+            const char* UPLINK_XOR = "6ACD3B57";
             const char *CMD_SCW = "00"; // Status Control Word
             const char *CMD_RADIO_FREQ_CONFIG = "01"; //  Radio Frequency Configuration
             const char *CMD_READ_UPTIME = "02"; // Read Uptime E
@@ -124,11 +128,13 @@ namespace estts {
             const char *CMD_FRMWR_UPDATE = "AA"; // Firmware Update C
 
             enum SCW_Commands {
+                default_mode,
                 enable_pipe,
                 scw_stopper
             };
 
             const char *scw_body[scw_stopper] = {
+                    "4343", // default_mode - 0011 0011 0000 0011
                     "3323" // enable_pipe - 0011 0011 0010 0011
             };
         };

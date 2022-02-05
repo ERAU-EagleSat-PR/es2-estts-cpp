@@ -94,13 +94,13 @@ estts::Status transmission_interface::check_ti_health() {
     using namespace std::this_thread; // sleep_for, sleep_until
     using namespace std::chrono; // nanoseconds, system_clock, seconds
     int retries = 0;
-    while (this->get_temp() > estts::endurosat::MAX_ES_TXVR_TEMP) {
-        spdlog::error("EnduroSat Transceiver over temp. Waiting {} seconds", estts::endurosat::WAIT_TIME_SEC);
-        sleep_until(system_clock::now() + seconds(estts::endurosat::WAIT_TIME_SEC));
-        retries++;
-        if (retries > estts::endurosat::MAX_RETRIES) return estts::ES_UNSUCCESSFUL;
-        SPDLOG_INFO("Retrying transmit (retry {}/{})", retries, estts::endurosat::MAX_RETRIES);
-    }
+//    while (this->get_temp() > estts::endurosat::MAX_ES_TXVR_TEMP) {
+//        spdlog::error("EnduroSat Transceiver over temp. Waiting {} seconds", estts::endurosat::WAIT_TIME_SEC);
+//        sleep_until(system_clock::now() + seconds(estts::endurosat::WAIT_TIME_SEC));
+//        retries++;
+//        if (retries > estts::endurosat::MAX_RETRIES) return estts::ES_UNSUCCESSFUL;
+//        SPDLOG_INFO("Retrying transmit (retry {}/{})", retries, estts::endurosat::MAX_RETRIES);
+//    }
     return estts::ES_OK;
 }
 
