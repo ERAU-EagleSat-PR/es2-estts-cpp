@@ -44,7 +44,7 @@ command_handler::command_handler() {
  * pointers to callback functions that should handle whatever is returned by the executed command.
  * @return ES_OK if successful, ES_UNINITIALIZED if the transmission interface wasn't initialized.
  */
-estts::Status command_handler::execute(const std::vector<estts::waiting_command *> &commands) {
+estts::Status command_handler::execute(const std::vector<estts::waiting_command *> &waiting) {
     if (ti == nullptr) {
         SPDLOG_ERROR("Transmission interface not initialized. Was init_command_handler() called?");
         return estts::ES_UNINITIALIZED;
@@ -58,9 +58,9 @@ estts::Status command_handler::execute(const std::vector<estts::waiting_command 
         int total_frames = 0;
 
         int command_iterator = 0;
-        for (auto command : commands) {
+        for (auto command : waiting) {
             command_iterator++;
-            SPDLOG_INFO("Sending command {}/{}", command_iterator, commands.size());
+            SPDLOG_INFO("Sending command {}/{}", command_iterator, waiting.size());
             int frame_iterator = 0;
             for (auto frame_object : command->command) {
                 frame_iterator++;
@@ -72,6 +72,7 @@ estts::Status command_handler::execute(const std::vector<estts::waiting_command 
                 while (retry) {
                     auto sapi_tx = new frame_constructor(frame_object);
                     frame = sapi_tx->construct_ax25();
+                    // Todo this probably doesn't need retries lol
                     if (frame.empty()) {
                         spdlog::error("Frame construction failed. Waiting {} seconds", estts::ESTTS_RETRY_WAIT_SEC);
                         sleep_until(system_clock::now() + seconds(estts::ESTTS_RETRY_WAIT_SEC));
@@ -108,7 +109,7 @@ estts::Status command_handler::execute(const std::vector<estts::waiting_command 
             // At this point, we don't care about the waiting object anymore, it's no longer waiting.
             delete command;
         }
-        SPDLOG_DEBUG("Successfully sent {} frames from {} commands", total_frames, commands.size());
+        SPDLOG_DEBUG("Successfully sent {} frames from {} commands", total_frames, waiting.size());
     }
     catch (const std::exception &e) {
         // TODO catch exceptions & do something smart with them
@@ -178,9 +179,10 @@ estts::Status command_handler::map_telemetry_to_dispatched(const std::vector<est
     // need to be mapped back to their associated dispatched command objects. There are a couple of ways we
     // can handle this. For this version, we're just going to handle each response individually and in real-time.
 
-    for (auto i : dispatched) {
-        auto command_id = i->command[0]->commandID;
-        auto command_address = i->command[0]->address;
+    while (!dispatched.empty()) {
+        auto current = dispatched.back();
+        auto command_id = current->command[0]->commandID;
+        auto command_address = current->command[0]->address;
         std::vector<estts::telemetry_object *> temp_telem;
         bool associated_frame_found;
         for (auto j : telem) {
@@ -191,15 +193,22 @@ estts::Status command_handler::map_telemetry_to_dispatched(const std::vector<est
             }
         }
         if (associated_frame_found) {
-            i->telem = temp_telem;
-            i->response_code = validate_response_code(temp_telem[0]->response_code);
-            if (estts::ES_OK != i->callback(i->telem)) // Call the callback with the telemetry object
+            current->telem = temp_telem;
+            current->response_code = validate_response_code(temp_telem[0]->response_code);
+            if (estts::ES_OK != current->callback(current->telem)) // Call the callback with the telemetry object
                 return estts::ES_UNSUCCESSFUL;
             // Todo this shoudn't return, it should schedule a new retry, or at least notify something that can retry
+
+            auto temp_completed = new completed;
+            temp_completed->serial_number = current->serial_number;
+            temp_completed->response_code = current->response_code;
+            completed_cache.push_back(temp_completed);
         } else {
-            SPDLOG_WARN("Didn't receive a telemetry response for command with SN {}", i->serial_number);
-            i->response_code = estts::ES_UNSUCCESSFUL;
+            SPDLOG_WARN("Didn't receive a telemetry response for command with SN {}", current->serial_number);
+            current->response_code = estts::ES_UNSUCCESSFUL;
         }
+        delete current;
+        dispatched.pop_back();
     }
 
     return estts::ES_OK;

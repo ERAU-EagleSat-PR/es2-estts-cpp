@@ -14,7 +14,7 @@
 namespace estts {
     const int ESTTS_MAX_RETRIES = 2;
     const int ESTTS_RETRY_WAIT_SEC = 1;
-    const int ESTTS_AWAIT_RESPONSE_PERIOD_SEC = 10;
+    const int ESTTS_AWAIT_RESPONSE_PERIOD_SEC = 5;
     /* AX.25 Related constants */
     namespace ax25 {
         const char AX25_FLAG[] = "7E"; // Flag is constant
@@ -53,6 +53,7 @@ namespace estts {
         ES_SUCCESS = 0,
         ES_UNSUCCESSFUL = 1,
         ES_UNINITIALIZED = 2,
+        ES_WAITING = 3,
         ES_BAD_OPTION = 405,
         ES_UNAUTHORIZED = 403,
         ES_SERVER_ERROR = 500,
@@ -72,6 +73,7 @@ namespace estts {
         }
         namespace eps {
             const int EPS_GET_HEALTH = 01;
+            const int EPS_GET_COMMAND_43 = 43;
         }
         namespace mde {
             const int MDE_GET_STATUS = 01;

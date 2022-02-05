@@ -126,16 +126,15 @@ communication_handler::~communication_handler() {
 }
 
 /**
- * @brief Communication initializer that starts the dispatcher and creates a new communication worker thread
+ * @brief Communication initializer that creates a new communication worker thread
  * @return ES_OK if successful
  */
-estts::Status communication_handler::communication_init() {
-    // Start the dispatcher
-    if (estts::ES_OK != dispatch->dispatcher_init())
-        return estts::ES_UNINITIALIZED;
+estts::Status communication_handler::autonomous_communication_init() {
     // communication_worker = std::thread(&communication_handler::start_communication_automation, this);
-    // SPDLOG_TRACE("Created scheduler thread with ID {}", std::hash<std::thread::id>{}(communication_worker.get_id()));
+    // SPDLOG_TRACE("Created communication worker thread with ID {}", std::hash<std::thread::id>{}(communication_worker.get_id()));
+    start_communication_automation();
     return estts::ES_OK;
+
 }
 
 /**
@@ -145,6 +144,38 @@ estts::Status communication_handler::communication_init() {
     using namespace std::this_thread; // sleep_for, sleep_until
     using namespace std::chrono; // nanoseconds, system_clock, seconds
     for (;;) {
-        sleep_until(system_clock::now() + seconds(60));
+        // First of all, we HAVE to make sure that our dispatcher is active or this program will shit the bed.
+        if (!dispatch) {
+            SPDLOG_ERROR("Dispatcher is not active. Something catastrophic went wrong.");
+            throw std::runtime_error("Dispatcher is not active.");
+        }
+        // Schedule an EPS get vitals command
+        command_serial_number_cache.push_back(get_eps_vitals(dispatch_lambda(), [this](estts::es2_telemetry::eps::vitals *vitals) -> estts::Status {
+            return store_eps_vitals(vitals);
+        }));
+
+        // All threads should be joined at some point....
+        await_dispatcher();
+
+        // Wait until the session has completed
+        // todo this is super broken and idk why. something to do with the session progress variable in the dispatcher.
+        /*
+        do {
+            sleep_until(system_clock::now() + seconds(1));
+        } while (estts::ES_SUCCESS != dispatch->get_dispatch_session_progress());
+        SPDLOG_INFO("Telemetry responses came back successfully.");
+        */
+
+        // When we know that the commands have all come back,
+        for (const auto& i : command_serial_number_cache) {
+            if (estts::ES_OK == dispatch->get_command_status(i)) {
+                SPDLOG_DEBUG("Command with serial number {} succeeded", i);
+            } else {
+                SPDLOG_WARN("Command with serial number {} failed", i);
+                // todo eventually notify somebody that commands are failing. if they failed even at this stage, there are issues deeper than packet loss
+            }
+        }
+        command_serial_number_cache.clear();
+        sleep_until(system_clock::now() + seconds(estts::ESTTS_AWAIT_RESPONSE_PERIOD_SEC));
     }
 }

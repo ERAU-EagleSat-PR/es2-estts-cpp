@@ -53,11 +53,18 @@ std::string generate_serial_number() {
  * @return Returns a unique string serial number for later retrieval of the command status.
  */
 std::string command_dispatcher::schedule_command(const std::vector<estts::command_object *>& command, std::function<estts::Status(std::vector<estts::telemetry_object *>)> decomp_callback) {
+    // We only need a worker thread if there are commands to dispatch
+    if (!dispatch_worker.joinable()) {
+        // Create a new thread, pass in schedule() function and current object
+        dispatch_worker = std::thread(&command_dispatcher::dispatch, this);
+        SPDLOG_TRACE("Created dispatch worker thread with ID {}", std::hash<std::thread::id>{}(dispatch_worker.get_id()));
+    }
     auto new_command = new estts::waiting_command;
     new_command->command = command;
     new_command->serial_number = generate_serial_number();
     new_command->callback = std::move(decomp_callback);
 
+    // todo this should add new commands to the *back* not the front
     waiting.push_back(new_command);
 
     SPDLOG_DEBUG("Scheduled new command with serial number {}", new_command->serial_number);
@@ -69,7 +76,8 @@ std::string command_dispatcher::schedule_command(const std::vector<estts::comman
  * command handler. Note that in order to run the dispatcher, dispatcher_init must be called.
  */
 command_dispatcher::command_dispatcher() {
-    satellite_connected = false;
+    command_progress = estts::ES_UNINITIALIZED;
+    handshake = false;
     this->ti = new transmission_interface();
     this->init_command_handler(ti);
 }
@@ -93,15 +101,20 @@ void command_dispatcher::await_completion() {
  * @return Status of scheduled job
  */
 estts::Status command_dispatcher::get_command_status(const std::string& serial_number) {
-    // Search completed queue for serial number
+    // Search dispatched queue for serial number
     for (auto &i : dispatched)
         if (i->serial_number == serial_number)
-            return i->response_code;
-    // If not found in completed, search waiting. Maybe something is broken
+            return estts::ES_INPROGRESS;
+    // If not found in completed, search waiting.
     for (auto &i : waiting) {
         if (i->serial_number == serial_number)
-            return estts::ES_INPROGRESS;
+            return estts::ES_WAITING;
     }
+    // Search completed queue for serial number
+    for (auto &i : completed_cache)
+        if (i->serial_number == serial_number)
+            return i->response_code;
+
     // If we get to this point, the serial number doesn't exist in the dispatcher.
     return estts::ES_NOTFOUND;
 }
@@ -121,17 +134,6 @@ command_dispatcher::~command_dispatcher() {
 }
 
 /**
- * @brief Initializes the dispatcher by creating a new worker thread.
- * @return ES_OK if successful
- */
-estts::Status command_dispatcher::dispatcher_init() {
-    // Create a new thread, pass in schedule() function and current object
-    dispatch_worker = std::thread(&command_dispatcher::dispatch, this);
-    SPDLOG_TRACE("Created scheduler thread with ID {}", std::hash<std::thread::id>{}(dispatch_worker.get_id()));
-    return estts::ES_OK;
-}
-
-/**
  * @brief Dispatcher that runs in an infinite loop as long as commands are available. If a command isn't received for
  * ESTTS_AWAIT_RESPONSE_PERIOD_SEC seconds, the dispatcher thread exits and must be re-initialized. When the satellite
  * is deemed in range, the dispatcher uses the command handler to execute the commands loaded into the waiting queue.
@@ -140,22 +142,37 @@ void command_dispatcher::dispatch() {
     using namespace std::this_thread; // sleep_for, sleep_until
     using namespace std::chrono; // nanoseconds, system_clock, seconds
     int wait = 0;
+    // TODO implement satellite location (IE listen for beacon)
+    handshake = true;
     for (;;) {
-        // TODO implement satellite location (IE listen for beacon)
-
-        if (!waiting.empty()) {
-            //Wait 10 seconds for shits and giggles
-            sleep_until(system_clock::now() + seconds(10));
-            this->execute(waiting); // Execute the queue of waiting commands.
-            waiting.clear();
+        if (handshake) {
+            // Todo Idea: something else on its own thread (or just inside this thread) should set these variables
+            handshake = false;
+            if (!waiting.empty()) {
+                // After execute is called, the session is in progress. Set this state before, so that abstracted objects
+                // stay up to date.
+                command_progress = estts::ES_INPROGRESS;
+                this->execute(waiting); // Execute the queue of waiting commands.
+                waiting.clear();
+                command_progress = estts::ES_SUCCESS;
+            } else {
+                // If no command is added to queue within ESTTS_AWAIT_RESPONSE_PERIOD_SEC seconds, exit.
+                sleep_until(system_clock::now() + seconds(1));
+                wait++;
+                if (wait > estts::ESTTS_AWAIT_RESPONSE_PERIOD_SEC) {
+                    SPDLOG_DEBUG("Scheduler inactive; didn't receive a command within {} seconds. Exiting", estts::ESTTS_AWAIT_RESPONSE_PERIOD_SEC);
+                    return;
+                }
+            }
         } else {
-        // If no command is added to queue within ESTTS_AWAIT_RESPONSE_PERIOD_SEC seconds, exit.
-        sleep_until(system_clock::now() + seconds(1));
-        wait++;
-        if (wait > estts::ESTTS_AWAIT_RESPONSE_PERIOD_SEC) {
-            SPDLOG_WARN("Scheduler inactive; didn't receive a command within {} seconds. Exiting", estts::ESTTS_AWAIT_RESPONSE_PERIOD_SEC);
-            return;
-        }
+            command_progress = estts::ES_WAITING;
+            sleep_until(system_clock::now() + seconds(1));
+            handshake = true;
         }
     }
 }
+
+estts::Status command_dispatcher::get_dispatch_session_progress() {
+    return command_progress;
+}
+

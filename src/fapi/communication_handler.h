@@ -20,6 +20,7 @@
 
 class communication_handler : virtual public eps_command, acs_command, obc_command, mde_command, crp_command {
 private:
+    std::vector<std::string> command_serial_number_cache;
 
     command_dispatcher *dispatch;
 
@@ -51,7 +52,7 @@ public:
 
     ~communication_handler();
 
-    estts::Status communication_init();
+    estts::Status autonomous_communication_init();
 
     estts::Status store_eps_vitals(estts::es2_telemetry::eps::vitals *vitals);
 
