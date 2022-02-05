@@ -12,6 +12,11 @@
 
 class command_handler {
 private:
+    typedef struct {
+        std::string serial_number;
+        estts::Status response_code;
+    } completed;
+
     transmission_interface *ti;
 
     estts::Status await_response();
@@ -19,6 +24,8 @@ private:
     estts::Status map_telemetry_to_dispatched(const std::vector<estts::telemetry_object *> &telem);
 protected:
     std::vector<estts::dispatched_command *> dispatched;
+
+    std::vector<completed *> completed_cache;
 
     explicit command_handler();
 

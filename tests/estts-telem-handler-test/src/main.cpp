@@ -29,12 +29,18 @@ int main() {
     /******************************************************************************************************************/
     // test communication handler for its function abstractions
     auto comm_handle = new communication_handler();
-    comm_handle->communication_init();
-    comm_handle->get_eps_vitals(comm_handle->dispatch_lambda(), [comm_handle](estts::es2_telemetry::eps::vitals *vitals) -> estts::Status {
+    auto sn = comm_handle->get_eps_vitals(comm_handle->dispatch_lambda(), [comm_handle](estts::es2_telemetry::eps::vitals *vitals) -> estts::Status {
         return comm_handle->store_eps_vitals(vitals);
     });
     comm_handle->await_dispatcher();
     delete comm_handle;
+
+    /******************************************************************************************************************/
+    // Test communication handler for basic automation abilities
+    auto auto_comm = new communication_handler();
+    auto_comm->autonomous_communication_init();
+
+    delete auto_comm;
 
     return 0;
 }

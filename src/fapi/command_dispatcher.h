@@ -18,10 +18,11 @@ private:
     transmission_interface *ti;
     std::thread dispatch_worker;
     std::vector<estts::waiting_command *> waiting;
+    estts::Status command_progress;
 
     void dispatch();
 
-    bool satellite_connected;
+    bool handshake;
 public:
     explicit command_dispatcher();
 
@@ -34,7 +35,7 @@ public:
 
     void await_completion();
 
-    estts::Status dispatcher_init();
+    estts::Status get_dispatch_session_progress();
 };
 
 

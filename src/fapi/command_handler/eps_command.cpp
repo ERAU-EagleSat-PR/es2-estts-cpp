@@ -5,7 +5,7 @@
 #include <vector>
 #include "eps_command.h"
 
-estts::Status eps_command::get_eps_vitals(const estts::dispatch_fct& dispatch, const std::function<estts::Status(estts::es2_telemetry::eps::vitals *)>& telem_callback) {
+std::string eps_command::get_eps_vitals(const estts::dispatch_fct& dispatch, const std::function<estts::Status(estts::es2_telemetry::eps::vitals *)>& telem_callback) {
     SPDLOG_INFO("Getting EagleSat II EPS Vitals");
     std::vector<estts::command_object *> command;
     auto temp = new estts::command_object;
@@ -19,9 +19,11 @@ estts::Status eps_command::get_eps_vitals(const estts::dispatch_fct& dispatch, c
 
     // This callback is expected by the dispatcher/command handler, which will filter and construct telemetry objects
     // and pass them to this function. Once this process is complete, this function should know how to decode
-    // the telemetry object into the expected structure (in this case, an EPS Vitals structure), and call the callback
-    // function passed as an argument with the vitals as argument. This process keeps logic specific to EPS in the EPS
-    // command function, and changes the execution of the function to the command handler, where it should be.
+    // the telemetry object into the expected structure (in this case, an EPS Vitals structure), and pass the vitals to
+    // the callback function passed as an argument. This process keeps logic specific to EPS in the EPS
+    // command function, and changes the execution of the function to the command handler, where it should be. However, from
+    // the perspective of this EPS get vitals function, the specific time when the callback is called doesn't matter in any way,
+    // because now the responsibility of handling the telemetry is pushed to the future when it's actually available.
     auto eps_telem_decomposition_callback = [telem_callback] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
         if (telem.empty()) {
             return estts::ES_UNINITIALIZED;
@@ -43,17 +45,10 @@ estts::Status eps_command::get_eps_vitals(const estts::dispatch_fct& dispatch, c
     // in the command configuration), and calls the callback function passed in by the calling body. Note that when this function
     // returns, it is expected that the entire telemetry collection and storage process is handled by the callbacks.
     // This means that at no point does this function need to run again, because the context is implied by the lambdas.
-    auto sn = dispatch(command, eps_telem_decomposition_callback);
 
-    // todo validate command id, address, etc.
-
-    // EVERYTHING below this needs to be in its own function. Pass that new function as a pointer to dispatch(), and have the
-    // new function take argument for the callback function. That way, this function returns, and the callback is called
-    // when the telemetry comes back. IE, when the callback is called, the deconstructed Vitals object will be uploaded to
-    // the database and local state file automatically. Then, the returned serial number can be evaluated to determine
-    // if the command executed successfully.
-
-    return estts::ES_OK;
+    // Note that our callback model allows this function to return with no repercussions, and using the unique command
+    // serial number, we can fetch the command status at any time.
+    return dispatch(command, eps_telem_decomposition_callback);
 }
 
 eps_command::eps_command() = default;

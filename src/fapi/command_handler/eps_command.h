@@ -6,13 +6,14 @@
 #define ESTTS_EPS_COMMAND_H
 
 #include <functional>
+#include <string>
 #include <constants.h>
 
 class eps_command {
 public:
     explicit eps_command();
 
-    estts::Status get_eps_vitals(const estts::dispatch_fct &dispatch, const std::function<estts::Status(
+    std::string get_eps_vitals(const estts::dispatch_fct &dispatch, const std::function<estts::Status(
             estts::es2_telemetry::eps::vitals *)> &telem_callback);
 };
 
