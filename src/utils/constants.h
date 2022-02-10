@@ -74,6 +74,7 @@ namespace estts {
         namespace eps {
             const int EPS_GET_HEALTH = 01;
             const int EPS_GET_COMMAND_43 = 43;
+            const int EPS_GET_VOLTAGE = 1;
         }
         namespace mde {
             const int MDE_GET_STATUS = 01;
@@ -96,6 +97,9 @@ namespace estts {
                 double battery_voltage;
                 double brownouts;
                 double charge_time_mins;
+            };
+            struct eps_voltage {
+                double battery_voltage;
             };
         }
     }
@@ -133,7 +137,7 @@ namespace estts {
 
     typedef struct command_object {
         int address{};
-        int timeStamp{};
+        int timeStamp{}; // deprecated
         int sequence{};
         int commandID{};
         int method{};
@@ -142,7 +146,7 @@ namespace estts {
 
     typedef struct telemetry_object {
         int address{};
-        int timeStamp{};
+        int timeStamp{}; // deprecated
         int sequence{};
         int commandID{};
         int response_code{};

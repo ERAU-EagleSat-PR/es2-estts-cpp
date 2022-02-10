@@ -15,7 +15,10 @@ public:
 
     std::string get_eps_vitals(const estts::dispatch_fct &dispatch, const std::function<estts::Status(
             estts::es2_telemetry::eps::vitals *)> &telem_callback);
+
+    std::string get_eps_voltage(const estts::dispatch_fct &dispatch);
 };
 
 
 #endif //ESTTS_EPS_COMMAND_H
+

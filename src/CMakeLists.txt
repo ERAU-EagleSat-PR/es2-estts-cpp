@@ -44,7 +44,7 @@ set(estts_include_directories ${include_directories} PARENT_SCOPE)
 # Configure build targets
 add_library(
         estts
-        SHARED
+        STATIC
         ${estts-src}
 )
 target_include_directories(
