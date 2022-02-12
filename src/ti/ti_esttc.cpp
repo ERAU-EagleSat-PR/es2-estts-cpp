@@ -25,7 +25,7 @@ ti_esttc::ti_esttc(const char *es_transmitter_port, int baud) : ti_serial_handle
  */
 estts::Status ti_esttc::enable_pipe() {
 	// command as binary ref UHF Transciever User Manual 0011 0011 0010 0011
-	char enablePipeModeCommand = "3323"
+	const char enablePipeModeCommand[] = "3323";
 	auto command = build_esttc_command(esttc_symbols->METHOD_WRITE, esttc_symbols->COMMAND_SCW, enablePipeModeCommand);
 	
 	if (this->write_serial_s(command) < 0) {

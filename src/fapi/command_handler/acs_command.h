@@ -10,6 +10,8 @@
 class acs_command {
 public:
     estts::Status get_current_position();
+
+    estts::string get
 };
 
 

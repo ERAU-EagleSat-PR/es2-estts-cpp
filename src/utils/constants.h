@@ -70,6 +70,23 @@ namespace estts {
             const int ACS_GET_GPS_LAT = 01;
             const int ACS_GET_GPS_LONG = 02;
             const int ACS_GET_POS = 03;
+            const int ACS_DEP_MAG_BOOM = 07;
+            const int ACS_ENABLE = 10;
+            const int ACS_POWER = 11;
+            const int ACS_SET_CTRL_MODE = 13;
+            const int ACS_SET_EST_MODE = 14;
+            const int ACS_SET_MAG_MNT = 33;
+            const int ACS_SET_MAG_MNT_MTRX = 34;
+            const int ACS_SET_INERTIA = 41;
+            const int ACS_SAVE_CONFIG = 63;
+            const int ACS_SET_ATT_ANG = 146;
+            const int ACS_SET_ANG_RATE = 147;
+            const int ACS_GET_MAGNET = 151;
+            const int ACS_RATE_SENSE_RATE = 155;
+            const int ACS_SET_MAGNETORQUER = 157;
+            const int ACS_GET_MAGNETO = 170;
+            const int ACS_GET_CC_CURRENT = 172;
+            const int ACS_EST_ANG_RATES_FINE = 201;
         }
         namespace eps {
             const int EPS_GET_HEALTH = 01;

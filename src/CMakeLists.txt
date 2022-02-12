@@ -10,7 +10,6 @@ set(
         utils/port.cpp
         utils/stack.cpp
         utils/queue.cpp
-        sapi/endurosat_scrambling.cpp
         fapi/automator.cpp
         fapi/command_handler/acs_command.cpp
         fapi/command_handler/crp_command.cpp
@@ -53,8 +52,8 @@ target_include_directories(
         ${include_directories}
 )
 
-target_link_libraries(estts PUBLIC spdlog::spdlog)
-target_link_libraries(estts PUBLIC nlohmann_json::nlohmann_json)
+target_link_libraries(estts PRIVATE spdlog::spdlog)
+target_link_libraries(estts PRIVATE nlohmann_json::nlohmann_json)
 
 if (BUILD_DEBUG)
     target_compile_definitions(
