@@ -16,6 +16,8 @@ private:
 
     static std::vector<string> split_lines(const string &all_lines, size_t num_of_lines);
 protected:
+public:
+
     // 10.1 - STATUS CONTROL WORD (SCW)
     estts::Status default_mode();
     estts::Status enable_pipe();
@@ -68,7 +70,6 @@ protected:
 
     static std::string calculate_crc32(std::string string);
 
-public:
     ti_esttc(const char *es_transmitter_port, int baud);
 
     ~ti_esttc();

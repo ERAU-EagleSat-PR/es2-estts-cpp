@@ -823,13 +823,16 @@ estts::Status ti_esttc::build_esttc_command(const char method, const char *comma
         // TODO - Make sure this covers ALL cases
         if (response.length() >= 7 && response.substr(0, 7) == "ERR+VAL") {
             return_status = estts::ES_BAD_OPTION;
-            spdlog::error("Invalid  ESTTC command input data");
-        } else if ((response.length() >= 3 && response.substr(0, 3) == "ERR") || (response.length() <=  0)) {
+            spdlog::error("Invalid  ESTTC command input data: {}", command.str());
+        } else if (response.length() >= 3 && response.substr(0, 3) == "ERR") {
             return_status = estts::ES_UNSUCCESSFUL;
-            spdlog::error("Failed to transmit  ESTTC command");
+            spdlog::error("Failed to transmit  ESTTC command: {}", command.str());
         } else if (response.length() >= 2 && response.substr(0, 2) == "OK") {
             return_status = estts::ES_SUCCESS;
             SPDLOG_INFO("Successfully transmitted ESTTC command: {}", command.str());
+        } else {
+            return_status = estts::ES_UNINITIALIZED;
+            SPDLOG_INFO("Unhandled ESTTC command response ...\ncommand: {}\nanswer: {}", command.str(), response);
         }
     } else {
         return_status = serial_status;
