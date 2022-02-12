@@ -17,6 +17,8 @@ public:
             estts::es2_telemetry::eps::vitals *)> &telem_callback);
 
     std::string get_eps_voltage(const estts::dispatch_fct &dispatch);
+
+    std::string get_eps_batteryCurrent(const estts::dispatch_fct &dispatch);
 };
 
 

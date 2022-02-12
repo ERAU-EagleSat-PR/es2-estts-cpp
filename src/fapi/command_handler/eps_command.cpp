@@ -78,4 +78,37 @@ std::string eps_command::get_eps_voltage(const estts::dispatch_fct &dispatch) {
     return dispatch(command, eps_telem_decomposition_callback);
 }
 
+
+std::string eps_command::get_eps_batteryCurrent(const estts::dispatch_fct &dispatch) {
+    std::vector<estts::command_object *> command;
+    auto temp = new estts::command_object;
+
+    temp->address = estts::es2_endpoint::ES_EPS;
+    temp->commandID = estts::es2_commands::eps::EPS_GET_BATTERY_CURRENT;
+    temp->method = estts::es2_commands::method::ES_READ;
+    temp->sequence = 01;
+    temp->timeStamp = 8456;
+
+    SPDLOG_INFO("Attempting to get EPS battery temperature");
+
+    command.push_back(temp);
+
+
+    auto eps_telem_decomposition_callback = [] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
+        if (telem.empty()) {
+            return estts::ES_UNINITIALIZED;
+        }
+        // TODO do something with the telem vector passed to this function
+        auto eps_current = new estts::es2_telemetry::eps::eps_current;
+
+        eps_current->battery_current = 9.0;
+
+        spdlog::info("EPS current : {}", eps_current->battery_current);
+
+        spdlog::info("Got back battery current - it worked");
+    };
+
+    return dispatch(command, eps_telem_decomposition_callback);
+}
+
 eps_command::eps_command() = default;

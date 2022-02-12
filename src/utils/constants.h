@@ -75,6 +75,7 @@ namespace estts {
             const int EPS_GET_HEALTH = 01;
             const int EPS_GET_COMMAND_43 = 43;
             const int EPS_GET_VOLTAGE = 1;
+            const int EPS_GET_BATTERY_CURRENT = 2;
         }
         namespace mde {
             const int MDE_GET_STATUS = 01;
@@ -100,6 +101,9 @@ namespace estts {
             };
             struct eps_voltage {
                 double battery_voltage;
+            };
+            struct eps_current {
+                double battery_current;
             };
         }
     }
