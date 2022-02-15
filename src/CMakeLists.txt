@@ -27,7 +27,7 @@ set(
         ti/ti_serial_handler.cpp
         ti/ti_socket_handler.cpp
         ti/transmission_interface.cpp
-)
+        sapi/esttc_constructor.cpp sapi/esttc_constructor.h fapi/esttc.cpp fapi/esttc.h sapi/esttc_deconstructor.cpp sapi/esttc_deconstructor.h)
 
 set(
         include_directories

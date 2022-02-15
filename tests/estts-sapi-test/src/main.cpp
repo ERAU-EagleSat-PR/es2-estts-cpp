@@ -8,8 +8,12 @@
 #include "frame_destructor.h"
 #include "constants.h"
 #include "info_field.h"
+#include "esttc.h"
+#include "esttc_constructor.h"
+#include "esttc_deconstructor.h"
 
 int main() {
+    //ax25 test
     spdlog::set_level(spdlog::level::trace);
     auto command_object = new estts::command_object;
 
