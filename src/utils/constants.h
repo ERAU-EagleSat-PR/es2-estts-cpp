@@ -24,6 +24,9 @@ namespace estts {
         const char AX25_SSID1[] = "E1";
         const char AX25_CONTROL[] = "03"; // 03 = Unnumbered Information
         const char AX25_PID[] = "F0"; // F0 = No layer 3 protocol implemented
+
+        const char NEW_SESSION_FRAME[] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+        const char END_SESSION_FRAME[] = "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB";
     }
 
     namespace telem_handler {
@@ -74,6 +77,8 @@ namespace estts {
         namespace eps {
             const int EPS_GET_HEALTH = 01;
             const int EPS_GET_COMMAND_43 = 43;
+            const int EPS_GET_VOLTAGE = 1;
+            const int EPS_GET_BATTERY_CURRENT = 2;
         }
         namespace mde {
             const int MDE_GET_STATUS = 01;
@@ -96,6 +101,12 @@ namespace estts {
                 double battery_voltage;
                 double brownouts;
                 double charge_time_mins;
+            };
+            struct eps_voltage {
+                double battery_voltage;
+            };
+            struct eps_current {
+                double battery_current;
             };
         }
     }
@@ -133,7 +144,7 @@ namespace estts {
 
     typedef struct command_object {
         int address{};
-        int timeStamp{};
+        int timeStamp{}; // deprecated
         int sequence{};
         int commandID{};
         int method{};
@@ -142,7 +153,7 @@ namespace estts {
 
     typedef struct telemetry_object {
         int address{};
-        int timeStamp{};
+        int timeStamp{}; // deprecated
         int sequence{};
         int commandID{};
         int response_code{};
@@ -150,7 +161,7 @@ namespace estts {
     } telemetry_object;
 
     typedef struct dispatched_command {
-        std::vector<command_object *> command;
+        command_object * command;
         std::vector<telemetry_object *> telem;
         Status response_code;
         std::string serial_number;
@@ -158,13 +169,12 @@ namespace estts {
     } dispatched_command;
 
     typedef struct waiting_command {
-        std::vector<command_object *> command;
+        command_object * command;
         std::string serial_number;
         std::function<estts::Status(std::vector<estts::telemetry_object *>)> callback;
     } waiting_command;
 
-    typedef std::function<std::string(std::vector<estts::command_object *>, std::function<estts::Status(std::vector<estts::telemetry_object *>)>)> dispatch_fct;
+    typedef std::function<std::string(estts::command_object *, std::function<estts::Status(std::vector<estts::telemetry_object *>)>)> dispatch_fct;
 }
-
 
 #endif //ESTTS_CONSTANTS_H

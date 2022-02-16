@@ -4,6 +4,8 @@
 
 #include <chrono>
 #include <thread>
+#include <fcntl.h>
+#include <sys/ioctl.h>
 #include "ti_socket_handler.h"
 #include <arpa/inet.h>
 #include <unistd.h>
@@ -66,25 +68,12 @@ estts::Status ti_socket_handler::configure_socket() {
         spdlog::error("Error {} from connect(): {}", errno, strerror(errno));
         return estts::ES_UNSUCCESSFUL;
     }
-    SPDLOG_TRACE("Connection succeeded. Attempting handshake.");
+    int flags = fcntl(sock, F_GETFL, 0);
+    // fcntl(sock, F_SETFL, flags | O_NONBLOCK);
+    // SPDLOG_TRACE("Connection succeeded.");
 
-    char *hello = "es2-estts-cpp";
-    char buffer[estts::ti_socket::TI_SOCKET_BUF_SZ] = {0};
-
-    if (send(sock, hello, strlen(hello), 0) != strlen(hello)) {
-        spdlog::error("Failed to transmit to socket");
-        return estts::ES_UNSUCCESSFUL;
-    }
-    auto r = read(sock, buffer, estts::ti_socket::TI_SOCKET_BUF_SZ);
-    if (r != strlen(hello)) {
-        spdlog::error("Failed to read from socket");
-        return estts::ES_UNSUCCESSFUL;
-    }
-    SPDLOG_TRACE("Handshake succeeded - transmitted {}, got back {}", hello, buffer);
-
-    using namespace std::this_thread; // sleep_for, sleep_until
-    using namespace std::chrono; // nanoseconds, system_clock, seconds
-    sleep_until(system_clock::now() + seconds(2));
+    // Flush socket for use
+    write_socket_s("flush");
     return estts::ES_OK;
 }
 
@@ -169,4 +158,10 @@ std::string ti_socket_handler::read_socket_s() const {
     std::string string_read(reinterpret_cast<char const *>(read));
     delete read;
     return string_read;
+}
+
+int ti_socket_handler::check_sock_bytes_avail() const {
+    int count;
+    ioctl(sock, FIONREAD, &count);
+    return count;
 }

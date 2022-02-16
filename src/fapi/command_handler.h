@@ -5,6 +5,7 @@
 #ifndef ESTTS_FAPI_COMMAND_HANDLER_H
 #define ESTTS_FAPI_COMMAND_HANDLER_H
 
+#include <deque>
 #include <functional>
 #include <vector>
 #include "transmission_interface.h"
@@ -33,7 +34,9 @@ protected:
 
     ~command_handler();
 
-    estts::Status execute(const std::vector<estts::waiting_command *> &commands);
+    estts::Status execute(const std::deque<estts::waiting_command *> &commands);
+
+    estts::Status execute(estts::waiting_command * command);
 };
 
 
