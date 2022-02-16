@@ -10,7 +10,6 @@ set(
         utils/port.cpp
         utils/stack.cpp
         utils/queue.cpp
-        sapi/endurosat_scrambling.cpp
         fapi/automator.cpp
         fapi/command_handler/acs_command.cpp
         fapi/command_handler/crp_command.cpp
@@ -18,11 +17,11 @@ set(
         fapi/command_handler.cpp
         fapi/command_handler/mde_command.cpp
         fapi/command_handler/obc_command.cpp
-        fapi/command_dispatcher.cpp
+        fapi/session_manager.cpp
         fapi/communication_handler.cpp
-        sapi/frame_constructor.cpp
-        sapi/frame_destructor.cpp
-        sapi/info_field.cpp
+        tnc_emulator/ax25_ui_frame_constructor.cpp
+        tnc_emulator/ax25_ui_frame_destructor.cpp
+        tnc_emulator/info_field.cpp
         ti/ti_esttc.cpp
         ti/ti_serial_handler.cpp
         ti/ti_socket_handler.cpp
@@ -34,7 +33,7 @@ set(
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/fapi
         ${CMAKE_CURRENT_SOURCE_DIR}/fapi/command_handler
-        ${CMAKE_CURRENT_SOURCE_DIR}/sapi
+        ${CMAKE_CURRENT_SOURCE_DIR}/tnc_emulator
         ${CMAKE_CURRENT_SOURCE_DIR}/ti
         ${CMAKE_CURRENT_SOURCE_DIR}/utils
 )
@@ -83,5 +82,12 @@ if (TI_DEV_MODE)
             estts
             PRIVATE
             __TI_DEV_MODE__
+    )
+endif()
+if (ESTTS_COMMAND_STREAM_MODE)
+    target_compile_definitions(
+            estts
+            PRIVATE
+            __ESTTS_COMMAND_STREAM_MODE__
     )
 endif()

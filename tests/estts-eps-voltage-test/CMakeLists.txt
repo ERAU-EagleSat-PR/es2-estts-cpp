@@ -2,7 +2,7 @@
 # estts-eps-voltage-test build configuration.
 #
 
-# Add primary executable for estts-sapi-test
+# Add primary executable for estts-tnc_emulator-test
 add_executable(estts-eps-voltage-test src/main.cpp)
 
 target_include_directories(

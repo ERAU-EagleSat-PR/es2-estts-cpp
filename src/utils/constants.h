@@ -24,6 +24,9 @@ namespace estts {
         const char AX25_SSID1[] = "E1";
         const char AX25_CONTROL[] = "03"; // 03 = Unnumbered Information
         const char AX25_PID[] = "F0"; // F0 = No layer 3 protocol implemented
+
+        const char NEW_SESSION_FRAME[] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+        const char END_SESSION_FRAME[] = "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB";
     }
 
     namespace telem_handler {
@@ -158,7 +161,7 @@ namespace estts {
     } telemetry_object;
 
     typedef struct dispatched_command {
-        std::vector<command_object *> command;
+        command_object * command;
         std::vector<telemetry_object *> telem;
         Status response_code;
         std::string serial_number;
@@ -166,13 +169,12 @@ namespace estts {
     } dispatched_command;
 
     typedef struct waiting_command {
-        std::vector<command_object *> command;
+        command_object * command;
         std::string serial_number;
         std::function<estts::Status(std::vector<estts::telemetry_object *>)> callback;
     } waiting_command;
 
-    typedef std::function<std::string(std::vector<estts::command_object *>, std::function<estts::Status(std::vector<estts::telemetry_object *>)>)> dispatch_fct;
+    typedef std::function<std::string(estts::command_object *, std::function<estts::Status(std::vector<estts::telemetry_object *>)>)> dispatch_fct;
 }
-
 
 #endif //ESTTS_CONSTANTS_H

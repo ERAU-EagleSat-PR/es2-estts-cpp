@@ -10,7 +10,7 @@
 #include <vector>
 #include <nlohmann/json.hpp>
 #include "transmission_interface.h"
-#include "command_dispatcher.h"
+#include "session_manager.h"
 #include "constants.h"
 #include "eps_command.h"
 #include "acs_command.h"
@@ -22,7 +22,9 @@ class communication_handler : virtual public eps_command, acs_command, obc_comma
 private:
     std::vector<std::string> command_serial_number_cache;
 
-    command_dispatcher *dispatch;
+    transmission_interface *ti;
+
+    session_manager *dispatch;
 
     std::thread communication_worker;
 
@@ -40,9 +42,8 @@ public:
         dispatch->await_completion();
     }
 
-    std::function<std::string(std::vector<estts::command_object *>,
-                              std::function<estts::Status(std::vector<estts::telemetry_object *>)>)> dispatch_lambda() {
-        return [this](const std::vector<estts::command_object *> &command, std::function<estts::Status(
+    std::function<std::string(estts::command_object *,std::function<estts::Status(std::vector<estts::telemetry_object *>)>)> dispatch_lambda() {
+        return [this](estts::command_object * command, std::function<estts::Status(
                 std::vector<estts::telemetry_object *>)> decomp_callback) -> std::string {
             return this->dispatch->schedule_command(command, decomp_callback);
         };

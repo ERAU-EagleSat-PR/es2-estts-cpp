@@ -7,15 +7,13 @@
 
 std::string eps_command::get_eps_vitals(const estts::dispatch_fct& dispatch, const std::function<estts::Status(estts::es2_telemetry::eps::vitals *)>& telem_callback) {
     SPDLOG_INFO("Getting EagleSat II EPS Vitals");
-    std::vector<estts::command_object *> command;
-    auto temp = new estts::command_object;
-    command.push_back(temp);
+    auto command = new estts::command_object;
 
-    command[0]->address = estts::es2_endpoint::ES_EPS;
-    command[0]->commandID = estts::es2_commands::eps::EPS_GET_HEALTH;
-    command[0]->method = estts::es2_commands::method::ES_READ;
-    command[0]->sequence = 01;
-    command[0]->timeStamp = 8456;
+    command->address = estts::es2_endpoint::ES_EPS;
+    command->commandID = estts::es2_commands::eps::EPS_GET_HEALTH;
+    command->method = estts::es2_commands::method::ES_READ;
+    command->sequence = 01;
+    command->timeStamp = 8456;
 
 
 
@@ -54,18 +52,14 @@ std::string eps_command::get_eps_vitals(const estts::dispatch_fct& dispatch, con
 }
 
 std::string eps_command::get_eps_voltage(const estts::dispatch_fct &dispatch) {
-    std::vector<estts::command_object *> command;
-    auto temp = new estts::command_object;
-
-    temp->address = estts::es2_endpoint::ES_EPS;
-    temp->commandID = estts::es2_commands::eps::EPS_GET_VOLTAGE;
-    temp->method = estts::es2_commands::method::ES_READ;
-    temp->sequence = 01;
-    temp->timeStamp = 8456;
+    auto command = new estts::command_object;
+    command->address = estts::es2_endpoint::ES_EPS;
+    command->commandID = estts::es2_commands::eps::EPS_GET_VOLTAGE;
+    command->method = estts::es2_commands::method::ES_READ;
+    command->sequence = 01;
+    command->timeStamp = 8456;
 
     SPDLOG_INFO("Attempting to get EPS battery voltage");
-
-    command.push_back(temp);
 
     auto eps_telem_decomposition_callback = [] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
         if (telem.empty()) {
@@ -80,18 +74,15 @@ std::string eps_command::get_eps_voltage(const estts::dispatch_fct &dispatch) {
 
 
 std::string eps_command::get_eps_batteryCurrent(const estts::dispatch_fct &dispatch) {
-    std::vector<estts::command_object *> command;
-    auto temp = new estts::command_object;
+    auto command = new estts::command_object;
 
-    temp->address = estts::es2_endpoint::ES_EPS;
-    temp->commandID = estts::es2_commands::eps::EPS_GET_BATTERY_CURRENT;
-    temp->method = estts::es2_commands::method::ES_READ;
-    temp->sequence = 01;
-    temp->timeStamp = 8456;
+    command->address = estts::es2_endpoint::ES_EPS;
+    command->commandID = estts::es2_commands::eps::EPS_GET_BATTERY_CURRENT;
+    command->method = estts::es2_commands::method::ES_READ;
+    command->sequence = 01;
+    command->timeStamp = 8456;
 
     SPDLOG_INFO("Attempting to get EPS battery temperature");
-
-    command.push_back(temp);
 
 
     auto eps_telem_decomposition_callback = [] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {

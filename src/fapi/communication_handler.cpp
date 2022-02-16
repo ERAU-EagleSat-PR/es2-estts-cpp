@@ -61,7 +61,7 @@ inline bool test_file_exists(const std::string& name) {
  * the state file.
  */
 communication_handler::communication_handler() {
-    dispatch = new command_dispatcher();
+    dispatch = new session_manager();
     filename = estts::telem_handler::TELEM_HANDLER_STATE_FILE;
     if (!test_file_exists(filename)) {
         std::ofstream o(filename);
