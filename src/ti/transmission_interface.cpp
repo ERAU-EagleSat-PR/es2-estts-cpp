@@ -130,3 +130,79 @@ transmission_interface::~transmission_interface() {
 
     mtx.unlock();
 }
+
+Status transmission_interface::request_new_session(const std::string& handshake) {
+#ifdef __TI_DEV_MODE__
+    SPDLOG_INFO("Requesting new session");
+
+    SPDLOG_TRACE("Waiting for gap in stream");
+    auto tstart  = std::chrono::high_resolution_clock::now();
+    bool gap_potential = false;
+    while (true) {
+        if (!check_data_available()) {
+            if (!gap_potential) {
+                tstart = std::chrono::high_resolution_clock::now();
+                gap_potential = true;
+            }
+            else {
+                auto tstop = std::chrono::high_resolution_clock::now();
+                if (std::chrono::duration_cast<std::chrono::seconds>(tstop - tstart).count() >= 2) {
+                    SPDLOG_TRACE("Found gap, attempting handshake");
+                    break;
+                }
+            }
+        } else {
+            receive();
+            gap_potential = false;
+        }
+        sleep_until(system_clock::now() + milliseconds (10));
+    }
+
+    if (write_socket_s(handshake) != ES_OK) {
+        SPDLOG_ERROR("Failed to request session");
+        return ES_UNSUCCESSFUL;
+    }
+
+    std::string received;
+    do {}
+    while ((received = this->read_socket_s()).empty());
+    if (handshake != received) {
+        SPDLOG_ERROR("Failed to request session");
+        return ES_UNSUCCESSFUL;
+    }
+    SPDLOG_TRACE("Handshake succeeded, session active");
+    session_active = true;
+    return ES_OK;
+#endif
+}
+
+Status transmission_interface::end_session(const string &end_frame) {
+#ifdef __TI_DEV_MODE__
+    SPDLOG_INFO("Ending session");
+    if (write_socket_s(end_frame) != ES_OK) {
+        SPDLOG_ERROR("Failed to end session");
+        return ES_UNSUCCESSFUL;
+    }
+
+    std::string received;
+    do {}
+    while ((received = this->read_socket_s()).empty());
+    if (std::string::npos == received.find(end_frame)) {
+        SPDLOG_ERROR("Failed to end session");
+        return ES_UNSUCCESSFUL;
+    }
+    session_active = false;
+    SPDLOG_TRACE("Successfully ended session");
+#endif
+
+    return ES_OK;
+}
+
+bool transmission_interface::check_data_available() {
+#ifdef __TI_DEV_MODE__
+    if (check_sock_bytes_avail() > 0)
+        return true;
+    else
+        return false;
+#endif
+}
