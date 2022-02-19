@@ -215,3 +215,4 @@ bool transmission_interface::check_data_available() {
         return false;
 #endif
 }
+
