@@ -11,7 +11,7 @@
 #include "info_field.h"
 #include "bin_converter.h"
 
-class frame_constructor : virtual public info_field {
+class ax25_ui_frame_constructor : virtual public info_field {
 private:
 
     /* Getters for Header Field */
@@ -43,7 +43,7 @@ protected:
 
 public:
     /* Constructors */
-    explicit frame_constructor(estts::command_object *command) : info_field(command) {}
+    explicit ax25_ui_frame_constructor(estts::command_object *command) : info_field(command) {}
 
     /* Encoded AX.25 Frame Constructor */
     std::string construct_ax25();

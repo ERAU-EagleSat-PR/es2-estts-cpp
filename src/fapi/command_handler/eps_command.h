@@ -5,24 +5,22 @@
 #ifndef ESTTS_EPS_COMMAND_H
 #define ESTTS_EPS_COMMAND_H
 
-
+#include <functional>
+#include <string>
 #include <constants.h>
-#include "fapi_command_handler.h"
 
-namespace eps {
-    struct vitals {
-        double battery_voltage;
-        double brownouts;
-        double charge_time_mins;
-    };
-}
-
-class eps_command : virtual public fapi_command_handler {
+class eps_command {
 public:
-    explicit eps_command(transmission_interface *ti);
+    explicit eps_command();
 
-    eps::vitals *get_vitals();
+    std::string get_eps_vitals(const estts::dispatch_fct &dispatch, const std::function<estts::Status(
+            estts::es2_telemetry::eps::vitals *)> &telem_callback);
+
+    std::string get_eps_voltage(const estts::dispatch_fct &dispatch);
+
+    std::string get_eps_batteryCurrent(const estts::dispatch_fct &dispatch);
 };
 
 
 #endif //ESTTS_EPS_COMMAND_H
+

@@ -4,10 +4,10 @@
 
 #include <iostream>
 #include <sstream>
-#include "frame_destructor.h"
+#include "ax25_ui_frame_destructor.h"
 #include "helper.h"
 
-estts::Status frame_destructor::decode_frame(const std::string &frame) {
+estts::Status ax25_ui_frame_destructor::decode_frame(const std::string &frame) {
     SPDLOG_DEBUG("Found frame: {}", frame);
 
     if (estts::ES_OK != validate_header(frame)) {
@@ -24,54 +24,54 @@ estts::Status frame_destructor::decode_frame(const std::string &frame) {
     return estts::ES_OK;
 }
 
-estts::Status frame_destructor::check_source(const std::string &source) {
+estts::Status ax25_ui_frame_destructor::check_source(const std::string &source) {
     if (hex_to_ascii(source) == estts::ax25::AX25_DESTINATION_ADDRESS)
         return estts::ES_OK;
     spdlog::error("Source: Expected {}; Got {}", estts::ax25::AX25_DESTINATION_ADDRESS, hex_to_ascii(source));
     return estts::ES_UNSUCCESSFUL;
 }
 
-estts::Status frame_destructor::check_destination(const std::string &dest) {
+estts::Status ax25_ui_frame_destructor::check_destination(const std::string &dest) {
     if (hex_to_ascii(dest) == estts::ax25::AX25_SOURCE_ADDRESS)
         return estts::ES_OK;
     spdlog::error("Destination: Expected {}; Got {}", estts::ax25::AX25_SOURCE_ADDRESS, hex_to_ascii(dest));
     return estts::ES_UNSUCCESSFUL;
 }
 
-estts::Status frame_destructor::check_ssid0(const std::string &ssid) {
+estts::Status ax25_ui_frame_destructor::check_ssid0(const std::string &ssid) {
     if (ssid == estts::ax25::AX25_SSID0)
         return estts::ES_OK;
     spdlog::error("SSID0: Expected {}; Got {}", estts::ax25::AX25_SSID0, ssid);
     return estts::ES_UNSUCCESSFUL;
 }
 
-estts::Status frame_destructor::check_ssid1(const std::string &ssid) {
+estts::Status ax25_ui_frame_destructor::check_ssid1(const std::string &ssid) {
     if (ssid == estts::ax25::AX25_SSID1)
         return estts::ES_OK;
     spdlog::error("SSID1: Expected {}; Got {}", estts::ax25::AX25_SSID1, ssid);
     return estts::ES_UNSUCCESSFUL;
 }
 
-estts::Status frame_destructor::check_control(const std::string &control) {
+estts::Status ax25_ui_frame_destructor::check_control(const std::string &control) {
     if (control == estts::ax25::AX25_CONTROL)
         return estts::ES_OK;
     spdlog::error("Control: Expected {}; Got {}", estts::ax25::AX25_CONTROL, control);
     return estts::ES_UNSUCCESSFUL;
 }
 
-estts::Status frame_destructor::check_pid(const std::string &pid) {
+estts::Status ax25_ui_frame_destructor::check_pid(const std::string &pid) {
     if (pid == estts::ax25::AX25_PID)
         return estts::ES_OK;
     spdlog::error("PID: Expected {}; Got {}", estts::ax25::AX25_PID, pid);
     return estts::ES_UNSUCCESSFUL;
 }
 
-estts::Status frame_destructor::check_crc(const std::string &frame, const std::string &crc) {
+estts::Status ax25_ui_frame_destructor::check_crc(const std::string &frame, const std::string &crc) {
     // TODO check the CRC against the calculated CRC of the entire frame
     return estts::ES_OK;
 }
 
-estts::Status frame_destructor::validate_header(const std::string &frame) {
+estts::Status ax25_ui_frame_destructor::validate_header(const std::string &frame) {
     if (estts::ES_OK != check_destination(frame.substr(0, 12)))
         return estts::ES_UNSUCCESSFUL;
     if (estts::ES_OK != check_ssid0(frame.substr(12, 2)))
@@ -88,7 +88,7 @@ estts::Status frame_destructor::validate_header(const std::string &frame) {
     return estts::ES_OK;
 }
 
-estts::Status frame_destructor::build_telemetry_objects() {
+estts::Status ax25_ui_frame_destructor::build_telemetry_objects() {
     try {
         for (;;) {
             // First, find the start of the frame using the flag.
@@ -149,7 +149,7 @@ estts::Status frame_destructor::build_telemetry_objects() {
     }
 }
 
-std::vector<estts::telemetry_object *> frame_destructor::destruct_ax25() {
+std::vector<estts::telemetry_object *> ax25_ui_frame_destructor::destruct_ax25() {
     if (estts::ES_OK != build_telemetry_objects()) {
         return {};
     }

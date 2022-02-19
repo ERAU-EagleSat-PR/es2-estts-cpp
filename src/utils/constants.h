@@ -14,7 +14,7 @@
 namespace estts {
     const int ESTTS_MAX_RETRIES = 2;
     const int ESTTS_RETRY_WAIT_SEC = 1;
-    const int ESTTS_AWAIT_RESPONSE_PERIOD_SEC = 10;
+    const int ESTTS_AWAIT_RESPONSE_PERIOD_SEC = 5;
     /* AX.25 Related constants */
     namespace ax25 {
         const char AX25_FLAG[] = "7E"; // Flag is constant
@@ -24,6 +24,13 @@ namespace estts {
         const char AX25_SSID1[] = "E1";
         const char AX25_CONTROL[] = "03"; // 03 = Unnumbered Information
         const char AX25_PID[] = "F0"; // F0 = No layer 3 protocol implemented
+
+        const char NEW_SESSION_FRAME[] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+        const char END_SESSION_FRAME[] = "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB";
+    }
+
+    namespace telem_handler {
+        const char TELEM_HANDLER_STATE_FILE[] = "es2_state.json";
     }
 
     namespace estts_response_code {
@@ -50,10 +57,17 @@ namespace estts {
         ES_UNSUCCESSFUL = 1,
         ES_UNINITIALIZED = 2,
         ES_MEMORY_ERROR = 3,
+        ES_WAITING = 3,
         ES_BAD_OPTION = 405,
         ES_UNAUTHORIZED = 403,
-        ES_SERVER_ERROR = 500
+        ES_SERVER_ERROR = 500,
+        ES_INPROGRESS = 300,
+        ES_NOTFOUND = 404
     };
+
+    namespace dispatcher {
+        const int MAX_COMPLETED_CACHE = 20; // Maximum number of completed commands to remember
+    }
 
     namespace es2_commands {
         namespace acs {
@@ -63,6 +77,9 @@ namespace estts {
         }
         namespace eps {
             const int EPS_GET_HEALTH = 01;
+            const int EPS_GET_COMMAND_43 = 43;
+            const int EPS_GET_VOLTAGE = 1;
+            const int EPS_GET_BATTERY_CURRENT = 2;
         }
         namespace mde {
             const int MDE_GET_STATUS = 01;
@@ -76,6 +93,22 @@ namespace estts {
         namespace method {
             const int ES_READ = 0;
             const int ES_WRITE = 1;
+        }
+    }
+
+    namespace es2_telemetry {
+        namespace eps {
+            struct vitals {
+                double battery_voltage;
+                double brownouts;
+                double charge_time_mins;
+            };
+            struct eps_voltage {
+                double battery_voltage;
+            };
+            struct eps_current {
+                double battery_current;
+            };
         }
     }
 
@@ -152,24 +185,39 @@ namespace estts {
         const int TI_SOCKET_PORT = 8080;
     }
 
-    typedef struct estts_command {
+    typedef struct command_object {
         int address{};
-        int timeStamp{};
+        int timeStamp{}; // deprecated
         int sequence{};
         int commandID{};
         int method{};
         const char *data{};
     } command_object;
 
-    typedef struct estts_telemetry {
+    typedef struct telemetry_object {
         int address{};
-        int timeStamp{};
+        int timeStamp{}; // deprecated
         int sequence{};
         int commandID{};
         int response_code{};
         const char *data{};
     } telemetry_object;
-}
 
+    typedef struct dispatched_command {
+        command_object * command;
+        std::vector<telemetry_object *> telem;
+        Status response_code;
+        std::string serial_number;
+        std::function<estts::Status(std::vector<estts::telemetry_object *>)> callback;
+    } dispatched_command;
+
+    typedef struct waiting_command {
+        command_object * command;
+        std::string serial_number;
+        std::function<estts::Status(std::vector<estts::telemetry_object *>)> callback;
+    } waiting_command;
+
+    typedef std::function<std::string(estts::command_object *, std::function<estts::Status(std::vector<estts::telemetry_object *>)>)> dispatch_fct;
+}
 
 #endif //ESTTS_CONSTANTS_H

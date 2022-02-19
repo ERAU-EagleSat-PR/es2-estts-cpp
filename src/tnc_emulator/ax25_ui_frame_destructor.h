@@ -2,15 +2,15 @@
 // Created by Hayden Roszell on 12/28/21.
 //
 
-#ifndef ESTTS_FRAME_DESTRUCTOR_H
-#define ESTTS_FRAME_DESTRUCTOR_H
+#ifndef ESTTS_AX25_UI_FRAME_DESTRUCTOR_H
+#define ESTTS_AX25_UI_FRAME_DESTRUCTOR_H
 
 #include <string>
 #include <utility>
 #include "constants.h"
 #include "info_field.h"
 
-class frame_destructor : virtual public info_field {
+class ax25_ui_frame_destructor : virtual public info_field {
 private:
     std::vector<estts::telemetry_object *> telemetry;
 
@@ -37,10 +37,10 @@ private:
     std::string raw_frame;
 
 public:
-    explicit frame_destructor(std::string raw) : info_field() { raw_frame = std::move(raw); }
+    explicit ax25_ui_frame_destructor(std::string raw) : info_field() { raw_frame = std::move(raw); }
 
     std::vector<estts::telemetry_object *> destruct_ax25();
 };
 
 
-#endif //ESTTS_FRAME_DESTRUCTOR_H
+#endif //ESTTS_AX25_UI_FRAME_DESTRUCTOR_H

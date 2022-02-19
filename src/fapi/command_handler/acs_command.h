@@ -5,9 +5,11 @@
 #ifndef ESTTS_ACS_COMMAND_H
 #define ESTTS_ACS_COMMAND_H
 
+#include "constants.h"
 
 class acs_command {
-
+public:
+    estts::Status get_current_position();
 };
 
 
