@@ -7,6 +7,10 @@
 
 #include "transmission_interface.h"
 
+using namespace std::this_thread; // sleep_for, sleep_until
+using namespace std::chrono; // nanoseconds, system_clock, seconds
+using namespace estts;
+
 transmission_interface::transmission_interface() : ti_socket_handler(estts::ti_socket::TI_SOCKET_ADDRESS,
                                                                                         estts::ti_socket::TI_SOCKET_PORT),
                                                                       ti_esttc(estts::ti_serial::TI_SERIAL_ADDRESS,
