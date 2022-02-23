@@ -26,7 +26,7 @@ set(
         ti/ti_serial_handler.cpp
         ti/ti_socket_handler.cpp
         ti/transmission_interface.cpp
-)
+        tnc_emulator/ax25_data.cpp tnc_emulator/ax25_data.h fapi/esttc_command.cpp fapi/esttc_command.h)
 
 set(
         include_directories
