@@ -48,7 +48,10 @@ estts::Status ti_esttc::write_scw(uint16_t scw_command) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
 
-    // TODO - Handle when the scw_command > stopper
+    // Temp Solution
+    if (scw_command > stopper)
+        return estts::ES_BAD_OPTION;
+
     string command_body = esttc_symbols->scw_body[scw_command];
 
     return_status = build_esttc_command(
