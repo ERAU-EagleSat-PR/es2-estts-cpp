@@ -76,6 +76,8 @@ namespace estts {
             const int EPS_GET_COMMAND_43 = 43;
             const int EPS_GET_VOLTAGE = 1;
             const int EPS_GET_BATTERY_CURRENT = 2;
+            const int EPS_GET_5VBUS_CURRENT = 15;
+            const int EPS_GET_3VBUS_CURRENT = 14;
         }
         namespace mde {
             const int MDE_GET_STATUS = 01;
@@ -104,6 +106,12 @@ namespace estts {
             };
             struct eps_current {
                 double battery_current;
+            };
+            struct eps_5Vbus_current {
+                double bus_current;
+            };
+            struct eps_3Vbus_current {
+                double bus_current;
             };
         }
     }

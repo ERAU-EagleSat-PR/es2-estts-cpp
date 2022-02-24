@@ -19,6 +19,10 @@ public:
     std::string get_eps_voltage(const estts::dispatch_fct &dispatch);
 
     std::string get_eps_batteryCurrent(const estts::dispatch_fct &dispatch);
+
+    std::string get_eps_5Vbus_current(const estts::dispatch_fct &dispatch);
+
+    std::string get_eps_3Vbus_current(const estts::dispatch_fct &dispatch);
 };
 
 

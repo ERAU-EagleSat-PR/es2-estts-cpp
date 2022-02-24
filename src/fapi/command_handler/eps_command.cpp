@@ -103,9 +103,75 @@ std::string eps_command::get_eps_batteryCurrent(const estts::dispatch_fct &dispa
 
         eps_current->battery_current = 9.0;
 
-        spdlog::info("EPS current : {}", eps_current->battery_current);
+        spdlog::info("EPS battery current : {}", eps_current->battery_current);
 
         spdlog::info("Got back battery current - it worked");
+    };
+
+    return dispatch(command, eps_telem_decomposition_callback);
+}
+
+
+std::string eps_command::get_eps_5Vbus_current(const estts::dispatch_fct &dispatch) {
+    std::vector<estts::command_object *> command;
+    auto temp = new estts::command_object;
+
+    temp->address = estts::es2_endpoint::ES_EPS;
+    temp->commandID = estts::es2_commands::eps::EPS_GET_5VBUS_CURRENT;
+    temp->method = estts::es2_commands::method::ES_READ;
+    temp->sequence = 01;
+    temp->timeStamp = 8467;
+
+    SPDLOG_INFO("Attempting to get EPS 5V bus current");
+
+    command.push_back(temp);
+
+
+    auto eps_telem_decomposition_callback = [] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
+        if (telem.empty()) {
+            return estts::ES_UNINITIALIZED;
+        }
+        // TODO do something with the telem vector passed to this function
+        auto eps_5Vbus_current = new estts::es2_telemetry::eps::eps_5Vbus_current;
+
+        eps_5Vbus_current->bus_current = 9.0;
+
+        spdlog::info("EPS 5V bus current : {}", eps_5Vbus_current->bus_current);
+
+        spdlog::info("Got back 5V bus current - it worked");
+    };
+
+    return dispatch(command, eps_telem_decomposition_callback);
+}
+
+
+std::string eps_command::get_eps_3Vbus_current(const estts::dispatch_fct &dispatch) {
+    std::vector<estts::command_object *> command;
+    auto temp = new estts::command_object;
+
+    temp->address = estts::es2_endpoint::ES_EPS;
+    temp->commandID = estts::es2_commands::eps::EPS_GET_3VBUS_CURRENT;
+    temp->method = estts::es2_commands::method::ES_READ;
+    temp->sequence = 01;
+    temp->timeStamp = 8489;
+
+    SPDLOG_INFO("Attempting to get EPS 3.3V bus current");
+
+    command.push_back(temp);
+
+
+    auto eps_telem_decomposition_callback = [] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
+        if (telem.empty()) {
+            return estts::ES_UNINITIALIZED;
+        }
+        // TODO do something with the telem vector passed to this function
+        auto eps_3Vbus_current = new estts::es2_telemetry::eps::eps_3Vbus_current;
+
+        eps_3Vbus_current->bus_current = 9.0;
+
+        spdlog::info("EPS 3.3V bus current : {}", eps_3Vbus_current->bus_current);
+
+        spdlog::info("Got back 3.3V bus current - it worked");
     };
 
     return dispatch(command, eps_telem_decomposition_callback);

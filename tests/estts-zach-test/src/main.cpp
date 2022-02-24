@@ -19,6 +19,26 @@ int main() {
 
     /******************************************************************************************************************/
 
+    /******************************************************************************************************************/
+    // test communication handler for its function abstractions
+    auto comm_handle2 = new communication_handler();
+
+    auto sn2 = comm_handle2->get_eps_5Vbus_current(comm_handle2->dispatch_lambda());
+    comm_handle2->await_dispatcher();
+    delete comm_handle2;
+
+    /******************************************************************************************************************/
+
+    /******************************************************************************************************************/
+    // test communication handler for its function abstractions
+    auto comm_handle3 = new communication_handler();
+
+    auto sn3 = comm_handle3->get_eps_3Vbus_current(comm_handle3->dispatch_lambda());
+    comm_handle3->await_dispatcher();
+    delete comm_handle3;
+
+    /******************************************************************************************************************/
+
 
 
     return 0;
