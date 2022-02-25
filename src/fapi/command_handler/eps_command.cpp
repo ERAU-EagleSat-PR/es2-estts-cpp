@@ -71,6 +71,11 @@ std::string eps_command::get_eps_batteryVoltage(const estts::dispatch_fct &dispa
         if (telem.empty()) {
             return estts::ES_UNINITIALIZED;
         }
+        auto eps_voltage = new estts::es2_telemetry::eps::eps_voltage;
+
+        eps_voltage->battery_voltage = 9.0;
+
+        spdlog::info("EPS battery voltage : {}", eps_voltage->battery_voltage);
         spdlog::info("Got back battery voltage - it worked");
         return estts::ES_OK;
     };
@@ -89,7 +94,7 @@ std::string eps_command::get_eps_batteryCurrent(const estts::dispatch_fct &dispa
     temp->sequence = 01;
     temp->timeStamp = 8456;
 
-    SPDLOG_INFO("Attempting to get EPS battery temperature");
+    SPDLOG_INFO("Attempting to get EPS battery current");
 
     command.push_back(temp);
 
@@ -196,6 +201,11 @@ std::string eps_command::get_eps_temp_sensor5(const estts::dispatch_fct &dispatc
         if (telem.empty()) {
             return estts::ES_UNINITIALIZED;
         }
+        auto eps_externalTemp_sensor5 = new estts::es2_telemetry::eps::eps_externalTemp_sensor5;
+
+        eps_externalTemp_sensor5->external_temperature = 1.5;
+
+        spdlog::info("EPS external temperature sensor #5 reads : {}", eps_externalTemp_sensor5->external_temperature);
         spdlog::info("Got back the external temperature sensor - it worked");
         return estts::ES_OK;
     };
@@ -222,6 +232,11 @@ std::string eps_command::get_eps_temp_sensor6(const estts::dispatch_fct &dispatc
         if (telem.empty()) {
             return estts::ES_UNINITIALIZED;
         }
+        auto eps_externalTemp_sensor6 = new estts::es2_telemetry::eps::eps_externalTemp_sensor6;
+
+        eps_externalTemp_sensor6->external_temperature = 1.5;
+
+        spdlog::info("EPS external temperature sensor #6 reads : {}", eps_externalTemp_sensor6->external_temperature);
         spdlog::info("Got back the external temperature sensor - it worked");
         return estts::ES_OK;
     };
@@ -248,7 +263,136 @@ std::string eps_command::get_eps_temp_sensor7(const estts::dispatch_fct &dispatc
         if (telem.empty()) {
             return estts::ES_UNINITIALIZED;
         }
+        auto eps_externalTemp_sensor7 = new estts::es2_telemetry::eps::eps_externalTemp_sensor7;
+
+        eps_externalTemp_sensor7->external_temperature = 1.5;
+
+        spdlog::info("EPS external temperature sensor #7 reads : {}", eps_externalTemp_sensor7->external_temperature);
         spdlog::info("Got back the external temperature sensor - it worked");
+        return estts::ES_OK;
+    };
+
+    return dispatch(command, eps_telem_decomposition_callback);
+}
+
+
+std::string eps_command::get_eps_battery_temp_sensor1(const estts::dispatch_fct &dispatch) {
+    std::vector<estts::command_object *> command;
+    auto temp = new estts::command_object;
+
+    temp->address = estts::es2_endpoint::ES_EPS;
+    temp->commandID = estts::es2_commands::eps::EPS_GET_BATTERY_TEMP_SENSOR1;
+    temp->method = estts::es2_commands::method::ES_READ;
+    temp->sequence = 01;
+    temp->timeStamp = 8278;
+
+    SPDLOG_INFO("Attempting to get EPS battery temp sensor 1");
+
+    command.push_back(temp);
+
+    auto eps_telem_decomposition_callback = [] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
+        if (telem.empty()) {
+            return estts::ES_UNINITIALIZED;
+        }
+        auto eps_batteryTemp_sensor1 = new estts::es2_telemetry::eps::eps_batteryTemp_sensor1;
+
+        eps_batteryTemp_sensor1->battery_temperature = 1.5;
+
+        spdlog::info("EPS battery temp sensor 1 reads : {}", eps_batteryTemp_sensor1->battery_temperature);
+        spdlog::info("Got back the battery temp sensor - it worked");
+        return estts::ES_OK;
+    };
+
+    return dispatch(command, eps_telem_decomposition_callback);
+}
+
+
+std::string eps_command::get_eps_battery_temp_sensor2(const estts::dispatch_fct &dispatch) {
+    std::vector<estts::command_object *> command;
+    auto temp = new estts::command_object;
+
+    temp->address = estts::es2_endpoint::ES_EPS;
+    temp->commandID = estts::es2_commands::eps::EPS_GET_BATTERY_TEMP_SENSOR2;
+    temp->method = estts::es2_commands::method::ES_READ;
+    temp->sequence = 01;
+    temp->timeStamp = 8672;
+
+    SPDLOG_INFO("Attempting to get EPS battery temp sensor 2");
+
+    command.push_back(temp);
+
+    auto eps_telem_decomposition_callback = [] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
+        if (telem.empty()) {
+            return estts::ES_UNINITIALIZED;
+        }
+        auto eps_batteryTemp_sensor2 = new estts::es2_telemetry::eps::eps_batteryTemp_sensor2;
+
+        eps_batteryTemp_sensor2->battery_temperature = 1.5;
+
+        spdlog::info("EPS battery temp sensor 2 reads : {}", eps_batteryTemp_sensor2->battery_temperature);
+        spdlog::info("Got back the battery temp sensor - it worked");
+        return estts::ES_OK;
+    };
+
+    return dispatch(command, eps_telem_decomposition_callback);
+}
+
+
+std::string eps_command::get_eps_battery_temp_sensor3(const estts::dispatch_fct &dispatch) {
+    std::vector<estts::command_object *> command;
+    auto temp = new estts::command_object;
+
+    temp->address = estts::es2_endpoint::ES_EPS;
+    temp->commandID = estts::es2_commands::eps::EPS_GET_BATTERY_TEMP_SENSOR3;
+    temp->method = estts::es2_commands::method::ES_READ;
+    temp->sequence = 01;
+    temp->timeStamp = 8782;
+
+    SPDLOG_INFO("Attempting to get EPS battery temp sensor 3");
+
+    command.push_back(temp);
+
+    auto eps_telem_decomposition_callback = [] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
+        if (telem.empty()) {
+            return estts::ES_UNINITIALIZED;
+        }
+        auto eps_batteryTemp_sensor3 = new estts::es2_telemetry::eps::eps_batteryTemp_sensor3;
+
+        eps_batteryTemp_sensor3->battery_temperature = 1.5;
+
+        spdlog::info("EPS battery temp sensor 3 reads : {}", eps_batteryTemp_sensor3->battery_temperature);
+        spdlog::info("Got back the battery temp sensor - it worked");
+        return estts::ES_OK;
+    };
+
+    return dispatch(command, eps_telem_decomposition_callback);
+}
+
+
+std::string eps_command::get_eps_battery_temp_sensor4(const estts::dispatch_fct &dispatch) {
+    std::vector<estts::command_object *> command;
+    auto temp = new estts::command_object;
+
+    temp->address = estts::es2_endpoint::ES_EPS;
+    temp->commandID = estts::es2_commands::eps::EPS_GET_BATTERY_TEMP_SENSOR4;
+    temp->method = estts::es2_commands::method::ES_READ;
+    temp->sequence = 01;
+    temp->timeStamp = 8674;
+
+    SPDLOG_INFO("Attempting to get EPS battery temp sensor 4");
+
+    command.push_back(temp);
+
+    auto eps_telem_decomposition_callback = [] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
+        if (telem.empty()) {
+            return estts::ES_UNINITIALIZED;
+        }
+        auto eps_batteryTemp_sensor4 = new estts::es2_telemetry::eps::eps_batteryTemp_sensor4;
+
+        eps_batteryTemp_sensor4->battery_temperature = 1.5;
+
+        spdlog::info("EPS battery temp sensor 4 reads : {}", eps_batteryTemp_sensor4->battery_temperature);
+        spdlog::info("Got back the battery temp sensor - it worked");
         return estts::ES_OK;
     };
 

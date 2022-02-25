@@ -75,5 +75,49 @@ int main() {
 
     /******************************************************************************************************************/
 
+    /******************************************************************************************************************/
+    // test communication handler for its function abstractions
+    // test battery temp sensor 1
+    auto comm_handle7 = new communication_handler();
+
+    auto sn7 = comm_handle7->get_eps_battery_temp_sensor1(comm_handle7->dispatch_lambda());
+    comm_handle7->await_dispatcher();
+    delete comm_handle7;
+
+    /******************************************************************************************************************/
+
+    /******************************************************************************************************************/
+    // test communication handler for its function abstractions
+    // test battery temp sensor 2
+    auto comm_handle8 = new communication_handler();
+
+    auto sn8 = comm_handle8->get_eps_battery_temp_sensor2(comm_handle8->dispatch_lambda());
+    comm_handle8->await_dispatcher();
+    delete comm_handle8;
+
+    /******************************************************************************************************************/
+
+    /******************************************************************************************************************/
+    // test communication handler for its function abstractions
+    // test battery temp sensor 3
+    auto comm_handle9 = new communication_handler();
+
+    auto sn9 = comm_handle9->get_eps_battery_temp_sensor3(comm_handle9->dispatch_lambda());
+    comm_handle9->await_dispatcher();
+    delete comm_handle9;
+
+    /******************************************************************************************************************/
+
+    /******************************************************************************************************************/
+    // test communication handler for its function abstractions
+    // test battery temp sensor 4
+    auto comm_handle10 = new communication_handler();
+
+    auto sn10 = comm_handle10->get_eps_battery_temp_sensor4(comm_handle10->dispatch_lambda());
+    comm_handle10->await_dispatcher();
+    delete comm_handle10;
+
+    /******************************************************************************************************************/
+
     return 0;
 }
