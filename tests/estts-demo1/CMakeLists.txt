@@ -3,7 +3,7 @@
 #
 
 # Add primary executable for estts-demo1
-add_executable(estts-demo1 src/main.cpp ../estts-brett-test/src/main.cpp)
+add_executable(estts-demo1 src/main.cpp)
 
 target_include_directories(
         estts-demo1

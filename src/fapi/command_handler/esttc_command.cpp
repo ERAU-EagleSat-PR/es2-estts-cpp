@@ -3,6 +3,15 @@
 //
 
 #include "esttc_command.h"
+
+#include <algorithm>
+#include <array>
+#include <cstdint>
+#include <numeric>
+
+#include <iomanip>
+#include <iostream>
+#include <string>
 //Header Getters
 std::string esttc_command::getHeader(){
     return header;
@@ -30,23 +39,23 @@ std::string esttc_command::getCr(){
 }
 
 //Header Setters
-void esttc_command::setCmdType(std::string cmd_type){
-    this->cmd_type = cmd_type;
+void esttc_command::setCmdType(std::string cmd_t){
+    this->cmd_type = cmd_t;
 }
-void esttc_command::setAddr(std::string addr){
-    this->addr = addr;
+void esttc_command::setAddr(std::string a){
+    this->addr = a;
 }
-void esttc_command::setCmdCode(std::string cmd_code){
-    this->cmd_code = cmd_code;
+void esttc_command::setCmdCode(std::string cmd_c){
+    this->cmd_code = cmd_c;
 }
-void esttc_command::setVariableData(std::string variable_data){
-    this->variable_data = variable_data;
+void esttc_command::setVariableData(std::string vd){
+    this->variable_data = vd;
 }
-void esttc_command::setBlank(std::string blank){
-    this->blank = blank;
+void esttc_command::setBlank(std::string b){
+    this->blank = b;
 }
-void esttc_command::setCrc32(std::string crc32){
-    this->crc32 = crc32;
+void esttc_command::setCrc32(std::string crc){
+    this->crc32 = crc;
 }
 
 std::string esttc_command::buildCommand(){
@@ -62,7 +71,7 @@ std::string esttc_command::buildCommand(){
 }
 
 void esttc_command::calcCrc32(){
-    std::string crc = "";
-    this->blank = " ";
+    std::string crc = this->variable_data;
+
     this->crc32 = crc;
 }

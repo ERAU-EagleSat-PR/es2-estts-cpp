@@ -4,7 +4,7 @@
 
 #ifndef ESTTS_ESTTC_COMMAND_H
 #define ESTTS_ESTTC_COMMAND_H
-#include "constants.h"
+#include "string"
 
 class esttc_command {
 private:
@@ -31,12 +31,12 @@ public:
     std::string getCr();
 
     //Header Setters
-    void setCmdType(std::string cmd_type);
-    void setAddr(std::string addr);
-    void setCmdCode(std::string cmd_code);
-    void setVariableData(std::string variable_data);
-    void setBlank(std::string blank);
-    void setCrc32(std::string crc32);
+    void setCmdType(std::string cmd_t);
+    void setAddr(std::string a);
+    void setCmdCode(std::string cmd_c);
+    void setVariableData(std::string vd);
+    void setBlank(std::string b);
+    void setCrc32(std::string crc);
 
     std::string buildCommand();
     void calcCrc32();

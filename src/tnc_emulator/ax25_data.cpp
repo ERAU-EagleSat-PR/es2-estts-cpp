@@ -74,7 +74,7 @@ std::string ax25_data::build_postamble(){
     }
     return postamble;
 }
-
+//https://github.com/FrankBoesing/FastCRC use this instead
 void ax25_data::crc16_ccitt(){
     std::string crc = "";
     int length = this->info.size();
