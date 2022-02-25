@@ -12,7 +12,7 @@ int main() {
     /******************************************************************************************************************/
     auto comm_handle = new communication_handler();
 
-    auto sn = comm_handle->get_eps_voltage(comm_handle->dispatch_lambda());
+    auto sn = comm_handle->get_eps_batteryVoltage(comm_handle->dispatch_lambda());
 
     comm_handle->await_dispatcher();
     delete comm_handle;
