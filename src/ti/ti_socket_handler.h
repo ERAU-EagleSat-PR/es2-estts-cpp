@@ -30,6 +30,8 @@ protected:
 
     std::string read_socket_s() const;
 
+    int check_sock_bytes_avail() const;
+
 public:
     ti_socket_handler(const char *address, int port);
 };
