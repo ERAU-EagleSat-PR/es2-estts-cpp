@@ -43,7 +43,7 @@ set(estts_include_directories ${include_directories} PARENT_SCOPE)
 # Configure build targets
 add_library(
         estts
-        SHARED
+        STATIC
         ${estts-src}
 )
 target_include_directories(
@@ -52,8 +52,8 @@ target_include_directories(
         ${include_directories}
 )
 
-target_link_libraries(estts PRIVATE spdlog::spdlog)
-target_link_libraries(estts PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(estts PUBLIC spdlog::spdlog)
+target_link_libraries(estts PUBLIC nlohmann_json::nlohmann_json)
 
 if (BUILD_DEBUG)
     target_compile_definitions(

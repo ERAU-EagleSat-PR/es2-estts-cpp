@@ -115,6 +115,9 @@ namespace estts {
                 double charge_time_mins;
             };
         }
+        namespace acs {
+            struct
+        }
     }
 
     namespace endurosat {
