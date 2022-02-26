@@ -75,7 +75,7 @@ std::string eps_command::get_eps_batteryVoltage(const estts::dispatch_fct &dispa
         return estts::ES_OK;
     };
 
-    return dispatch(command, eps_telem_decomposition_callback);
+    return dispatch(temp, eps_telem_decomposition_callback);
 }
 
 
@@ -105,12 +105,11 @@ std::string eps_command::get_eps_batteryCurrent(const estts::dispatch_fct &dispa
         spdlog::info("Got back battery current - it worked");
     };
 
-    return dispatch(temp, eps_telem_decomposition_callback);
+    return dispatch(command, eps_telem_decomposition_callback);
 }
 
 
 std::string eps_command::get_eps_5Vbus_current(const estts::dispatch_fct &dispatch) {
-    std::vector<estts::command_object *> command;
     auto temp = new estts::command_object;
 
     temp->address = estts::es2_endpoint::ES_EPS;
@@ -121,7 +120,7 @@ std::string eps_command::get_eps_5Vbus_current(const estts::dispatch_fct &dispat
 
     SPDLOG_INFO("Attempting to get EPS 5V bus current");
 
-    command.push_back(temp);
+
 
 
     auto eps_telem_decomposition_callback = [] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
@@ -138,12 +137,12 @@ std::string eps_command::get_eps_5Vbus_current(const estts::dispatch_fct &dispat
         spdlog::info("Got back 5V bus current - it worked");
     };
 
-    return dispatch(command, eps_telem_decomposition_callback);
+    return dispatch(temp, eps_telem_decomposition_callback);
 }
 
 
 std::string eps_command::get_eps_3Vbus_current(const estts::dispatch_fct &dispatch) {
-    std::vector<estts::command_object *> command;
+
     auto temp = new estts::command_object;
 
     temp->address = estts::es2_endpoint::ES_EPS;
@@ -154,7 +153,7 @@ std::string eps_command::get_eps_3Vbus_current(const estts::dispatch_fct &dispat
 
     SPDLOG_INFO("Attempting to get EPS 3.3V bus current");
 
-    command.push_back(temp);
+
 
 
     auto eps_telem_decomposition_callback = [] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
@@ -171,12 +170,12 @@ std::string eps_command::get_eps_3Vbus_current(const estts::dispatch_fct &dispat
         spdlog::info("Got back 3.3V bus current - it worked");
     };
 
-    return dispatch(command, eps_telem_decomposition_callback);
+    return dispatch(temp, eps_telem_decomposition_callback);
 }
 
 
 std::string eps_command::get_eps_temp_sensor5(const estts::dispatch_fct &dispatch) {
-    std::vector<estts::command_object *> command;
+
     auto temp = new estts::command_object;
 
     temp->address = estts::es2_endpoint::ES_EPS;
@@ -187,7 +186,7 @@ std::string eps_command::get_eps_temp_sensor5(const estts::dispatch_fct &dispatc
 
     SPDLOG_INFO("Attempting to get EPS external temperature sensor 5");
 
-    command.push_back(temp);
+
 
     auto eps_telem_decomposition_callback = [] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
         if (telem.empty()) {
@@ -202,12 +201,12 @@ std::string eps_command::get_eps_temp_sensor5(const estts::dispatch_fct &dispatc
         return estts::ES_OK;
     };
 
-    return dispatch(command, eps_telem_decomposition_callback);
+    return dispatch(temp, eps_telem_decomposition_callback);
 }
 
 
 std::string eps_command::get_eps_temp_sensor6(const estts::dispatch_fct &dispatch) {
-    std::vector<estts::command_object *> command;
+
     auto temp = new estts::command_object;
 
     temp->address = estts::es2_endpoint::ES_EPS;
@@ -218,7 +217,7 @@ std::string eps_command::get_eps_temp_sensor6(const estts::dispatch_fct &dispatc
 
     SPDLOG_INFO("Attempting to get EPS external temperature sensor 6");
 
-    command.push_back(temp);
+
 
     auto eps_telem_decomposition_callback = [] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
         if (telem.empty()) {
@@ -233,12 +232,12 @@ std::string eps_command::get_eps_temp_sensor6(const estts::dispatch_fct &dispatc
         return estts::ES_OK;
     };
 
-    return dispatch(command, eps_telem_decomposition_callback);
+    return dispatch(temp, eps_telem_decomposition_callback);
 }
 
 
 std::string eps_command::get_eps_temp_sensor7(const estts::dispatch_fct &dispatch) {
-    std::vector<estts::command_object *> command;
+
     auto temp = new estts::command_object;
 
     temp->address = estts::es2_endpoint::ES_EPS;
@@ -249,7 +248,7 @@ std::string eps_command::get_eps_temp_sensor7(const estts::dispatch_fct &dispatc
 
     SPDLOG_INFO("Attempting to get EPS external temperature sensor 7");
 
-    command.push_back(temp);
+
 
     auto eps_telem_decomposition_callback = [] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
         if (telem.empty()) {
@@ -264,12 +263,12 @@ std::string eps_command::get_eps_temp_sensor7(const estts::dispatch_fct &dispatc
         return estts::ES_OK;
     };
 
-    return dispatch(command, eps_telem_decomposition_callback);
+    return dispatch(temp, eps_telem_decomposition_callback);
 }
 
 
 std::string eps_command::get_eps_battery_temp_sensor1(const estts::dispatch_fct &dispatch) {
-    std::vector<estts::command_object *> command;
+
     auto temp = new estts::command_object;
 
     temp->address = estts::es2_endpoint::ES_EPS;
@@ -280,7 +279,7 @@ std::string eps_command::get_eps_battery_temp_sensor1(const estts::dispatch_fct 
 
     SPDLOG_INFO("Attempting to get EPS battery temp sensor 1");
 
-    command.push_back(temp);
+
 
     auto eps_telem_decomposition_callback = [] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
         if (telem.empty()) {
@@ -295,12 +294,12 @@ std::string eps_command::get_eps_battery_temp_sensor1(const estts::dispatch_fct 
         return estts::ES_OK;
     };
 
-    return dispatch(command, eps_telem_decomposition_callback);
+    return dispatch(temp, eps_telem_decomposition_callback);
 }
 
 
 std::string eps_command::get_eps_battery_temp_sensor2(const estts::dispatch_fct &dispatch) {
-    std::vector<estts::command_object *> command;
+
     auto temp = new estts::command_object;
 
     temp->address = estts::es2_endpoint::ES_EPS;
@@ -311,7 +310,7 @@ std::string eps_command::get_eps_battery_temp_sensor2(const estts::dispatch_fct 
 
     SPDLOG_INFO("Attempting to get EPS battery temp sensor 2");
 
-    command.push_back(temp);
+
 
     auto eps_telem_decomposition_callback = [] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
         if (telem.empty()) {
@@ -326,12 +325,12 @@ std::string eps_command::get_eps_battery_temp_sensor2(const estts::dispatch_fct 
         return estts::ES_OK;
     };
 
-    return dispatch(command, eps_telem_decomposition_callback);
+    return dispatch(temp, eps_telem_decomposition_callback);
 }
 
 
 std::string eps_command::get_eps_battery_temp_sensor3(const estts::dispatch_fct &dispatch) {
-    std::vector<estts::command_object *> command;
+
     auto temp = new estts::command_object;
 
     temp->address = estts::es2_endpoint::ES_EPS;
@@ -342,7 +341,7 @@ std::string eps_command::get_eps_battery_temp_sensor3(const estts::dispatch_fct 
 
     SPDLOG_INFO("Attempting to get EPS battery temp sensor 3");
 
-    command.push_back(temp);
+
 
     auto eps_telem_decomposition_callback = [] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
         if (telem.empty()) {
@@ -357,12 +356,12 @@ std::string eps_command::get_eps_battery_temp_sensor3(const estts::dispatch_fct 
         return estts::ES_OK;
     };
 
-    return dispatch(command, eps_telem_decomposition_callback);
+    return dispatch(temp, eps_telem_decomposition_callback);
 }
 
 
 std::string eps_command::get_eps_battery_temp_sensor4(const estts::dispatch_fct &dispatch) {
-    std::vector<estts::command_object *> command;
+
     auto temp = new estts::command_object;
 
     temp->address = estts::es2_endpoint::ES_EPS;
@@ -373,7 +372,7 @@ std::string eps_command::get_eps_battery_temp_sensor4(const estts::dispatch_fct 
 
     SPDLOG_INFO("Attempting to get EPS battery temp sensor 4");
 
-    command.push_back(temp);
+
 
     auto eps_telem_decomposition_callback = [] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
         if (telem.empty()) {
@@ -388,7 +387,7 @@ std::string eps_command::get_eps_battery_temp_sensor4(const estts::dispatch_fct 
         return estts::ES_OK;
     };
 
-    return dispatch(command, eps_telem_decomposition_callback);
+    return dispatch(temp, eps_telem_decomposition_callback);
 }
 
 eps_command::eps_command() = default;
