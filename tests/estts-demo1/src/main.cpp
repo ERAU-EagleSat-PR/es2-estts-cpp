@@ -2,33 +2,45 @@
 // Created by Hayden Roszell on 10/28/21.
 //
 
-#include <iostream>
-#include "frame_constructor.h"
-#include "ti_esttc.h"
+#include <functional>
+#include <chrono>
 #include "constants.h"
-#include "spdlog/spdlog.h"
+#include "communication_handler.h"
+
+using namespace std::this_thread; // sleep_for, sleep_until
+using namespace std::chrono; // nanoseconds, system_clock, seconds
 
 int main() {
-    /*
-    // Important note: Always use the 'cu.' port. TTY is used for reading from UNIX sockets.
-    const char * port = "/dev/cu.usbserial-A10JVB3P";
-    int baud = 115200;
+    spdlog::set_level(spdlog::level::trace); // This setting is missed in the wiki
 
-    auto serial = new ti_serial_handler(port, baud);
-    unsigned char msg[] = { 'H', 'e', 'l', 'l', 'o', '\r', '\0' };
-    unsigned char* bruh = serial->read_serial_uc();
-    std::cout << bruh << std::endl;
-    std::string bruh2 = serial->read_serial_s();
-    std::cout << bruh2 << std::endl;
-    // serial->write_serial_uc(msg);
-    delete serial;
-    try {
-        auto esttc_handler = new ti_esttc(port, baud);
-        esttc_handler->get_temp();
-        delete esttc_handler;
-    } catch (const std::exception& e) {
-        spdlog::error("Failed to open serial port");
+    /******************************************************************************************************************/
+
+    auto dispatch = new session_manager();
+    auto command = new estts::command_object;
+    command->address = estts::es2_endpoint::ES_EPS;
+    command->commandID = estts::es2_commands::eps::EPS_GET_BATTERY_VOLTAGE;
+    command->method = estts::es2_commands::method::ES_READ;
+    command->sequence = 01;
+    command->timeStamp = 8456;
+
+    sleep_until(system_clock::now() + seconds (5));
+
+    for (int i = 0; i < 10; i++) {
+        dispatch->schedule_command(command, nullptr);
     }
-    */
+
+    sleep_until(system_clock::now() + seconds (20));
+
+    for (int i = 0; i < 4; i++) {
+        dispatch->schedule_command(command, nullptr);
+    }
+
+    dispatch->await_completion();
+
+    sleep_until(system_clock::now() + seconds (200));
+
+    /******************************************************************************************************************/
+
+
     return 0;
 }

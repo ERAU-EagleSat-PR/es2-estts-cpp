@@ -13,29 +13,28 @@
 #include "constants.h"
 #include "command_handler.h"
 
-class command_dispatcher : virtual public command_handler {
+class session_manager : virtual public command_handler {
 private:
     transmission_interface *ti;
-    std::thread dispatch_worker;
-    std::vector<estts::waiting_command *> waiting;
-    estts::Status command_progress;
+    std::thread session_worker;
+    std::deque<estts::waiting_command *> waiting;
 
-    void dispatch();
+    [[noreturn]] void dispatch();
 
-    bool handshake;
+    estts::Status handle_stream();
+
+    bool session;
 public:
-    explicit command_dispatcher();
+    explicit session_manager();
 
-    ~command_dispatcher();
+    ~session_manager();
 
-    std::string schedule_command(const std::vector<estts::command_object *> &command,
+    std::string schedule_command(estts::command_object * command,
                                  std::function<estts::Status(std::vector<estts::telemetry_object *>)> decomp_callback);
 
     estts::Status get_command_status(const std::string &serial_number);
 
     void await_completion();
-
-    estts::Status get_dispatch_session_progress();
 };
 
 
