@@ -165,7 +165,6 @@ namespace estts {
             };
         }
         namespace acs {
-            struct
         }
     }
 
