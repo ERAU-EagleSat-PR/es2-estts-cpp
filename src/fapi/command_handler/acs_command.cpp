@@ -12,7 +12,6 @@ estts::Status acs_command::get_current_position() {
 
 std::string acs_command::deploy_magnetometer_boom(const estts::dispatch_fct &dispatch) {
 
-    std::vector<estts::command_object *> command;
     auto temp = new estts::command_object;
 
     temp->address = estts::es2_endpoint::ES_ACS;
@@ -23,8 +22,6 @@ std::string acs_command::deploy_magnetometer_boom(const estts::dispatch_fct &dis
 
     SPDLOG_INFO("Attempting to Deploy Magnetometer Boom (in theory)");
 
-    command.push_back(temp);
-
     auto acs_dep_magnet_boom_callback = [] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
         if (telem.empty()) {
             return estts::ES_UNINITIALIZED;
@@ -33,12 +30,11 @@ std::string acs_command::deploy_magnetometer_boom(const estts::dispatch_fct &dis
         return estts::ES_OK;
     };
 
-    return dispatch(command, acs_dep_magnet_boom_callback);
+    return dispatch(temp, acs_dep_magnet_boom_callback);
 }
 
 std::string acs_command::enable_acs(const estts::dispatch_fct &dispatch) {
 
-    std::vector<estts::command_object *> command;
     auto temp = new estts::command_object;
 
     temp->address = estts::es2_endpoint::ES_ACS;
@@ -49,7 +45,6 @@ std::string acs_command::enable_acs(const estts::dispatch_fct &dispatch) {
 
     SPDLOG_INFO("Attempting to Enable ACS");
 
-    command.push_back(temp);
 
     auto acs_enable_callback = [] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
         if (telem.empty()) {
@@ -59,12 +54,11 @@ std::string acs_command::enable_acs(const estts::dispatch_fct &dispatch) {
         return estts::ES_OK;
     };
 
-    return dispatch(command, acs_enable_callback);
+    return dispatch(temp, acs_enable_callback);
 }
 
 std::string acs_command::power_acs(const estts::dispatch_fct &dispatch) {
 
-    std::vector<estts::command_object *> command;
     auto temp = new estts::command_object;
 
     temp->address = estts::es2_endpoint::ES_ACS;
@@ -75,8 +69,6 @@ std::string acs_command::power_acs(const estts::dispatch_fct &dispatch) {
 
     SPDLOG_INFO("Attempting to Power ACS");
 
-    command.push_back(temp);
-
     auto acs_power_callback = [] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
         if (telem.empty()) {
             return estts::ES_UNINITIALIZED;
@@ -85,12 +77,11 @@ std::string acs_command::power_acs(const estts::dispatch_fct &dispatch) {
         return estts::ES_OK;
     };
 
-    return dispatch(command, acs_power_callback);
+    return dispatch(temp, acs_power_callback);
 }
 
 std::string acs_command::set_ctrl_mode(const estts::dispatch_fct &dispatch) {
 
-    std::vector<estts::command_object *> command;
     auto temp = new estts::command_object;
 
     temp->address = estts::es2_endpoint::ES_ACS;
@@ -101,8 +92,6 @@ std::string acs_command::set_ctrl_mode(const estts::dispatch_fct &dispatch) {
 
     SPDLOG_INFO("Attempting to Set Control Mode");
 
-    command.push_back(temp);
-
     auto acs_power_callback = [] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
         if (telem.empty()) {
             return estts::ES_UNINITIALIZED;
@@ -111,12 +100,11 @@ std::string acs_command::set_ctrl_mode(const estts::dispatch_fct &dispatch) {
         return estts::ES_OK;
     };
 
-    return dispatch(command, acs_power_callback);
+    return dispatch(temp, acs_power_callback);
 }
 
 std::string acs_command::set_est_mode(const estts::dispatch_fct &dispatch) {
 
-    std::vector<estts::command_object *> command;
     auto temp = new estts::command_object;
 
     temp->address = estts::es2_endpoint::ES_ACS;
@@ -127,8 +115,6 @@ std::string acs_command::set_est_mode(const estts::dispatch_fct &dispatch) {
 
     SPDLOG_INFO("Attempting to Set Estimation Mode");
 
-    command.push_back(temp);
-
     auto acs_power_callback = [] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
         if (telem.empty()) {
             return estts::ES_UNINITIALIZED;
@@ -137,5 +123,5 @@ std::string acs_command::set_est_mode(const estts::dispatch_fct &dispatch) {
         return estts::ES_OK;
     };
 
-    return dispatch(command, acs_power_callback);
+    return dispatch(temp, acs_power_callback);
 }
