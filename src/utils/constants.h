@@ -78,8 +78,18 @@ namespace estts {
         namespace eps {
             const int EPS_GET_HEALTH = 01;
             const int EPS_GET_COMMAND_43 = 43;
-            const int EPS_GET_VOLTAGE = 1;
+            const int EPS_GET_BATTERY_VOLTAGE = 1;
             const int EPS_GET_BATTERY_CURRENT = 2;
+            const int EPS_GET_5VBUS_CURRENT = 15;
+            const int EPS_GET_3VBUS_CURRENT = 14;
+            const int EPS_GET_TEMP_SENSOR5 = 38;
+            const int EPS_GET_TEMP_SENSOR6 = 39;
+            const int EPS_GET_TEMP_SENSOR7 = 40;
+            const int EPS_GET_BATTERY_TEMP_SENSOR1 = 19;
+            const int EPS_GET_BATTERY_TEMP_SENSOR2 = 20;
+            const int EPS_GET_BATTERY_TEMP_SENSOR3 = 21;
+            const int EPS_GET_BATTERY_TEMP_SENSOR4 = 22;
+
         }
         namespace mde {
             const int MDE_GET_STATUS = 01;
@@ -108,6 +118,33 @@ namespace estts {
             };
             struct eps_current {
                 double battery_current;
+            };
+            struct eps_5Vbus_current {
+                double bus_current;
+            };
+            struct eps_3Vbus_current {
+                double bus_current;
+            };
+            struct eps_externalTemp_sensor5{
+                double external_temperature;
+            };
+            struct eps_externalTemp_sensor6{
+                double external_temperature;
+            };
+            struct eps_externalTemp_sensor7{
+                double external_temperature;
+            };
+            struct eps_batteryTemp_sensor1{
+                double battery_temperature;
+            };
+            struct eps_batteryTemp_sensor2{
+                double battery_temperature;
+            };
+            struct eps_batteryTemp_sensor3{
+                double battery_temperature;
+            };
+            struct eps_batteryTemp_sensor4{
+                double battery_temperature;
             };
         }
     }

@@ -16,9 +16,28 @@ public:
     std::string get_eps_vitals(const estts::dispatch_fct &dispatch, const std::function<estts::Status(
             estts::es2_telemetry::eps::vitals *)> &telem_callback);
 
-    std::string get_eps_voltage(const estts::dispatch_fct &dispatch);
+    std::string get_eps_batteryVoltage(const estts::dispatch_fct &dispatch);
 
     std::string get_eps_batteryCurrent(const estts::dispatch_fct &dispatch);
+
+    std::string get_eps_5Vbus_current(const estts::dispatch_fct &dispatch);
+
+    std::string get_eps_3Vbus_current(const estts::dispatch_fct &dispatch);
+
+    std::string get_eps_temp_sensor5(const estts::dispatch_fct &dispatch);
+
+    std::string get_eps_temp_sensor6(const estts::dispatch_fct &dispatch);
+
+    std::string get_eps_temp_sensor7(const estts::dispatch_fct &dispatch);
+
+    std::string get_eps_battery_temp_sensor1(const estts::dispatch_fct &dispatch);
+
+    std::string get_eps_battery_temp_sensor2(const estts::dispatch_fct &dispatch);
+
+    std::string get_eps_battery_temp_sensor3(const estts::dispatch_fct &dispatch);
+
+    std::string get_eps_battery_temp_sensor4(const estts::dispatch_fct &dispatch);
+
 };
 
 
