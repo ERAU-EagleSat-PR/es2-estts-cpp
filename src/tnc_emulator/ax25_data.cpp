@@ -3,7 +3,7 @@
 //
 
 #include "ax25_data.h"
-
+#include "crc/FastCRC.h"
 
 //Header Getters
 std::string ax25_data::getFlag(){
@@ -77,27 +77,8 @@ std::string ax25_data::build_postamble(){
 //https://github.com/FrankBoesing/FastCRC use this instead
 void ax25_data::crc16_ccitt(){
     std::string crc = "";
-    int length = this->info.size();
-    unsigned char i;
-    unsigned int data;
-    unsigned int fcs = 0xffff;
-    do
-    {
-        for (i=0, data=(unsigned int)0xff & this->info[i];
-             i < 8;
-             i++, data >>= 1)
-        {
-            if ((fcs & 0x0001) ^ (data & 0x0001))
-                fcs = (fcs >> 1) ^ POLY;
-            else  fcs >>= 1;
-        }
-    } while (--length);
-
-    fcs = ~fcs;
-    data = fcs;
-    fcs = (fcs << 8) | (data >> 8 & 0xff);
-    crc = std::to_string(fcs);
-
+    FastCRC16 calculator;
+    crc = calculator.ccitt(reinterpret_cast<const uint8_t*>(&this->info[0]), sizeof(this->info));
     this->fcs = crc;
 }
 

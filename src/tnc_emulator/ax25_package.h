@@ -14,6 +14,10 @@ private:
     std::string data2= "";
     std::string crc= "";
 public:
+    //constructor
+    ax25_package(std::string info){
+        data2 = info;
+    }
     //getters
     std::string getPreamble();
     std::string getSync();

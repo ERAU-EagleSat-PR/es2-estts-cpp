@@ -3,6 +3,7 @@
 //
 
 #include "ax25_package.h"
+#include "crc/FastCRC.h"
 //getters
 std::string ax25_package::getPreamble(){
     return preamble;
@@ -27,7 +28,8 @@ void  ax25_package::setData2(std::string data){
     this->data2 = data;
 }
 void  ax25_package::setCrc(std::string cyclic){
-    this->crc = cyclic;
+    FastCRC16 calculator;
+    this->crc = calculator.ccitt(reinterpret_cast<const uint8_t*>(&cyclic[0]), sizeof(cyclic));
 }
 //worker methods
 std::string ax25_package::buildFrame(){
@@ -35,8 +37,7 @@ std::string ax25_package::buildFrame(){
     frame += getSync();
     frame += getData1();
     frame += getData2();
-    //todo crc
-    //this->setCrc(calc_crc(data1 + data2));
+    this->setCrc(data1 + data2);
     frame += getCrc();
     return frame;
 }

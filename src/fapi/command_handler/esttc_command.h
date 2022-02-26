@@ -20,6 +20,14 @@ private:
 
 
 public:
+    //constructor
+    esttc_command(std::string cmd_t, std::string adr, std::string cmd_c, std::string variable){
+        cmd_type = cmd_t;
+        addr = adr;
+        cmd_code = cmd_c;
+        variable_data = variable;
+    }
+
     //Header Getters
     std::string getHeader();
     std::string getCmdType();
@@ -38,6 +46,7 @@ public:
     void setBlank(std::string b);
     void setCrc32(std::string crc);
 
+    //worker methods
     std::string buildCommand();
     void calcCrc32();
 };

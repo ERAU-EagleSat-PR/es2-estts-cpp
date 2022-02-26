@@ -3,15 +3,9 @@
 //
 
 #include "esttc_command.h"
-
-#include <algorithm>
-#include <array>
-#include <cstdint>
-#include <numeric>
-
-#include <iomanip>
-#include <iostream>
 #include <string>
+#include "crc/FastCRC.h"
+
 //Header Getters
 std::string esttc_command::getHeader(){
     return header;
@@ -71,7 +65,8 @@ std::string esttc_command::buildCommand(){
 }
 
 void esttc_command::calcCrc32(){
-    std::string crc = this->variable_data;
-
+    std::string crc = "";
+    FastCRC32 calculator;
+    crc = calculator.crc32(reinterpret_cast<const uint8_t*>(&this->variable_data[0]), sizeof(this->variable_data));
     this->crc32 = crc;
 }

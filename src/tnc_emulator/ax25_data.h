@@ -30,6 +30,10 @@ private:
     std::string fcs = "";
 
 public:
+    //constructor
+    ax25_data(std::string data){
+        info = data;
+    }
     //Header Getters
     std::string getFlag();
     std::string getDestAddr();
@@ -54,9 +58,6 @@ public:
     std::string nrzi_encode(std::string info);
     std::string convertString(std::string input, int arrIndex);
     std::string scramble(std::string info);
-
-    //constructor
-    ax25_data();
 
 };
 
