@@ -18,7 +18,7 @@
 #include "mde_command.h"
 #include "crp_command.h"
 
-class communication_handler : virtual public eps_command, acs_command, obc_command, mde_command, crp_command {
+class communication_handler : virtual public eps_command, virtual public acs_command, virtual public obc_command, virtual public mde_command, virtual public crp_command {
 private:
     std::vector<std::string> command_serial_number_cache;
 
