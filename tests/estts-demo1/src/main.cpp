@@ -18,7 +18,7 @@ int main() {
     auto dispatch = new session_manager();
     auto command = new estts::command_object;
     command->address = estts::es2_endpoint::ES_EPS;
-    command->commandID = estts::es2_commands::eps::EPS_GET_VOLTAGE;
+    command->commandID = estts::es2_commands::eps::EPS_GET_BATTERY_VOLTAGE;
     command->method = estts::es2_commands::method::ES_READ;
     command->sequence = 01;
     command->timeStamp = 8456;
