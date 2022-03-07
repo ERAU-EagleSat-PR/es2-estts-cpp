@@ -53,6 +53,7 @@ std::function<estts::Status(std::string)> cosmos_handler::get_generic_callback_l
         if (telem.empty()) {
             return estts::ES_UNINITIALIZED;
         }
+        std::stringstream temp;
         spdlog::info("Sent {} and got back: {}", command, telem);
         return estts::ES_OK;
     };

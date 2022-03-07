@@ -96,7 +96,6 @@ std::string session_manager::schedule_command(unsigned char * command,
  */
 session_manager::session_manager() {
     ti = new transmission_interface();
-    session = false;
     this->init_command_handler(ti);
     // Create a new thread, pass in schedule() function and current object
     session_worker = std::thread(&session_manager::dispatch, this);
@@ -164,11 +163,14 @@ session_manager::~session_manager() {
     using namespace std::chrono; // nanoseconds, system_clock, seconds
     int wait = 0;
     for (;;) {
+start:
         if (!waiting.empty()) {
-            if (!session) {
+            SPDLOG_TRACE("{} commands in queue", waiting.size());
+            if (!ti->session_active) {
                 // Request a new communication session from EagleSat II
-                if (ES_OK == this->ti->request_new_session(ax25::NEW_SESSION_FRAME)) {
-                    session = true;
+                if (ES_OK != this->ti->request_new_session(ax25::NEW_SESSION_FRAME)) {
+                    SPDLOG_ERROR("Failed to request new session.");
+                    goto start; // todo This should probably have a more elegant solution..
                 }
             }
 
@@ -181,14 +183,20 @@ session_manager::~session_manager() {
                 session = false;
             }
 #else
-            this->execute(waiting.front());
+            SPDLOG_TRACE("Session status: {}", ti->session_active);
+            if (ES_OK != this->execute(waiting.front())) {
+                SPDLOG_WARN("Failed to execute command with serial number {}", waiting.front()->serial_number);
+            } else
+            SPDLOG_INFO("Command executed successfully");
             waiting.pop_front();
 
-            if (waiting.empty() && session) {
-                if (ES_OK == this->ti->end_session(ax25::END_SESSION_FRAME)) {
-                    session = false;
+            if (waiting.empty() && ti->session_active) {
+                if (ES_OK != this->ti->end_session(ax25::END_SESSION_FRAME)) {
+                    SPDLOG_WARN("Failed to end session rip");
                 }
+                SPDLOG_INFO("Waiting for more commands");
             }
+
 #endif
         } else {
 
@@ -199,8 +207,8 @@ session_manager::~session_manager() {
 }
 
 Status session_manager::handle_stream() {
-    auto stream = ti->receive();
-    SPDLOG_DEBUG("Found {}", stream);
+    // auto stream = ti->receive();
+    // SPDLOG_DEBUG("Found {}", stream);
 
     return ES_OK;
 }

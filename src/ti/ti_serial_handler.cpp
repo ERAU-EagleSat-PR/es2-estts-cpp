@@ -212,7 +212,7 @@ ti_serial_handler::~ti_serial_handler() {
 }
 
 void ti_serial_handler::clear_serial_fifo() {
-    SPDLOG_TRACE("Claring serial FIFO buffer");
+    SPDLOG_TRACE("Clearing serial FIFO buffer");
     do {}
     while (!read_serial_s().empty());
 }

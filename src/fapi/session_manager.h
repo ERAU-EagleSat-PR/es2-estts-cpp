@@ -23,7 +23,6 @@ private:
 
     estts::Status handle_stream();
 
-    bool session;
 public:
     explicit session_manager();
 

@@ -56,7 +56,6 @@ estts::Status ti_esttc::write_scw(uint16_t scw_command) {
             esttc_symbols->CMD_SCW,
             response,
             command_body);
-
     if (return_status == estts::ES_OK && response.length() >= 7) {
         std::string scw_resp;
         if (cache.str().find("+PIPE") == std::string::npos) {
