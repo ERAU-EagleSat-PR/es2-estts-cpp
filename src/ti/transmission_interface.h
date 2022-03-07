@@ -29,7 +29,11 @@ public:
 
     estts::Status transmit(const std::string &value);
 
+    estts::Status transmit(const unsigned char * value, int length);
+
     std::string receive();
+
+    unsigned char * receive_uc();
 
     estts::Status request_new_session(const std::string& handshake);
 

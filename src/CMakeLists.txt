@@ -19,6 +19,7 @@ set(
         fapi/command_handler/obc_command.cpp
         fapi/session_manager.cpp
         fapi/communication_handler.cpp
+        fapi/cosmos_handler.cpp
         tnc_emulator/ax25_ui_frame_constructor.cpp
         tnc_emulator/ax25_ui_frame_destructor.cpp
         tnc_emulator/info_field.cpp

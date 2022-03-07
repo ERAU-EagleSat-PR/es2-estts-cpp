@@ -17,18 +17,18 @@ std::string eps_command::get_eps_vitals(const estts::dispatch_fct& dispatch, con
 
 
 
-    // This callback is expected by the dispatcher/command handler, which will filter and construct telemetry objects
+    // This obj_callback is expected by the dispatcher/command handler, which will filter and construct telemetry objects
     // and pass them to this function. Once this process is complete, this function should know how to decode
     // the telemetry object into the expected structure (in this case, an EPS Vitals structure), and pass the vitals to
-    // the callback function passed as an argument. This process keeps logic specific to EPS in the EPS
+    // the obj_callback function passed as an argument. This process keeps logic specific to EPS in the EPS
     // command function, and changes the execution of the function to the command handler, where it should be. However, from
-    // the perspective of this EPS get vitals function, the specific time when the callback is called doesn't matter in any way,
+    // the perspective of this EPS get vitals function, the specific time when the obj_callback is called doesn't matter in any way,
     // because now the responsibility of handling the telemetry is pushed to the future when it's actually available.
     auto eps_telem_decomposition_callback = [telem_callback] (const std::vector<estts::telemetry_object *>& telem) -> estts::Status {
         if (telem.empty()) {
             return estts::ES_UNINITIALIZED;
         }
-        // TODO do something with the telem vector passed to this function
+        // TODO do something with the telem_obj vector passed to this function
         auto vitals = new estts::es2_telemetry::eps::vitals;
 
         vitals->battery_voltage = 9.0;
@@ -42,11 +42,11 @@ std::string eps_command::get_eps_vitals(const estts::dispatch_fct& dispatch, con
 
     // We're expecting the dispatcher to call the telemetry decomposition function. As seen above, the telemetry
     // decomposition knows how to handle a telemetry object of the EPS vitals type (which is matched by the address/command
-    // in the command configuration), and calls the callback function passed in by the calling body. Note that when this function
+    // in the command configuration), and calls the obj_callback function passed in by the calling body. Note that when this function
     // returns, it is expected that the entire telemetry collection and storage process is handled by the callbacks.
     // This means that at no point does this function need to run again, because the context is implied by the lambdas.
 
-    // Note that our callback model allows this function to return with no repercussions, and using the unique command
+    // Note that our obj_callback model allows this function to return with no repercussions, and using the unique command
     // serial number, we can fetch the command status at any time.
     return dispatch(command, eps_telem_decomposition_callback);
 }
@@ -95,7 +95,7 @@ std::string eps_command::get_eps_batteryCurrent(const estts::dispatch_fct &dispa
         if (telem.empty()) {
             return estts::ES_UNINITIALIZED;
         }
-        // TODO do something with the telem vector passed to this function
+        // TODO do something with the telem_obj vector passed to this function
         auto eps_current = new estts::es2_telemetry::eps::eps_current;
 
         eps_current->battery_current = 9.0;
@@ -127,7 +127,7 @@ std::string eps_command::get_eps_5Vbus_current(const estts::dispatch_fct &dispat
         if (telem.empty()) {
             return estts::ES_UNINITIALIZED;
         }
-        // TODO do something with the telem vector passed to this function
+        // TODO do something with the telem_obj vector passed to this function
         auto eps_5Vbus_current = new estts::es2_telemetry::eps::eps_5Vbus_current;
 
         eps_5Vbus_current->bus_current = 9.0;
@@ -160,7 +160,7 @@ std::string eps_command::get_eps_3Vbus_current(const estts::dispatch_fct &dispat
         if (telem.empty()) {
             return estts::ES_UNINITIALIZED;
         }
-        // TODO do something with the telem vector passed to this function
+        // TODO do something with the telem_obj vector passed to this function
         auto eps_3Vbus_current = new estts::es2_telemetry::eps::eps_3Vbus_current;
 
         eps_3Vbus_current->bus_current = 9.0;

@@ -2,6 +2,10 @@
 // Created by Hayden Roszell on 12/10/21.
 //
 
+#include <fcntl.h> // Contains file controls like O_RDWR
+#include <cerrno> // Error integer and strerror() function
+#include <unistd.h> // write(), read(), close()
+#include <termios.h> // Contains POSIX terminal control definitions
 #include "ti_serial_handler.h"
 
 
@@ -117,7 +121,16 @@ ssize_t ti_serial_handler::write_serial_uc(unsigned char *data, int size) const 
     if (written < 1) {
         return -1;
     }
-    SPDLOG_TRACE("Wrote '{}' (size={}) to {}", data, written, port);
+    if (data[size] == '\r')
+        SPDLOG_TRACE("Wrote '{}' (size={}) to {}", data, written, port);
+    else {
+        std::stringstream temp;
+        for (int i = 0; i < size; i ++) {
+            if (data[i] != '\r')
+                temp << data[i];
+        }
+        SPDLOG_TRACE("Wrote '{}' (size={}) to {}", temp.str(), written, port);
+    }
     return written;
 }
 
@@ -129,19 +142,32 @@ ssize_t ti_serial_handler::write_serial_uc(unsigned char *data, int size) const 
  * CRITICAL NOTE: delete MUST be called when done with the value returned. If this
  * is not done, a memory leak will be created. To avoid this issue, use read_serial_s
  */
-unsigned char *ti_serial_handler::read_serial_uc() const {
+unsigned char *ti_serial_handler::read_serial_uc() {
+    // Clear cache buf
+    cache.clear();
+
     // If serial port isn't open, error out
     if (serial_port < 0) {
         return nullptr;
     }
     auto buf = new unsigned char[MAX_SERIAL_READ];
-    ssize_t n = read(serial_port, buf, sizeof(buf));
+    ssize_t n = read(serial_port, buf, MAX_SERIAL_READ);
     if (n < 1) {
         return nullptr;
     }
+    if (buf[n] == '\r')
+        SPDLOG_TRACE("Read '{}' (size={}) from {}", buf, n, port);
+    else {
+        std::stringstream temp;
+        for (int i = 0; i < n; i ++) {
+            if (buf[i] != '\r')
+                temp << buf[i];
+        }
+        SPDLOG_TRACE("Read '{}' (size={}) from {}", temp.str(), n, port);
+    }
     // Add null terminator at the end of transmission for easier processing by parent class(s)
     buf[n] = '\0';
-    SPDLOG_TRACE("Read '{}' from {}", buf, port);
+    cache << buf;
     return buf;
 }
 
@@ -164,7 +190,7 @@ estts::Status ti_serial_handler::write_serial_s(const std::string &data) const {
  * @brief Reads available data from serial port and returns data as string
  * @return Returns translated string of received data
  */
-std::string ti_serial_handler::read_serial_s() const {
+std::string ti_serial_handler::read_serial_s() {
     // If serial port isn't open, error out
     if (serial_port < 0) {
         return "";
@@ -185,6 +211,15 @@ ti_serial_handler::~ti_serial_handler() {
     close(serial_port);
 }
 
-unsigned char *ti_serial_handler::read_serial_us_async() {
-    return nullptr;
+void ti_serial_handler::clear_serial_fifo() {
+    SPDLOG_TRACE("Claring serial FIFO buffer");
+    do {}
+    while (!read_serial_s().empty());
+}
+
+estts::Status ti_serial_handler::search_read_buf(const std::string& query) {
+    if (cache.str().find(query) != std::string::npos)
+        return estts::ES_SUCCESS;
+    else
+        return estts::ES_NOTFOUND;
 }

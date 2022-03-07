@@ -57,11 +57,25 @@ estts::Status ti_esttc::write_scw(uint16_t scw_command) {
             response,
             command_body);
 
-    if (return_status == estts::ES_SUCCESS && response.length() >= 7) {
-        if (response.substr(3, 4) == "C3C3") {
+    if (return_status == estts::ES_OK && response.length() >= 7) {
+        std::string scw_resp;
+        if (cache.str().find("+PIPE") == std::string::npos) {
+            do{}
+            while ((scw_resp = read_serial_s()).empty());
+        } else {
+            scw_resp = cache.str();
+        }
+
+
+        if (scw_resp.substr(3, 4) == "C3C3") {
             SPDLOG_INFO("Successfully commanded UHF to enter Bootloader mode from from Application mode");
-        } else if (response.substr(3, 4) == "8787") {
+        } else if (scw_resp.substr(3, 4) == "8787") {
             SPDLOG_INFO("Successfully commanded UHF to enter Application mode from from Bootloader mode");
+        } else if (scw_resp.find("+PIPE") != string::npos) {
+            SPDLOG_INFO("Successfully commanded UHF to enter PIPE mode");
+        } else {
+            SPDLOG_INFO("SCW write failure");
+            return estts::ES_UNSUCCESSFUL;
         }
     }
     return return_status;
@@ -817,8 +831,9 @@ estts::Status ti_esttc::build_esttc_command(const char method, const char *comma
     /*Attempt to transmit ESTTC command */
     serial_status = this->write_serial_s(command.str());
 
-    if (serial_status == estts::ES_SUCCESS) {
-        response = this->read_serial_s();
+    if (serial_status == estts::ES_OK) {
+        do {}
+        while ((response = read_serial_s()).empty());
 
         // TODO - Make sure this covers ALL cases
         if (response.length() >= 7 && response.substr(0, 7) == "ERR+VAL") {
@@ -828,7 +843,7 @@ estts::Status ti_esttc::build_esttc_command(const char method, const char *comma
             return_status = estts::ES_UNSUCCESSFUL;
             spdlog::error("Failed to transmit  ESTTC command: {}", command.str());
         } else if (response.length() >= 2 && response.substr(0, 2) == "OK") {
-            return_status = estts::ES_SUCCESS;
+            return_status = estts::ES_OK;
             SPDLOG_INFO("Successfully transmitted ESTTC command: {}", command.str());
         } else {
             return_status = estts::ES_UNINITIALIZED;
