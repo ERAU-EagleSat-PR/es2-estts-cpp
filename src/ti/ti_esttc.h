@@ -12,9 +12,9 @@ class ti_esttc : virtual public ti_serial_handler {
 private:
     estts::endurosat::esttc *esttc_symbols;
 
-    estts::Status build_esttc_command(char method, const char *command_code,  string &response, const string& body = "");
+    estts::Status build_esttc_command(char method, const char *command_code,  std::string &response, const std::string& body = "");
 
-    static std::vector<string> split_lines(const string &all_lines, size_t num_of_lines);
+    static std::vector<std::string> split_lines(const std::string &all_lines, size_t num_of_lines);
 protected:
 public:
 

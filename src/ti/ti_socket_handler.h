@@ -13,7 +13,7 @@
 class ti_socket_handler {
 private:
     const char *address;
-    int sock, port;
+
     struct sockaddr_in serv_addr;
 
     estts::Status open_socket();
@@ -22,18 +22,23 @@ private:
 
 protected:
 
+    int check_sock_bytes_avail() const;
+
     ssize_t write_socket_uc(unsigned char *data, int size) const;
 
-    unsigned char *read_socket_uc() const;
+public:
 
-    estts::Status write_socket_s(const std::string &data) const;
+    int sock, port;
+
+    ti_socket_handler(const char *address, int port);
 
     std::string read_socket_s() const;
 
-    int check_sock_bytes_avail() const;
+    unsigned char * read_socket_uc() const;
 
-public:
-    ti_socket_handler(const char *address, int port);
+    estts::Status write_socket_s(const std::string &data) const;
+
+    estts::Status init_socket_handle();
 };
 
 

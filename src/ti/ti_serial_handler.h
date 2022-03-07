@@ -5,15 +5,9 @@
 #ifndef ESTTS_TI_SERIAL_HANDLER_H
 #define ESTTS_TI_SERIAL_HANDLER_H
 
-#include <string>
-#include <fcntl.h> // Contains file controls like O_RDWR
-#include <cerrno> // Error integer and strerror() function
-#include <unistd.h> // write(), read(), close()
-#include <termios.h> // Contains POSIX terminal control definitions
+#include <sstream>
 
 #include "constants.h"
-
-using std::string;
 
 class ti_serial_handler {
 private:
@@ -28,19 +22,26 @@ private:
     const char *port;
     int baud;
 protected:
+    // Check here first, maybe what you're waiting for is already received..
+    // Note - cleared every time read is called
+    std::stringstream cache;
+
     ti_serial_handler(const char *port, int baud);
 
     ~ti_serial_handler();
 
     ssize_t write_serial_uc(unsigned char *data, int size) const;
 
-    unsigned char *read_serial_uc() const;
+    unsigned char *read_serial_uc();
 
     estts::Status write_serial_s(const std::string &data) const;
 
-    std::string read_serial_s() const;
+    std::string read_serial_s();
 
-    unsigned char *read_serial_us_async();
+    void clear_serial_fifo();
+
+    estts::Status search_read_buf(const std::string& query);
+
 };
 
 

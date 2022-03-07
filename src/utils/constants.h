@@ -15,6 +15,12 @@ namespace estts {
     const int ESTTS_MAX_RETRIES = 2;
     const int ESTTS_RETRY_WAIT_SEC = 1;
     const int ESTTS_AWAIT_RESPONSE_PERIOD_SEC = 5;
+
+    namespace cosmos {
+        const char COSMOS_SERVER_ADDR[] = "127.0.0.1";
+        const int COSMOS_PORT = 65432;
+    }
+
     /* AX.25 Related constants */
     namespace ax25 {
         const char AX25_FLAG[] = "7E"; // Flag is constant
@@ -169,6 +175,7 @@ namespace estts {
     }
 
     namespace endurosat {
+        const int PIPE_DURATION_SEC = 10;
         const int MAX_RETRIES = 2;
         const int WAIT_TIME_SEC = 2;
         const int ES_BAUD = 115200;
@@ -230,7 +237,7 @@ namespace estts {
     }
 
     namespace ti_serial {
-        const char TI_SERIAL_ADDRESS[] = "/dev/cu.";
+        const char TI_SERIAL_ADDRESS[] = "/dev/cu.usbserial-A10JVB3P";
     }
     
     namespace ti_socket {
@@ -238,7 +245,7 @@ namespace estts {
         const int WAIT_TIME_SEC = 2;
         const int TI_SOCKET_BUF_SZ = 1024;
         const char TI_SOCKET_ADDRESS[] = "127.0.0.1";
-        const int TI_SOCKET_PORT = 8080;
+        const int TI_SOCKET_PORT = 65548;
     }
 
     typedef struct command_object {
@@ -260,17 +267,22 @@ namespace estts {
     } telemetry_object;
 
     typedef struct dispatched_command {
+        unsigned char * frame;
         command_object * command;
-        std::vector<telemetry_object *> telem;
+        std::vector<telemetry_object *> telem_obj;
+        std::string telem_str;
         Status response_code;
         std::string serial_number;
-        std::function<estts::Status(std::vector<estts::telemetry_object *>)> callback;
+        std::function<estts::Status(std::vector<estts::telemetry_object *>)> obj_callback;
+        std::function<estts::Status(std::string)> str_callback;
     } dispatched_command;
 
     typedef struct waiting_command {
+        unsigned char * frame;
         command_object * command;
         std::string serial_number;
-        std::function<estts::Status(std::vector<estts::telemetry_object *>)> callback;
+        std::function<estts::Status(std::vector<estts::telemetry_object *>)> obj_callback;
+        std::function<estts::Status(std::string)> str_callback;
     } waiting_command;
 
     typedef std::function<std::string(estts::command_object *, std::function<estts::Status(std::vector<estts::telemetry_object *>)>)> dispatch_fct;

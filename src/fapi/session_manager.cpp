@@ -45,13 +45,13 @@ std::string generate_serial_number() {
 }
 
 /**
- * @brief Function that takes argument to a vector of command objects and a callback function expecting a pointer to a
+ * @brief Function that takes argument to a vector of command objects and a obj_callback function expecting a pointer to a
  * telemetry object as argument. It's implied that this function should handle whatever telemetry is returned by the
- * dispatch process. This function creates a waiting_command object and stores a serial number, the callback function,
+ * dispatch process. This function creates a waiting_command object and stores a serial number, the obj_callback function,
  * and the command frames (as command_objects) expected to dispatch during the next satellite pass.
  * @param command Vector of command_object pointers to schedule for dispatching.
  * @param decomp_callback Callback pointer to a function that returns a Status and takes argument for a vector of
- * telemetry_objects. It's implied that this callback function knows how to decode a vector of telemetry frames.
+ * telemetry_objects. It's implied that this obj_callback function knows how to decode a vector of telemetry frames.
  * @return Returns a unique string serial number for later retrieval of the command status.
  */
 std::string session_manager::schedule_command(command_object * command, std::function<Status(std::vector<telemetry_object *>)> decomp_callback) {
@@ -62,7 +62,27 @@ std::string session_manager::schedule_command(command_object * command, std::fun
     auto new_command = new waiting_command;
     new_command->command = command;
     new_command->serial_number = generate_serial_number();
-    new_command->callback = std::move(decomp_callback);
+    new_command->obj_callback = std::move(decomp_callback);
+    new_command->str_callback = nullptr;
+    new_command->frame = nullptr;
+
+    waiting.push_back(new_command);
+
+    SPDLOG_DEBUG("Scheduled new command with serial number {}", new_command->serial_number);
+    return new_command->serial_number;
+}
+
+std::string session_manager::schedule_command(unsigned char * command,
+                                              const std::function<estts::Status(std::string)>& decomp_callback) {
+    if (ti == nullptr) {
+        SPDLOG_ERROR("Transmission interface not initialized. Was init_session_manager() called?");
+    }
+    auto new_command = new waiting_command;
+    new_command->frame = command;
+    new_command->serial_number = generate_serial_number();
+    new_command->str_callback = decomp_callback;
+    new_command->command = nullptr;
+    new_command->obj_callback = nullptr;
 
     waiting.push_back(new_command);
 
@@ -76,7 +96,6 @@ std::string session_manager::schedule_command(command_object * command, std::fun
  */
 session_manager::session_manager() {
     ti = new transmission_interface();
-    session = false;
     this->init_command_handler(ti);
     // Create a new thread, pass in schedule() function and current object
     session_worker = std::thread(&session_manager::dispatch, this);
@@ -144,11 +163,14 @@ session_manager::~session_manager() {
     using namespace std::chrono; // nanoseconds, system_clock, seconds
     int wait = 0;
     for (;;) {
+start:
         if (!waiting.empty()) {
-            if (!session) {
+            SPDLOG_TRACE("{} commands in queue", waiting.size());
+            if (!ti->session_active) {
                 // Request a new communication session from EagleSat II
-                if (ES_OK == this->ti->request_new_session(ax25::NEW_SESSION_FRAME)) {
-                    session = true;
+                if (ES_OK != this->ti->request_new_session(ax25::NEW_SESSION_FRAME)) {
+                    SPDLOG_ERROR("Failed to request new session.");
+                    goto start; // todo This should probably have a more elegant solution..
                 }
             }
 
@@ -161,14 +183,20 @@ session_manager::~session_manager() {
                 session = false;
             }
 #else
-            this->execute(waiting.front());
+            SPDLOG_TRACE("Session status: {}", ti->session_active);
+            if (ES_OK != this->execute(waiting.front())) {
+                SPDLOG_WARN("Failed to execute command with serial number {}", waiting.front()->serial_number);
+            } else
+            SPDLOG_INFO("Command executed successfully");
             waiting.pop_front();
 
-            if (waiting.empty() && session) {
-                if (ES_OK == this->ti->end_session(ax25::END_SESSION_FRAME)) {
-                    session = false;
+            if (waiting.empty() && ti->session_active) {
+                if (ES_OK != this->ti->end_session(ax25::END_SESSION_FRAME)) {
+                    SPDLOG_WARN("Failed to end session rip");
                 }
+                SPDLOG_INFO("Waiting for more commands");
             }
+
 #endif
         } else {
 
@@ -179,8 +207,8 @@ session_manager::~session_manager() {
 }
 
 Status session_manager::handle_stream() {
-    auto stream = ti->receive();
-    SPDLOG_DEBUG("Found {}", stream);
+    // auto stream = ti->receive();
+    // SPDLOG_DEBUG("Found {}", stream);
 
     return ES_OK;
 }

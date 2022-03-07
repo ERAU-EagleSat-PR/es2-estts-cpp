@@ -6,6 +6,7 @@
 #define ESTTS_TRANSMISSION_INTERFACE_H
 
 #include <mutex>
+#include <thread>
 #include "ti_esttc.h"
 #include "ti_socket_handler.h"
 
@@ -18,18 +19,26 @@ private:
 
     estts::Status check_ti_health();
 
-    bool session_active;
-
     bool stream_active;
 
+    std::thread session_keeper;
+
+    void maintain_pipe();
+
 public:
+    bool session_active;
+
     explicit transmission_interface();
 
     ~transmission_interface();
 
     estts::Status transmit(const std::string &value);
 
+    estts::Status transmit(const unsigned char * value, int length);
+
     std::string receive();
+
+    unsigned char * receive_uc();
 
     estts::Status request_new_session(const std::string& handshake);
 

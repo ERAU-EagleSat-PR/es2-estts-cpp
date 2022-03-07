@@ -1,5 +1,5 @@
 #
-# estts-telem-handler-test build configuration.
+# estts-telem_obj-handler-test build configuration.
 #
 
 # Add primary executable for estts-tnc_emulator-test

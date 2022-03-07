@@ -23,6 +23,10 @@ private:
     estts::Status await_response();
 
     estts::Status map_telemetry_to_dispatched(const std::vector<estts::telemetry_object *> &telem);
+
+    estts::Status execute_obj(estts::waiting_command *command);
+
+    estts::Status execute_str(estts::waiting_command *command);
 protected:
     std::vector<estts::dispatched_command *> dispatched;
 

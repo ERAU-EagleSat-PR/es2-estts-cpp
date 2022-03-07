@@ -2,6 +2,7 @@
 // Created by Hayden Roszell on 1/3/22.
 //
 
+#include <sstream>
 #include <chrono>
 #include <thread>
 #include <fcntl.h>
@@ -19,23 +20,10 @@
  * @return None
  */
 ti_socket_handler::ti_socket_handler(const char *address, int port) {
-#ifdef __TI_DEV_MODE__
     sock = -1;
     serv_addr = {0};
     this->port = port;
-    SPDLOG_DEBUG("Opening socket at port {} for TI emulation", port);
     this->address = address;
-    if (estts::ES_OK != open_socket()) {
-        spdlog::error("Failed to open socket.");
-        throw std::runtime_error("Failed to open socket.");
-    }
-    if (estts::ES_OK != configure_socket()) {
-        spdlog::error("Failed to configure socket.");
-        SPDLOG_WARN("Is the ESTTS server running? See documentation for more.");
-        throw std::runtime_error("Failed to configure socket.");
-    }
-    SPDLOG_DEBUG("Socket configuration complete.");
-#endif
 }
 
 estts::Status ti_socket_handler::open_socket() {
@@ -72,8 +60,6 @@ estts::Status ti_socket_handler::configure_socket() {
     // fcntl(sock, F_SETFL, flags | O_NONBLOCK);
     // SPDLOG_TRACE("Connection succeeded.");
 
-    // Flush socket for use
-    write_socket_s("flush");
     return estts::ES_OK;
 }
 
@@ -93,7 +79,16 @@ ssize_t ti_socket_handler::write_socket_uc(unsigned char *data, int size) const 
     if (written < 1) {
         return -1;
     }
-    SPDLOG_TRACE("Wrote '{}' (size={}) to {}", data, written, port);
+    if (data[size] == '\r')
+        SPDLOG_TRACE("Wrote '{}' (size={}) to {}", data, written, port);
+    else {
+        std::stringstream temp;
+        for (int i = 0; i < size; i ++) {
+            if (data[i] != '\r')
+                temp << data[i];
+        }
+        SPDLOG_TRACE("Wrote '{}' (size={}) to {}", temp.str(), written, port);
+    }
     return written;
 }
 
@@ -113,13 +108,19 @@ unsigned char *ti_socket_handler::read_socket_uc() const {
     // Allocate heap space for receive buffer
     auto buf = new unsigned char[estts::ti_socket::TI_SOCKET_BUF_SZ];
     // Use read system call to read data in sock to buf
-    auto r = read(sock, buf, estts::ti_socket::TI_SOCKET_BUF_SZ);
-    if (r < 1) {
+    auto n = read(sock, buf, estts::ti_socket::TI_SOCKET_BUF_SZ);
+    if (n < 1) {
         // Can't receive a negative number of bytes ;)
         return nullptr;
     }
+    std::stringstream temp;
+    for (int i = 0; i < n; i ++) {
+        if (buf[i] != '\r')
+            temp << buf[i];
+    }
+    SPDLOG_TRACE("Read '{}' (size={}) from {}", temp.str(), n, port);
     // Add null terminator at the end of transmission for easier processing by parent class(s)
-    buf[r] = '\0';
+    buf[n] = '\0';
     SPDLOG_TRACE("Read '{}' from {}", buf, port);
     return buf;
 }
@@ -164,4 +165,19 @@ int ti_socket_handler::check_sock_bytes_avail() const {
     int count;
     ioctl(sock, FIONREAD, &count);
     return count;
+}
+
+estts::Status ti_socket_handler::init_socket_handle() {
+    SPDLOG_DEBUG("Opening socket at {}:{}", address, port);
+    if (estts::ES_OK != open_socket()) {
+        spdlog::error("Failed to open socket.");
+        return estts::ES_UNINITIALIZED;
+    }
+    if (estts::ES_OK != configure_socket()) {
+        spdlog::error("Failed to configure socket.");
+        SPDLOG_WARN("Is the ESTTS server running? See documentation for more.");
+        return estts::ES_UNINITIALIZED;
+    }
+    SPDLOG_DEBUG("Socket configuration complete.");
+    return estts::ES_OK;
 }

@@ -44,10 +44,21 @@ estts::Status command_handler::execute(estts::waiting_command *command) {
         return estts::ES_UNINITIALIZED;
     }
 
+    if (command->command != nullptr && command->frame == nullptr)
+        return execute_obj(command);
+    else if (command->command == nullptr && command->frame != nullptr)
+        return execute_str(command);
+    else {
+        SPDLOG_ERROR("Command object not initialized properly. Please see documentation.");
+        return estts::ES_UNINITIALIZED;
+    }
+}
+
+estts::Status command_handler::execute_obj(estts::waiting_command *command) {
     try {
         using namespace std::this_thread; // sleep_for, sleep_until
         using namespace std::chrono; // nanoseconds, system_clock, seconds
-        // Create transmission interface object
+
         SPDLOG_INFO("Sending command");
         bool retry = true;
         int retries = 0;
@@ -79,7 +90,7 @@ estts::Status command_handler::execute(estts::waiting_command *command) {
         SPDLOG_DEBUG("Successfully transmitted command");
 
         // De-allocate memory for command object
-        delete command->command;
+        // delete command->command;
     }
     catch (const std::exception &e) {
         // TODO catch exceptions & do something smart with them
@@ -105,11 +116,11 @@ estts::Status command_handler::execute(estts::waiting_command *command) {
     auto destructor = new ax25_ui_frame_destructor(resp.str());
     auto telem = destructor->destruct_ax25();
 
-    // The feature API command handler doesn't care if the response was successful. Update telem attribute & exit
+    // The feature API command handler doesn't care if the response was successful. Update telem_obj attribute & exit
     // todo there are likely error cases here that aren't accounted for. Find & fix them
 
-    if (command->callback != nullptr)
-        if (estts::ES_OK != command->callback(telem))
+    if (command->obj_callback != nullptr)
+        if (estts::ES_OK != command->obj_callback(telem))
             // todo probably retry
             return estts::ES_UNSUCCESSFUL;
 
@@ -117,6 +128,59 @@ estts::Status command_handler::execute(estts::waiting_command *command) {
     temp_completed->serial_number = command->serial_number;
     temp_completed->response_code = validate_response_code(telem[0]->response_code);
     completed_cache.push_back(temp_completed);
+
+    return estts::ES_OK;
+}
+
+estts::Status command_handler::execute_str(estts::waiting_command *command) {
+    try {
+        SPDLOG_INFO("Sending command");
+        bool retry = true;
+        int retries = 0;
+        // Try to transmit frame
+        while (ti->transmit(command->frame, (int)strlen((const char *)command->frame)) != estts::ES_OK) {
+            spdlog::error("Failed to transmit frame. Waiting {} seconds", estts::ESTTS_RETRY_WAIT_SEC);
+            sleep_until(system_clock::now() + seconds(estts::ESTTS_RETRY_WAIT_SEC));
+            retries++;
+            if (retries > estts::endurosat::MAX_RETRIES) return estts::ES_UNSUCCESSFUL;
+            SPDLOG_INFO("Retrying transmit ({}/{})", retries, estts::ESTTS_MAX_RETRIES);
+        }
+        // If we got this far,
+        SPDLOG_DEBUG("Successfully transmitted command");
+    }
+    catch (const std::exception &e) {
+        // TODO catch exceptions & do something smart with them
+        spdlog::error("We failed somewhere");
+        return estts::ES_UNSUCCESSFUL;
+    }
+
+    SPDLOG_INFO("Waiting for a response from EagleSat II");
+    int seconds_elapsed;
+    std::stringstream telem;
+    for (seconds_elapsed = 0; seconds_elapsed < estts::ESTTS_AWAIT_RESPONSE_PERIOD_SEC; seconds_elapsed++) {
+        auto temp = ti->receive_uc();
+        if (temp) {
+            telem << temp;
+            break;
+        }
+        sleep_until(system_clock::now() + milliseconds (100));
+    }
+    if (telem.str().empty())
+        return estts::ES_UNSUCCESSFUL;
+    SPDLOG_DEBUG("Got response from EagleSat II");
+
+    // todo there are likely error cases here that aren't accounted for. Find & fix them
+
+    if (command->str_callback != nullptr)
+        if (estts::ES_OK != command->str_callback(telem.str()))
+            // todo probably retry
+            return estts::ES_UNSUCCESSFUL;
+
+    auto temp_completed = new completed;
+    temp_completed->serial_number = command->serial_number;
+    temp_completed->response_code = estts::ES_OK;
+    completed_cache.push_back(temp_completed);
+
     return estts::ES_OK;
 }
 
@@ -126,7 +190,7 @@ estts::Status command_handler::execute(estts::waiting_command *command) {
  * with 2 frames, 16 frames will be generated. Whether they are AX.25 frames or ESTTC commands is
  * implementation defined.
  * @param commands Vector of pointers to waiting_command structures. Note that waiting_command structures hold
- * pointers to callback functions that should handle whatever is returned by the executed command.
+ * pointers to obj_callback functions that should handle whatever is returned by the executed command.
  * @return ES_OK if successful, ES_UNINITIALIZED if the transmission interface wasn't initialized.
  */
 estts::Status command_handler::execute(const std::deque<estts::waiting_command *> &waiting) {
@@ -178,7 +242,7 @@ estts::Status command_handler::execute(const std::deque<estts::waiting_command *
             // Now we need to move the command state from waiting to dispatched.
             auto newly_dispatched = new estts::dispatched_command;
             // todo make sure these things aren't empty before blindly assigning
-            newly_dispatched->callback = command->callback;
+            newly_dispatched->obj_callback = command->obj_callback;
             newly_dispatched->serial_number = command->serial_number;
             newly_dispatched->command = command->command;
             newly_dispatched->response_code = estts::ES_INPROGRESS;
@@ -231,7 +295,7 @@ estts::Status command_handler::await_response() {
 
     return map_telemetry_to_dispatched(telem);
 
-    // The feature API command handler doesn't care if the response was successful. Update telem attribute & exit
+    // The feature API command handler doesn't care if the response was successful. Update telem_obj attribute & exit
     // todo there are likely error cases here that aren't accounted for. Find & fix them
 }
 
@@ -249,7 +313,7 @@ estts::Status command_handler::init_command_handler(transmission_interface *ti) 
 
 /**
  * @brief Maps dispatched command objects to their associatd telemetry response. Matched telemetry responses
- * are collected and then passed to the callback function stored inside the associated dispatch object.
+ * are collected and then passed to the obj_callback function stored inside the associated dispatch object.
  * @param telem Vector of pointers to telemetry_objects.
  * @return ES_OK if all callbacks were successful, and ES_UNSUCCESSFUL if no match was made.
  */
@@ -272,10 +336,10 @@ estts::Status command_handler::map_telemetry_to_dispatched(const std::vector<est
             }
         }
         if (associated_frame_found) {
-            current->telem = temp_telem;
+            current->telem_obj = temp_telem;
             current->response_code = validate_response_code(temp_telem[0]->response_code);
-            if (current->callback != nullptr)
-                if (estts::ES_OK != current->callback(current->telem)) // Call the callback with the telemetry object
+            if (current->obj_callback != nullptr)
+                if (estts::ES_OK != current->obj_callback(current->telem_obj)) // Call the obj_callback with the telemetry object
                     return estts::ES_UNSUCCESSFUL;
             // Todo this shoudn't return, it should schedule a new retry, or at least notify something that can retry
 
