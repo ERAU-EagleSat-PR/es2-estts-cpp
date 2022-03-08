@@ -157,9 +157,9 @@ estts::Status command_handler::execute_str(estts::waiting_command *command) {
     SPDLOG_INFO("Waiting for a response from EagleSat II");
     int seconds_elapsed;
     std::stringstream telem;
-    for (seconds_elapsed = 0; seconds_elapsed < estts::ESTTS_AWAIT_RESPONSE_PERIOD_SEC; seconds_elapsed++) {
-        auto temp = ti->receive_uc();
-        if (temp) {
+    for (seconds_elapsed = 0; seconds_elapsed < estts::ESTTS_AWAIT_RESPONSE_PERIOD_SEC * 50; seconds_elapsed++) {
+        auto temp = ti->receive();
+        if (!temp.empty()) {
             telem << temp;
             break;
         }

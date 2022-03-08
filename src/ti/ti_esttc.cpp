@@ -2,6 +2,8 @@
 // Created by Hayden Roszell on 12/10/21.
 //
 
+#include <chrono>
+#include <thread>
 #include <string>
 #include <sstream>
 #include <algorithm>
@@ -10,6 +12,8 @@
 
 using std::stringstream;
 using std::string;
+using namespace std::this_thread; // sleep_for, sleep_until
+using namespace std::chrono; // nanoseconds, system_clock, seconds
 
 /**
  * @brief ti_esttc default constructor that initializes ti_serial_handler
@@ -867,4 +871,23 @@ std::string ti_esttc::calculate_crc32(string string) {
 
 ti_esttc::~ti_esttc() {
     delete esttc_symbols;
+}
+
+estts::Status ti_esttc::enable_satellite_bcn() {
+    int retries;
+    string resp;
+    SPDLOG_TRACE("Enabling beacon on satellite");
+    this->enable_pipe();
+    write_serial_s("ES+W22003343\r");
+    do {}
+    while (read_serial_s().empty());
+    do {
+        sleep_until(system_clock::now() + seconds(1));
+        retries--;
+        if (retries <= 0) {
+            SPDLOG_ERROR("Oof PIPE didn't exit properly..");
+            return estts::ES_UNSUCCESSFUL;
+        }
+    } while ((resp = read_serial_s()).empty() || resp.find("+ESTTC") == std::string::npos);
+    return estts::ES_OK;
 }

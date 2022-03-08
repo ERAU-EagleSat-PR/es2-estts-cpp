@@ -121,7 +121,6 @@ unsigned char *ti_socket_handler::read_socket_uc() const {
     SPDLOG_TRACE("Read '{}' (size={}) from {}", temp.str(), n, port);
     // Add null terminator at the end of transmission for easier processing by parent class(s)
     buf[n] = '\0';
-    SPDLOG_TRACE("Read '{}' from {}", buf, port);
     return buf;
 }
 

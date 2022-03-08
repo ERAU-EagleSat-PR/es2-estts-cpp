@@ -70,6 +70,9 @@ public:
 
     static std::string calculate_crc32(std::string string);
 
+    // Misc commands
+    estts::Status enable_satellite_bcn();
+
     ti_esttc(const char *es_transmitter_port, int baud);
 
     ~ti_esttc();
