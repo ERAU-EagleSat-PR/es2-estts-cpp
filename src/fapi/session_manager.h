@@ -8,6 +8,7 @@
 #include <functional>
 #include <mutex>
 #include <thread>
+#include <utility>
 #include <vector>
 #include <queue>
 #include "constants.h"
@@ -23,8 +24,12 @@ private:
 
     estts::Status handle_stream();
 
+    std::function<estts::Status(std::string)> telem_callback = nullptr;
+
 public:
     explicit session_manager();
+
+    explicit session_manager(std::function<estts::Status(std::string)> telem_callback);
 
     ~session_manager();
 

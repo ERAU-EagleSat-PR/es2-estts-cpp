@@ -21,7 +21,9 @@ private:
 
     [[noreturn]] estts::Status cosmos();
 
-    std::function<estts::Status(std::string)> get_generic_callback_lambda(const unsigned char * command);
+    static std::function<estts::Status(std::string)> get_generic_command_callback_lambda(const unsigned char * command, ti_socket_handler * sock);
+
+    static std::function<estts::Status(std::string)> get_generic_telemetry_callback_lambda(ti_socket_handler * sock);
 public:
     cosmos_handler();
 

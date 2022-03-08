@@ -24,8 +24,6 @@ protected:
 
     int check_sock_bytes_avail() const;
 
-    ssize_t write_socket_uc(unsigned char *data, int size) const;
-
 public:
 
     int sock, port;
@@ -37,6 +35,8 @@ public:
     unsigned char * read_socket_uc() const;
 
     estts::Status write_socket_s(const std::string &data) const;
+
+    ssize_t write_socket_uc(unsigned char *data, int size) const;
 
     estts::Status init_socket_handle();
 };

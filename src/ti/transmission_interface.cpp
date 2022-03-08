@@ -189,7 +189,7 @@ Status transmission_interface::request_new_session(const std::string& handshake)
     }
 
     SPDLOG_TRACE("Enabling PIPE on satellite transceiver");
-    std::string pipe_en = "ES+W22003320\r";
+    std::string pipe_en = "ES+W22003323\r";
     this->write_serial_s(pipe_en);
     std::string resp;
     do { //todo timeout
@@ -211,6 +211,8 @@ Status transmission_interface::request_new_session(const std::string& handshake)
 
 Status transmission_interface::end_session(const std::string &end_frame) {
     SPDLOG_INFO("Ending session");
+
+    int retries = estts::endurosat::PIPE_DURATION_SEC * 2;
 #ifdef __TI_DEV_MODE__
     if (write_socket_s(end_frame) != ES_OK) {
         SPDLOG_ERROR("Failed to end session");
@@ -229,12 +231,15 @@ Status transmission_interface::end_session(const std::string &end_frame) {
     session_active = false;
     session_keeper.join();
     std::string resp;
-    do { //todo timeout
-    } while ((resp = read_serial_s()).empty());
-    if (resp.find("+ESTTC") == std::string::npos) {
-        SPDLOG_ERROR("Oof PIPE didn't exit properly.."); // todo should probably be better thought out
-        // todo try again
-    }
+    do {
+        sleep_until(system_clock::now() + seconds(1));
+        retries--;
+        if (retries <= 0) {
+            mtx.unlock();
+            SPDLOG_ERROR("Oof PIPE didn't exit properly..");
+            return estts::ES_UNSUCCESSFUL;
+        }
+    } while ((resp = read_serial_s()).empty() || resp.find("+ESTTC") == std::string::npos);
 #endif
     sleep_until(system_clock::now() + seconds(1));
     SPDLOG_INFO("Successfully ended session");
@@ -264,7 +269,6 @@ estts::Status transmission_interface::transmit(const unsigned char *value, int l
     SPDLOG_TRACE("Transceiver passed checks.");
     retries = 0;
     clear_serial_fifo();
-    retries = 0;
     while (this->write_serial_uc((unsigned char *)value, length) < length) {
         spdlog::error("Failed to transmit. Waiting {} seconds", estts::endurosat::WAIT_TIME_SEC);
         sleep_until(system_clock::now() + seconds(estts::endurosat::WAIT_TIME_SEC));
@@ -309,8 +313,13 @@ unsigned char *transmission_interface::receive_uc() {
 }
 
 void transmission_interface::maintain_pipe() {
+    int counter = 0;
     while (session_active) {
-        sleep_until(system_clock::now() + seconds(estts::endurosat::PIPE_DURATION_SEC - 2));
-        this->write_serial_uc((unsigned char *) " ", 1);
+        counter++;
+        if ((counter / 1000) > (estts::endurosat::PIPE_DURATION_SEC - 2)) {
+            this->write_serial_uc((unsigned char *) " ", 1);
+            counter = 0;
+        }
+        sleep_until(system_clock::now() + milliseconds (1));
     }
 }

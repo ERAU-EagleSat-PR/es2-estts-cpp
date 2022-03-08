@@ -102,6 +102,16 @@ session_manager::session_manager() {
     SPDLOG_TRACE("Created dispatch worker thread with ID {}", std::hash<std::thread::id>{}(session_worker.get_id()));
 }
 
+session_manager::session_manager(std::function<estts::Status(std::string)> telem_callback) {
+    this->telem_callback = std::move(telem_callback);
+
+    ti = new transmission_interface();
+    this->init_command_handler(ti);
+    // Create a new thread, pass in schedule() function and current object
+    session_worker = std::thread(&session_manager::dispatch, this);
+    SPDLOG_TRACE("Created dispatch worker thread with ID {}", std::hash<std::thread::id>{}(session_worker.get_id()));
+}
+
 /**
  * @brief Uses std::thread::join() to await thread completion. If commands continue
  * to be added to queue, this function will block indefinitely.
@@ -186,8 +196,9 @@ start:
             SPDLOG_TRACE("Session status: {}", ti->session_active);
             if (ES_OK != this->execute(waiting.front())) {
                 SPDLOG_WARN("Failed to execute command with serial number {}", waiting.front()->serial_number);
-            } else
-            SPDLOG_INFO("Command executed successfully");
+            } else {
+                SPDLOG_INFO("Command executed successfully");
+            }
             waiting.pop_front();
 
             if (waiting.empty() && ti->session_active) {
@@ -207,8 +218,9 @@ start:
 }
 
 Status session_manager::handle_stream() {
-    // auto stream = ti->receive();
-    // SPDLOG_DEBUG("Found {}", stream);
+    auto stream = ti->receive();
+    if (!stream.empty() & this->telem_callback != nullptr)
+        telem_callback(stream);
 
     return ES_OK;
 }
