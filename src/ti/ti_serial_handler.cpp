@@ -49,6 +49,7 @@ ti_serial_handler::ti_serial_handler(const char *port, int baud) {
  */
 estts::Status ti_serial_handler::initialize_serial_port() const {
     struct termios tty{};
+#ifndef __ESTTS_OS_LINUX__
     if (tcgetattr(serial_port, &tty) != 0) {
         spdlog::error("Error %i from tcgetattr: %s\n", errno, strerror(errno));
         SPDLOG_INFO("Did you mean to use TI Dev Mode? See README.md");
@@ -82,6 +83,50 @@ estts::Status ti_serial_handler::initialize_serial_port() const {
         spdlog::error("Error {} from tcsetattr: {}", errno, strerror(errno));
         return ES_UNSUCCESSFUL;
     }
+#else
+    SPDLOG_INFO("Initializing serial handler with compatibility for Linux kernel");
+    if (tcgetattr(serial_port, &tty) != 0) {
+        spdlog::error("Error %i from tcgetattr: %s\n", errno, strerror(errno));
+        SPDLOG_INFO("Did you mean to use TI Dev Mode? See README.md");
+        return ES_UNSUCCESSFUL;
+    }
+    
+    // Initialize Terminos structure
+    tty.c_cflag &= ~PARENB;  // Disable parity bit (IE clear parity bit)
+    tty.c_cflag &= ~CSTOPB;  // 1 stop bit (IE clear stop field)
+    tty.c_cflag &= ~CSIZE;   // Clear size bit
+    tty.c_cflag |= CS8;      // 8 data bits
+    tty.c_cflag &= ~CRTSCTS; // Disable hardware flow control
+    tty.c_cflag |= CREAD | CLOCAL; // Turn on READ and ignore control lines
+    
+    tty.c_lflag &= ~ICANON;  // Disable UNIX Canonical mode (\n != terminator)
+    tty.c_lflag &= ~ECHO;    // Disable echo
+    tty.c_lflag &= ~ECHOE;   // Disable erasure
+    tty.c_lflag &= ~ECHONL;  // Disable new-line echo
+    tty.c_lflag &= ~ISIG;    // Disable interpretation of INTR, QUIT and SUSP
+    
+    tty.c_iflag &= ~(IXON | IXOFF | IXANY); // Disable software flow control
+    tty.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR |
+                     ICRNL); // Disable any special handling of received bytes
+                     
+    tty.c_oflag &= ~OPOST;
+    tty.c_oflag &= ~ONLCR;
+    
+    tty.c_cc[VTIME] = 2;
+    tty.c_cc[VMIN] = 0;
+    
+    // Set baud rate
+    cfsetispeed(&tty, B115200);
+    cfsetospeed(&tty, B115200);
+    
+    cfmakeraw(&tty);
+    
+    // Save tty settings, also check for error
+    if (tcsetattr(serial_port, TCSANOW, &tty) != 0) {
+        spdlog::error("Error {} from tcsetattr: {}", errno, strerror(errno));
+        return ES_UNSUCCESSFUL;
+    }
+#endif
     SPDLOG_DEBUG("Successfully initialized port {} with fd {}", port, serial_port);
     return ES_OK;
 }
@@ -92,9 +137,13 @@ estts::Status ti_serial_handler::initialize_serial_port() const {
  * @return #ES_OK if port opens successfully, or #ES_UNSUCCESSFUL if not
  */
 estts::Status ti_serial_handler::open_port() {
+#ifndef __ESTTS_OS_LINUX__
     // Open port stored in object with read/write
     serial_port = open(this->port, O_RDWR | O_NOCTTY | O_NDELAY);
-
+#else
+    // Open port stored in object with read/write
+    serial_port = open(this->port, O_RDWR | O_NOCTTY | O_NONBLOCK);
+#endif
     // Check for errors
     if (serial_port < 0) {
         // printf("Error %i from open: %s\n", errno, strerror(errno)); // TODO implement logging class
