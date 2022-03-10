@@ -316,10 +316,10 @@ void transmission_interface::maintain_pipe() {
     int counter = 0;
     while (session_active) {
         counter++;
-        if ((counter / 1000) > (estts::endurosat::PIPE_DURATION_SEC - 2)) {
+        if ((counter / 10) > (estts::endurosat::PIPE_DURATION_SEC - 4)) {
             this->write_serial_uc((unsigned char *) " ", 1);
             counter = 0;
         }
-        sleep_until(system_clock::now() + milliseconds (1));
+        sleep_until(system_clock::now() + milliseconds (100));
     }
 }

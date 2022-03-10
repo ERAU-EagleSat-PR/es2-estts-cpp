@@ -28,13 +28,13 @@ ti_serial_handler::ti_serial_handler(const char *port, int baud) {
 #ifndef __TI_DEV_MODE__ // Set at compile time
     SPDLOG_DEBUG("Opening serial port {} with {} baud", port, baud);
     if (ES_OK != open_port()) {
-        spdlog::error("Failed to open serial port {}", port);
+        SPDLOG_ERROR("Failed to open serial port {}", port);
         throw std::runtime_error("Failed to open serial port.");
     }
 
     // Attempt to initialize serial port
     if (ES_OK != initialize_serial_port()) {
-        spdlog::error("Failed to open serial port {}", port);
+        SPDLOG_ERROR("Failed to open serial port {}", port);
         throw std::runtime_error("Failed to initialize serial port.");
     }
 #else
@@ -50,7 +50,7 @@ ti_serial_handler::ti_serial_handler(const char *port, int baud) {
 estts::Status ti_serial_handler::initialize_serial_port() const {
     struct termios tty{};
     if (tcgetattr(serial_port, &tty) != 0) {
-        spdlog::error("Error %i from tcgetattr: %s\n", errno, strerror(errno));
+        SPDLOG_ERROR("Error %i from tcgetattr: %s\n", errno, strerror(errno));
         SPDLOG_INFO("Did you mean to use TI Dev Mode? See README.md");
         return ES_UNSUCCESSFUL;
     }
@@ -79,7 +79,7 @@ estts::Status ti_serial_handler::initialize_serial_port() const {
 
     // Save tty settings, also check for error
     if (tcsetattr(serial_port, TCSANOW, &tty) != 0) {
-        spdlog::error("Error {} from tcsetattr: {}", errno, strerror(errno));
+        SPDLOG_ERROR("Error {} from tcsetattr: {}", errno, strerror(errno));
         return ES_UNSUCCESSFUL;
     }
     SPDLOG_DEBUG("Successfully initialized port {} with fd {}", port, serial_port);
@@ -98,7 +98,7 @@ estts::Status ti_serial_handler::open_port() {
     // Check for errors
     if (serial_port < 0) {
         // printf("Error %i from open: %s\n", errno, strerror(errno)); // TODO implement logging class
-        spdlog::error("Error {} from open: {}", errno, strerror(errno));
+        SPDLOG_ERROR("Error {} from open: {}", errno, strerror(errno));
         return ES_UNSUCCESSFUL;
     }
     SPDLOG_DEBUG("Successfully opened port {} with fd {}", port, serial_port);
