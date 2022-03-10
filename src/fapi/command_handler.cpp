@@ -181,6 +181,8 @@ estts::Status command_handler::execute_str(estts::waiting_command *command) {
     temp_completed->response_code = estts::ES_OK;
     completed_cache.push_back(temp_completed);
 
+    delete command->frame;
+
     return estts::ES_OK;
 }
 

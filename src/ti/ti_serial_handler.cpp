@@ -5,6 +5,7 @@
 #include <fcntl.h> // Contains file controls like O_RDWR
 #include <cerrno> // Error integer and strerror() function
 #include <unistd.h> // write(), read(), close()
+#include <sys/ioctl.h>
 #include <termios.h> // Contains POSIX terminal control definitions
 #include "ti_serial_handler.h"
 
@@ -142,11 +143,10 @@ estts::Status ti_serial_handler::open_port() {
     serial_port = open(this->port, O_RDWR | O_NOCTTY | O_NDELAY);
 #else
     // Open port stored in object with read/write
-    serial_port = open(this->port, O_RDWR | O_NOCTTY | O_NONBLOCK);
+    serial_port = open(this->port, O_RDWR);
 #endif
     // Check for errors
     if (serial_port < 0) {
-        // printf("Error %i from open: %s\n", errno, strerror(errno)); // TODO implement logging class
         SPDLOG_ERROR("Error {} from open: {}", errno, strerror(errno));
         return ES_UNSUCCESSFUL;
     }
@@ -262,8 +262,8 @@ ti_serial_handler::~ti_serial_handler() {
 
 void ti_serial_handler::clear_serial_fifo() {
     SPDLOG_TRACE("Clearing serial FIFO buffer");
-    do {}
-    while (!read_serial_s().empty());
+    if (check_serial_bytes_avail() > 0)
+        read_serial_s();
 }
 
 estts::Status ti_serial_handler::search_read_buf(const std::string& query) {
@@ -271,4 +271,10 @@ estts::Status ti_serial_handler::search_read_buf(const std::string& query) {
         return estts::ES_SUCCESS;
     else
         return estts::ES_NOTFOUND;
+}
+
+int ti_serial_handler::check_serial_bytes_avail() const {
+    int bytes;
+    ioctl(serial_port, FIONREAD, &bytes);
+    return bytes;
 }

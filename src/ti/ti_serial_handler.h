@@ -42,6 +42,8 @@ protected:
 
     estts::Status search_read_buf(const std::string& query);
 
+    int check_serial_bytes_avail() const;
+
 };
 
 
