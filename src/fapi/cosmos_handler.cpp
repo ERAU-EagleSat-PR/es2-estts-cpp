@@ -19,7 +19,7 @@ cosmos_handler::cosmos_handler() {
         if (temp_char != nullptr) {
             auto sn = estts_session->schedule_command(temp_char, get_generic_command_callback_lambda(temp_char, sock));
         }
-        delete temp_char;
+        // delete temp_char;
     }
 
     return estts::ES_OK;

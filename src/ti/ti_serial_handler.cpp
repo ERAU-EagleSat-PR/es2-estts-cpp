@@ -262,8 +262,8 @@ ti_serial_handler::~ti_serial_handler() {
 
 void ti_serial_handler::clear_serial_fifo() {
     SPDLOG_TRACE("Clearing serial FIFO buffer");
-    do {}
-    while (!read_serial_s().empty());
+    if (check_serial_bytes_avail() > 0)
+        read_serial_s();
 }
 
 estts::Status ti_serial_handler::search_read_buf(const std::string& query) {
