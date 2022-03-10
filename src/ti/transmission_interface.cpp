@@ -41,34 +41,17 @@ estts::Status transmission_interface::transmit(const std::string &value) {
 #ifndef __TI_DEV_MODE__
     if (check_ti_health() != estts::ES_OK) return estts::ES_UNSUCCESSFUL;
     SPDLOG_TRACE("Transceiver passed checks.");
-    retries = 0;
     SPDLOG_DEBUG("Transmitting packet with value:\n{}", value);
-    retries = 0;
-    while (this->write_serial_s(value) != estts::ES_OK) {
-        spdlog::error("Failed to transmit. Waiting {} seconds", estts::endurosat::WAIT_TIME_SEC);
-        sleep_until(system_clock::now() + seconds(estts::endurosat::WAIT_TIME_SEC));
-        retries++;
-        if (retries > estts::endurosat::MAX_RETRIES) {
-            mtx.unlock();
-            return estts::ES_UNSUCCESSFUL;
-        }
-        SPDLOG_INFO("Retrying transmit (retry {}/{})", retries, estts::endurosat::MAX_RETRIES);
-    }
+    auto resp = this->write_serial_s(value);
+
 #else
-    SPDLOG_DEBUG("Transmitting {}", value);
-    while (this->write_socket_s(value) != estts::ES_OK) {
-        spdlog::error("Failed to transmit. Waiting {} seconds", estts::ti_socket::WAIT_TIME_SEC);
-        sleep_until(system_clock::now() + seconds(estts::ti_socket::WAIT_TIME_SEC));
-        retries++;
-        if (retries > estts::ti_socket::MAX_RETRIES) {
-            mtx.unlock();
-            return estts::ES_UNSUCCESSFUL;
-        }
-        SPDLOG_INFO("Retrying transmit (retry {}/{})", retries, estts::ti_socket::MAX_RETRIES);
-    }
+
+    SPDLOG_DEBUG("Transmitting packet with value {}", value);
+    auto resp = this->write_socket_s(value);
+
 #endif
     mtx.unlock();
-    return estts::ES_OK;
+    return resp;
 }
 
 /**
@@ -130,7 +113,7 @@ transmission_interface::~transmission_interface() {
     mtx.unlock();
 }
 
-Status transmission_interface::request_new_session(const std::string& handshake) {
+Status transmission_interface::request_new_session() {
     mtx.lock();
 #ifdef __TI_DEV_MODE__
     SPDLOG_INFO("Requesting new session");
@@ -214,7 +197,7 @@ Status transmission_interface::end_session(const std::string &end_frame) {
 
     int retries = estts::endurosat::PIPE_DURATION_SEC * 2;
 #ifdef __TI_DEV_MODE__
-    if (write_socket_s(end_frame) != ES_OK) {
+    if (write_socket_s(ax25::NEW_SESSION_FRAME) != ES_OK) {
         SPDLOG_ERROR("Failed to end session");
         return ES_UNSUCCESSFUL;
     }
@@ -322,4 +305,11 @@ void transmission_interface::maintain_pipe() {
         }
         sleep_until(system_clock::now() + milliseconds (100));
     }
+}
+
+std::string transmission_interface::nonblock_receive() {
+    if (check_serial_bytes_avail() > 0) {
+        return this->receive();
+    }
+    return "";
 }

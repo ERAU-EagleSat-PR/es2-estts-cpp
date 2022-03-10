@@ -38,9 +38,11 @@ public:
 
     std::string receive();
 
+    std::string nonblock_receive();
+
     unsigned char * receive_uc();
 
-    estts::Status request_new_session(const std::string& handshake);
+    estts::Status request_new_session();
 
     bool check_session_active() const { return session_active; };
 

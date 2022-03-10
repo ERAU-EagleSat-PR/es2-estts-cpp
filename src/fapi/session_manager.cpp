@@ -171,14 +171,13 @@ session_manager::~session_manager() {
 [[noreturn]] void session_manager::dispatch() {
     using namespace std::this_thread; // sleep_for, sleep_until
     using namespace std::chrono; // nanoseconds, system_clock, seconds
-    int wait = 0;
     for (;;) {
 start:
         if (!waiting.empty()) {
             SPDLOG_TRACE("{} commands in queue", waiting.size());
             if (!ti->session_active) {
                 // Request a new communication session from EagleSat II
-                if (ES_OK != this->ti->request_new_session(ax25::NEW_SESSION_FRAME)) {
+                if (ES_OK != this->ti->request_new_session()) {
                     SPDLOG_ERROR("Failed to request new session.");
                     goto start; // todo This should probably have a more elegant solution..
                 }
@@ -218,7 +217,7 @@ start:
 }
 
 Status session_manager::handle_stream() {
-    auto stream = ti->receive();
+    auto stream = ti->nonblock_receive();
     if (!stream.empty() & this->telem_callback != nullptr)
         telem_callback(stream);
 
