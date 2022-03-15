@@ -17,18 +17,6 @@ using namespace std::chrono; // nanoseconds, system_clock, seconds
 
 int main() {
     spdlog::set_level(spdlog::level::trace); // This setting is missed in the wiki
-    /*
-    auto ti = new transmission_interface();
-
-    ti->transmit(reinterpret_cast<const unsigned char *>("ES+R220A\r"), 9);
-
-    std::string resp;
-    do {}
-    while ((resp = ti->receive()).empty());
-    SPDLOG_INFO("Got back: {}", resp);
-
-     */
-
 
     auto cosmos = new cosmos_handler();
     if (estts::ES_OK != cosmos->cosmos_init())

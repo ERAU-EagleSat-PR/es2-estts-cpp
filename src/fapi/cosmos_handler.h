@@ -29,6 +29,7 @@ public:
 
     estts::Status cosmos_init();
 
+    void initialize_cosmos_daemon() { cosmos_worker.join(); }
 };
 
 
