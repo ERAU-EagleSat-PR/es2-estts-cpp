@@ -7,6 +7,8 @@
 #include <unistd.h> // write(), read(), close()
 #include <sys/ioctl.h>
 #include <termios.h> // Contains POSIX terminal control definitions
+#include <sys/select.h>
+#include <sys/types.h>
 #include "ti_serial_handler.h"
 
 
@@ -113,7 +115,7 @@ estts::Status ti_serial_handler::initialize_serial_port() const {
     tty.c_oflag &= ~OPOST;
     tty.c_oflag &= ~ONLCR;
     
-    tty.c_cc[VTIME] = 2;
+    tty.c_cc[VTIME] = 100; // Set timeout of 10.0 seconds
     tty.c_cc[VMIN] = 0;
     
     // Set baud rate

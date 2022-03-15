@@ -17,7 +17,7 @@ namespace estts {
     const int ESTTS_AWAIT_RESPONSE_PERIOD_SEC = 5;
 
     namespace cosmos {
-        const char COSMOS_SERVER_ADDR[] = "172.30.95.164";
+        const char COSMOS_SERVER_ADDR[] = "172.30.95.164"; // 172.30.95.164
         const int COSMOS_PORT = 65432;
     }
 
@@ -237,7 +237,7 @@ namespace estts {
     }
 
     namespace ti_serial {
-        const char TI_SERIAL_ADDRESS[] = "/dev/ttyUSB0";
+        const char TI_SERIAL_ADDRESS[] = "/dev/cu.usbserial-A10JVB3P";
     }
     
     namespace ti_socket {
