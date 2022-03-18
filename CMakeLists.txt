@@ -25,8 +25,8 @@ option(
         false
 )
 option(
-        
-        "Set to ON to initialize ESTTS in command stream mode - commands sent as batch as opposed to individually"
+        ESTTS_BOOST_SERIAL
+        "Set to ON to configure the transmission interface to use the BOOST serial library"
         false
 )
 
@@ -35,6 +35,7 @@ message(STATUS "#### Build Configuration ####")
 message(STATUS "TI_DEV_MODE: ${TI_DEV_MODE}")
 message(STATUS "ESTTS_COMMAND_STREAM_MODE: ${ESTTS_COMMAND_STREAM_MODE}")
 message(STATUS "CMAKE_SYSTEM_NAME: ${CMAKE_SYSTEM_NAME}")
+message(STATUS "ESTTS_BOOST_SERIAL: ${ESTTS_BOOST_SERIAL}")
 message(STATUS "#### End Build Configuration ####")
 
 add_subdirectory(src)

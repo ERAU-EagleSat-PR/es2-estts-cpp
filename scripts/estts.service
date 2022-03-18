@@ -1,0 +1,16 @@
+[Unit]
+Description=Service that runs the EagleSat Telemetry and Telecommand System (ESTTS)
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/bin/estts-runtime
+WorkingDirectory=/home/abhi/Dev/echo-server
+Restart=always
+RestartSec=5
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=%n

@@ -6,21 +6,16 @@
 #define ESTTS_TI_SERIAL_HANDLER_H
 
 #include <sstream>
-
+#include <boost/asio.hpp>
 #include "constants.h"
+
+#include "posix_serial.h"
 
 class ti_serial_handler {
 private:
-    // Private variables
-    int serial_port;
-
-    // Private functions
-    estts::Status open_port();
-
-    estts::Status initialize_serial_port() const;
-
-    const char *port;
-    int baud;
+    boost::asio::io_service io;
+    boost::asio::serial_port serial;
+    const char * port;
 protected:
     // Check here first, maybe what you're waiting for is already received..
     // Note - cleared every time read is called
@@ -30,21 +25,17 @@ protected:
 
     ~ti_serial_handler();
 
-    ssize_t write_serial_uc(unsigned char *data, int size) const;
+    ssize_t write_serial_uc(unsigned char *data, int size);
 
     unsigned char *read_serial_uc();
 
-    estts::Status write_serial_s(const std::string &data) const;
+    estts::Status write_serial_s(const std::string &data);
 
     std::string read_serial_s();
 
     void clear_serial_fifo();
 
-    estts::Status search_read_buf(const std::string& query);
-
-    int check_serial_bytes_avail() const;
-
+    int check_serial_bytes_avail();
 };
-
 
 #endif //ESTTS_TI_SERIAL_HANDLER_H

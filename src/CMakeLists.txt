@@ -56,6 +56,32 @@ target_include_directories(
 target_link_libraries(estts PUBLIC spdlog::spdlog)
 target_link_libraries(estts PUBLIC nlohmann_json::nlohmann_json)
 
+set(Boost_USE_MULTITHREADED ON)
+find_package(
+        Boost
+        1.67.0
+        REQUIRED
+        COMPONENTS system
+)
+message(STATUS "Boost version: ${Boost_VERSION}")
+message(STATUS "Using Boost libraries: ${Boost_LIBRARIES}")
+message(STATUS "Boost include directories: ${Boost_INCLUDE_DIRS}")
+if(NOT TARGET ${Boost_LIBRARIES})
+    add_library(${Boost_LIBRARIES} IMPORTED INTERFACE)
+    set_property(TARGET ${Boost_LIBRARIES} PROPERTY
+            INTERFACE_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
+    set_property(TARGET ${Boost_LIBRARIES} PROPERTY
+            INTERFACE_LINK_LIBRARIES ${Boost_LIBRARIES})
+endif()
+
+set(estts_include_directories ${include_directories} ${Boost_INCLUDE_DIRS} PARENT_SCOPE)
+
+target_link_libraries(
+        estts
+        PUBLIC
+        ${Boost_LIBRARIES}
+)
+
 if (BUILD_DEBUG)
     target_compile_definitions(
             estts
@@ -85,6 +111,7 @@ if (TI_DEV_MODE)
             __TI_DEV_MODE__
     )
 endif()
+
 if (ESTTS_COMMAND_STREAM_MODE)
     target_compile_definitions(
             estts
@@ -92,6 +119,7 @@ if (ESTTS_COMMAND_STREAM_MODE)
             __ESTTS_COMMAND_STREAM_MODE__
     )
 endif()
+
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     target_compile_definitions(
             estts
