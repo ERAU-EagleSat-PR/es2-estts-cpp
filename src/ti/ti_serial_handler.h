@@ -25,6 +25,8 @@ protected:
 
     ti_serial_handler(const char *port, int baud);
 
+    estts::Status initialize_serial_port(int baud);
+
     ~ti_serial_handler();
 
     ssize_t write_serial_uc(unsigned char *data, int size);

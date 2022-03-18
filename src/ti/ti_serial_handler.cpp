@@ -2,11 +2,13 @@
 // Created by Hayden Roszell on 3/17/22.
 //
 
+#include <termios.h>
 #include <boost/asio.hpp>
 #include <sys/ioctl.h>
 #include "ti_serial_handler.h"
 
 using namespace boost::asio;
+using namespace estts;
 
 ti_serial_handler::ti_serial_handler() : io(), serial(io) {
     SPDLOG_DEBUG("Detecting open serial ports");
@@ -30,6 +32,40 @@ ti_serial_handler::ti_serial_handler(const char *port, int baud) : io(), serial(
         throw std::runtime_error(e.what());
     }
 
+    if (ES_OK != initialize_serial_port(baud)) {
+        SPDLOG_ERROR("Failed to initialize serial port {}", port);
+        throw std::runtime_error("Failed to initialize serial port.");
+    }
+
+}
+
+/**
+ * @brief Initializes serial terminal port using Terminos
+ * @return #ES_OK if port configures successfully, or #ES_UNSUCCESSFUL if not
+ */
+estts::Status ti_serial_handler::initialize_serial_port(int baud) {
+    struct termios tty{};
+    if (tcgetattr(serial.lowest_layer().native_handle(), &tty) != 0) {
+        SPDLOG_ERROR("Error %i from tcgetattr: %s\n", errno, strerror(errno));
+        SPDLOG_INFO("Did you mean to use TI Dev Mode? See README.md");
+        return ES_UNSUCCESSFUL;
+    }
+
+    // Initialize Terminos structure
+    tty.c_lflag &= ~ICANON;  // Disable UNIX Canonical mode (\n != terminator)
+    tty.c_lflag &= ~ECHO;    // Disable echo
+    tty.c_lflag &= ~ECHOE;   // Disable erasure
+    tty.c_lflag &= ~ECHONL;  // Disable new-line echo
+    tty.c_lflag &= ~ISIG;    // Disable interpretation of INTR, QUIT and SUSP
+    tty.c_iflag &= ~(IXON | IXOFF | IXANY); // Disable software flow control
+    tty.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL); // Disable any special handling of received bytes
+
+    // Save tty settings, also check for error
+    if (tcsetattr(serial.lowest_layer().native_handle(), TCSANOW, &tty) != 0) {
+        SPDLOG_ERROR("Error {} from tcsetattr: {}", errno, strerror(errno));
+        return ES_UNSUCCESSFUL;
+    }
+
     try {
         serial.set_option(boost::asio::serial_port_base::baud_rate(baud));
         serial.set_option(boost::asio::serial_port_base::character_size(8));
@@ -40,6 +76,8 @@ ti_serial_handler::ti_serial_handler(const char *port, int baud) : io(), serial(
         SPDLOG_ERROR("Failed to configure serial port with baud {} - {}", baud, e.what());
         throw std::runtime_error(e.what());
     }
+
+    return estts::ES_OK;
 }
 
 /**
