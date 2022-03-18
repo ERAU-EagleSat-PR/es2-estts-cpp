@@ -58,6 +58,7 @@ public:
     std::string nrzi_encode(std::string info);
     std::string convertString(std::string input, int arrIndex);
     std::string scramble(std::string info);
+    std::string descramble(std::string info);
 
 };
 

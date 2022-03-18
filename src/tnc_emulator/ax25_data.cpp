@@ -4,6 +4,7 @@
 
 #include "ax25_data.h"
 #include "crc/FastCRC.h"
+#include "queue.h"
 
 //Header Getters
 std::string ax25_data::getFlag(){
@@ -132,205 +133,52 @@ std::string convertString(std::string input, int arrIndex) {
     ret << input[arrIndex] << input[arrIndex + 1] << input[arrIndex + 2] << input[arrIndex + 3];
     return ret.str();
 }
-
+//https://www.amsat.org/amsat/articles/g3ruh/109.html
+// The detected data, still randomised is then passed through an unscrambler, where the original data is recovered,
+// and this goes off to the TNC. A scrambler is very simple, consisting of a 17 bit shift register and 3 Exor gates. See for example https://www.amsat.org/amsat/articles/g3ruh/109/fig03.gif
+//
+//The scrambling polynomial is 1 + X^12 + X^17. This means the currently transmitted bit is the EXOR of the current data bit, plus the bits that were transmitted 12 and 17 bits earlier.
+// Likewise the unscrambling operation simply EXORs the bit received now with those sent 12 and 17 bits earlier. The unscrambler perforce requires 17 bits to synchronise
 std::string scramble(std::string info){
-    std::string newHexArray;
-    if (info.length() <= 77) {
-        //int* binaryArray = static_cast<int *>(malloc(sizeof(int) * 4 * info.length()));
-        int binaryArray[info.length()*4];
-        try {
-            for (int i = 0; i < info.length() * 4; i += 4) {
-                switch (toupper(info[i / 4]))
-                {
-                    case '0':
-                        binaryArray[i] = 0;
-                        binaryArray[i + 1] = 0;
-                        binaryArray[i + 2] = 0;
-                        binaryArray[i + 3] = 0;
-                        break;
-                    case '1':
-                        binaryArray[i] = 0;
-                        binaryArray[i + 1] = 0;
-                        binaryArray[i + 2] = 0;
-                        binaryArray[i + 3] = 1;
-                        break;
-                    case '2':
-                        binaryArray[i] = 0;
-                        binaryArray[i + 1] = 0;
-                        binaryArray[i + 2] = 1;
-                        binaryArray[i + 3] = 0;
-                        break;
-                    case '3':
-                        binaryArray[i] = 0;
-                        binaryArray[i + 1] = 0;
-                        binaryArray[i + 2] = 1;
-                        binaryArray[i + 3] = 1;
-                        break;
-                    case '4':
-                        binaryArray[i] = 0;
-                        binaryArray[i + 1] = 1;
-                        binaryArray[i + 2] = 0;
-                        binaryArray[i + 3] = 0;
-                        break;
-                    case '5':
-                        binaryArray[i] = 0;
-                        binaryArray[i + 1] = 1;
-                        binaryArray[i + 2] = 0;
-                        binaryArray[i + 3] = 1;
-                        break;
-                    case '6':
-                        binaryArray[i] = 0;
-                        binaryArray[i + 1] = 1;
-                        binaryArray[i + 2] = 1;
-                        binaryArray[i + 3] = 0;
-                        break;
-                    case '7':
-                        binaryArray[i] = 0;
-                        binaryArray[i + 1] = 1;
-                        binaryArray[i + 2] = 1;
-                        binaryArray[i + 3] = 1;
-                        break;
-                    case '8':
-                        binaryArray[i] = 1;
-                        binaryArray[i + 1] = 0;
-                        binaryArray[i + 2] = 0;
-                        binaryArray[i + 3] = 0;
-                        i += 4;
-                        break;
-                    case '9':
-                        binaryArray[i] = 1;
-                        binaryArray[i + 1] = 0;
-                        binaryArray[i + 2] = 0;
-                        binaryArray[i + 3] = 1;
-                        break;
-                    case 'A':
-                        binaryArray[i] = 1;
-                        binaryArray[i + 1] = 0;
-                        binaryArray[i + 2] = 1;
-                        binaryArray[i + 3] = 0;
-                        break;
-                    case 'B':
-                        binaryArray[i] = 1;
-                        binaryArray[i + 1] = 0;
-                        binaryArray[i + 2] = 1;
-                        binaryArray[i + 3] = 1;
-                        break;
-                    case 'C':
-                        binaryArray[i] = 1;
-                        binaryArray[i + 1] = 1;
-                        binaryArray[i + 2] = 0;
-                        binaryArray[i + 3] = 0;
-                        break;
-                    case 'D':
-                        binaryArray[i] = 1;
-                        binaryArray[i + 1] = 1;
-                        binaryArray[i + 2] = 0;
-                        binaryArray[i + 3] = 1;
-                        break;
-                    case 'E':
-                        binaryArray[i] = 1;
-                        binaryArray[i + 1] = 1;
-                        binaryArray[i + 2] = 1;
-                        binaryArray[i + 3] = 0;
-                        break;
-                    case 'F':
-                        binaryArray[i] = 1;
-                        binaryArray[i + 1] = 1;
-                        binaryArray[i + 2] = 1;
-                        binaryArray[i + 3] = 1;
-                        break;
-                    default:
-                        throw("Error: Not a hex array");
-                        break;
-                }
-
-                //Scramble by the polynomial 1 + x^12 + x^17
-
-                if (i + 1 >= 12) {
-                    if (i + 1 >= 17) {
-                        binaryArray[i] = binaryArray[i] ^ (binaryArray[i - 12] ^ binaryArray[i - 17]);
-                    }
-                    else if (i + 1 < 17) {
-                        binaryArray[i] = binaryArray[i] ^ (binaryArray[i - 12] ^ 0);
-                    }
-                }
-                else if (i + 1 < 12) {
-                    binaryArray[i] = binaryArray[i] ^ 0;
-                }
-
-                // End of the for
-            }
-        }
-        catch (std::string errorMessage) {
-            //i = sizeof(info) * 8;
-            std::cout << errorMessage;
-        }
-
-        // Convert to a hex array
-
-        info = "";
-
-
-        // Converts to string
-        for (int i = 0; i < *(&binaryArray + 1) - binaryArray; i++) {
-            info = info.append(std::to_string(binaryArray[i]));
-            // End of the for
-        }
-        //Converts to hex
-        for (int i = 0; i < info.length(); i += 4) {
-            if (i + 3 <= info.length()) {
-                if (convertString(info, i) == "0000") {
-                    newHexArray.append("0");
-                }
-                else if (convertString(info, i) == "0001") {
-                    newHexArray.append("1");
-                }
-                else if (convertString(info, i) == "0010") {
-                    newHexArray.append("2");
-                }
-                else if (convertString(info, i) == "0011") {
-                    newHexArray.append("3");
-                }
-                else if (convertString(info, i) == "0100") {
-                    newHexArray.append("4");
-                }
-                else if (convertString(info, i) == "0101") {
-                    newHexArray.append("5");
-                }
-                else if (convertString(info, i) == "0110") {
-                    newHexArray.append("6");
-                }
-                else if (convertString(info, i) == "0111") {
-                    newHexArray.append("7");
-                }
-                else if (convertString(info, i) == "1000") {
-                    newHexArray.append("8");
-                }
-                else if (convertString(info, i) == "1001") {
-                    newHexArray.append("9");
-                }
-                else if (convertString(info, i) == "1010") {
-                    newHexArray.append("A");
-                }
-                else if (convertString(info, i) == "1011") {
-                    newHexArray.append("B");
-                }
-                else if (convertString(info, i) == "1100") {
-                    newHexArray.append("C");
-                }
-                else if (convertString(info, i) == "1101") {
-                    newHexArray.append("D");
-                }
-                else if (convertString(info, i) == "1110") {
-                    newHexArray.append("E");
-                }
-                else if (convertString(info, i) == "1111") {
-                    newHexArray.append("F");
-                }
-            }
-            // End of the for
-        }
-        // End of the if
+    bool temp, reg[17];
+    std::string scrambledStr;
+    //populate the bit register with 0's
+    for(int regSize = 0; regSize < 17; regSize++){
+        reg[regSize] = 0;
     }
-    return newHexArray;
+    //loop through the bit string
+    for(int i = 0; i<sizeof(info);i++){
+        //xor 17 bit with 12 bit of register then xor the previous xor with current string bit
+        temp = (reg[17] ^ reg[12]) ^ (info[i] - 48);
+        //shift contents of reg array up and populate the first pos with exor'd output
+        for(int j = 1; j < sizeof(reg);j++){
+            reg[j] = reg[j-1];
+        }
+        reg[0] = temp;
+        //add the output to the scrambled string
+        scrambledStr += (char) temp;
+    }
+    return scrambledStr;
+}
+
+std::string descramble(std::string info) {
+    bool temp, reg[17];
+    std::string descrambledStr;
+    //populate the bit register with 0's
+    for(int regSize = 0; regSize < 17; regSize++){
+        reg[regSize] = 0;
+    }
+    //loop through the bit string
+    for(int i = 0; i<sizeof(info);i++){
+        //xor 17 bit with 12 bit of register then xor the previous xor with current string bit
+        temp = (reg[17] ^ reg[12]) ^ (info[i] - 48);
+        //shift contents of reg array up and populate the first pos with the current string bit
+        for(int j = 1; j < sizeof(reg);j++){
+            reg[j] = reg[j-1];
+        }
+        reg[0] = (bool)(info[i] - 48);
+        //add the output to the scrambled string
+        descrambledStr += (char) temp;
+    }
+    return descrambledStr;
 }
