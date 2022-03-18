@@ -21,6 +21,8 @@ protected:
     // Note - cleared every time read is called
     std::stringstream cache;
 
+    ti_serial_handler();
+
     ti_serial_handler(const char *port, int baud);
 
     ~ti_serial_handler();

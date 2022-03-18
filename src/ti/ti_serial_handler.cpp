@@ -8,6 +8,11 @@
 
 using namespace boost::asio;
 
+ti_serial_handler::ti_serial_handler() : io(), serial(io) {
+    SPDLOG_DEBUG("Detecting open serial ports");
+    port = "";
+}
+
 /**
 * @brief Base constructor that initializes port and baud, opens specified port
 * as serial port, and configures it using Terminos.
@@ -49,8 +54,11 @@ ssize_t ti_serial_handler::write_serial_uc(unsigned char *data, int size) {
         SPDLOG_ERROR("Serial port {} not open", port);
         return -1;
     }
-    auto written = serial.write_some(buffer(data,size));
-    if (written < 1) {
+    size_t written = 0;
+    try {
+        written = serial.write_some(buffer(data,size));
+    } catch (boost::system::system_error::exception &e) {
+        SPDLOG_ERROR("Failed to write to serial port - {}", e.what());
         return -1;
     }
     std::stringstream temp;
@@ -60,7 +68,7 @@ ssize_t ti_serial_handler::write_serial_uc(unsigned char *data, int size) {
     }
     SPDLOG_TRACE("Wrote '{}' (size={}) to {}", temp.str(), written, port);
 
-    return 0;
+    return written;
 }
 
 /**
@@ -79,10 +87,12 @@ unsigned char *ti_serial_handler::read_serial_uc() {
         SPDLOG_ERROR("Serial port {} not open", port);
         return nullptr;
     }
-
     auto buf = new unsigned char[MAX_SERIAL_READ];
-    auto n = serial.read_some(buffer(buf, MAX_SERIAL_READ));
-    if (n < 1) {
+    size_t n = 0;
+    try {
+        n = serial.read_some(buffer(buf, MAX_SERIAL_READ));
+    } catch (boost::system::system_error::exception &e) {
+        SPDLOG_ERROR("Failed to read from serial port - {}", e.what());
         return nullptr;
     }
     std::stringstream temp;
@@ -147,9 +157,9 @@ void ti_serial_handler::clear_serial_fifo() {
 
 int ti_serial_handler::check_serial_bytes_avail() {
     int value = 0;
-    if (0 != ioctl(serial.lowest_layer().native_handle(), FIONREAD, &value))
-    {
-        SPDLOG_ERROR("Failed to get bytes available - {}", boost::system::error_code(errno, boost::asio::error::get_system_category()).what());
+    if (0 != ioctl(serial.lowest_layer().native_handle(), FIONREAD, &value)) {
+        SPDLOG_ERROR("Failed to get bytes available - {}",
+                     boost::system::error_code(errno, boost::asio::error::get_system_category()).message());
     }
     return value;
 }

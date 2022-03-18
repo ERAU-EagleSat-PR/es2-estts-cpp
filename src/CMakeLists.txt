@@ -29,6 +29,14 @@ set(
         ti/transmission_interface.cpp
 )
 
+set(Boost_USE_MULTITHREADED ON)
+find_package(
+        Boost
+        1.67.0
+        REQUIRED
+        COMPONENTS system
+)
+
 set(
         include_directories
         ${CMAKE_CURRENT_SOURCE_DIR}
@@ -37,6 +45,7 @@ set(
         ${CMAKE_CURRENT_SOURCE_DIR}/tnc_emulator
         ${CMAKE_CURRENT_SOURCE_DIR}/ti
         ${CMAKE_CURRENT_SOURCE_DIR}/utils
+        ${Boost_INCLUDE_DIRS}
 )
 
 set(estts_include_directories ${include_directories} PARENT_SCOPE)
@@ -53,16 +62,17 @@ target_include_directories(
         ${include_directories}
 )
 
-target_link_libraries(estts PUBLIC spdlog::spdlog)
-target_link_libraries(estts PUBLIC nlohmann_json::nlohmann_json)
-
-set(Boost_USE_MULTITHREADED ON)
-find_package(
-        Boost
-        1.67.0
-        REQUIRED
-        COMPONENTS system
+target_link_libraries(
+        estts
+        PUBLIC
+        spdlog::spdlog
 )
+target_link_libraries(
+        estts
+        PUBLIC
+        nlohmann_json::nlohmann_json
+)
+
 message(STATUS "Boost version: ${Boost_VERSION}")
 message(STATUS "Using Boost libraries: ${Boost_LIBRARIES}")
 message(STATUS "Boost include directories: ${Boost_INCLUDE_DIRS}")
@@ -73,8 +83,6 @@ if(NOT TARGET ${Boost_LIBRARIES})
     set_property(TARGET ${Boost_LIBRARIES} PROPERTY
             INTERFACE_LINK_LIBRARIES ${Boost_LIBRARIES})
 endif()
-
-set(estts_include_directories ${include_directories} ${Boost_INCLUDE_DIRS} PARENT_SCOPE)
 
 target_link_libraries(
         estts
