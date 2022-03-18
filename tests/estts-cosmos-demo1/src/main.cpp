@@ -17,6 +17,7 @@ using namespace std::chrono; // nanoseconds, system_clock, seconds
 
 int main() {
     spdlog::set_level(spdlog::level::trace); // This setting is missed in the wiki
+    spdlog::set_pattern("[%T] [thread %t] [%^%l%$] [%@] %v");
 
     auto cosmos = new cosmos_handler();
     if (estts::ES_OK != cosmos->cosmos_init())
