@@ -1,3 +1,4 @@
+/* Copyright © EagleSat II - Embry Riddle Aeronautical University - All rights reserved - 2022 */
 //
 // Created by Hayden Roszell on 1/3/22.
 //

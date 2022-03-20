@@ -17,6 +17,7 @@ private:
     boost::asio::serial_port serial;
     const char * port;
     int baud, restarts;
+    unsigned char * sync_buf;
 protected:
     // Check here first, maybe what you're waiting for is already received..
     // Note - cleared every time read is called

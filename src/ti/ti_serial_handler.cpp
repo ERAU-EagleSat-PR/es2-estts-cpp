@@ -1,3 +1,4 @@
+/* Copyright © EagleSat II - Embry Riddle Aeronautical University - All rights reserved - 2022 */
 //
 // Created by Hayden Roszell on 3/17/22.
 //
@@ -13,6 +14,7 @@ using namespace estts;
 ti_serial_handler::ti_serial_handler() : io(), serial(io) {
     SPDLOG_DEBUG("Detecting open serial ports");
     port = "";
+    sync_buf = new unsigned char[MAX_SERIAL_READ];
 }
 
 /**
@@ -27,6 +29,8 @@ ti_serial_handler::ti_serial_handler(const char *port, int baud) : io(), serial(
     this->port = port;
     this->baud = baud;
     restarts = 0;
+
+    sync_buf = new unsigned char[MAX_SERIAL_READ];
 
     if (ES_OK != initialize_serial_port()) {
         SPDLOG_ERROR("Failed to initialize serial port {}", port);
@@ -144,10 +148,9 @@ unsigned char *ti_serial_handler::read_serial_uc() {
         SPDLOG_ERROR("Serial port {} not open", port);
         return nullptr;
     }
-    auto buf = new unsigned char[MAX_SERIAL_READ];
     size_t n = 0;
     boost::system::error_code error;
-    n = serial.read_some(buffer(buf, MAX_SERIAL_READ), error);
+    n = serial.read_some(buffer(sync_buf, MAX_SERIAL_READ), error);
     if (error) {
         SPDLOG_ERROR("Failed to read from serial port - {}", error.message());
         if (error == boost::asio::error::eof)
@@ -155,14 +158,14 @@ unsigned char *ti_serial_handler::read_serial_uc() {
     }
     std::stringstream temp;
     for (int i = 0; i < n; i ++) {
-        if (buf[i] != '\r')
-            temp << buf[i];
+        if (sync_buf[i] != '\r')
+            temp << sync_buf[i];
     }
     SPDLOG_TRACE("Read '{}' (size={} bytes) from {}", temp.str(), n, port);
     // Add null terminator at the end of transmission for easier processing by parent class(s)
-    buf[n] = '\0';
-    cache << buf;
-    return buf;
+    sync_buf[n] = '\0';
+    cache << sync_buf;
+    return sync_buf;
 }
 
 /**
@@ -199,7 +202,6 @@ std::string ti_serial_handler::read_serial_s() {
     // Type cast unsigned char (auto) to a char *
     // Then call std::string constructor
     std::string string_read(reinterpret_cast<char const *>(read));
-    delete read;
     return string_read;
 }
 
