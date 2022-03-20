@@ -12,6 +12,8 @@
 
 class ti_socket_handler {
 private:
+    unsigned char * sync_buf;
+
     const char *address;
 
     struct sockaddr_in serv_addr;
@@ -29,6 +31,8 @@ public:
     int sock, port;
 
     ti_socket_handler(const char *address, int port);
+
+    ~ti_socket_handler();
 
     std::string read_socket_s() const;
 

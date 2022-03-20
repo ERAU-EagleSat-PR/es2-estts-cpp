@@ -72,13 +72,13 @@ std::string session_manager::schedule_command(command_object * command, std::fun
     return new_command->serial_number;
 }
 
-std::string session_manager::schedule_command(unsigned char * command,
+std::string session_manager::schedule_command(std::string command,
                                               const std::function<estts::Status(std::string)>& decomp_callback) {
     if (ti == nullptr) {
         SPDLOG_ERROR("Transmission interface not initialized. Was init_session_manager() called?");
     }
     auto new_command = new waiting_command;
-    new_command->frame = command;
+    new_command->frame = std::move(command);
     new_command->serial_number = generate_serial_number();
     new_command->str_callback = decomp_callback;
     new_command->command = nullptr;
@@ -107,6 +107,7 @@ session_manager::session_manager(std::function<estts::Status(std::string)> telem
 
     ti = new transmission_interface();
     this->init_command_handler(ti);
+    ti->set_telem_callback(this->telem_callback);
     // Create a new thread, pass in schedule() function and current object
     session_worker = std::thread(&session_manager::dispatch, this);
     SPDLOG_TRACE("Created dispatch worker thread with ID {}", std::hash<std::thread::id>{}(session_worker.get_id()));
@@ -177,7 +178,7 @@ start:
             SPDLOG_TRACE("{} commands in queue", waiting.size());
             if (!ti->session_active) {
                 // Request a new communication session from EagleSat II
-                if (ES_OK != this->ti->request_new_session()) {
+                if (ES_OK != this->ti->request_new_session1()) {
                     SPDLOG_ERROR("Failed to request new session.");
                     goto start; // todo This should probably have a more elegant solution..
                 }
@@ -217,6 +218,7 @@ start:
 }
 
 Status session_manager::handle_stream() {
+
     auto stream = ti->nonblock_receive();
     if (!stream.empty() & this->telem_callback != nullptr)
         telem_callback(stream);

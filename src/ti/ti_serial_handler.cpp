@@ -17,7 +17,7 @@ ti_serial_handler::ti_serial_handler() : io(), serial(io) {
 
 /**
 * @brief Base constructor that initializes port and baud, opens specified port
-* as serial port, and configures it using Terminos.
+* as serial port, and configures it using Termios.
 * @param port Serial port (EX "/dev/cu.usbmodem")
 * @param baud Serial baud rate (EX 115200)
 * @return None
@@ -25,14 +25,10 @@ ti_serial_handler::ti_serial_handler() : io(), serial(io) {
 ti_serial_handler::ti_serial_handler(const char *port, int baud) : io(), serial(io) {
     SPDLOG_DEBUG("Opening serial port {} with {} baud", port, baud);
     this->port = port;
-    try {
-        serial.open(port);
-    } catch (boost::system::system_error::exception &e) {
-        SPDLOG_ERROR("Failed to open serial port {} - {}", port, e.what());
-        throw std::runtime_error(e.what());
-    }
+    this->baud = baud;
+    restarts = 0;
 
-    if (ES_OK != initialize_serial_port(baud)) {
+    if (ES_OK != initialize_serial_port()) {
         SPDLOG_ERROR("Failed to initialize serial port {}", port);
         throw std::runtime_error("Failed to initialize serial port.");
     }
@@ -40,10 +36,31 @@ ti_serial_handler::ti_serial_handler(const char *port, int baud) : io(), serial(
 }
 
 /**
- * @brief Initializes serial terminal port using Terminos
+ * @brief Initializes serial terminal port using Termios and Boost
  * @return #ES_OK if port configures successfully, or #ES_UNSUCCESSFUL if not
  */
-estts::Status ti_serial_handler::initialize_serial_port(int baud) {
+estts::Status ti_serial_handler::initialize_serial_port() {
+    boost::system::error_code error;
+
+    if (serial.is_open())
+        serial.close();
+
+#ifdef __ESTTS_OS_LINUX__
+    // todo this is really fucked up fix asap
+    if (restarts == 1)
+        restarts = 0;
+    std::stringstream temp;
+    temp << "/dev/ttyUSB" << restarts;
+    this->port = temp.str().c_str();
+    restarts++;
+#endif
+
+    serial.open(port, error);
+    if (error) {
+        SPDLOG_ERROR("Failed to open serial port {} - {}", port, error.message());
+        return ES_UNSUCCESSFUL;
+    }
+
     struct termios tty{};
     if (tcgetattr(serial.lowest_layer().native_handle(), &tty) != 0) {
         SPDLOG_ERROR("Error %i from tcgetattr: %s\n", errno, strerror(errno));
@@ -74,7 +91,7 @@ estts::Status ti_serial_handler::initialize_serial_port(int baud) {
         serial.set_option(boost::asio::serial_port_base::stop_bits(boost::asio::serial_port_base::stop_bits::one));
     } catch (boost::system::system_error::exception &e) {
         SPDLOG_ERROR("Failed to configure serial port with baud {} - {}", baud, e.what());
-        throw std::runtime_error(e.what());
+        return ES_UNSUCCESSFUL;
     }
 
     return estts::ES_OK;
@@ -87,24 +104,26 @@ estts::Status ti_serial_handler::initialize_serial_port(int baud) {
  * @param size Size of data being transmitted
  * @return Returns -1 if write failed, or the number of bytes written if call succeeded
  */
-ssize_t ti_serial_handler::write_serial_uc(unsigned char *data, int size) {
+size_t ti_serial_handler::write_serial_uc(unsigned char *data, int size) {
     if (!serial.is_open()) {
         SPDLOG_ERROR("Serial port {} not open", port);
         return -1;
     }
     size_t written = 0;
-    try {
-        written = serial.write_some(buffer(data,size));
-    } catch (boost::system::system_error::exception &e) {
-        SPDLOG_ERROR("Failed to write to serial port - {}", e.what());
-        return -1;
+    boost::system::error_code error;
+    // written = serial.write_some(buffer(data,size), error);
+    written = write(serial, buffer(data,size), error);
+    if (error) {
+        SPDLOG_ERROR("Failed to write to serial port - {}", error.message());
+        if (error == boost::asio::error::eof)
+            initialize_serial_port();
     }
     std::stringstream temp;
     for (int i = 0; i < size; i ++) {
         if (data[i] != '\r')
             temp << data[i];
     }
-    SPDLOG_TRACE("Wrote '{}' (size={}) to {}", temp.str(), written, port);
+    SPDLOG_TRACE("Wrote '{}' (size={} bytes) to {}", temp.str(), written, port);
 
     return written;
 }
@@ -127,18 +146,19 @@ unsigned char *ti_serial_handler::read_serial_uc() {
     }
     auto buf = new unsigned char[MAX_SERIAL_READ];
     size_t n = 0;
-    try {
-        n = serial.read_some(buffer(buf, MAX_SERIAL_READ));
-    } catch (boost::system::system_error::exception &e) {
-        SPDLOG_ERROR("Failed to read from serial port - {}", e.what());
-        return nullptr;
+    boost::system::error_code error;
+    n = serial.read_some(buffer(buf, MAX_SERIAL_READ), error);
+    if (error) {
+        SPDLOG_ERROR("Failed to read from serial port - {}", error.message());
+        if (error == boost::asio::error::eof)
+            initialize_serial_port();
     }
     std::stringstream temp;
     for (int i = 0; i < n; i ++) {
         if (buf[i] != '\r')
             temp << buf[i];
     }
-    SPDLOG_TRACE("Read '{}' (size={}) from {}", temp.str(), n, port);
+    SPDLOG_TRACE("Read '{}' (size={} bytes) from {}", temp.str(), n, port);
     // Add null terminator at the end of transmission for easier processing by parent class(s)
     buf[n] = '\0';
     cache << buf;
@@ -189,8 +209,14 @@ ti_serial_handler::~ti_serial_handler() {
 
 void ti_serial_handler::clear_serial_fifo() {
     SPDLOG_TRACE("Clearing serial FIFO buffer");
-    if (check_serial_bytes_avail() > 0)
+    while (check_serial_bytes_avail() > 0)
         read_serial_s();
+}
+
+void ti_serial_handler::clear_serial_fifo(const std::function<estts::Status(std::string)> &cb) {
+    SPDLOG_TRACE("Clearing serial FIFO buffer");
+    while (check_serial_bytes_avail() > 0)
+        cb(read_serial_s());
 }
 
 int ti_serial_handler::check_serial_bytes_avail() {
@@ -200,4 +226,74 @@ int ti_serial_handler::check_serial_bytes_avail() {
                      boost::system::error_code(errno, boost::asio::error::get_system_category()).message());
     }
     return value;
+}
+
+void ti_serial_handler::read_serial_async(const std::function<estts::Status(char *, size_t)>& cb) {
+    serial.async_read_some(buffer(async_buf, MAX_SERIAL_READ), get_generic_async_read_lambda(cb));
+}
+
+std::function<void(boost::system::error_code, size_t)> ti_serial_handler::get_generic_async_read_lambda(const std::function<Status(char *, size_t)>& estts_callback) {
+    return [estts_callback, this] (const boost::system::error_code& error, std::size_t bytes_transferred) {
+        if (error) {
+            SPDLOG_ERROR("Async read failed - {}", error.message());
+        }
+        std::stringstream temp;
+        for (char i : async_buf) {
+            if (i != '\r')
+                temp << i;
+        }
+        spdlog::info("Async callback lambda - Got back -> {}", temp.str());
+
+        estts_callback(this->async_buf, bytes_transferred);
+
+        return estts::ES_OK;
+    };
+}
+
+unsigned char *ti_serial_handler::read_serial_uc(int bytes) {
+    // Clear cache buf
+    cache.clear();
+
+    if (!serial.is_open()) {
+        SPDLOG_ERROR("Serial port {} not open", port);
+        return nullptr;
+    }
+    SPDLOG_TRACE("Reading {} bytes from {}", bytes, port);
+    auto buf = new unsigned char[bytes];
+    size_t n = 0;
+    boost::system::error_code error;
+    n = read(serial, buffer(buf, bytes), error);
+    if (error) {
+        SPDLOG_ERROR("Failed to read from serial port - {}", error.message());
+        if (error == boost::asio::error::eof)
+            initialize_serial_port();
+    }
+    std::stringstream temp;
+    for (int i = 0; i < n; i ++) {
+        if (buf[i] != '\r')
+            temp << buf[i];
+    }
+    SPDLOG_TRACE("Read '{}' (size={} bytes) from {}", temp.str(), n, port);
+    // Add null terminator at the end of transmission for easier processing by parent class(s)
+    buf[n] = '\0';
+    cache << buf;
+    return buf;
+}
+
+std::string ti_serial_handler::read_serial_s(int bytes) {
+    if (!serial.is_open()) {
+        SPDLOG_ERROR("Serial port {} not open", port);
+        return "";
+    }
+    // Read serial data
+    auto read = this->read_serial_uc(bytes);
+    if (read == nullptr) {
+        return "";
+    }
+    // Type cast unsigned char (auto) to a char *
+    // Then call std::string constructor
+    std::string string_read(reinterpret_cast<char const *>(read));
+    delete read;
+    return string_read;
+    return std::string();
 }

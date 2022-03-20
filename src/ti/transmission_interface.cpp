@@ -17,11 +17,9 @@ transmission_interface::transmission_interface() : ti_socket_handler(estts::ti_s
                                                                                estts::endurosat::ES_BAUD),
                                                                       ti_serial_handler(estts::ti_serial::TI_SERIAL_ADDRESS,
                                                                                         estts::endurosat::ES_BAUD) {
-    mtx.lock();
-    if (initialize_ti() != estts::ES_OK) {
-        spdlog::error("Failed initialize transmission interface.");
-        throw std::runtime_error("Failed to open serial port.");
-    }
+    telem_cb = nullptr;
+    stream_active = false;
+    session_active = false;
     mtx.unlock();
 }
 
@@ -34,60 +32,40 @@ transmission_interface::transmission_interface() : ti_socket_handler(estts::ti_s
 estts::Status transmission_interface::transmit(const std::string &value) {
     using namespace std::this_thread; // sleep_for, sleep_until
     using namespace std::chrono; // nanoseconds, system_clock, seconds
-    int retries = 0;
+    if (value.empty())
+        return ES_MEMORY_ERROR;
     if (!session_active)
         SPDLOG_WARN("Communication session not active, message may not get to satellite.");
     mtx.lock();
 #ifndef __TI_DEV_MODE__
-    if (check_ti_health() != estts::ES_OK) return estts::ES_UNSUCCESSFUL;
-    SPDLOG_TRACE("Transceiver passed checks.");
-    SPDLOG_DEBUG("Transmitting packet with value:\n{}", value);
-    auto resp = this->write_serial_s(value);
-
-#else
-    SPDLOG_DEBUG("Transmitting packet with value {}", value);
-    auto resp = this->write_socket_s(value);
+    int written;
+    clear_serial_fifo();
+    if ((written = this->write_serial_s(value)) != ES_OK) {
+        SPDLOG_ERROR("Failed to transmit.");
+        mtx.unlock();
+        return ES_UNSUCCESSFUL;
+    }
 #endif
     mtx.unlock();
-    return resp;
-}
-
-/**
- * @brief Initializes transmission interface. Uses esttc_handler to set transceiver constants as specified by constants
- * file.
- * @return ES_OK if transmission interface was initialized successfully
- */
-estts::Status transmission_interface::initialize_ti() {
-    // TODO create initializers for EnduroSat transceiver
-#if __TI_DEV_MODE__
-    if (ES_OK != this->init_socket_handle()) return estts::ES_UNINITIALIZED;
-#endif
-    return estts::ES_OK;
-}
-
-/**
- * @brief Checks the health of the transmission interface.
- * @return ES_OK if all health checks pass
- */
-estts::Status transmission_interface::check_ti_health() {
-    // TODO create list of health checks for transmission interface and EnduroSat transceiver
-    using namespace std::this_thread; // sleep_for, sleep_until
-    using namespace std::chrono; // nanoseconds, system_clock, seconds
-    int retries = 0;
-//    while (this->get_temp() > estts::endurosat::MAX_ES_TXVR_TEMP) {
-//        spdlog::error("EnduroSat Transceiver over temp. Waiting {} seconds", estts::endurosat::WAIT_TIME_SEC);
-//        sleep_until(system_clock::now() + seconds(estts::endurosat::WAIT_TIME_SEC));
-//        retries++;
-//        if (retries > estts::endurosat::MAX_RETRIES) return estts::ES_UNSUCCESSFUL;
-//        SPDLOG_INFO("Retrying transmit (retry {}/{})", retries, estts::endurosat::MAX_RETRIES);
-//    }
     return estts::ES_OK;
 }
 
 std::string transmission_interface::receive() {
     mtx.lock();
 #ifndef __TI_DEV_MODE__
-    auto buf = this->read_serial_s();
+    int bytes_avail;
+    for (int seconds_elapsed = 0; seconds_elapsed < estts::ESTTS_AWAIT_RESPONSE_PERIOD_SEC * 50; seconds_elapsed++) {
+        bytes_avail = check_serial_bytes_avail();
+        if (bytes_avail > 0) {
+            break;
+        }
+        sleep_until(system_clock::now() + milliseconds (100));
+    }
+    if (bytes_avail <= 0) {
+        mtx.unlock();
+        return "";
+    }
+    auto buf = this->read_serial_s(bytes_avail);
     mtx.unlock();
     return buf;
 #else
@@ -155,10 +133,15 @@ Status transmission_interface::request_new_session() {
     SPDLOG_TRACE("Handshake succeeded, session active");
 #else
     SPDLOG_INFO("Requesting new session");
+
     SPDLOG_TRACE("Enabling PIPE on ground station transceiver");
     int retries = 0;
     while (true) {
-        clear_serial_fifo();
+        if (telem_cb)
+            clear_serial_fifo(telem_cb);
+        else
+            clear_serial_fifo();
+
         if (this->enable_pipe() == estts::ES_OK) {
             break;
         }
@@ -174,10 +157,14 @@ Status transmission_interface::request_new_session() {
 
     SPDLOG_TRACE("Enabling PIPE on satellite transceiver");
     std::string pipe_en = "ES+W22003323\r";
+
     std::string resp;
 
     while (true) {
-        clear_serial_fifo();
+        if (telem_cb)
+            clear_serial_fifo(telem_cb);
+        else
+            clear_serial_fifo();
         this->write_serial_s(pipe_en); // Enable pipe
         resp = read_serial_s(); // Wait for confirmation
         if (resp.find("OK+") != std::string::npos) {
@@ -201,6 +188,60 @@ Status transmission_interface::request_new_session() {
 
     SPDLOG_INFO("Session active");
 #endif
+    mtx.unlock();
+    return ES_OK;
+}
+
+estts::Status transmission_interface::request_new_session1() {
+    mtx.lock();
+
+    SPDLOG_INFO("Requesting new session");
+    std::string pipe_en = "ES+W22003323\r";
+    int retries = 0;
+    std::string resp;
+    while (true) {
+        if (telem_cb)
+            clear_serial_fifo(telem_cb);
+        else
+            clear_serial_fifo();
+
+        write_serial_s(pipe_en);
+        sleep_until(system_clock::now() + milliseconds (50));
+        write_serial_s(pipe_en);
+        resp = read_serial_s(8); // length of "OK+3323\r"
+        if (resp.find("OK+3323\r") == std::string::npos) {
+            goto tryagain;
+        }
+        sleep_until(system_clock::now() + milliseconds (50));
+        resp = read_serial_s(6); // length of "+PIPE\r"
+        if (resp.find("+PIPE\r") == std::string::npos) {
+            goto tryagain;
+        }
+        SPDLOG_TRACE("PIPE is enabled on the ground station transceiver");
+        sleep_until(system_clock::now() + milliseconds (100));
+        resp = read_serial_s(8); // length of "OK+3323\r"
+        if (resp.find("OK+3323") != std::string::npos) {
+            SPDLOG_TRACE("PIPE is probably enabled on the satellite");
+            break;
+        }
+
+tryagain:
+        SPDLOG_ERROR("Failed to enable PIPE. Waiting {} seconds", estts::endurosat::WAIT_TIME_SEC);
+        sleep_until(system_clock::now() + seconds(estts::endurosat::WAIT_TIME_SEC));
+        retries++;
+        if (retries > estts::endurosat::MAX_RETRIES) {
+            mtx.unlock();
+            return estts::ES_UNSUCCESSFUL;
+        }
+    }
+
+    session_active = true;
+    session_keeper = std::thread(&transmission_interface::maintain_pipe, this);
+    SPDLOG_TRACE("Created session keeper thread with ID {}", std::hash<std::thread::id>{}(session_keeper.get_id()));
+    sleep_until(system_clock::now() + seconds(2));
+
+    SPDLOG_INFO("Session active");
+
     mtx.unlock();
     return ES_OK;
 }
@@ -320,8 +361,10 @@ void transmission_interface::maintain_pipe() {
 }
 
 std::string transmission_interface::nonblock_receive() {
-    if (check_serial_bytes_avail() > 0) {
-        return this->receive();
+    int bytes;
+    sleep_until(system_clock::now() + milliseconds (20));
+    if ((bytes = check_serial_bytes_avail()) > 0) {
+        return this->read_serial_s(bytes);
     }
     return "";
 }
