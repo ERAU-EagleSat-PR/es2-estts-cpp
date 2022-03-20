@@ -267,7 +267,7 @@ namespace estts {
     } telemetry_object;
 
     typedef struct dispatched_command {
-        unsigned char * frame;
+        std::string frame;
         command_object * command;
         std::vector<telemetry_object *> telem_obj;
         std::string telem_str;
@@ -278,7 +278,7 @@ namespace estts {
     } dispatched_command;
 
     typedef struct waiting_command {
-        unsigned char * frame;
+        std::string frame;
         command_object * command;
         std::string serial_number;
         std::function<estts::Status(std::vector<estts::telemetry_object *>)> obj_callback;

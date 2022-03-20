@@ -24,6 +24,8 @@ ti_socket_handler::ti_socket_handler(const char *address, int port) {
     serv_addr = {0};
     this->port = port;
     this->address = address;
+
+    sync_buf = new unsigned char[estts::ti_socket::TI_SOCKET_BUF_SZ];
 }
 
 estts::Status ti_socket_handler::open_socket() {
@@ -57,8 +59,9 @@ estts::Status ti_socket_handler::configure_socket() {
         return estts::ES_UNSUCCESSFUL;
     }
     int flags = fcntl(sock, F_GETFL, 0);
-    // fcntl(sock, F_SETFL, flags | O_NONBLOCK);
-    // SPDLOG_TRACE("Connection succeeded.");
+    if (0 != fcntl(sock, F_SETFL, flags & ~O_NONBLOCK))
+        return estts::ES_UNSUCCESSFUL;
+    SPDLOG_TRACE("Connection succeeded.");
 
     return estts::ES_OK;
 }
@@ -106,22 +109,23 @@ unsigned char *ti_socket_handler::read_socket_uc() const {
         return nullptr;
     }
     // Allocate heap space for receive buffer
-    auto buf = new unsigned char[estts::ti_socket::TI_SOCKET_BUF_SZ];
+    // auto buf = new unsigned char[estts::ti_socket::TI_SOCKET_BUF_SZ];
+
     // Use read system call to read data in sock to buf
-    auto n = read(sock, buf, estts::ti_socket::TI_SOCKET_BUF_SZ);
+    auto n = read(sock, sync_buf, estts::ti_socket::TI_SOCKET_BUF_SZ);
     if (n < 1) {
         // Can't receive a negative number of bytes ;)
         return nullptr;
     }
     std::stringstream temp;
     for (int i = 0; i < n; i ++) {
-        if (buf[i] != '\r')
-            temp << buf[i];
+        if (sync_buf[i] != '\r')
+            temp << sync_buf[i];
     }
     SPDLOG_TRACE("Read '{}' (size={}) from {}", temp.str(), n, port);
     // Add null terminator at the end of transmission for easier processing by parent class(s)
-    buf[n] = '\0';
-    return buf;
+    sync_buf[n] = '\0';
+    return sync_buf;
 }
 
 /**
@@ -156,7 +160,7 @@ std::string ti_socket_handler::read_socket_s() const {
     // Type cast unsigned char (auto) to a char *
     // Then call std::string constructor
     std::string string_read(reinterpret_cast<char const *>(read));
-    delete read;
+
     return string_read;
 }
 
@@ -179,4 +183,8 @@ estts::Status ti_socket_handler::init_socket_handle() {
     }
     SPDLOG_DEBUG("Socket configuration complete.");
     return estts::ES_OK;
+}
+
+ti_socket_handler::~ti_socket_handler() {
+    if (sync_buf) delete sync_buf;
 }

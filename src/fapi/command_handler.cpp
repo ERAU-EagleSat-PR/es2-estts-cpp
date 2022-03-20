@@ -44,9 +44,9 @@ estts::Status command_handler::execute(estts::waiting_command *command) {
         return estts::ES_UNINITIALIZED;
     }
 
-    if (command->command != nullptr && command->frame == nullptr)
+    if (command->command != nullptr && command->frame.empty())
         return execute_obj(command);
-    else if (command->command == nullptr && command->frame != nullptr)
+    else if (command->command == nullptr && !command->frame.empty())
         return execute_str(command);
     else {
         SPDLOG_ERROR("Command object not initialized properly. Please see documentation.");
@@ -138,7 +138,7 @@ estts::Status command_handler::execute_str(estts::waiting_command *command) {
         bool retry = true;
         int retries = 0;
         // Try to transmit frame
-        while (ti->transmit(command->frame, (int)strlen((const char *)command->frame)) != estts::ES_OK) {
+        while (ti->transmit(command->frame) != estts::ES_OK) {
             spdlog::error("Failed to transmit frame. Waiting {} seconds", estts::ESTTS_RETRY_WAIT_SEC);
             sleep_until(system_clock::now() + seconds(estts::ESTTS_RETRY_WAIT_SEC));
             retries++;
@@ -155,33 +155,21 @@ estts::Status command_handler::execute_str(estts::waiting_command *command) {
     }
 
     SPDLOG_INFO("Waiting for a response from EagleSat II");
-    int seconds_elapsed;
-    std::stringstream telem;
-    for (seconds_elapsed = 0; seconds_elapsed < estts::ESTTS_AWAIT_RESPONSE_PERIOD_SEC * 50; seconds_elapsed++) {
-        auto temp = ti->receive();
-        if (!temp.empty()) {
-            telem << temp;
-            break;
-        }
-        sleep_until(system_clock::now() + milliseconds (100));
-    }
-    if (telem.str().empty())
+    auto telem = ti->receive();
+    if (telem.empty())
         return estts::ES_UNSUCCESSFUL;
     SPDLOG_DEBUG("Got response from EagleSat II");
 
     // todo there are likely error cases here that aren't accounted for. Find & fix them
 
     if (command->str_callback != nullptr)
-        if (estts::ES_OK != command->str_callback(telem.str()))
-            // todo probably retry
+        if (estts::ES_OK != command->str_callback(telem))
             return estts::ES_UNSUCCESSFUL;
 
     auto temp_completed = new completed;
     temp_completed->serial_number = command->serial_number;
     temp_completed->response_code = estts::ES_OK;
     completed_cache.push_back(temp_completed);
-
-    delete command->frame;
 
     return estts::ES_OK;
 }

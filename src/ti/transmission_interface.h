@@ -13,11 +13,9 @@
 class transmission_interface : virtual public ti_esttc, virtual public ti_socket_handler {
 private:
 
+    std::function<estts::Status(std::string)> telem_cb;
+
     std::mutex mtx;
-
-    estts::Status initialize_ti();
-
-    estts::Status check_ti_health();
 
     bool stream_active;
 
@@ -32,9 +30,11 @@ public:
 
     ~transmission_interface();
 
+    void set_telem_callback(const std::function<estts::Status(std::string)>& cb) {telem_cb = cb;}
+
     estts::Status transmit(const std::string &value);
 
-    estts::Status transmit(const unsigned char * value, int length);
+    estts::Status transmit(const unsigned char *value, int length);
 
     std::string receive();
 
@@ -43,6 +43,8 @@ public:
     unsigned char * receive_uc();
 
     estts::Status request_new_session();
+
+    estts::Status request_new_session1();
 
     bool check_session_active() const { return session_active; };
 

@@ -33,7 +33,7 @@ public:
 
     ~session_manager();
 
-    std::string schedule_command(unsigned char * command, const std::function<estts::Status(std::string)>& decomp_callback);
+    std::string schedule_command(std::string command, const std::function<estts::Status(std::string)>& decomp_callback);
 
     std::string schedule_command(estts::command_object * command,
                                  std::function<estts::Status(std::vector<estts::telemetry_object *>)> decomp_callback);
