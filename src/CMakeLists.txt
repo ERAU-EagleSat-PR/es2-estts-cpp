@@ -7,19 +7,9 @@ set(
         estts-src
         utils/bin_converter.cpp
         utils/helper.cpp
-        utils/port.cpp
-        utils/stack.cpp
-        utils/queue.cpp
-        fapi/automator.cpp
-        fapi/command_handler/acs_command.cpp
-        fapi/command_handler/crp_command.cpp
-        fapi/command_handler/eps_command.cpp
         fapi/command_handler.cpp
-        fapi/command_handler/mde_command.cpp
-        fapi/command_handler/obc_command.cpp
         fapi/session_manager.cpp
-        fapi/communication_handler.cpp
-        fapi/cosmos_handler.cpp
+        fapi/primary_cosmos_handler.cpp
         tnc_emulator/ax25_ui_frame_constructor.cpp
         tnc_emulator/ax25_ui_frame_destructor.cpp
         tnc_emulator/info_field.cpp

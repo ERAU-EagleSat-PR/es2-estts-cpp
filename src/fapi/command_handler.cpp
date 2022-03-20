@@ -1,3 +1,4 @@
+/* Copyright © EagleSat II - Embry Riddle Aeronautical University - All rights reserved - 2022 */
 //
 // Created by Hayden Roszell on 12/21/21.
 //
@@ -30,10 +31,6 @@ estts::Status validate_response_code(int code) {
     else return estts::ES_UNINITIALIZED;
 }
 
-/**
- * @brief Default constructor. Note that the command_handler requires that init_command_handler
- *        be called before use.
- */
 command_handler::command_handler() {
     this->ti = nullptr;
 }
@@ -174,15 +171,6 @@ estts::Status command_handler::execute_str(estts::waiting_command *command) {
     return estts::ES_OK;
 }
 
-/**
- * @brief Executes commands passed in as a vector of waiting_command structures. One frame, of whatever type,
- * is created PER command object inside EACH waiting_command object. This means that if there are 8 commands each
- * with 2 frames, 16 frames will be generated. Whether they are AX.25 frames or ESTTC commands is
- * implementation defined.
- * @param commands Vector of pointers to waiting_command structures. Note that waiting_command structures hold
- * pointers to obj_callback functions that should handle whatever is returned by the executed command.
- * @return ES_OK if successful, ES_UNINITIALIZED if the transmission interface wasn't initialized.
- */
 estts::Status command_handler::execute(const std::deque<estts::waiting_command *> &waiting) {
     if (ti == nullptr) {
         SPDLOG_ERROR("Transmission interface not initialized. Was init_command_handler() called?");
@@ -256,12 +244,6 @@ estts::Status command_handler::execute(const std::deque<estts::waiting_command *
     return estts::ES_OK;
 }
 
-/**
- * @brief Waits for a response from the satellite after command has been sent. This function waits the number of seconds
- * specified by ESTTS_AWAIT_RESPONSE_PERIOD_SEC. This function only waits for a response and decodes received frames,
- * and then calls map_telemetry_to_dispatched to handle the response.
- * @return ES_OK if response was received, or ES_UNSUCCESSFUL if timeout elapses.
- */
 estts::Status command_handler::await_response() {
     using namespace std::this_thread; // sleep_for, sleep_until
     using namespace std::chrono; // nanoseconds, system_clock, seconds
@@ -291,22 +273,11 @@ estts::Status command_handler::await_response() {
 
 command_handler::~command_handler() = default;
 
-/**
- * @brief Initializes command handler by allocating local transmission interface instance
- * @param ti Transmission interface object
- * @return
- */
 estts::Status command_handler::init_command_handler(transmission_interface *ti) {
     this->ti = ti;
     return estts::ES_OK;
 }
 
-/**
- * @brief Maps dispatched command objects to their associatd telemetry response. Matched telemetry responses
- * are collected and then passed to the obj_callback function stored inside the associated dispatch object.
- * @param telem Vector of pointers to telemetry_objects.
- * @return ES_OK if all callbacks were successful, and ES_UNSUCCESSFUL if no match was made.
- */
 estts::Status command_handler::map_telemetry_to_dispatched(const std::vector<estts::telemetry_object *> &telem) {
     // This function requires some intelligence. The basic premise is that the decoded telemetry objects
     // need to be mapped back to their associated dispatched command objects. There are a couple of ways we

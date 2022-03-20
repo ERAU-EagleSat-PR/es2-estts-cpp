@@ -1,3 +1,4 @@
+/* Copyright © EagleSat II - Embry Riddle Aeronautical University - All rights reserved - 2022 */
 //
 // Created by Hayden Roszell on 12/21/21.
 //
@@ -18,17 +19,10 @@ transmission_interface::transmission_interface() : ti_socket_handler(estts::ti_s
                                                                       ti_serial_handler(estts::ti_serial::TI_SERIAL_ADDRESS,
                                                                                         estts::endurosat::ES_BAUD) {
     telem_cb = nullptr;
-    stream_active = false;
     session_active = false;
     mtx.unlock();
 }
 
-/**
- * @brief Uses EnduroSat transceiver to transmit string value. String is not sent if transceiver is deemed to be
- * unhealthy.
- * @param value String value to transmit.
- * @return ES_OK if transmission was successful
- */
 estts::Status transmission_interface::transmit(const std::string &value) {
     using namespace std::this_thread; // sleep_for, sleep_until
     using namespace std::chrono; // nanoseconds, system_clock, seconds
@@ -37,10 +31,13 @@ estts::Status transmission_interface::transmit(const std::string &value) {
     if (!session_active)
         SPDLOG_WARN("Communication session not active, message may not get to satellite.");
     mtx.lock();
+    if (telem_cb)
+        clear_serial_fifo(telem_cb);
+    else
+        clear_serial_fifo();
 #ifndef __TI_DEV_MODE__
-    int written;
     clear_serial_fifo();
-    if ((written = this->write_serial_s(value)) != ES_OK) {
+    if (this->write_serial_s(value) != ES_OK) {
         SPDLOG_ERROR("Failed to transmit.");
         mtx.unlock();
         return ES_UNSUCCESSFUL;
@@ -89,110 +86,7 @@ transmission_interface::~transmission_interface() {
     mtx.unlock();
 }
 
-Status transmission_interface::request_new_session() {
-    mtx.lock();
-#ifdef __TI_DEV_MODE__
-    SPDLOG_INFO("Requesting new session");
-
-    SPDLOG_TRACE("Waiting for gap in stream");
-    auto tstart  = std::chrono::high_resolution_clock::now();
-    bool gap_potential = false;
-    while (true) {
-        if (!check_data_available()) {
-            if (!gap_potential) {
-                tstart = std::chrono::high_resolution_clock::now();
-                gap_potential = true;
-            }
-            else {
-                auto tstop = std::chrono::high_resolution_clock::now();
-                if (std::chrono::duration_cast<std::chrono::seconds>(tstop - tstart).count() >= 2) {
-                    SPDLOG_TRACE("Found gap, attempting handshake");
-                    break;
-                }
-            }
-        } else {
-            receive();
-            gap_potential = false;
-        }
-        sleep_until(system_clock::now() + milliseconds (10));
-    }
-
-    if (write_socket_s(handshake) != ES_OK) {
-        SPDLOG_ERROR("Failed to request session");
-        return ES_UNSUCCESSFUL;
-    }
-
-    std::string received;
-    do {}
-    while ((received = this->read_socket_s()).empty());
-    if (handshake != received) {
-        SPDLOG_ERROR("Failed to request session");
-        return ES_UNSUCCESSFUL;
-    }
-    session_active = true;
-    SPDLOG_TRACE("Handshake succeeded, session active");
-#else
-    SPDLOG_INFO("Requesting new session");
-
-    SPDLOG_TRACE("Enabling PIPE on ground station transceiver");
-    int retries = 0;
-    while (true) {
-        if (telem_cb)
-            clear_serial_fifo(telem_cb);
-        else
-            clear_serial_fifo();
-
-        if (this->enable_pipe() == estts::ES_OK) {
-            break;
-        }
-        SPDLOG_ERROR("Failed to enable pipe. Waiting {} seconds", estts::endurosat::WAIT_TIME_SEC);
-        sleep_until(system_clock::now() + seconds(estts::endurosat::WAIT_TIME_SEC));
-        retries++;
-        if (retries > estts::endurosat::MAX_RETRIES) {
-            mtx.unlock();
-            return estts::ES_UNSUCCESSFUL;
-        }
-        SPDLOG_INFO("Trying to enable PIPE again (retry {}/{})", retries, estts::endurosat::MAX_RETRIES);
-    }
-
-    SPDLOG_TRACE("Enabling PIPE on satellite transceiver");
-    std::string pipe_en = "ES+W22003323\r";
-
-    std::string resp;
-
-    while (true) {
-        if (telem_cb)
-            clear_serial_fifo(telem_cb);
-        else
-            clear_serial_fifo();
-        this->write_serial_s(pipe_en); // Enable pipe
-        resp = read_serial_s(); // Wait for confirmation
-        if (resp.find("OK+") != std::string::npos) {
-            break;
-        }
-        SPDLOG_ERROR("Failed to enable PIPE on satellite. Waiting {} seconds", estts::endurosat::WAIT_TIME_SEC);
-        sleep_until(system_clock::now() + seconds(estts::endurosat::WAIT_TIME_SEC));
-        retries++;
-        if (retries > estts::endurosat::MAX_RETRIES) {
-            mtx.unlock();
-            return estts::ES_UNSUCCESSFUL;
-        }
-        SPDLOG_INFO("Trying to enable PIPE on satellite transceiver again (retry {}/{})", retries, estts::endurosat::MAX_RETRIES);
-    }
-    SPDLOG_TRACE("PIPE is probably enabled on the satellite");
-
-    session_active = true;
-    session_keeper = std::thread(&transmission_interface::maintain_pipe, this);
-    SPDLOG_TRACE("Created session keeper thread with ID {}", std::hash<std::thread::id>{}(session_keeper.get_id()));
-    sleep_until(system_clock::now() + seconds(2));
-
-    SPDLOG_INFO("Session active");
-#endif
-    mtx.unlock();
-    return ES_OK;
-}
-
-estts::Status transmission_interface::request_new_session1() {
+estts::Status transmission_interface::request_new_session() {
     mtx.lock();
 
     SPDLOG_INFO("Requesting new session");

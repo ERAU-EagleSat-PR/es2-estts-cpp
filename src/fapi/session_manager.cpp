@@ -1,3 +1,4 @@
+/* Copyright © EagleSat II - Embry Riddle Aeronautical University - All rights reserved - 2022 */
 //
 // Created by Hayden Roszell on 1/4/22.
 //
@@ -10,16 +11,6 @@
 using namespace estts;
 
 // https://stackoverflow.com/questions/15752659/thread-pooling-in-c11
-
-// Idea: schedule command takes in a function pointer. Then, a new command scheduler
-// structure should be created, containing a serial number, the function pointer,
-// and an Status containing the completion status. When a command is scheduled to run with
-// the schedule_command() function, the unique serial number is returned. When a job is scheduled and
-// run, it is popped off the queue, and the status variable associated with the structure is
-// updated. Finally, the structure is pushed onto another vector containing completed jobs.
-// the number of completed jobs that are stored is limited to a predefined number.
-// Finally, there should be a function that takes argument for a serial number associated
-// with a command, and returns the completion status.
 
 /**
  * @brief Creates 16-character serial number using C++ random library
@@ -44,16 +35,6 @@ std::string generate_serial_number() {
     return tmp_s;
 }
 
-/**
- * @brief Function that takes argument to a vector of command objects and a obj_callback function expecting a pointer to a
- * telemetry object as argument. It's implied that this function should handle whatever telemetry is returned by the
- * dispatch process. This function creates a waiting_command object and stores a serial number, the obj_callback function,
- * and the command frames (as command_objects) expected to dispatch during the next satellite pass.
- * @param command Vector of command_object pointers to schedule for dispatching.
- * @param decomp_callback Callback pointer to a function that returns a Status and takes argument for a vector of
- * telemetry_objects. It's implied that this obj_callback function knows how to decode a vector of telemetry frames.
- * @return Returns a unique string serial number for later retrieval of the command status.
- */
 std::string session_manager::schedule_command(command_object * command, std::function<Status(std::vector<telemetry_object *>)> decomp_callback) {
     if (ti == nullptr) {
         SPDLOG_ERROR("Transmission interface not initialized. Was init_session_manager() called?");
@@ -90,10 +71,6 @@ std::string session_manager::schedule_command(std::string command,
     return new_command->serial_number;
 }
 
-/**
- * @brief Default constructor for command scheduler. Creates new transmission interface and initializes the
- * command handler. Note that in order to run the dispatcher, dispatcher_init must be called.
- */
 session_manager::session_manager() {
     ti = new transmission_interface();
     this->init_command_handler(ti);
@@ -113,10 +90,6 @@ session_manager::session_manager(std::function<estts::Status(std::string)> telem
     SPDLOG_TRACE("Created dispatch worker thread with ID {}", std::hash<std::thread::id>{}(session_worker.get_id()));
 }
 
-/**
- * @brief Uses std::thread::join() to await thread completion. If commands continue
- * to be added to queue, this function will block indefinitely.
- */
 void session_manager::await_completion() {
     // If the thread is joinable (IE it's active), join the thread
     // Join blocks until the thread returns.
@@ -124,13 +97,6 @@ void session_manager::await_completion() {
         session_worker.join();
 }
 
-/**
- * @brief Takes argument for a serial number, returns status of completed command
- * if found, ES_INPROGRESS if command hasn't run yet, or ES_NOTFOUND if
- * serial number was not found.
- * @param serial_number Serial number returned by schedule_command()
- * @return Status of scheduled job
- */
 Status session_manager::get_command_status(const std::string& serial_number) {
     // Search dispatched queue for serial number
     for (auto &i : dispatched)
@@ -150,9 +116,6 @@ Status session_manager::get_command_status(const std::string& serial_number) {
     return ES_NOTFOUND;
 }
 
-/**
- * @brief Cleans up internal structures
- */
 session_manager::~session_manager() {
     await_completion();
     delete ti;
@@ -164,11 +127,6 @@ session_manager::~session_manager() {
             delete i;
 }
 
-/**
- * @brief Dispatcher that runs in an infinite loop as long as commands are available. If a command isn't received for
- * ESTTS_AWAIT_RESPONSE_PERIOD_SEC seconds, the dispatcher thread exits and must be re-initialized. When the satellite
- * is deemed in range, the dispatcher uses the command handler to execute the commands loaded into the waiting queue.
- */
 [[noreturn]] void session_manager::dispatch() {
     using namespace std::this_thread; // sleep_for, sleep_until
     using namespace std::chrono; // nanoseconds, system_clock, seconds
@@ -178,7 +136,7 @@ start:
             SPDLOG_TRACE("{} commands in queue", waiting.size());
             if (!ti->session_active) {
                 // Request a new communication session from EagleSat II
-                if (ES_OK != this->ti->request_new_session1()) {
+                if (ES_OK != this->ti->request_new_session()) {
                     SPDLOG_ERROR("Failed to request new session.");
                     goto start; // todo This should probably have a more elegant solution..
                 }
