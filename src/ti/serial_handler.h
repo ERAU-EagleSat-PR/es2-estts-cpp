@@ -2,8 +2,8 @@
 // Created by Hayden Roszell on 12/10/21.
 //
 
-#ifndef ESTTS_TI_SERIAL_HANDLER_H
-#define ESTTS_TI_SERIAL_HANDLER_H
+#ifndef ESTTS_SERIAL_HANDLER_H
+#define ESTTS_SERIAL_HANDLER_H
 
 #include <sstream>
 #include <boost/asio.hpp>
@@ -11,7 +11,7 @@
 
 #include "posix_serial.h"
 
-class ti_serial_handler {
+class serial_handler {
 private:
     boost::asio::io_service io;
     boost::asio::serial_port serial;
@@ -25,13 +25,13 @@ protected:
 
     char async_buf[MAX_SERIAL_READ];
 
-    ti_serial_handler();
+    serial_handler();
 
-    ti_serial_handler(const char *port, int baud);
+    serial_handler(const char *port, int baud);
 
     estts::Status initialize_serial_port();
 
-    ~ti_serial_handler();
+    ~serial_handler();
 
     size_t write_serial_uc(unsigned char *data, int size);
 
@@ -57,4 +57,4 @@ public:
     void read_serial_async(const std::function<estts::Status(char *, size_t)>& cb);
 };
 
-#endif //ESTTS_TI_SERIAL_HANDLER_H
+#endif //ESTTS_SERIAL_HANDLER_H

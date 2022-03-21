@@ -8,7 +8,7 @@
 #include <thread>
 #include <fcntl.h>
 #include <sys/ioctl.h>
-#include "ti_socket_handler.h"
+#include "socket_handler.h"
 #include <arpa/inet.h>
 #include <unistd.h>
 
@@ -20,7 +20,7 @@
  * @param port Server port to connect to (EX 8080)
  * @return None
  */
-ti_socket_handler::ti_socket_handler(const char *address, int port) {
+socket_handler::socket_handler(const char *address, int port) {
     sock = -1;
     serv_addr = {0};
     this->port = port;
@@ -29,7 +29,7 @@ ti_socket_handler::ti_socket_handler(const char *address, int port) {
     sync_buf = new unsigned char[estts::ti_socket::TI_SOCKET_BUF_SZ];
 }
 
-estts::Status ti_socket_handler::open_socket() {
+estts::Status socket_handler::open_socket() {
     // Creating socket file descriptor
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         spdlog::error("Error {} from socket(): {}", errno, strerror(errno));
@@ -43,7 +43,7 @@ estts::Status ti_socket_handler::open_socket() {
  * a bare-bones handshake with open socket.
  * @return #ES_OK if sock configures successfully, or #ES_UNSUCCESSFUL if not
  */
-estts::Status ti_socket_handler::configure_socket() {
+estts::Status socket_handler::configure_socket() {
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(port);
 
@@ -74,7 +74,7 @@ estts::Status ti_socket_handler::configure_socket() {
  * @param size Size of data being transmitted
  * @return Returns -1 if write failed, or the number of bytes written if call succeeded
  */
-ssize_t ti_socket_handler::write_socket_uc(unsigned char *data, int size) const {
+ssize_t socket_handler::write_socket_uc(unsigned char *data, int size) const {
     // If serial port isn't open, error out
     if (sock < 0) {
         return -1;
@@ -104,7 +104,7 @@ ssize_t ti_socket_handler::write_socket_uc(unsigned char *data, int size) const 
  * CRITICAL NOTE: delete MUST be called when done with the value returned. If this
  * is not done, a memory leak will be created. To avoid this issue, use read_socket_s
  */
-unsigned char *ti_socket_handler::read_socket_uc() const {
+unsigned char *socket_handler::read_socket_uc() const {
     // If socket isn't open, error out
     if (sock < 0) {
         return nullptr;
@@ -134,7 +134,7 @@ unsigned char *ti_socket_handler::read_socket_uc() const {
  * @param data String argument
  * @return Number of bytes transferred across open socket
  */
-estts::Status ti_socket_handler::write_socket_s(const std::string &data) const {
+estts::Status socket_handler::write_socket_s(const std::string &data) const {
     // If serial port isn't open, error out
     if (sock < 0) return estts::ES_UNINITIALIZED;
     // Cast string to const unsigned char *, then cast away const to pass
@@ -148,7 +148,7 @@ estts::Status ti_socket_handler::write_socket_s(const std::string &data) const {
  * @brief Reads available data from socket and returns data as string
  * @return Returns translated string of received data
  */
-std::string ti_socket_handler::read_socket_s() const {
+std::string socket_handler::read_socket_s() const {
     // If serial port isn't open, error out
     if (sock < 0) {
         return "";
@@ -165,13 +165,13 @@ std::string ti_socket_handler::read_socket_s() const {
     return string_read;
 }
 
-int ti_socket_handler::check_sock_bytes_avail() const {
+int socket_handler::check_sock_bytes_avail() const {
     int count;
     ioctl(sock, FIONREAD, &count);
     return count;
 }
 
-estts::Status ti_socket_handler::init_socket_handle() {
+estts::Status socket_handler::init_socket_handle() {
     SPDLOG_DEBUG("Opening socket at {}:{}", address, port);
     if (estts::ES_OK != open_socket()) {
         spdlog::error("Failed to open socket.");
@@ -186,6 +186,6 @@ estts::Status ti_socket_handler::init_socket_handle() {
     return estts::ES_OK;
 }
 
-ti_socket_handler::~ti_socket_handler() {
+socket_handler::~socket_handler() {
     if (sync_buf) delete sync_buf;
 }

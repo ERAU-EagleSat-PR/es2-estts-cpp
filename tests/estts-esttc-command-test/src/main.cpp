@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <string>
-#include "ti_esttc.h"
+#include "esttc.h"
 
 using namespace std;
 

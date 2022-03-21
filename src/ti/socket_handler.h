@@ -3,15 +3,15 @@
 // Created by Hayden Roszell on 1/3/22.
 //
 
-#ifndef ESTTS_TI_SOCKET_HANDLER_H
-#define ESTTS_TI_SOCKET_HANDLER_H
+#ifndef ESTTS_SOCKET_HANDLER_H
+#define ESTTS_SOCKET_HANDLER_H
 
 #include <string>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include "constants.h"
 
-class ti_socket_handler {
+class socket_handler {
 private:
     unsigned char * sync_buf;
 
@@ -31,9 +31,9 @@ public:
 
     int sock, port;
 
-    ti_socket_handler(const char *address, int port);
+    socket_handler(const char *address, int port);
 
-    ~ti_socket_handler();
+    ~socket_handler();
 
     std::string read_socket_s() const;
 
@@ -47,4 +47,4 @@ public:
 };
 
 
-#endif //ESTTS_TI_SOCKET_HANDLER_H
+#endif //ESTTS_SOCKET_HANDLER_H

@@ -8,7 +8,7 @@
 #include <sstream>
 #include <algorithm>
 #include <vector>
-#include "ti_esttc.h"
+#include "esttc.h"
 
 using std::stringstream;
 using std::string;
@@ -16,12 +16,12 @@ using namespace std::this_thread; // sleep_for, sleep_until
 using namespace std::chrono; // nanoseconds, system_clock, seconds
 
 /**
- * @brief ti_esttc default constructor that initializes ti_serial_handler
+ * @brief esttc default constructor that initializes serial_handler
  * @param port Serial port (EX "/dev/tty.usbmodem")
  * @param baud Serial baud rate (EX 115200)
  * @return None
  */
-ti_esttc::ti_esttc(const char *es_transmitter_port, int baud) : ti_serial_handler(es_transmitter_port, baud) {
+esttc::esttc(const char *es_transmitter_port, int baud) : serial_handler(es_transmitter_port, baud) {
     esttc_symbols = new estts::endurosat::esttc;
 }
 
@@ -31,7 +31,7 @@ ti_esttc::ti_esttc(const char *es_transmitter_port, int baud) : ti_serial_handle
  * @brief Enables the default value of every SCW field on Endurosat UHF Transceiver module
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::default_mode() {
+estts::Status esttc::default_mode() {
     return write_scw(esttc_symbols->default_mode);
 }
 
@@ -39,7 +39,7 @@ estts::Status ti_esttc::default_mode() {
  * @brief Enables transparent pipe mode on Endurosat UHF Transceiver module
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::enable_pipe() {
+estts::Status esttc::enable_pipe() {
     return write_scw(esttc_symbols->enable_pipe);
 };
 
@@ -48,7 +48,7 @@ estts::Status ti_esttc::enable_pipe() {
  *  @param scw_command A command to change the SCW to a different configuration (e.g. enable_pipe)
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::write_scw(uint16_t scw_command) {
+estts::Status esttc::write_scw(uint16_t scw_command) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
 
@@ -92,7 +92,7 @@ estts::Status ti_esttc::write_scw(uint16_t scw_command) {
  * @param scw The current Status Control Word
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::read_scw(string &RSSI, string &dvc_addr, string &rst_ctr, string &scw) {
+estts::Status esttc::read_scw(string &RSSI, string &dvc_addr, string &rst_ctr, string &scw) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
 
@@ -119,7 +119,7 @@ estts::Status ti_esttc::read_scw(string &RSSI, string &dvc_addr, string &rst_ctr
  * @param div Integer divider of the radio PLL synthesizer in HEX format (default = "")
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc:: ti_esttc::write_radio_freq_config(const string& frac, const string& div) {
+estts::Status esttc:: esttc::write_radio_freq_config(const string& frac, const string& div) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
     string command_body;
@@ -143,7 +143,7 @@ estts::Status ti_esttc:: ti_esttc::write_radio_freq_config(const string& frac, c
  * @param div Integer divider of the radio PLL synthesizer in HEX format
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::read_radio_freq(string &RSSI, string &frac, string &div) {
+estts::Status esttc::read_radio_freq(string &RSSI, string &frac, string &div) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
 
@@ -169,7 +169,7 @@ estts::Status ti_esttc::read_radio_freq(string &RSSI, string &frac, string &div)
  * @param uptime Uptime value in seconds in HEX format
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::read_uptime(string &RSSI, string &uptime) {
+estts::Status esttc::read_uptime(string &RSSI, string &uptime) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
 
@@ -194,7 +194,7 @@ estts::Status ti_esttc::read_uptime(string &RSSI, string &uptime) {
  * @param pckt_num The number of transmitted packets in HEX format
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::read_trans_pckts(string &RSSI, string &pckt_num) {
+estts::Status esttc::read_trans_pckts(string &RSSI, string &pckt_num) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
 
@@ -219,7 +219,7 @@ estts::Status ti_esttc::read_trans_pckts(string &RSSI, string &pckt_num) {
  * @param pckt_num The number of transmitted packets with CRC errors in HEX format
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::read_trans_pckts_crc(string &RSSI, string &pckt_num) {
+estts::Status esttc::read_trans_pckts_crc(string &RSSI, string &pckt_num) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
 
@@ -243,7 +243,7 @@ estts::Status ti_esttc::read_trans_pckts_crc(string &RSSI, string &pckt_num) {
  * @param period The desired period (in seconds in HEX format) to set
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::write_bcn_trans_period(const string &period) {
+estts::Status esttc::write_bcn_trans_period(const string &period) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
     string command_body;
@@ -266,7 +266,7 @@ estts::Status ti_esttc::write_bcn_trans_period(const string &period) {
  * @param period The current beacon message transmission period
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::read_bcn_trans_period(string &RSSI, string &period) {
+estts::Status esttc::read_bcn_trans_period(string &RSSI, string &period) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
 
@@ -293,7 +293,7 @@ estts::Status ti_esttc::read_bcn_trans_period(string &RSSI, string &period) {
  * and Pipe timeout period
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::write_res_default_vals() {
+estts::Status esttc::write_res_default_vals() {
         estts::Status return_status = estts::ES_UNSUCCESSFUL;
         string response;
         string command_body;
@@ -316,7 +316,7 @@ estts::Status ti_esttc::write_res_default_vals() {
  * @param resistor_config The desired I2C pull-up resistor configuration in HEX
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::write_i2c_resist_config(const string &resistor_config) {
+estts::Status esttc::write_i2c_resist_config(const string &resistor_config) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
     string command_body;
@@ -337,7 +337,7 @@ estts::Status ti_esttc::write_i2c_resist_config(const string &resistor_config) {
  * @param selected_resistor The currently selected I2C pull-up resistor configuration in HEX
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::read_i2c_resist_config(string &selected_resistor) {
+estts::Status esttc::read_i2c_resist_config(string &selected_resistor) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
 
@@ -360,7 +360,7 @@ estts::Status ti_esttc::read_i2c_resist_config(string &selected_resistor) {
  * @param mode A bit ('0', or '1') that determines if radio packet CRC16 is enabled or disabled
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::write_radio_crc16(const string &mode) {
+estts::Status esttc::write_radio_crc16(const string &mode) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
     string command_body;
@@ -381,7 +381,7 @@ estts::Status ti_esttc::write_radio_crc16(const string &mode) {
  * @param mode A bit ('0', or '1') that determines if radio packet CRC16 is enabled or disabled
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::read_radio_crc16(string &mode) {
+estts::Status esttc::read_radio_crc16(string &mode) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
 
@@ -404,7 +404,7 @@ estts::Status ti_esttc::read_radio_crc16(string &mode) {
  * @param config_bit The bit ('1' or '0') that determines if automatic ax.25 decoding is enabled
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::write_config_ax25_decode(const string &config_bit) {
+estts::Status esttc::write_config_ax25_decode(const string &config_bit) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
     string command_body;
@@ -426,7 +426,7 @@ estts::Status ti_esttc::write_config_ax25_decode(const string &config_bit) {
  * @param config_bit The bit ('1' or '0') that determines if automatic ax.25 decoding is enabled
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::read_config_ax25_decode(string &config_bit) {
+estts::Status esttc::read_config_ax25_decode(string &config_bit) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
 
@@ -449,7 +449,7 @@ estts::Status ti_esttc::read_config_ax25_decode(string &config_bit) {
  * @param ant_config UHF Antenna Release Configuration (4 chars)
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::write_ant_release_config(const string &ant_config) {
+estts::Status esttc::write_ant_release_config(const string &ant_config) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
     string command_body;
@@ -470,7 +470,7 @@ estts::Status ti_esttc::write_ant_release_config(const string &ant_config) {
  * @param ant_config The current UHF Antenna Release Configuration in HEX
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::read_ant_release_config(string &ant_config) {
+estts::Status esttc::read_ant_release_config(string &ant_config) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
 
@@ -492,7 +492,7 @@ estts::Status ti_esttc::read_ant_release_config(string &ant_config) {
  * @brief Toggle the low power mode of the UHF Transceiver
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::write_low_pwr_mode() {
+estts::Status esttc::write_low_pwr_mode() {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
     string command_body;
@@ -513,7 +513,7 @@ estts::Status ti_esttc::write_low_pwr_mode() {
  * @param power_mode The current power mode of the UHF Transceiver ("00" [Normal Mode] or "01" [Low Power Mode])
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::read_low_pwr_mode(string &power_mode) {
+estts::Status esttc::read_low_pwr_mode(string &power_mode) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
 
@@ -536,7 +536,7 @@ estts::Status ti_esttc::read_low_pwr_mode(string &power_mode) {
  * @param call_sign  The new source call sign you want to replace the old one with (ex. "XX0UHF")
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::write_src_call_sign(const string &call_sign) {
+estts::Status esttc::write_src_call_sign(const string &call_sign) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
     string command_body;
@@ -557,7 +557,7 @@ estts::Status ti_esttc::write_src_call_sign(const string &call_sign) {
  * @param call_sign  The current source call sign (ex. "XX0UHF")
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::read_src_call_sign(string &call_sign) {
+estts::Status esttc::read_src_call_sign(string &call_sign) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
 
@@ -580,7 +580,7 @@ estts::Status ti_esttc::read_src_call_sign(string &call_sign) {
  * @param payload_size The size of the payload in HEX
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::read_dvc_payload_size(string &payload_size) {
+estts::Status esttc::read_dvc_payload_size(string &payload_size) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
 
@@ -603,7 +603,7 @@ estts::Status ti_esttc::read_dvc_payload_size(string &payload_size) {
  * @param new_addr The new device address for the UHF Transceiver in HEX ("22" or "23")
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::write_dvc_addr_config(const string &new_addr) {
+estts::Status esttc::write_dvc_addr_config(const string &new_addr) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
     string command_body;
@@ -629,7 +629,7 @@ estts::Status ti_esttc::write_dvc_addr_config(const string &new_addr) {
  * @param data  The variable size data in HEX
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::write_radio_trans_prop_config(const string &prop_group, const string &bytes, const string &offset, const string &data) {
+estts::Status esttc::write_radio_trans_prop_config(const string &prop_group, const string &bytes, const string &offset, const string &data) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
     string command_body;
@@ -667,7 +667,7 @@ estts::Status ti_esttc::write_radio_trans_prop_config(const string &prop_group, 
  * @param data  The current variable size data in HEX
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::read_radio_trans_prop_config(const string &prop_group, const string &bytes, const string &offset, string &data) {
+estts::Status esttc::read_radio_trans_prop_config(const string &prop_group, const string &bytes, const string &offset, string &data) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
     string command_body;
@@ -707,7 +707,7 @@ estts::Status ti_esttc::read_radio_trans_prop_config(const string &prop_group, c
  * @param all_lines The variable length data which comprises of all lines of the .SCRM file separated by new line characters '\\n'
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::update_firmware(const string &all_lines) {
+estts::Status esttc::update_firmware(const string &all_lines) {
     estts::Status update_status = estts::ES_UNSUCCESSFUL;
 
     // TODO - Write the first two steps of Firmware Update
@@ -762,7 +762,7 @@ estts::Status ti_esttc::update_firmware(const string &all_lines) {
  * @param one_line The variable length data which comprises of a single line of the .SCRM file
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::update_firmware_sequence(const string &one_line) {
+estts::Status esttc::update_firmware_sequence(const string &one_line) {
     // TODO - Double check this whole function. Too tired to check now
 
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
@@ -790,7 +790,7 @@ estts::Status ti_esttc::update_firmware_sequence(const string &one_line) {
  * @param num_of_lines  The number of expected lines in the .SCRM file
  * @return A vector containing each line as an element
  */
-std::vector<string> ti_esttc::split_lines(const string &all_lines, size_t num_of_lines) {
+std::vector<string> esttc::split_lines(const string &all_lines, size_t num_of_lines) {
     string::size_type prev_line = 0;
     string::size_type new_line = -1;
     std::vector<string> lines(num_of_lines);
@@ -812,7 +812,7 @@ std::vector<string> ti_esttc::split_lines(const string &all_lines, size_t num_of
  * @param body Request body for command if writing
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::build_esttc_command(const char method, const char *command_code, string &response, const string& body) {
+estts::Status esttc::build_esttc_command(const char method, const char *command_code, string &response, const string& body) {
     estts::Status return_status = estts::ES_UNINITIALIZED;
     estts::Status serial_status = estts::ES_UNSUCCESSFUL;
     stringstream command;
@@ -864,16 +864,16 @@ estts::Status ti_esttc::build_esttc_command(const char method, const char *comma
  * @param string String input to calculate CRC32
  * @return Calculated CRC32 of inputted string
  */
-std::string ti_esttc::calculate_crc32(string string) {
+std::string esttc::calculate_crc32(string string) {
     // TODO Taylor's task for sprint #3
     return string;
 }
 
-ti_esttc::~ti_esttc() {
+esttc::~esttc() {
     delete esttc_symbols;
 }
 
-estts::Status ti_esttc::enable_satellite_bcn() {
+estts::Status esttc::enable_satellite_bcn() {
     int retries;
     string resp;
     SPDLOG_TRACE("Enabling beacon on satellite");

@@ -22,4 +22,6 @@ std::string ascii_to_hex(const std::string& in);
  */
 std::string hex_to_ascii(const std::string& hex);
 
+std::string generate_serial_number();
+
 #endif //ESTTS_HELPER_H

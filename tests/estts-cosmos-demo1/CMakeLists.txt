@@ -1,5 +1,5 @@
 #
-# estts-cosmos-demo1 build configuration.
+# estts-primary_cosmos_worker-demo1 build configuration.
 #
 
 # Add primary executable for estts-demo1

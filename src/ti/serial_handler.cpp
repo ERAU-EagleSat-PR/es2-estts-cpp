@@ -6,12 +6,12 @@
 #include <termios.h>
 #include <boost/asio.hpp>
 #include <sys/ioctl.h>
-#include "ti_serial_handler.h"
+#include "serial_handler.h"
 
 using namespace boost::asio;
 using namespace estts;
 
-ti_serial_handler::ti_serial_handler() : io(), serial(io) {
+serial_handler::serial_handler() : io(), serial(io) {
     SPDLOG_DEBUG("Detecting open serial ports");
     port = "";
     sync_buf = new unsigned char[MAX_SERIAL_READ];
@@ -24,7 +24,7 @@ ti_serial_handler::ti_serial_handler() : io(), serial(io) {
 * @param baud Serial baud rate (EX 115200)
 * @return None
 */
-ti_serial_handler::ti_serial_handler(const char *port, int baud) : io(), serial(io) {
+serial_handler::serial_handler(const char *port, int baud) : io(), serial(io) {
     SPDLOG_DEBUG("Opening serial port {} with {} baud", port, baud);
     this->port = port;
     this->baud = baud;
@@ -43,7 +43,7 @@ ti_serial_handler::ti_serial_handler(const char *port, int baud) : io(), serial(
  * @brief Initializes serial terminal port using Termios and Boost
  * @return #ES_OK if port configures successfully, or #ES_UNSUCCESSFUL if not
  */
-estts::Status ti_serial_handler::initialize_serial_port() {
+estts::Status serial_handler::initialize_serial_port() {
     boost::system::error_code error;
 
     if (serial.is_open())
@@ -108,7 +108,7 @@ estts::Status ti_serial_handler::initialize_serial_port() {
  * @param size Size of data being transmitted
  * @return Returns -1 if write failed, or the number of bytes written if call succeeded
  */
-size_t ti_serial_handler::write_serial_uc(unsigned char *data, int size) {
+size_t serial_handler::write_serial_uc(unsigned char *data, int size) {
     if (!serial.is_open()) {
         SPDLOG_ERROR("Serial port {} not open", port);
         return -1;
@@ -140,7 +140,7 @@ size_t ti_serial_handler::write_serial_uc(unsigned char *data, int size) {
  * CRITICAL NOTE: delete MUST be called when done with the value returned. If this
  * is not done, a memory leak will be created. To avoid this issue, use read_serial_s
  */
-unsigned char *ti_serial_handler::read_serial_uc() {
+unsigned char *serial_handler::read_serial_uc() {
     // Clear cache buf
     cache.clear();
 
@@ -173,7 +173,7 @@ unsigned char *ti_serial_handler::read_serial_uc() {
  * @param data String argument
  * @return Number of bytes transferred across open serial port
  */
-estts::Status ti_serial_handler::write_serial_s(const std::string &data) {
+estts::Status serial_handler::write_serial_s(const std::string &data) {
     if (!serial.is_open()) {
         SPDLOG_ERROR("Serial port {} not open", port);
         return estts::ES_UNINITIALIZED;
@@ -189,7 +189,7 @@ estts::Status ti_serial_handler::write_serial_s(const std::string &data) {
  * @brief Reads available data from serial port and returns data as string
  * @return Returns translated string of received data
  */
-std::string ti_serial_handler::read_serial_s() {
+std::string serial_handler::read_serial_s() {
     if (!serial.is_open()) {
         SPDLOG_ERROR("Serial port {} not open", port);
         return "";
@@ -205,23 +205,23 @@ std::string ti_serial_handler::read_serial_s() {
     return string_read;
 }
 
-ti_serial_handler::~ti_serial_handler() {
+serial_handler::~serial_handler() {
     serial.close();
 }
 
-void ti_serial_handler::clear_serial_fifo() {
+void serial_handler::clear_serial_fifo() {
     SPDLOG_TRACE("Clearing serial FIFO buffer");
     while (check_serial_bytes_avail() > 0)
         read_serial_s();
 }
 
-void ti_serial_handler::clear_serial_fifo(const std::function<estts::Status(std::string)> &cb) {
+void serial_handler::clear_serial_fifo(const std::function<estts::Status(std::string)> &cb) {
     SPDLOG_TRACE("Clearing serial FIFO buffer");
     while (check_serial_bytes_avail() > 0)
         cb(read_serial_s());
 }
 
-int ti_serial_handler::check_serial_bytes_avail() {
+int serial_handler::check_serial_bytes_avail() {
     int value = 0;
     if (0 != ioctl(serial.lowest_layer().native_handle(), FIONREAD, &value)) {
         SPDLOG_ERROR("Failed to get bytes available - {}",
@@ -230,11 +230,11 @@ int ti_serial_handler::check_serial_bytes_avail() {
     return value;
 }
 
-void ti_serial_handler::read_serial_async(const std::function<estts::Status(char *, size_t)>& cb) {
+void serial_handler::read_serial_async(const std::function<estts::Status(char *, size_t)>& cb) {
     serial.async_read_some(buffer(async_buf, MAX_SERIAL_READ), get_generic_async_read_lambda(cb));
 }
 
-std::function<void(boost::system::error_code, size_t)> ti_serial_handler::get_generic_async_read_lambda(const std::function<Status(char *, size_t)>& estts_callback) {
+std::function<void(boost::system::error_code, size_t)> serial_handler::get_generic_async_read_lambda(const std::function<Status(char *, size_t)>& estts_callback) {
     return [estts_callback, this] (const boost::system::error_code& error, std::size_t bytes_transferred) {
         if (error) {
             SPDLOG_ERROR("Async read failed - {}", error.message());
@@ -252,7 +252,7 @@ std::function<void(boost::system::error_code, size_t)> ti_serial_handler::get_ge
     };
 }
 
-unsigned char *ti_serial_handler::read_serial_uc(int bytes) {
+unsigned char *serial_handler::read_serial_uc(int bytes) {
     // Clear cache buf
     cache.clear();
 
@@ -282,7 +282,7 @@ unsigned char *ti_serial_handler::read_serial_uc(int bytes) {
     return buf;
 }
 
-std::string ti_serial_handler::read_serial_s(int bytes) {
+std::string serial_handler::read_serial_s(int bytes) {
     if (!serial.is_open()) {
         SPDLOG_ERROR("Serial port {} not open", port);
         return "";
@@ -297,5 +297,4 @@ std::string ti_serial_handler::read_serial_s(int bytes) {
     std::string string_read(reinterpret_cast<char const *>(read));
     delete read;
     return string_read;
-    return std::string();
 }

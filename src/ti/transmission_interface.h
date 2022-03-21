@@ -8,13 +8,13 @@
 
 #include <mutex>
 #include <thread>
-#include "ti_esttc.h"
-#include "ti_socket_handler.h"
+#include "esttc.h"
+#include "socket_handler.h"
 
-class transmission_interface : virtual public ti_esttc, virtual public ti_socket_handler {
+class transmission_interface : virtual public esttc, virtual public socket_handler {
 private:
 
-    std::function<estts::Status(std::string)> telem_cb;
+    std::function<estts::Status(std::string)> primary_telem_cb;
 
     std::mutex mtx;
 
@@ -22,13 +22,13 @@ private:
 
     /**
      * Function designed to run on its own thread that sends a single character through the UART to the transceiver
-     * to keep PIPE mode active, thereby maintaining a session. This function returns when it notices that session_active
+     * to keep PIPE mode active, thereby maintaining a session. This function returns when it notices that obc_session_active
      * is false, and checks every 100 milliseconds to reduce latency.
      */
     void maintain_pipe();
 
 public:
-    bool session_active;
+    bool obc_session_active;
 
     /**
      * Default constructor that initializes each class inherited by transmission_interface, and ensures that the mutex
@@ -47,7 +47,7 @@ public:
      * gets all available telemetry.
      * @param cb Telemetry callback with form std::function<estts::Status(std::string)>
      */
-    void set_telem_callback(const std::function<estts::Status(std::string)>& cb) {telem_cb = cb;}
+    void set_telem_callback(const std::function<estts::Status(std::string)>& cb) { primary_telem_cb = cb;}
 
     /**
      * Uses EnduroSat transceiver to transmit const unsigned char * value. Function warns if a session is not currently active.
@@ -89,23 +89,23 @@ public:
 
     /**
      * Function that requests a new session with the OBC on the satellite. This function enables PIPE on the ground txvr
-     * and on the satellite txvr, and creates a new thread to keep the session as long as session_active is true.
+     * and on the satellite txvr, and creates a new thread to keep the session as long as obc_session_active is true.
      * @return ES_OK if a session is active
      */
-    estts::Status request_new_session();
+    estts::Status request_obc_session();
 
     /**
-     * Function that returns the status of session_active
+     * Function that returns the status of obc_session_active
      * @return bool
      */
-    bool check_session_active() const { return session_active; };
+    bool check_session_active() const { return obc_session_active; };
 
     /**
      * Function that waits for PIPE to exit, thereby ending the communication session with the satellite.
      * @param end_frame Deprecated
      * @return ES_OK if session ends successfully
      */
-    estts::Status end_session(const std::string& end_frame);
+    estts::Status end_obc_session(const std::string& end_frame);
 
     /**
      * Function that returns the data available on the underlying interface.
