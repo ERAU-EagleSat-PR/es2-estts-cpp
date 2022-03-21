@@ -4,12 +4,12 @@
 //
 
 #include "constants.h"
-#include "primary_cosmos_handler.h"
+#include "cosmos_handler.h"
 
 int main() {
     // todo main should fork a child and exec the other processes and immediately terminate
     spdlog::set_level(spdlog::level::trace); // This setting is missed in the wiki
-    auto cosmos = new primary_cosmos_handler();
+    auto cosmos = new cosmos_handler();
     if (estts::ES_OK != cosmos->cosmos_init())
         return -1;
     cosmos->initialize_cosmos_daemon();

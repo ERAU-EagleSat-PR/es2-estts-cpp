@@ -1,7 +1,4 @@
 /* Copyright © EagleSat II - Embry Riddle Aeronautical University - All rights reserved - 2022 */
-//
-// Created by Hayden Roszell on 10/31/21.
-//
 
 #ifndef ESTTS_CONSTANTS_H
 #define ESTTS_CONSTANTS_H
@@ -19,7 +16,21 @@ namespace estts {
 
     namespace cosmos {
         const char COSMOS_SERVER_ADDR[] = "172.30.95.164"; // 172.30.95.164
-        const int COSMOS_PORT = 65432;
+        const int COSMOS_PRIMARY_CMD_TELEM_PORT = 65432;
+        const int COSMOS_GROUNDSTATION_CMD_TELEM_PORT = 8046;
+        const int COSMOS_SATELLITE_TXVR_CMD_TELEM_PORT = 55927;
+    }
+
+    namespace ti_serial {
+        const char TI_SERIAL_ADDRESS[] = "/dev/cu.usbserial-A10JVB3P";
+    }
+
+    namespace ti_socket {
+        const int MAX_RETRIES = 2;
+        const int WAIT_TIME_SEC = 2;
+        const int TI_SOCKET_BUF_SZ = 1024;
+        const char TI_SOCKET_ADDRESS[] = "127.0.0.1";
+        const int TI_SOCKET_PORT = 65548;
     }
 
     /* AX.25 Related constants */
@@ -235,18 +246,6 @@ namespace estts {
                     "3323" // enable_pipe - 0011 0011 0010 0011
             };
         };
-    }
-
-    namespace ti_serial {
-        const char TI_SERIAL_ADDRESS[] = "/dev/cu.usbserial-A10JVB3P";
-    }
-    
-    namespace ti_socket {
-        const int MAX_RETRIES = 2;
-        const int WAIT_TIME_SEC = 2;
-        const int TI_SOCKET_BUF_SZ = 1024;
-        const char TI_SOCKET_ADDRESS[] = "127.0.0.1";
-        const int TI_SOCKET_PORT = 65548;
     }
 
     typedef struct command_object {

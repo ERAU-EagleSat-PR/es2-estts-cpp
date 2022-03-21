@@ -6,10 +6,10 @@
 #include <chrono>
 #include "constants.h"
 #include "transmission_interface.h"
-#include "ti_socket_handler.h"
+#include "socket_handler.h"
 #include <unistd.h>
 #include <iostream>
-#include "primary_cosmos_handler.h"
+#include "cosmos_handler.h"
 
 using namespace std::this_thread; // sleep_for, sleep_until
 using namespace std::chrono; // nanoseconds, system_clock, seconds
@@ -18,7 +18,7 @@ int main() {
     spdlog::set_level(spdlog::level::trace); // This setting is missed in the wiki
     spdlog::set_pattern("[%T] [thread %t] [%^%l%$] [%@] %v");
 
-    auto cosmos = new primary_cosmos_handler();
+    auto cosmos = new cosmos_handler();
     if (estts::ES_OK != cosmos->cosmos_init())
         return -1;
 

@@ -25,7 +25,7 @@
 // Finally, there should be a function that takes argument for a serial number associated
 // with a command, and returns the completion status.
 
-class session_manager : virtual public command_handler {
+class obc_session_manager : virtual public command_handler {
 private:
     transmission_interface *ti;
     std::thread session_worker;
@@ -48,22 +48,22 @@ private:
 
 public:
     /**
-     * @brief Default constructor for command scheduler. Creates new transmission interface and initializes the
+     * @brief Default constructor for command scheduler. Takes argument for a transmission interface and initializes the
      * command handler. Note that in order to run the dispatcher, dispatcher_init must be called.
      */
-    explicit session_manager();
+    explicit obc_session_manager(transmission_interface * ti);
 
     /**
      * Secondary constructor for command scheduler that takes argument for a telemetry callback handler that is called when
      * lower layers receive telemetry.
      * @param telem_callback Callback with form std::function<estts::Status(std::string)>
      */
-    explicit session_manager(std::function<estts::Status(std::string)> telem_callback);
+    explicit obc_session_manager(transmission_interface * ti, std::function<estts::Status(std::string)> telem_callback);
 
     /**
      * @brief Cleans up internal structures
      */
-    ~session_manager();
+    ~obc_session_manager();
 
     /**
      * Function that takes argument for a string command passed by a higher level interface, and a callback function that is
@@ -71,10 +71,10 @@ public:
      * is returned by the dispatch process. This function creates a waiting_command object and stores a serial number, the callback function,
      * and the command string expected to dispatch during the next satellite pass.
      * @param command String command received by higher level interface
-     * @param decomp_callback Callback with form std::function<estts::Status(std::string)>
+     * @param callback Callback with form std::function<estts::Status(std::string)>
      * @return String serial number associated with newly scheduled command
      */
-    std::string schedule_command(std::string command, const std::function<estts::Status(std::string)>& decomp_callback);
+    std::string schedule_command(std::string command, const std::function<estts::Status(std::string)>& callback);
 
     /**
      * @brief Function that takes argument to a vector of command objects and a obj_callback function expecting a pointer to a
@@ -88,15 +88,6 @@ public:
      */
     std::string schedule_command(estts::command_object * command,
                                  std::function<estts::Status(std::vector<estts::telemetry_object *>)> decomp_callback);
-
-    /**
-     * @brief Takes argument for a serial number, returns status of completed command
-     * if found, ES_INPROGRESS if command hasn't run yet, or ES_NOTFOUND if
-     * serial number was not found.
-     * @param serial_number Serial number returned by schedule_command()
-     * @return Status of scheduled job
-     */
-    estts::Status get_command_status(const std::string &serial_number);
 
     /**
      * @brief Uses std::thread::join() to await thread completion. If commands continue

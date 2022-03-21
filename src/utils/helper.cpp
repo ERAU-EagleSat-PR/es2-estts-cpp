@@ -3,6 +3,9 @@
 //
 
 #include <sstream>
+#include <condition_variable>
+#include <random>
+#include <utility>
 #include "helper.h"
 
 std::string ascii_to_hex(const std::string& in) {
@@ -29,4 +32,27 @@ std::string hex_to_ascii(const std::string& hex) {
         ascii += ch;
     }
     return ascii;
+}
+
+/**
+ * @brief Creates 16-character serial number using C++ random library
+ * @return 16-character serial number
+ */
+std::string generate_serial_number() {
+    auto len = 16;
+    static const char alphanum[] =
+            "0123456789"
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            "abcdefghijklmnopqrstuvwxyz";
+    std::string tmp_s;
+    tmp_s.reserve(len);
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist6(1,sizeof(alphanum));
+
+    for (int i = 0; i < len; ++i) {
+        tmp_s += alphanum[dist6(rng) % (sizeof(alphanum) - 1)];
+    }
+
+    return tmp_s;
 }

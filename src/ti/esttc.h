@@ -2,13 +2,13 @@
 // Created by Hayden Roszell on 12/10/21.
 //
 
-#ifndef ESTTS_TI_ESTTC_H
-#define ESTTS_TI_ESTTC_H
+#ifndef ESTTS_ESTTC_H
+#define ESTTS_ESTTC_H
 
-#include "ti_serial_handler.h"
+#include "serial_handler.h"
 #include "constants.h"
 
-class ti_esttc : virtual public ti_serial_handler {
+class esttc : virtual public serial_handler {
 private:
     estts::endurosat::esttc *esttc_symbols;
 
@@ -73,10 +73,10 @@ public:
     // Misc commands
     estts::Status enable_satellite_bcn();
 
-    ti_esttc(const char *es_transmitter_port, int baud);
+    esttc(const char *es_transmitter_port, int baud);
 
-    ~ti_esttc();
+    ~esttc();
 };
 
 
-#endif //ESTTS_TI_ESTTC_H
+#endif //ESTTS_ESTTC_H

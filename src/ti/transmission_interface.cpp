@@ -12,14 +12,14 @@ using namespace std::this_thread; // sleep_for, sleep_until
 using namespace std::chrono; // nanoseconds, system_clock, seconds
 using namespace estts;
 
-transmission_interface::transmission_interface() : ti_socket_handler(estts::ti_socket::TI_SOCKET_ADDRESS,
+transmission_interface::transmission_interface() : socket_handler(estts::ti_socket::TI_SOCKET_ADDRESS,
                                                                                         estts::ti_socket::TI_SOCKET_PORT),
-                                                                      ti_esttc(estts::ti_serial::TI_SERIAL_ADDRESS,
+                                                                      esttc(estts::ti_serial::TI_SERIAL_ADDRESS,
                                                                                estts::endurosat::ES_BAUD),
-                                                                      ti_serial_handler(estts::ti_serial::TI_SERIAL_ADDRESS,
+                                                                      serial_handler(estts::ti_serial::TI_SERIAL_ADDRESS,
                                                                                         estts::endurosat::ES_BAUD) {
-    telem_cb = nullptr;
-    session_active = false;
+    primary_telem_cb = nullptr;
+    obc_session_active = false;
     mtx.unlock();
 }
 
@@ -28,11 +28,11 @@ estts::Status transmission_interface::transmit(const std::string &value) {
     using namespace std::chrono; // nanoseconds, system_clock, seconds
     if (value.empty())
         return ES_MEMORY_ERROR;
-    if (!session_active)
+    if (!obc_session_active)
         SPDLOG_WARN("Communication session not active, message may not get to satellite.");
     mtx.lock();
-    if (telem_cb)
-        clear_serial_fifo(telem_cb);
+    if (primary_telem_cb)
+        clear_serial_fifo(primary_telem_cb);
     else
         clear_serial_fifo();
 #ifndef __TI_DEV_MODE__
@@ -86,7 +86,7 @@ transmission_interface::~transmission_interface() {
     mtx.unlock();
 }
 
-estts::Status transmission_interface::request_new_session() {
+estts::Status transmission_interface::request_obc_session() {
     mtx.lock();
 
     SPDLOG_INFO("Requesting new session");
@@ -94,8 +94,8 @@ estts::Status transmission_interface::request_new_session() {
     int retries = 0;
     std::string resp;
     while (true) {
-        if (telem_cb)
-            clear_serial_fifo(telem_cb);
+        if (primary_telem_cb)
+            clear_serial_fifo(primary_telem_cb);
         else
             clear_serial_fifo();
 
@@ -129,7 +129,7 @@ tryagain:
         }
     }
 
-    session_active = true;
+    obc_session_active = true;
     session_keeper = std::thread(&transmission_interface::maintain_pipe, this);
     SPDLOG_TRACE("Created session keeper thread with ID {}", std::hash<std::thread::id>{}(session_keeper.get_id()));
     sleep_until(system_clock::now() + seconds(2));
@@ -140,7 +140,7 @@ tryagain:
     return ES_OK;
 }
 
-Status transmission_interface::end_session(const std::string &end_frame) {
+Status transmission_interface::end_obc_session(const std::string &end_frame) {
     SPDLOG_INFO("Ending session");
 
     int retries = estts::endurosat::PIPE_DURATION_SEC * 2;
@@ -157,9 +157,9 @@ Status transmission_interface::end_session(const std::string &end_frame) {
         SPDLOG_ERROR("Failed to end session");
         return ES_UNSUCCESSFUL;
     }
-    session_active = false;
+    obc_session_active = false;
 #else
-    session_active = false;
+    obc_session_active = false;
     session_keeper.join();
     std::string resp;
 
@@ -193,7 +193,7 @@ estts::Status transmission_interface::transmit(const unsigned char *value, int l
     if (length <= 0)
         return ES_MEMORY_ERROR;
     int retries = 0;
-    if (!session_active)
+    if (!obc_session_active)
         SPDLOG_WARN("Communication session not active, message may not get to satellite.");
     mtx.lock();
 #ifndef __TI_DEV_MODE__
@@ -244,7 +244,7 @@ unsigned char *transmission_interface::receive_uc() {
 
 void transmission_interface::maintain_pipe() {
     int counter = 0;
-    while (session_active) {
+    while (obc_session_active) {
         counter++;
         if ((counter / 10) > (estts::endurosat::PIPE_DURATION_SEC - 4)) {
             this->write_serial_uc((unsigned char *) " ", 1);
