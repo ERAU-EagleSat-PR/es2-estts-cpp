@@ -22,7 +22,7 @@ namespace estts {
     }
 
     namespace ti_serial {
-        const char TI_SERIAL_ADDRESS[] = "/dev/cu.usbserial-A10JVB3P";
+        const char TI_SERIAL_ADDRESS[] = "/dev/cu.usbmodem";
     }
 
     namespace ti_socket {
@@ -279,9 +279,9 @@ namespace estts {
 
     typedef struct waiting_command {
         std::string frame;
-        command_object * command;
+        command_object * command; // deprecated
         std::string serial_number;
-        std::function<estts::Status(std::vector<estts::telemetry_object *>)> obj_callback;
+        std::function<estts::Status(std::vector<estts::telemetry_object *>)> obj_callback; // deprecated
         std::function<estts::Status(std::string)> str_callback;
     } waiting_command;
 

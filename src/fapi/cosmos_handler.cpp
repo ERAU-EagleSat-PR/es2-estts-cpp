@@ -31,13 +31,13 @@ estts::Status cosmos_handler::cosmos_init() {
     cosmos_worker = std::thread(&cosmos_handler::primary_cosmos_worker, this);
     SPDLOG_TRACE("Created primary COSMOS worker thread with ID {}", std::hash<std::thread::id>{}(cosmos_worker.get_id()));
 
-    this->cosmos_satellite_txvr_init();
-    this->cosmos_groundstation_init();
+    // this->cosmos_satellite_txvr_init(); // todo uncomment this when ready
+    // this->cosmos_groundstation_init(); // todo uncomment this when ready
 
     return estts::ES_OK;
 }
 
-std::function<estts::Status(std::string)> cosmos_handler::get_generic_command_callback_lambda(std::string command, socket_handler * sock) {
+std::function<estts::Status(std::string)> cosmos_handler::get_generic_command_callback_lambda(const std::string& command, socket_handler * sock) {
     return [command, sock] (const std::string& telem) -> estts::Status {
         if (telem.empty() || sock == nullptr) {
             return estts::ES_UNINITIALIZED;
@@ -48,7 +48,9 @@ std::function<estts::Status(std::string)> cosmos_handler::get_generic_command_ca
                 temp << i;
         }
         spdlog::info("COSMOS Command Callback Lambda --> Sent {} and got back: {}", temp.str(), telem);
-        sock->write_socket_s(telem);
+        std::stringstream telemetry_resp;
+        telemetry_resp << command << telem;
+        sock->write_socket_s(telemetry_resp.str());
         return estts::ES_OK;
     };
 }
