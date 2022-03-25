@@ -39,6 +39,7 @@ void groundstation_cmdtelem_manager::dispatch() {
             SPDLOG_TRACE("{} commands in queue", waiting.size());
 
             // todo handle the command found at waiting.front()
+
         }
     }
 }
