@@ -1291,7 +1291,6 @@ estts::Status ti_esttc::write_secure_mode(const string &key) {
 }
 
 // 10.30 - FIRMWARE UPDATE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 /**
  * @brief Fully update the firmware of the UHF Transceiver
  * @param all_lines The variable length data which comprises of all lines of the .SCRM file separated by new line characters '\\n'
