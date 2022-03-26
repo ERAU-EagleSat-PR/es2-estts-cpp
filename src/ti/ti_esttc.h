@@ -30,40 +30,72 @@ public:
     estts::Status read_uptime(std::string &RSSI, std::string &uptime);
     // 10.4 - READ NUMBER OF TRANSMITTED PACKETS
     estts::Status read_trans_pckts(std::string &RSSI, std::string &pckt_num);
+    // 10.5 - READ NUMBER OF RX'D PACKETS
+    estts::Status ti_esttc::read_num_rx_packets(std::string &RSSI, std::string &num_rxd);
     // 10.6 - READ NUMBER OF TRANSMITTED PACKETS WITH A CRC ERROR
     estts::Status read_trans_pckts_crc(std::string &RSSI, std::string &pckt_num);
+    // 10.7 - TRANSPARENT PIPE MODE TMOUT CFG ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    estts::Status ti_esttc::read_pipe_mode_timeout(std::string &RSSI, std::string &time_period);
+    estts::Status ti_esttc::write_pipe_mode_timeout(const string& time_period);
     // 10.8 - BEACON MESSAGE TRANSMISSION PERIOD CONFIGURATION
     estts::Status write_bcn_trans_period(const std::string &period = "003C");
     estts::Status read_bcn_trans_period(std::string &RSSI, std::string &period);
+    // 10.9 - AUDIO BEACON PERIOD BETWEEN TRANS
+    estts::Status ti_esttc::read_beacon_time_period(std::string &RSSI, std::string &time_period);
+    estts::Status ti_esttc::write_beacon_time_period(const string& time_period);
     // 10.10 - RESTORE DEFAULT VALUES
     estts::Status write_res_default_vals();
+    // 10.11 - READ INTERNAL TEMP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    estts::Status ti_esttc::read_beacon_time_period(std::string &internal_temp);
     // 10.31 - I2C PULL-UP RESISTORS CONFIGURATION READ/WRITE
     estts::Status write_i2c_resist_config(const std::string &resistor_config);
     estts::Status read_i2c_resist_config(std::string &selected_resistor);
     // 10.12 - ENABLING/DISABLING RADIO PACKET CRC16
     estts::Status write_radio_crc16(const std::string &mode);
     estts::Status read_radio_crc16(std::string &mode);
+    // 10.13 - FORCE BEACON COMMAND
+    estts::Status ti_esttc::force_beacon();
     // 10.14 - ENABLING/DISABLING AUTOMATIC AX.25 DECODING
     estts::Status write_config_ax25_decode(const std::string &config_bit); // Consider replacing the param with a char type
     estts::Status read_config_ax25_decode(std::string &config_bit);
+    // 10.15 - AUDIO BEACON PERIOD BETWEEN TRANS
+    estts::Status ti_esttc::read_write_generic_I2C(std::string& send_mode, std::string &slave_address
+                                                   std::string& bytes_to_read, std::string& bytes_to_write,
+                                                   std::string& data);
     // 10.16 - UHF ANTENNA RELEASE CONFIGURATION
     estts::Status write_ant_release_config(const std::string &ant_config);
     estts::Status read_ant_release_config(std::string &ant_config);
+    // 10.17 - UHF ANTENNA READ/WRITE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    estts::Status ti_esttc::read_uhf_antenna(std::string &antenna_status);
+    estts::Status ti_esttc::write_uhf_antenna(const string& antenna_command)
     // 10.18 - LOW POWER MODE
     estts::Status write_low_pwr_mode();
     estts::Status read_low_pwr_mode(std::string &mode);
+    // 10.19 - DESTINATION CALL SIGN
+    estts::Status ti_esttc::read_dest_call_sign(std::string &call_sign);
+    estts::Status ti_esttc::write_uhf_antenna(const string& call_sign);
     // 10.20 - SOURCE CALL SIGN
     estts::Status write_src_call_sign(const std::string &call_sign = "XX0UHF");
     estts::Status read_src_call_sign(std::string &call_sign);
+    // 10.23 - READ SOFTWARE VERSION
+    estts::Status ti_esttc::read_dest_call_sign(std::string &version);
     // 10.24 - READ DEVICE PAYLOAD SIZE
     estts::Status read_dvc_payload_size(std::string &payload_size);
+    // 10.25 - BEACON MESSAGE CONTENT CONFIG ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    estts::Status ti_esttc::read_beacon_content(std::string &content);
+    estts::Status ti_esttc::write_beacon_content(const string content);
     // 10.26 - DEVICE ADDRESS CONFIGURATION
     estts::Status write_dvc_addr_config(const std::string &new_addr = "22");
+    // 10.27 - FRAM MEMORY READ/WRITE
+    estts::Status ti_esttc::read_fram(std::string &data, string &mem_add);
+    estts::Status ti_esttc::write_fram(const string &mem_add, string &data);
     // 10.28 - RADIO TRANSCEIVER PROPERTY CONFIGURATION
     estts::Status write_radio_trans_prop_config(const std::string &prop_group, const std::string &bytes,
                                                                                                     const std::string &offset, const std::string &data);
-    estts::Status read_radio_trans_prop_config(const std::string &prop_group, const std::string &bytes,
-                                                                                                    const std::string &offset, std::string &data);
+    estts::Status read_radio_trans_prop_config(const std::string &prop_group, const std::string &bytes
+    // 10.29 - FRAM MEMORY READ/WRITE
+    estts::Status ti_esttc::read_secure_mode(std::string &key);
+    estts::Status ti_esttc::write_secure_mode(const string &key);
     // 10.30 - FIRMWARE UPDATE
     estts::Status update_firmware(const std::string &all_lines);
     estts::Status update_firmware_sequence(const std::string &one_line);

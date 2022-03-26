@@ -12,6 +12,30 @@ using std::stringstream;
 using std::string;
 
 /**
+ * @brief converts hex string to integer
+ * @param s hexstring to be converted
+ * @return int from string
+ */
+static int ti_esttc::hexToInt(string &s) {
+    int result;
+    stringstream ss;
+    ss << std::hex << s;
+    ss >> result;
+    return result;
+}
+
+/**
+ * @brief converts int string to hex string
+ * @param int int to be converted
+ * @return hex string of int
+ */
+static string ti_esttc::intToHex(int n) {
+    stringstream ss;
+    ss << std::hex << n;
+    string result = sstream.str();
+    return result;
+}
+/**
  * @brief ti_esttc default constructor that initializes ti_serial_handler
  * @param port Serial port (EX "/dev/tty.usbmodem")
  * @param baud Serial baud rate (EX 115200)
@@ -98,7 +122,53 @@ estts::Status ti_esttc::read_scw(string &RSSI, string &dvc_addr, string &rst_ctr
 }
 
 // 10.2 - RADIO FREQUENCY CONFIGURATION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/**
+ * @brief Writes (configures) the radio frequency of the Endurosat UHF Transceiver module.
+ * @param frac Fractional part of the radio PLL synthesizer in HEX format (default = "")
+ * @param div Integer divider of the radio PLL synthesizer in HEX format (default = "")
+ * @return estts::Status indication success/failure of ESTTC command transmission
+ */
+estts::Status ti_esttc:: ti_esttc::write_radio_freq_config(const string& frac, const string& div) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+    string command_body;
 
+    command_body += frac;
+    command_body += div;
+
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_WRITE,
+            esttc_symbols->CMD_RADIO_FREQ_CONFIG,
+            response,
+            command_body);
+
+    return return_status;
+}
+
+/**
+ * @brief Get the radio frequency and the last RSSI (Received signal strength indication) of the UHF Transceiver module
+ * @param RSSI  Received Signal Strength Indicator
+ * @param frac Fractional part of the radio PLL synthesizer in HEX format
+ * @param div Integer divider of the radio PLL synthesizer in HEX format
+ * @return estts::Status indication success/failure of ESTTC command transmission
+ */
+estts::Status ti_esttc::read_radio_freq(string &RSSI, string &frac, string &div) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_READ,
+            esttc_symbols->CMD_RADIO_FREQ_CONFIG,
+            response);
+
+    if (return_status == estts::ES_SUCCESS) {
+        RSSI = response.substr(3, 2);
+        frac = response.substr(5, 6);
+        div = response.substr(11, 2);
+    }
+
+    return return_status;
+}
 /**
  * @brief Writes (configures) the radio frequency of the Endurosat UHF Transceiver module.
  * @param frac Fractional part of the radio PLL synthesizer in HEX format LEAST SIGNIFICANT BYTE FIRST
@@ -197,6 +267,29 @@ estts::Status ti_esttc::read_trans_pckts(string &RSSI, string &pckt_num) {
     return return_status;
 }
 
+// 10.5 - READ NUMBER OF RX'D PACKETS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+/**
+ * @brief Get the number of RXd Packets and the last RSSI (Received signal strength indication) of the UHF Transceiver module
+ * @param RSSI  Received Signal Strength Indicator
+ * @param num_rxd 8 chars representing the number of packets RXd in HEX format
+ * @return estts::Status indication success/failure of ESTTC command transmission
+ */
+estts::Status ti_esttc::read_num_rx_packets(std::string &RSSI, std::string &num_rxd) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_READ,
+            esttc_symbols->CMD_READ_RECEIV_PCKTS,
+            response);
+    if (return_status == estts::ES_SUCCESS) {
+        RSSI = response.substr(3, 2);
+        num_rxd = response.substr(5, 8);
+    }
+
+    return return_status;
+}
+
 // 10.6 - READ NUMBER OF TRANSMITTED PACKETS WITH A CRC ERROR ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 /**
@@ -218,6 +311,57 @@ estts::Status ti_esttc::read_trans_pckts_crc(string &RSSI, string &pckt_num) {
         RSSI = response.substr(3, 2);
         pckt_num = response.substr(5, 8);
     }
+
+    return return_status;
+}
+
+// 10.7 - TRANSPARENT PIPE MODE TMOUT CFG ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+/**
+ * @brief Get the timeout for pipe mode and the last RSSI (Received signal strength indication) of the UHF Transceiver module
+ * @param RSSI  Received Signal Strength Indicator
+ * @param time_period 2 chars representing the pipe mode timeout in seconds in HEX format
+ * @return estts::Status indication success/failure of ESTTC command transmission
+ */
+estts::Status ti_esttc::read_pipe_mode_timeout(std::string &RSSI, std::string &time_period) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_READ,
+            esttc_symbols->CMD_PIPE_MODE_TMOUT_CONFIG,
+            response);
+
+    if (return_status == estts::ES_SUCCESS) {
+        RSSI = response.substr(3, 2);
+        time_period = response.substr(11, 2);
+    }
+
+    return return_status;
+}
+
+/**
+ * @brief Writes (configures) timeout for pipe mode of the Endurosat UHF Transceiver module.
+ * @param time_period 2 chars representing the pipe mode timeout in seconds in HEX format
+ * @return estts::Status indication success/failure of ESTTC command transmission
+ */
+estts::Status ti_esttc::write_pipe_mode_timeout(const string& time_period) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+    string command_body;
+    if time_period.size() != 2 {
+        // time period should be two chars
+        return estts::ES_UNSUCCESSFUL;
+    }
+
+    command_body << "000000" << time_period;
+
+
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_WRITE,
+            esttc_symbols->CMD_PIPE_MODE_TMOUT_CONFIG,
+            response,
+            command_body);
 
     return return_status;
 }
@@ -269,6 +413,65 @@ estts::Status ti_esttc::read_bcn_trans_period(string &RSSI, string &period) {
     return return_status;
 }
 
+// 10.9 - AUDIO BEACON PERIOD BETWEEN TRANS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/**
+* @brief Get the audio beacon period between the transmission and the last RSSI (Received signal strength indication) of the UHF Transceiver module
+* @param RSSI  Received Signal Strength Indicator
+* @param time_period 4 chars representing the time period in seconds in HEX format
+*    a value of 0 means the audio beacon is off, otherwise time_period should be >30
+* @return estts::Status indication success/failure of ESTTC command transmission
+*/
+estts::Status ti_esttc::read_beacon_time_period(std::string &RSSI, std::string &time_period) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_READ,
+            esttc_symbols->CMD_AUDIO_BCN_P_TRANS,
+            response);
+
+    if (return_status == estts::ES_SUCCESS) {
+        RSSI = response.substr(3, 2);
+        time_period = response.substr(9, 4);
+    }
+
+    return return_status;
+}
+
+/**
+ * @brief Writes (configures) the audio beacon period between the transmission of the Endurosat UHF Transceiver module.
+ * @param time_period 4 chars representing the time period in seconds in HEX format
+ *    a value of 0 means the audio beacon is off, otherwise time_period should be >30
+ * @return estts::Status indication success/failure of ESTTC command transmission
+ */
+estts::Status ti_esttc::write_beacon_time_period(const string& time_period) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+    string command_body;
+    int time_period_int;
+    if (time_period.size() != 4) {
+        // time period should be 4 chars
+        return estts::ES_UNSUCCESSFUL;
+    }
+
+    time_period_int = ti_esttc::hexToInt(time_period);
+
+    if (time_period_int <= 30 and time_period_int != 0) {
+        // invalid time_period
+        return estts::ES_UNSUCCESSFUL;
+    }
+
+    command_body << "0000" << time_period;
+
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_WRITE,
+            esttc_symbols->CMD_AUDIO_BCN_P_TRANS,
+            response,
+            command_body);
+
+    return return_status;
+}
+
 // 10.10 - RESTORE DEFAULT VALUES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 /**
@@ -293,6 +496,31 @@ estts::Status ti_esttc::write_res_default_vals() {
                 command_body);
 
         return return_status;
+}
+
+// 10.11 - READ INTERNAL TEMP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+/**
+* @brief Get the internal temp of the UHF Transceiver module
+* @param internal_temp 4 chars representing the temp in Signed DEC format
+*    first char is + if pos, - if neg, [space] if 0, next three chars are temp in DEC with the last being after
+*    the decimal. EX: "+725" -> 72.5  " 000" -> 0
+* @return estts::Status indication success/failure of ESTTC command transmission
+*/
+estts::Status ti_esttc::read_beacon_time_period(std::string &internal_temp) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_READ,
+            esttc_symbols->CMD_TEMP_VAL,
+            response);
+
+    if (return_status == estts::ES_SUCCESS) {
+        internal_temp = response.substr(3, 4);
+    }
+
+    return return_status;
 }
 
 // 10.31 - I2C PULL-UP RESISTORS CONFIGURATION READ/WRITE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -383,6 +611,25 @@ estts::Status ti_esttc::read_radio_crc16(string &mode) {
     return return_status;
 }
 
+// 10.13 - FORCE BEACON COMMAND ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+/**
+ * @brief Send the configured AX.25 beacon immediately Endurosat UHF Transceiver module.
+ * @return estts::Status indication success/failure of ESTTC command transmission
+ */
+estts::Status ti_esttc::force_beacon() {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string command_body;
+    command_body << "";
+
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_WRITE,
+            esttc_symbols->CMD_AUDIO_BCN_P_TRANS,
+            response,
+            command_body);
+
+    return return_status;
+}
 // 10.14 - ENABLING/DISABLING AUTOMATIC AX.25 DECODING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 /**
@@ -423,6 +670,73 @@ estts::Status ti_esttc::read_config_ax25_decode(string &config_bit) {
 
     if (return_status == estts::ES_SUCCESS) {
         config_bit = response.substr(4, 1);
+    }
+
+    return return_status;
+}
+
+// 10.15 - AUDIO BEACON PERIOD BETWEEN TRANS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/**
+* @brief Read or write to a I2C device from the UHF Transceiver module
+* @param send_mode "S" - send the data and then attach a blank space and the CRC32 Checksum
+*    (implementation described in ESTTC protocol packet desc/info)
+*    "C" - sends the data and attaches <CR> as a termination symbol at the end
+*    "D" - sends data as is with nothing additional
+* @param slave_address 2 char - I2C Slave device address in Hex
+* @param bytes_to_read num bytes to read in hex, min 0, max 32
+* @param bytes_to_write num bytes to write in hex, min 0, max 32
+* @param data 2 hex symbols per byte of data to write
+
+* @return estts::Status indication success/failure of ESTTC command transmission
+*/
+estts::Status ti_esttc::read_write_generic_I2C(std::string& send_mode, std::string &slave_address
+                                               std::string& bytes_to_read, std::string& bytes_to_write,
+                                               std::string& data) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+    string command_body = "";
+
+    // send_mode must be one of "S", "C", "D"
+    if (send_mode != "S" && send_mode != "C" && send_mode != "D") return return_status;
+
+    // slave address must be 2
+    if (slave_address.size() != 2) return return_status;
+
+    int bytes_to_read_int = ti_esttc::hexToInt(bytes_to_read);
+    int bytes_to_write_int = ti_esttc::hexToInt(bytes_to_write);
+    // 0 <= bytes_to_write <= 32
+    if (bytes_to_write_int < 0 || bytes_to_write_int > 32) return return_status;
+    // 0 <= bytes_to_read <= 32
+    if (bytes_to_read_int < 0 || bytes_to_read_int > 32) return return_status;
+
+    //data should be two ascii symbols per byte
+    if (data.size() != (size_to_write_int * 2)) return return_status;
+
+    command_body = send_mode + slave_address + bytes_to_write + data + bytes_to_read;
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_WRITE,
+            esttc_symbols->CMD_READ_WRITE_I2C,
+            response,
+            command_body
+    );
+
+    if (return_status == estts::ES_SUCCESS) {
+        if (response.length() >= 7 && response.substr(0, 7) == "OK+SENT"){
+            ; // successful write on the i2c bus, no read requested
+        }
+        else {
+            data = response.substr(3,2*bytes_to_read_int)
+        }
+    }
+    if (return_status == estts::ES_UNSUCCESSFUL) {
+        if (response.length() >= 14 && response.substr(0, 14) == "ERR+I2C_UNINIT")
+            return estts::ES_UNSUCCESSFUL;
+        if (response.length() >= 12 && response.substr(0, 12) == "ERR+WRT_LEN")
+            return estts::ES_BAD_OPTION;
+        if (response.length() >= 13 && response.substr(0, 13) == "ERR+READ_LEN")
+            return estts::ES_BAD_OPTION;
+        if (response.length() >= 14 && response.substr(0, 14) == "ERR+NA")
+            return estts::ES_BAD_OPTION;
     }
 
     return return_status;
@@ -472,6 +786,57 @@ estts::Status ti_esttc::read_ant_release_config(string &ant_config) {
     return return_status;
 }
 
+// 10.17 - UHF ANTENNA READ/WRITE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+/**
+ * @brief Get the timeout for pipe mode and the last RSSI (Received signal strength indication) of the UHF Transceiver module
+ * @param antenna_status  current antenna_status, this is where data from
+ * @return estts::Status indication success/failure of ESTTC command transmission
+ */
+estts::Status ti_esttc::read_uhf_antenna(std::string &antenna_status) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_READ,
+            esttc_symbols->CMD_ANT_READ_WRITE,
+            response);
+
+    if (return_status == estts::ES_SUCCESS) {
+        antenna_status = response.substr(3, 8);
+    }
+
+    if (response.length() >= 14 && response.substr(0, 14) == "ERR+NA")
+        return estts::ES_BAD_OPTION;
+    if (response.length() >= 14 && response.substr(0, 14) == "ERR+I2C_UNINIT")
+        return estts::ES_UNSUCCESSFUL;
+    return return_status;
+}
+/**
+ * @brief Writes (configures) timeout for pipe mode of the Endurosat UHF Transceiver module.
+ * @param antenna_command 2 chars representing the antenna deployment algorithm command
+ * @return estts::Status indication success/failure of ESTTC command transmission
+ */
+estts::Status ti_esttc::write_uhf_antenna(const string& antenna_command) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+    string command_body = "";
+    if antenna_command.size() != 2 {
+        // time period should be two chars
+        return estts::ES_UNSUCCESSFUL;
+    }
+
+    command_body << antenna_command;
+
+
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_WRITE,
+            esttc_symbols->CMD_ANT_READ_WRITE,
+            response,
+            command_body);
+
+    return return_status;
+}
 // 10.18 - LOW POWER MODE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 /**
@@ -511,6 +876,56 @@ estts::Status ti_esttc::read_low_pwr_mode(string &power_mode) {
     if (return_status == estts::ES_SUCCESS) {
         power_mode = response.substr(3, 2);
     }
+
+    return return_status;
+}
+
+// 10.19 - DESTINATION CALL SIGN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+/**
+ * @brief reads the call sign of the Endurosat UHF Transceiver module
+ * @param call_sign six ascii chars representing the call sign
+ * @return estts::Status indication success/failure of ESTTC command transmission
+ */
+estts::Status ti_esttc::read_dest_call_sign(std::string &call_sign) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_READ,
+            esttc_symbols->CMD_DEST_CALL_SIGN,
+            response);
+
+    if (return_status == estts::ES_SUCCESS) {
+        call_sign = response.substr(3, 6);
+    }
+
+    return return_status;
+}
+
+
+/**
+ * @brief Writes (configures) the call sign of the Endurosat UHF Transceiver module.
+ * @param call_sign six ascii chars representing the call sign
+ * @return estts::Status indication success/failure of ESTTC command transmission
+ */
+estts::Status ti_esttc::write_uhf_antenna(const string& call_sign) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+    string command_body = "";
+    if antenna_command.size() != 2 {
+        // time period should be two chars
+        return estts::ES_UNSUCCESSFUL;
+    }
+
+    command_body << call_sign;
+
+
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_WRITE,
+            esttc_symbols->CMD_DEST_CALL_SIGN,
+            response,
+            command_body);
 
     return return_status;
 }
@@ -559,6 +974,30 @@ estts::Status ti_esttc::read_src_call_sign(string &call_sign) {
     return return_status;
 }
 
+// 10.23 - READ SOFTWARE VERSION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+/**
+ * @brief reads the call sign of the Endurosat UHF Transceiver module
+ * @param version six ascii chars representing the call sign
+ * @return estts::Status indication success/failure of ESTTC command transmission
+ */
+estts::Status ti_esttc::read_dest_call_sign(std::string &version) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+
+
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_READ,
+            esttc_symbols->CMD_READ_SFTWR_VER,
+            response);
+
+    if (return_status == estts::ES_SUCCESS) {
+        version = response.substr(3,3)
+    }
+
+    return return_status;
+}
+
 // 10.24 - READ DEVICE PAYLOAD SIZE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 /**
@@ -582,6 +1021,62 @@ estts::Status ti_esttc::read_dvc_payload_size(string &payload_size) {
     return return_status;
 }
 
+// 10.25 - BEACON MESSAGE CONTENT CONFIG ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+/**
+ * @brief reads the call sign of the Endurosat UHF Transceiver module
+ * @param content beacon message content
+ * @return estts::Status indication success/failure of ESTTC command transmission
+ */
+estts::Status ti_esttc::read_beacon_content(std::string &content) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+
+
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_READ,
+            esttc_symbols->CMD_BCN_MSG_CONFIG,
+            response);
+
+    if (return_status == estts::ES_SUCCESS) {
+        string ax25_len = response.substr(3,2);
+        int ax25_len_int = hexToInt(ax25_len);
+        content = response.substr(5, ax25_len_int)
+    }
+
+    return return_status;
+}
+
+/**
+ * @brief Writes (configures) the call sign of the Endurosat UHF Transceiver module.
+ * @param content beacon message content
+ * @return estts::Status indication success/failure of ESTTC command transmission
+ */
+estts::Status ti_esttc::write_beacon_content(const string content) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+    string command_body = "";
+    int content_len_int = content.size();
+    if (content_len_int >= 78)
+        return estts::ES_BAD_OPTION;
+    string content_len = intToHex(content_len_int);
+    if (content_len.size() > 2)
+        return estts::ES_BAD_OPTION;
+
+
+
+    command_body << content_len << content;
+
+
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_WRITE,
+            esttc_symbols->CMD_BCN_MSG_CONFIG,
+            response,
+            command_body);
+
+    return return_status;
+}
+
 // 10.26 - DEVICE ADDRESS CONFIGURATION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 /**
@@ -599,6 +1094,66 @@ estts::Status ti_esttc::write_dvc_addr_config(const string &new_addr) {
     return_status = build_esttc_command(
             esttc_symbols->METHOD_WRITE,
             esttc_symbols->CMD_DVC_ADDR_CONFIG,
+            response,
+            command_body);
+
+    return return_status;
+}
+
+
+// 10.27 - FRAM MEMORY READ/WRITE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+/**
+ * @brief reads the call sign of the Endurosat UHF Transceiver module
+ * @param data 16 bytes (HEX) of data to be written
+ * @param mem_add 32-bit address in hex
+ * @return estts::Status indication success/failure of ESTTC command transmission
+ */
+estts::Status ti_esttc::read_fram(std::string &data, string &mem_add) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+    if (mem_add.size() != 8)
+        return estts::ES_BAD_OPTION;
+
+    //TODO add support for command_body for this command code
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_READ,
+            esttc_symbols->CMD_FRAM_MEM_READ_WRITE,
+            response,
+            mem_add);
+
+    if (return_status == estts::ES_SUCCESS) {
+        data = response.substr(3, 16)
+    }
+
+    return return_status;
+}
+
+
+/**
+ * @brief Writes (configures) the call sign of the Endurosat UHF Transceiver module.
+ * @param data 16 bytes (HEX) of data to be written
+ * @param mem_add 32-bit address in hex
+ * @return estts::Status indication success/failure of ESTTC command transmission
+ */
+estts::Status ti_esttc::write_fram(const string &mem_add, string &data) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+
+    string command_body = "";
+    command_body << mem_add << data;
+
+    int content_len_int = content.size();
+    if (mem_add.size() != 8)
+        return estts::ES_BAD_OPTION;
+    if (data.size() != 16)
+        return estts::ES_BAD_OPTION;
+
+
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_WRITE,
+            esttc_symbols->CMD_FRAM_MEM_READ_WRITE,
             response,
             command_body);
 
@@ -682,6 +1237,55 @@ estts::Status ti_esttc::read_radio_trans_prop_config(const string &prop_group, c
             return_status == estts::ES_BAD_OPTION;
         }
     }
+
+    return return_status;
+}
+
+// 10.29 - FRAM MEMORY READ/WRITE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+/**
+ * @brief reads the call sign of the Endurosat UHF Transceiver module
+ * @param key 4 bytes 8 hex ascii chars representing key
+ * @return estts::Status indication success/failure of ESTTC command transmission
+ */
+estts::Status ti_esttc::read_secure_mode(std::string &key) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_READ,
+            esttc_symbols->CMD_SECURE_MODE,
+            response);
+
+    if (return_status == estts::ES_SUCCESS) {
+        key = response.substr(3, 8);
+    }
+
+    return return_status;
+}
+
+
+/**
+ * @brief reads the call sign of the Endurosat UHF Transceiver module
+ * @param key 4 bytes 8 hex ascii chars representing key
+ * @return estts::Status indication success/failure of ESTTC command transmission
+ */
+estts::Status ti_esttc::write_secure_mode(const string &key) {
+    estts::Status return_status = estts::ES_UNSUCCESSFUL;
+    string response;
+
+    string command_body = "";
+    if (key.size() != 8)
+        return estts::ES_BAD_OPTION;
+    command_body << key;
+
+
+    return_status = build_esttc_command(
+            esttc_symbols->METHOD_WRITE,
+            esttc_symbols->CMD_SECURE_MODE,
+            response,
+            command_body);
 
     return return_status;
 }
