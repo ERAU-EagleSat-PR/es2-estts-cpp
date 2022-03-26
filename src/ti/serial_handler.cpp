@@ -303,19 +303,6 @@ Status serial_handler::find_serial_port() {
             temp_sym << serial_dir << "/" << dir->d_name;
             SPDLOG_INFO("Found serial device mounted at {}", temp_sym.str());
             break;
-            /*
-            char sympath[256];
-            if (readlink(temp_sym.str().c_str(), sympath, 256) < 0) {
-                SPDLOG_ERROR("Failed to resolve symlink at path {} - {}", temp_sym.str(), strerror(errno));
-                return "";
-            }
-            temp_sym.clear();
-            temp_sym << serial_dir << "/" << sympath;
-            char conpath[256];
-            realpath(temp_sym.str().c_str(), conpath); // Find canonical path
-            SPDLOG_INFO("Found serial device mounted at {}", conpath);
-            return conpath;
-             */
         }
     }
     if (temp_sym.str().empty()) {

@@ -22,7 +22,7 @@ namespace estts {
     }
 
     namespace ti_serial {
-        const char TI_SERIAL_ADDRESS[] = "/dev/cu.usbmodem";
+        const char TI_SERIAL_ADDRESS[] = "/dev/cu.usbserial-A10JVB3P";
     }
 
     namespace ti_socket {
