@@ -11,9 +11,7 @@
 class cosmos_groundstation_handler {
 private:
     socket_handler * sock;
-
     std::thread cosmos_worker;
-
     groundstation_cmdtelem_manager * groundstation_manager;
 
     /**

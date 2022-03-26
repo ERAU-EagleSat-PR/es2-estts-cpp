@@ -42,7 +42,7 @@ private:
      * @param sock Pointer to socket handler used to handle the command response.
      * @return Function pointer with form std::function<estts::Status(std::string)>
      */
-    static std::function<estts::Status(std::string)> get_generic_command_callback_lambda(std::string command, socket_handler * sock);
+    static std::function<estts::Status(std::string)> get_generic_command_callback_lambda(const std::string& command, socket_handler * sock);
 
     /**
      * Function that returns a function pointer that takes argument for the local socket

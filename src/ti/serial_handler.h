@@ -15,9 +15,11 @@ class serial_handler {
 private:
     boost::asio::io_service io;
     boost::asio::serial_port serial;
-    const char * port;
+    std::string port;
     int baud, restarts;
     unsigned char * sync_buf;
+
+    estts::Status find_serial_port();
 protected:
     // Check here first, maybe what you're waiting for is already received..
     // Note - cleared every time read is called
@@ -26,8 +28,6 @@ protected:
     char async_buf[MAX_SERIAL_READ];
 
     serial_handler();
-
-    serial_handler(const char *port, int baud);
 
     estts::Status initialize_serial_port();
 

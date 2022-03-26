@@ -17,11 +17,9 @@ using namespace std::chrono; // nanoseconds, system_clock, seconds
 
 /**
  * @brief esttc default constructor that initializes serial_handler
- * @param port Serial port (EX "/dev/tty.usbmodem")
- * @param baud Serial baud rate (EX 115200)
  * @return None
  */
-esttc::esttc(const char *es_transmitter_port, int baud) : serial_handler(es_transmitter_port, baud) {
+esttc::esttc() {
     esttc_symbols = new estts::endurosat::esttc;
 }
 
