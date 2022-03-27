@@ -93,7 +93,8 @@ start:
             if (!ti->obc_session_active) {
                 // Request a new communication session from EagleSat II
                 if (ES_OK != this->ti->request_obc_session()) {
-                    SPDLOG_ERROR("Failed to request new session.");
+                    SPDLOG_ERROR("Failed to request new session. Retry command.");
+                    waiting.pop_front();
                     goto start; // todo This should probably have a more elegant solution..
                 }
             }
