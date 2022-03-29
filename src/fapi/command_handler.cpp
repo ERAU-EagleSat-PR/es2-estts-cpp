@@ -10,8 +10,6 @@
 #include <sstream>
 
 #include "command_handler.h"
-#include "ax25_ui_frame_constructor.h"
-#include "ax25_ui_frame_destructor.h"
 
 using namespace std::this_thread; // sleep_for, sleep_until
 using namespace std::chrono; // nanoseconds, system_clock, seconds
@@ -40,93 +38,17 @@ estts::Status command_handler::execute(estts::waiting_command *command) {
         SPDLOG_ERROR("Transmission interface not initialized. Was init_command_handler() called?");
         return estts::ES_UNINITIALIZED;
     }
-
+    /*
     if (command->command != nullptr && command->frame.empty())
         return execute_obj(command);
     else if (command->command == nullptr && !command->frame.empty())
-        return execute_str(command);
+
     else {
         SPDLOG_ERROR("Command object not initialized properly. Please see documentation.");
         return estts::ES_UNINITIALIZED;
     }
-}
-
-estts::Status command_handler::execute_obj(estts::waiting_command *command) {
-    try {
-        using namespace std::this_thread; // sleep_for, sleep_until
-        using namespace std::chrono; // nanoseconds, system_clock, seconds
-
-        SPDLOG_INFO("Sending command");
-        bool retry = true;
-        int retries = 0;
-        std::string frame;
-        // Try to build AX.25 frame from command object
-        while (retry) {
-            auto sapi_tx = new ax25_ui_frame_constructor(command->command);
-            frame = sapi_tx->construct_ax25();
-            if (frame.empty()) {
-                spdlog::error("Frame construction failed. Waiting {} seconds", estts::ESTTS_RETRY_WAIT_SEC);
-                sleep_until(system_clock::now() + seconds(estts::ESTTS_RETRY_WAIT_SEC));
-                retries++;
-                if (retries > estts::endurosat::MAX_RETRIES) return estts::ES_UNSUCCESSFUL;
-                SPDLOG_INFO("Retrying construction (retry {}/{})", retries, estts::ESTTS_MAX_RETRIES);
-            }
-            retry = false;
-            delete sapi_tx;
-        }
-        retries = 0;
-        // Try to transmit constructed AX.25 frame
-        while (ti->transmit(frame) != estts::ES_OK) {
-            spdlog::error("Failed to transmit frame. Waiting {} seconds", estts::ESTTS_RETRY_WAIT_SEC);
-            sleep_until(system_clock::now() + seconds(estts::ESTTS_RETRY_WAIT_SEC));
-            retries++;
-            if (retries > estts::endurosat::MAX_RETRIES) return estts::ES_UNSUCCESSFUL;
-            SPDLOG_INFO("Retrying transmit ({}/{})", retries, estts::ESTTS_MAX_RETRIES);
-        }
-        // If we got this far,
-        SPDLOG_DEBUG("Successfully transmitted command");
-
-        // De-allocate memory for command object
-        // delete command->command;
-    }
-    catch (const std::exception &e) {
-        // TODO catch exceptions & do something smart with them
-        spdlog::error("We failed somewhere");
-        return estts::ES_UNSUCCESSFUL;
-    }
-
-    SPDLOG_INFO("Waiting for a response from EagleSat II");
-    int seconds_elapsed;
-    std::stringstream resp;
-    for (seconds_elapsed = 0; seconds_elapsed < estts::ESTTS_AWAIT_RESPONSE_PERIOD_SEC; seconds_elapsed++) {
-        auto temp = ti->receive();
-        if (!temp.empty()) {
-            resp << temp;
-            break;
-        }
-        sleep_until(system_clock::now() + milliseconds (100));
-    }
-    if (resp.str().empty())
-        return estts::ES_UNSUCCESSFUL;
-    SPDLOG_DEBUG("Got response from EagleSat II");
-    SPDLOG_TRACE("Starting frame deconstruction on {}", resp.str());
-    auto destructor = new ax25_ui_frame_destructor(resp.str());
-    auto telem = destructor->destruct_ax25();
-
-    // The feature API command handler doesn't care if the response was successful. Update telem_obj attribute & exit
-    // todo there are likely error cases here that aren't accounted for. Find & fix them
-
-    if (command->obj_callback != nullptr)
-        if (estts::ES_OK != command->obj_callback(telem))
-            // todo probably retry
-            return estts::ES_UNSUCCESSFUL;
-
-    auto temp_completed = new completed;
-    temp_completed->serial_number = command->serial_number;
-    temp_completed->response_code = validate_response_code(telem[0]->response_code);
-    completed_cache.push_back(temp_completed);
-
-    return estts::ES_OK;
+     */
+    return execute_str(command);
 }
 
 estts::Status command_handler::execute_str(estts::waiting_command *command) {
@@ -169,106 +91,6 @@ estts::Status command_handler::execute_str(estts::waiting_command *command) {
     completed_cache.push_back(temp_completed);
 
     return estts::ES_OK;
-}
-
-estts::Status command_handler::execute(const std::deque<estts::waiting_command *> &waiting) {
-    if (ti == nullptr) {
-        SPDLOG_ERROR("Transmission interface not initialized. Was init_command_handler() called?");
-        return estts::ES_UNINITIALIZED;
-    }
-
-    try {
-        std::vector<estts::command_object *> to_run;
-        int total_frames = 0;
-
-        int command_iterator = 0;
-        for (auto command : waiting) {
-            command_iterator++;
-            SPDLOG_INFO("Sending command {}/{}", command_iterator, waiting.size());
-            int frame_iterator = 0;
-            frame_iterator++;
-            SPDLOG_INFO("Sending command {}", command_iterator);
-            bool retry = true;
-            int retries = 0;
-            std::string frame;
-            // Try to build AX.25 frame from command object
-            while (retry) {
-                auto sapi_tx = new ax25_ui_frame_constructor(command->command);
-                frame = sapi_tx->construct_ax25();
-                // Todo this probably doesn't need retries lol
-                if (frame.empty()) {
-                    spdlog::error("Frame construction failed. Waiting {} seconds", estts::ESTTS_RETRY_WAIT_SEC);
-                    sleep_until(system_clock::now() + seconds(estts::ESTTS_RETRY_WAIT_SEC));
-                    retries++;
-                    if (retries > estts::endurosat::MAX_RETRIES) return estts::ES_UNSUCCESSFUL;
-                    SPDLOG_INFO("Retrying construction (retry {}/{})", retries, estts::ESTTS_MAX_RETRIES);
-                }
-                retry = false;
-                delete sapi_tx;
-            }
-            retries = 0;
-            // Try to transmit constructed AX.25 frame
-            while (ti->transmit(frame) != estts::ES_OK) {
-                spdlog::error("Failed to transmit frame. Waiting {} seconds", estts::ESTTS_RETRY_WAIT_SEC);
-                sleep_until(system_clock::now() + seconds(estts::ESTTS_RETRY_WAIT_SEC));
-                retries++;
-                if (retries > estts::endurosat::MAX_RETRIES) return estts::ES_UNSUCCESSFUL;
-                SPDLOG_INFO("Retrying transmit ({}/{})", retries, estts::ESTTS_MAX_RETRIES);
-            }
-            // If we got this far,
-            SPDLOG_DEBUG("Successfully sent command {}", command_iterator);
-            // Now we need to move the command state from waiting to dispatched.
-            auto newly_dispatched = new estts::dispatched_command;
-            // todo make sure these things aren't empty before blindly assigning
-            newly_dispatched->obj_callback = command->obj_callback;
-            newly_dispatched->serial_number = command->serial_number;
-            newly_dispatched->command = command->command;
-            newly_dispatched->response_code = estts::ES_INPROGRESS;
-            // Update the dispatched queue with the newly dispatched command.
-            dispatched.push_back(newly_dispatched);
-
-            // At this point, we don't care about the waiting object anymore, it's no longer waiting.
-            delete command;
-        }
-        SPDLOG_DEBUG("Successfully sent {} frames from {} commands", total_frames, waiting.size());
-    }
-    catch (const std::exception &e) {
-        // TODO catch exceptions & do something smart with them
-        spdlog::error("We failed somewhere");
-        return estts::ES_UNSUCCESSFUL;
-    }
-
-    // Pass handler to await response
-    if (await_response() != estts::ES_OK)
-        return estts::ES_UNSUCCESSFUL;
-    return estts::ES_OK;
-}
-
-estts::Status command_handler::await_response() {
-    using namespace std::this_thread; // sleep_for, sleep_until
-    using namespace std::chrono; // nanoseconds, system_clock, seconds
-    int seconds_elapsed;
-    SPDLOG_INFO("Waiting for a response from EagleSat II");
-    std::stringstream resp;
-    for (seconds_elapsed = 0; seconds_elapsed < estts::ESTTS_AWAIT_RESPONSE_PERIOD_SEC; seconds_elapsed++) {
-        auto temp = ti->receive();
-        if (!temp.empty()) {
-            resp << temp;
-            break;
-        }
-        sleep_until(system_clock::now() + milliseconds (100));
-    }
-    if (resp.str().empty())
-        return estts::ES_UNSUCCESSFUL;
-    SPDLOG_DEBUG("Got response from EagleSat II");
-    SPDLOG_TRACE("Starting frame deconstruction on {}", resp.str());
-    auto destructor = new ax25_ui_frame_destructor(resp.str());
-    auto telem = destructor->destruct_ax25();
-
-    return map_telemetry_to_dispatched(telem);
-
-    // The feature API command handler doesn't care if the response was successful. Update telem_obj attribute & exit
-    // todo there are likely error cases here that aren't accounted for. Find & fix them
 }
 
 command_handler::~command_handler() = default;

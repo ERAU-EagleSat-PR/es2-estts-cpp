@@ -13,11 +13,7 @@ using namespace std::chrono; // nanoseconds, system_clock, seconds
 using namespace estts;
 
 transmission_interface::transmission_interface() : socket_handler(estts::ti_socket::TI_SOCKET_ADDRESS,
-                                                                                        estts::ti_socket::TI_SOCKET_PORT),
-                                                                      esttc(estts::ti_serial::TI_SERIAL_ADDRESS,
-                                                                               estts::endurosat::ES_BAUD),
-                                                                      serial_handler(estts::ti_serial::TI_SERIAL_ADDRESS,
-                                                                                        estts::endurosat::ES_BAUD) {
+                                                                                        estts::ti_socket::TI_SOCKET_PORT) {
     primary_telem_cb = nullptr;
     obc_session_active = false;
     mtx.unlock();
@@ -172,6 +168,8 @@ Status transmission_interface::end_obc_session(const std::string &end_frame) {
             return estts::ES_UNSUCCESSFUL;
         }
     } while ((resp = read_serial_s()).empty() || resp.find("+ESTTC") == std::string::npos);
+    // todo apparently this doesn't work very well
+    // ohhh its because readserials blocks, this needs to be rethought
 #endif
     sleep_until(system_clock::now() + seconds(1));
     SPDLOG_INFO("Successfully ended session");

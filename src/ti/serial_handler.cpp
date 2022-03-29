@@ -3,6 +3,11 @@
 // Created by Hayden Roszell on 3/17/22.
 //
 
+#include <unistd.h>
+#include <sstream>
+#include <dirent.h>
+#include <cstring>
+#include <vector>
 #include <termios.h>
 #include <boost/asio.hpp>
 #include <sys/ioctl.h>
@@ -11,32 +16,28 @@
 using namespace boost::asio;
 using namespace estts;
 
-serial_handler::serial_handler() : io(), serial(io) {
-    SPDLOG_DEBUG("Detecting open serial ports");
-    port = "";
-    sync_buf = new unsigned char[MAX_SERIAL_READ];
-}
-
 /**
 * @brief Base constructor that initializes port and baud, opens specified port
 * as serial port, and configures it using Termios.
-* @param port Serial port (EX "/dev/cu.usbmodem")
-* @param baud Serial baud rate (EX 115200)
 * @return None
 */
-serial_handler::serial_handler(const char *port, int baud) : io(), serial(io) {
-    SPDLOG_DEBUG("Opening serial port {} with {} baud", port, baud);
-    this->port = port;
-    this->baud = baud;
-    restarts = 0;
+serial_handler::serial_handler() : io(), serial(io) {
+#ifndef __ESTTS_OS_LINUX__
+    this->port = estts::ti_serial::TI_SERIAL_ADDRESS;
+#else
+    if (ES_OK != find_serial_port())
+        throw std::runtime_error("Couldn't find serial device to attach to.");
+#endif
+    this->baud = 115200;
 
     sync_buf = new unsigned char[MAX_SERIAL_READ];
+
+    SPDLOG_DEBUG("Opening serial port {} with {} baud", port, baud);
 
     if (ES_OK != initialize_serial_port()) {
         SPDLOG_ERROR("Failed to initialize serial port {}", port);
         throw std::runtime_error("Failed to initialize serial port.");
     }
-
 }
 
 /**
@@ -48,16 +49,6 @@ estts::Status serial_handler::initialize_serial_port() {
 
     if (serial.is_open())
         serial.close();
-
-#ifdef __ESTTS_OS_LINUX__
-    // todo this is really fucked up fix asap
-    if (restarts == 1)
-        restarts = 0;
-    std::stringstream temp;
-    temp << "/dev/ttyUSB" << restarts;
-    this->port = temp.str().c_str();
-    restarts++;
-#endif
 
     serial.open(port, error);
     if (error) {
@@ -78,8 +69,8 @@ estts::Status serial_handler::initialize_serial_port() {
     tty.c_lflag &= ~ECHOE;   // Disable erasure
     tty.c_lflag &= ~ECHONL;  // Disable new-line echo
     tty.c_lflag &= ~ISIG;    // Disable interpretation of INTR, QUIT and SUSP
-    tty.c_iflag &= ~(IXON | IXOFF | IXANY); // Disable software flow control
-    tty.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL); // Disable any special handling of received bytes
+    // tty.c_iflag &= ~(IXON | IXOFF | IXANY); // Disable software flow control
+    // tty.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL); // Disable any special handling of received bytes
 
     // Save tty settings, also check for error
     if (tcsetattr(serial.lowest_layer().native_handle(), TCSANOW, &tty) != 0) {
@@ -297,4 +288,28 @@ std::string serial_handler::read_serial_s(int bytes) {
     std::string string_read(reinterpret_cast<char const *>(read));
     delete read;
     return string_read;
+}
+
+Status serial_handler::find_serial_port() {
+    std::string serial_dir = "/dev/serial/by-id";
+    std::stringstream temp_sym;
+    DIR * d = opendir(serial_dir.c_str()); // open the path
+    if (d == nullptr) return estts::ES_UNSUCCESSFUL; // if was not able to open path, return
+    struct dirent * dir;
+    while ((dir = readdir(d)) != nullptr) {
+        if (dir->d_type == DT_LNK && strcmp(dir->d_name,".")!=0 && strcmp(dir->d_name,"..")!=0 ) {
+            // Basically if we get here whatever is inside by-id is a symlink pointing to the /dev
+            // location we want to connect to. We need to get the absolute path.
+            temp_sym << serial_dir << "/" << dir->d_name;
+            SPDLOG_INFO("Found serial device mounted at {}", temp_sym.str());
+            break;
+        }
+    }
+    if (temp_sym.str().empty()) {
+        SPDLOG_ERROR("Didn't find serial port to attach to. Ensure that device is plugged in and mounted.");
+        return ES_NOTFOUND;
+    }
+    this->port = temp_sym.str();
+    closedir(d);
+    return ES_OK;
 }

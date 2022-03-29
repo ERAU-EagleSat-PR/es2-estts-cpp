@@ -73,7 +73,7 @@ public:
     // Misc commands
     estts::Status enable_satellite_bcn();
 
-    esttc(const char *es_transmitter_port, int baud);
+    esttc();
 
     ~esttc();
 };
