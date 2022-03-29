@@ -260,3 +260,19 @@ std::string transmission_interface::nonblock_receive() {
     }
     return "";
 }
+
+estts::Status transmission_interface::gs_transmit(const std::string &value) {
+    if (value.empty())
+        return ES_MEMORY_ERROR;
+    mtx.lock();
+#ifndef __TI_DEV_MODE__
+    clear_serial_fifo();
+    if (this->write_serial_s(value) != ES_OK) {
+        SPDLOG_ERROR("Failed to transmit.");
+        mtx.unlock();
+        return ES_UNSUCCESSFUL;
+    }
+#endif
+    mtx.unlock();
+    return estts::ES_OK;
+}

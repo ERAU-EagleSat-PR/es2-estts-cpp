@@ -112,6 +112,16 @@ public:
      * @return bool
      */
     bool check_data_available();
+
+    /**
+     * Uses EnduroSat transceiver to transmit string Value.
+     * Note that this is designed to be used to transmit data to the groundstation transceiver, not to other peripherals. Other methods
+     * should be created if another communication medium is required.
+     * @param value String value to transmit.
+     * @return ES_OK if transmission was successful
+     */
+    estts::Status gs_transmit(const std::string &value);
+
 };
 
 
