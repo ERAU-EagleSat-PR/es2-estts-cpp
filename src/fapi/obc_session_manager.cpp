@@ -100,13 +100,6 @@ start:
 
             // After execute is called, the session is in progress. Set this state before, so that abstracted objects
             // stay up to date.
-#ifdef __ESTTS_COMMAND_STREAM_MODE__
-            this->execute(waiting); // Execute the queue of waiting commands.
-            waiting.clear();
-            if (ES_OK == this->ti->end_session(ax25::END_SESSION_FRAME)) {
-                session = false;
-            }
-#else
             SPDLOG_TRACE("Session status: {}", ti->obc_session_active);
             if (ES_OK != this->execute(waiting.front())) {
                 SPDLOG_WARN("Failed to execute command with serial number {}", waiting.front()->serial_number);
@@ -122,7 +115,6 @@ start:
                 SPDLOG_INFO("Waiting for more commands");
             }
 
-#endif
         } else {
 
             // Handle stream

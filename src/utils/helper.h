@@ -6,6 +6,7 @@
 #define ESTTS_HELPER_H
 
 #include <string>
+#include "constants.h"
 
 /**
  * Convert ASCII string to HEX string. Be careful when using this function..
@@ -23,5 +24,7 @@ std::string ascii_to_hex(const std::string& in);
 std::string hex_to_ascii(const std::string& hex);
 
 std::string generate_serial_number();
+
+estts::Status configure_logging();
 
 #endif //ESTTS_HELPER_H

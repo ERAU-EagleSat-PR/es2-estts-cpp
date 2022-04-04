@@ -2,6 +2,11 @@
 // Created by Hayden Roszell on 12/28/21.
 //
 
+#include "spdlog/sinks/daily_file_sink.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
+#include "spdlog/sinks/basic_file_sink.h"
+#include "spdlog/sinks/stdout_sinks.h"
+
 #include <sstream>
 #include <condition_variable>
 #include <random>
@@ -55,4 +60,10 @@ std::string generate_serial_number() {
     }
 
     return tmp_s;
+}
+
+estts::Status configure_logging() {
+
+
+    return estts::ES_OK;
 }

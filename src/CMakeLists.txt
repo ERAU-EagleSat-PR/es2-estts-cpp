@@ -114,14 +114,6 @@ if (TI_DEV_MODE)
     )
 endif()
 
-if (ESTTS_COMMAND_STREAM_MODE)
-    target_compile_definitions(
-            estts
-            PRIVATE
-            __ESTTS_COMMAND_STREAM_MODE__
-    )
-endif()
-
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     target_compile_definitions(
             estts
