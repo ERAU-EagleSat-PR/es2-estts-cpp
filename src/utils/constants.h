@@ -15,7 +15,7 @@ namespace estts {
     const int ESTTS_AWAIT_RESPONSE_PERIOD_SEC = 5;
 
     namespace cosmos {
-        const char COSMOS_SERVER_ADDR[] = "172.19.35.160"; // 172.30.95.164
+        const char COSMOS_SERVER_ADDR[] = "172.19.35.160"; // 172.30.95.164 172.19.35.160
         const int COSMOS_PRIMARY_CMD_TELEM_PORT = 65432;
         const int COSMOS_GROUNDSTATION_CMD_TELEM_PORT = 8046;
         const int COSMOS_SATELLITE_TXVR_CMD_TELEM_PORT = 55927;

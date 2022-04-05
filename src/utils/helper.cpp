@@ -2,11 +2,7 @@
 // Created by Hayden Roszell on 12/28/21.
 //
 
-#include "spdlog/sinks/daily_file_sink.h"
-#include "spdlog/sinks/stdout_color_sinks.h"
-#include "spdlog/sinks/basic_file_sink.h"
-#include "spdlog/sinks/stdout_sinks.h"
-
+#include <dirent.h>
 #include <sstream>
 #include <condition_variable>
 #include <random>
@@ -62,8 +58,38 @@ std::string generate_serial_number() {
     return tmp_s;
 }
 
-estts::Status configure_logging() {
-
-
-    return estts::ES_OK;
+std::string find_removable_storage() {
+    std::stringstream ssd_dir;
+#ifdef __ESTTS_OS_LINUX__
+    ssd_dir << "/media/";
+    auto path_found = false;
+    DIR * d = opendir(ssd_dir.str().c_str());
+    if (d == nullptr) return "";
+    struct dirent * dir;
+    while ((dir = readdir(d)) != nullptr) {
+        if (strcmp(dir->d_name, ".")!=0 && strcmp(dir->d_name, "..")!=0) {
+            std::stringstream temp_path;
+            temp_path << ssd_dir.str() << dir->d_name;
+            DIR * d1 = opendir(temp_path.str().c_str());
+            if (d1 != nullptr) {
+                struct dirent * dir1;
+                while ((dir1 = readdir(d1)) != nullptr) {
+                    if (dir->d_type == DT_DIR && strcmp(dir1->d_name, ".")!=0 && strcmp(dir1->d_name, "..")!=0) {
+                        ssd_dir << dir->d_name << "/" << dir1->d_name;
+                        SPDLOG_INFO("Constructed path to removable storage device - {}", ssd_dir.str());
+                        path_found = true;
+                    }
+                }
+            }
+            closedir(d1);
+        }
+    }
+    closedir(d);
+    if (path_found)
+        return ssd_dir.str();
+    else
+        return "";
+#else
+    return "";
+#endif
 }

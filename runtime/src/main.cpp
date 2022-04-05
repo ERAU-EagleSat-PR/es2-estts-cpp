@@ -13,7 +13,14 @@
 #include "helper.h"
 
 int main() {
-
+    std::stringstream log_path;
+    auto logname = "estts_log";
+    auto path_to_removable = find_removable_storage();
+    if (path_to_removable.empty())
+        log_path << "/tmp/estts/";
+    else
+        log_path << path_to_removable << "/" << "log/";
+    log_path << logname;
 
     // Create stdout sink logger
     std::vector<spdlog::sink_ptr> sinks;
@@ -22,7 +29,7 @@ int main() {
     stdout_sink->set_pattern("[%T] [thread %t] [%^%l%$] [%@] %v");
     sinks.push_back(stdout_sink);
 
-    auto file_sink = std::make_shared<spdlog::sinks::daily_file_sink_mt>("estts_log", 23, 59);
+    auto file_sink = std::make_shared<spdlog::sinks::daily_file_sink_mt>(log_path.str(), 23, 59);
     file_sink->set_level(spdlog::level::trace);
     file_sink->set_pattern("[%T] [thread %t] [%^%l%$] [%@] %v");
     sinks.push_back(file_sink);

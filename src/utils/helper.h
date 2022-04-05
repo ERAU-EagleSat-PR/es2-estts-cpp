@@ -25,6 +25,6 @@ std::string hex_to_ascii(const std::string& hex);
 
 std::string generate_serial_number();
 
-estts::Status configure_logging();
+std::string find_removable_storage();
 
 #endif //ESTTS_HELPER_H
