@@ -3,7 +3,7 @@
 // Created by Hayden Roszell on 3/17/22.
 //
 
-#include <unistd.h>
+#include <iostream>
 #include <sstream>
 #include <dirent.h>
 #include <cstring>
@@ -12,6 +12,7 @@
 #include <boost/asio.hpp>
 #include <sys/ioctl.h>
 #include "serial_handler.h"
+#include "helper.h"
 
 using namespace boost::asio;
 using namespace estts;
@@ -113,12 +114,7 @@ size_t serial_handler::write_serial_uc(unsigned char *data, int size) {
         if (error == boost::asio::error::eof)
             initialize_serial_port();
     }
-    std::stringstream temp;
-    for (int i = 0; i < size; i ++) {
-        if (data[i] != '\r')
-            temp << data[i];
-    }
-    SPDLOG_TRACE("Wrote '{}' (size={} bytes) to {}", temp.str(), written, port);
+    print_write_trace_msg(data, written, port);
 
     return written;
 }
@@ -147,13 +143,9 @@ unsigned char *serial_handler::read_serial_uc() {
         if (error == boost::asio::error::eof)
             initialize_serial_port();
     }
-    std::stringstream temp;
-    for (int i = 0; i < n; i ++) {
-        if (sync_buf[i] != '\r')
-            temp << sync_buf[i];
-    }
-    SPDLOG_TRACE("Read '{}' (size={} bytes) from {}", temp.str(), n, port);
-    // Add null terminator at the end of transmission for easier processing by parent class(s)
+
+    print_read_trace_msg(sync_buf, n, port);
+
     sync_buf[n] = '\0';
     cache << sync_buf;
     return sync_buf;
@@ -228,7 +220,7 @@ void serial_handler::read_serial_async(const std::function<estts::Status(char *,
 std::function<void(boost::system::error_code, size_t)> serial_handler::get_generic_async_read_lambda(const std::function<Status(char *, size_t)>& estts_callback) {
     return [estts_callback, this] (const boost::system::error_code& error, std::size_t bytes_transferred) {
         if (error) {
-            SPDLOG_ERROR("Async read failed - {}", error.message());
+            spdlog::error("Async read failed - {}", error.message().c_str());
         }
         std::stringstream temp;
         for (char i : async_buf) {
@@ -252,25 +244,21 @@ unsigned char *serial_handler::read_serial_uc(int bytes) {
         return nullptr;
     }
     SPDLOG_TRACE("Reading {} bytes from {}", bytes, port);
-    auto buf = new unsigned char[bytes];
-    size_t n = 0;
+
     boost::system::error_code error;
-    n = read(serial, buffer(buf, bytes), error);
+    auto n = read(serial, buffer(sync_buf, bytes), error);
     if (error) {
         SPDLOG_ERROR("Failed to read from serial port - {}", error.message());
         if (error == boost::asio::error::eof)
             initialize_serial_port();
     }
-    std::stringstream temp;
-    for (int i = 0; i < n; i ++) {
-        if (buf[i] != '\r')
-            temp << buf[i];
-    }
-    SPDLOG_TRACE("Read '{}' (size={} bytes) from {}", temp.str(), n, port);
     // Add null terminator at the end of transmission for easier processing by parent class(s)
-    buf[n] = '\0';
-    cache << buf;
-    return buf;
+    sync_buf[n] = '\0';
+
+    print_read_trace_msg(sync_buf, n, port);
+
+    cache << sync_buf;
+    return sync_buf;
 }
 
 std::string serial_handler::read_serial_s(int bytes) {
@@ -286,7 +274,7 @@ std::string serial_handler::read_serial_s(int bytes) {
     // Type cast unsigned char (auto) to a char *
     // Then call std::string constructor
     std::string string_read(reinterpret_cast<char const *>(read));
-    delete read;
+
     return string_read;
 }
 

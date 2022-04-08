@@ -34,11 +34,21 @@ groundstation_cmdtelem_manager::groundstation_cmdtelem_manager(transmission_inte
 }
 
 void groundstation_cmdtelem_manager::dispatch() {
+    std::string message;
     for (;;) {
         if (!waiting.empty()) {
             SPDLOG_TRACE("{} commands in queue", waiting.size());
-
-            // todo handle the command found at waiting.front()
+            if(this->ti->gs_transmit(waiting.front()->frame) != estts::ES_OK){
+                SPDLOG_TRACE("Failed to transmit.");
+                }
+            else {
+                auto telem = this->ti->receive();
+                if(waiting.front()->str_callback != nullptr){
+                    waiting.front()->str_callback(telem);
+                }
+                SPDLOG_TRACE("Transmission Successful");
+            }
+            waiting.pop_front();
         }
     }
 }

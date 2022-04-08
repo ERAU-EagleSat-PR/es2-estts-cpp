@@ -84,41 +84,11 @@ target_link_libraries(
         ${Boost_LIBRARIES}
 )
 
-if (BUILD_DEBUG)
-    target_compile_definitions(
-            estts
-            PRIVATE
-    )
-    target_compile_options(
-            estts
-            PRIVATE
-            -Wall
-    )
-else ()
-    target_compile_definitions(
-            estts
-            PRIVATE
-    )
-    target_compile_options(
-            estts
-            PRIVATE
-            -w
-    )
-endif ()
-
 if (TI_DEV_MODE)
     target_compile_definitions(
             estts
             PRIVATE
             __TI_DEV_MODE__
-    )
-endif()
-
-if (ESTTS_COMMAND_STREAM_MODE)
-    target_compile_definitions(
-            estts
-            PRIVATE
-            __ESTTS_COMMAND_STREAM_MODE__
     )
 endif()
 

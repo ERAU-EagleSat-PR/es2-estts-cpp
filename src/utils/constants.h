@@ -10,12 +10,16 @@
 
 #define MAX_SERIAL_READ 256
 namespace estts {
+    const char REMOVABLE_STORAGE_NAME[] = "Samsung_T5";
+
     const int ESTTS_MAX_RETRIES = 2;
     const int ESTTS_RETRY_WAIT_SEC = 1;
     const int ESTTS_AWAIT_RESPONSE_PERIOD_SEC = 5;
+    const int ESTTS_SATELLITE_CONNECTION_TIMEOUT_MIN = 90;
+    const int ESTTS_CHECK_SATELLITE_INRANGE_INTERVAL_SEC = 30;
 
     namespace cosmos {
-        const char COSMOS_SERVER_ADDR[] = "172.30.95.164"; // 172.30.95.164
+        const char COSMOS_SERVER_ADDR[] = "172.30.95.164"; // 172.30.95.164 172.19.35.160
         const int COSMOS_PRIMARY_CMD_TELEM_PORT = 65432;
         const int COSMOS_GROUNDSTATION_CMD_TELEM_PORT = 8046;
         const int COSMOS_SATELLITE_TXVR_CMD_TELEM_PORT = 55927;
@@ -192,7 +196,12 @@ namespace estts {
         const int WAIT_TIME_SEC = 2;
         const int ES_BAUD = 115200;
         const int MAX_ES_TXVR_TEMP = 50;
-        class esttc {
+        enum PIPE_State {
+            PIPE_OFF = 0,
+            PIPE_WAITING = 1,
+            PIPE_ON = 2
+        };
+        class esttc_const {
         public:
             const uint8_t NUM_OF_RETRIES = 5;
             const char *HEADER = "ES+";

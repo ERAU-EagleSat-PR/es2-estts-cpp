@@ -74,6 +74,7 @@ estts::Status command_handler::execute_str(estts::waiting_command *command) {
     }
 
     SPDLOG_INFO("Waiting for a response from EagleSat II");
+    sleep_until(system_clock::now() + milliseconds (100));
     auto telem = ti->receive();
     if (telem.empty())
         return estts::ES_UNSUCCESSFUL;

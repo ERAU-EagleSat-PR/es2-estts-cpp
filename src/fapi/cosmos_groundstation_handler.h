@@ -7,12 +7,15 @@
 #include "constants.h"
 #include "socket_handler.h"
 #include "groundstation_cmdtelem_manager.h"
+#include "transmission_interface.h"
 
 class cosmos_groundstation_handler {
 private:
     socket_handler * sock;
     std::thread cosmos_worker;
     groundstation_cmdtelem_manager * groundstation_manager;
+
+    transmission_interface * ti;
 
     /**
      * Thread worker function that handles the interaction between COSMOS and the groundstation. This function doesn't return
@@ -48,7 +51,7 @@ public:
      * the COSMOS worker thread
      * @return ES_OK if successful, anything else if not
      */
-    estts::Status cosmos_groundstation_init();
+    estts::Status cosmos_groundstation_init(transmission_interface *ti);
 };
 
 

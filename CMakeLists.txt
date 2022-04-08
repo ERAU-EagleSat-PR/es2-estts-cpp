@@ -19,16 +19,6 @@ option(
         "Set to ON to initialize the transmission interface with no real serial interface"
         false
 )
-option(
-        ESTTS_COMMAND_STREAM_MODE
-        "Set to ON to initialize ESTTS in command stream mode - commands sent as batch as opposed to individually"
-        false
-)
-option(
-        ESTTS_BOOST_SERIAL
-        "Set to ON to configure the transmission interface to use the BOOST serial library"
-        false
-)
 
 
 message(STATUS "#### Build Configuration ####")

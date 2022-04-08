@@ -37,14 +37,7 @@ private:
      * the dispatcher receives telemetry. When commands are available, a session is created with the satellite with the
      * transmission interface.
      */
-    [[noreturn]] void dispatch();
-
-    /**
-     * Function that handles the telemetry stream sent by EagleSat II. When telemetry is received, the telemetry callback
-     * is called with the telemetry as argument
-     * @return ES_OK
-     */
-    estts::Status handle_stream();
+    void dispatch();
 
 public:
     /**
