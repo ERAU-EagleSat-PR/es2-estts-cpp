@@ -49,9 +49,7 @@ std::string obc_session_manager::schedule_command(std::string command,
 obc_session_manager::obc_session_manager(transmission_interface * ti) {
     this->ti = ti;
     this->init_command_handler(ti);
-    // Create a new thread, pass in schedule() function and current object
-    session_worker = std::thread(&obc_session_manager::dispatch, this);
-    SPDLOG_TRACE("Created dispatch worker thread with ID {}", std::hash<std::thread::id>{}(session_worker.get_id()));
+    ti->register_dispatch_function( [this] () {this->dispatch();} );
 }
 
 obc_session_manager::obc_session_manager(transmission_interface * ti, std::function<estts::Status(std::string)> telem_callback) {
@@ -61,8 +59,7 @@ obc_session_manager::obc_session_manager(transmission_interface * ti, std::funct
     this->init_command_handler(this->ti);
     ti->set_telem_callback(this->telem_callback);
     // Create a new thread, pass in dispatch() function and current object
-    session_worker = std::thread(&obc_session_manager::dispatch, this);
-    SPDLOG_TRACE("Created dispatch worker thread with ID {}", std::hash<std::thread::id>{}(session_worker.get_id()));
+    ti->register_dispatch_function( [this] () {this->dispatch();} );
 }
 
 void obc_session_manager::await_completion() {
@@ -83,7 +80,7 @@ obc_session_manager::~obc_session_manager() {
             delete i;
 }
 
-[[noreturn]] void obc_session_manager::dispatch() {
+void obc_session_manager::dispatch() {
     using namespace std::this_thread; // sleep_for, sleep_until
     using namespace std::chrono; // nanoseconds, system_clock, seconds
     for (;;) {
@@ -118,16 +115,13 @@ start:
         } else {
 
             // Handle stream
-            handle_stream();
+            auto stream = ti->nonblock_receive();
+            if (!stream.empty() && this->telem_callback != nullptr)
+                telem_callback(stream);
+        }
+        if (!ti->satellite_in_range) {
+            SPDLOG_DEBUG("OBC Dispatch worker - Detected satellite is outside range, exiting.");
+            return;
         }
     }
-}
-
-Status obc_session_manager::handle_stream() {
-
-    auto stream = ti->nonblock_receive();
-    if (!stream.empty() & this->telem_callback != nullptr)
-        telem_callback(stream);
-
-    return ES_OK;
 }

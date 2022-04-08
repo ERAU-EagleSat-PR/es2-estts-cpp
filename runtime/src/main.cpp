@@ -13,6 +13,12 @@
 #include "helper.h"
 
 int main() {
+#ifdef __DEV__
+    auto stdoutsink = spdlog::level::trace;
+#else
+    auto stdoutsink = spdlog::level::warn;
+#endif
+
     std::stringstream log_path;
     auto logname = "estts_log";
     auto path_to_removable = find_removable_storage();
@@ -25,7 +31,7 @@ int main() {
     // Create stdout sink logger
     std::vector<spdlog::sink_ptr> sinks;
     auto stdout_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-    stdout_sink->set_level(spdlog::level::warn);
+    stdout_sink->set_level(stdoutsink);
     stdout_sink->set_pattern("[%T] [thread %t] [%^%l%$] [%@] %v");
     sinks.push_back(stdout_sink);
 
@@ -37,14 +43,7 @@ int main() {
     spdlog::register_logger(combined_logger);
     spdlog::set_default_logger(combined_logger);
 
-
     spdlog::set_level(spdlog::level::trace);
-
-    SPDLOG_TRACE("Bruh");
-    SPDLOG_DEBUG("Bruh");
-    SPDLOG_INFO("Bruh");
-    SPDLOG_WARN("Bruh");
-    SPDLOG_ERROR("Bruh");
 
     auto cosmos = new cosmos_handler();
     if (estts::ES_OK != cosmos->cosmos_init())

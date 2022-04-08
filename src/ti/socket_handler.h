@@ -17,6 +17,8 @@ private:
 
     const char *address;
 
+    std::string endpoint;
+
     struct sockaddr_in serv_addr;
 
     estts::Status open_socket();

@@ -10,7 +10,7 @@
 
 class esttc : virtual public serial_handler {
 private:
-    estts::endurosat::esttc *esttc_symbols;
+    estts::endurosat::esttc_const *esttc_symbols;
 
     estts::Status build_esttc_command(char method, const char *command_code,  std::string &response, const std::string& body = "");
 
@@ -20,7 +20,6 @@ public:
 
     // 10.1 - STATUS CONTROL WORD (SCW)
     estts::Status default_mode();
-    estts::Status enable_pipe();
     estts::Status write_scw(uint16_t scw_command);
     estts::Status read_scw(std::string &RSSI, std::string &dvc_addr, std::string &rst_ctr, std::string &scw);
     // 10.2 - RADIO FREQUENCY CONFIGURATION
@@ -69,9 +68,6 @@ public:
     estts::Status update_firmware_sequence(const std::string &one_line);
 
     static std::string calculate_crc32(std::string string);
-
-    // Misc commands
-    estts::Status enable_satellite_bcn();
 
     esttc();
 

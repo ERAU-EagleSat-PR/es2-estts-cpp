@@ -2,6 +2,7 @@
 // Created by Hayden Roszell on 12/28/21.
 //
 
+#include <algorithm>
 #include <dirent.h>
 #include <sstream>
 #include <condition_variable>
@@ -67,14 +68,15 @@ std::string find_removable_storage() {
     if (d == nullptr) return "";
     struct dirent * dir;
     while ((dir = readdir(d)) != nullptr) {
-        if (strcmp(dir->d_name, ".")!=0 && strcmp(dir->d_name, "..")!=0) {
+        ssd_dir.clear();
+        if (strcmp(dir->d_name, ".")!=0 && strcmp(dir->d_name, "..")!=0 && !path_found) {
             std::stringstream temp_path;
             temp_path << ssd_dir.str() << dir->d_name;
             DIR * d1 = opendir(temp_path.str().c_str());
             if (d1 != nullptr) {
                 struct dirent * dir1;
                 while ((dir1 = readdir(d1)) != nullptr) {
-                    if (dir->d_type == DT_DIR && strcmp(dir1->d_name, ".")!=0 && strcmp(dir1->d_name, "..")!=0) {
+                    if (dir->d_type == DT_DIR && strcmp(dir1->d_name, estts::REMOVABLE_STORAGE_NAME)==0) {
                         ssd_dir << dir->d_name << "/" << dir1->d_name;
                         SPDLOG_INFO("Constructed path to removable storage device - {}", ssd_dir.str());
                         path_found = true;
@@ -92,4 +94,16 @@ std::string find_removable_storage() {
 #else
     return "";
 #endif
+}
+
+void print_write_trace_msg(unsigned char *message_uc, size_t bytes, const std::string& endpoint) {
+    std::string message(reinterpret_cast<char*>(message_uc));
+    std::replace( message.begin(), message.end(), '\r', ' ');
+    SPDLOG_TRACE("Wrote '{}' (size={} bytes) to {}", message, bytes, endpoint);
+}
+
+void print_read_trace_msg(unsigned char *message_uc, size_t bytes, const std::string& endpoint) {
+    std::string message(reinterpret_cast<char*>(message_uc));
+    std::replace( message.begin(), message.end(), '\r', ' ');
+    SPDLOG_TRACE("Read '{}' (size={} bytes) from {}", message, bytes, endpoint);
 }

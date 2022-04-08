@@ -11,6 +11,7 @@
 #include "socket_handler.h"
 #include <arpa/inet.h>
 #include <unistd.h>
+#include "helper.h"
 
 
 /**
@@ -25,6 +26,9 @@ socket_handler::socket_handler(const char *address, int port) {
     serv_addr = {0};
     this->port = port;
     this->address = address;
+    std::stringstream temp;
+    temp << address << ":" << port;
+    this->endpoint = temp.str();
 
     sync_buf = new unsigned char[estts::ti_socket::TI_SOCKET_BUF_SZ];
 }
@@ -83,16 +87,9 @@ ssize_t socket_handler::write_socket_uc(unsigned char *data, int size) const {
     if (written < 1) {
         return -1;
     }
-    if (data[size] == '\r')
-        SPDLOG_TRACE("Wrote '{}' (size={}) to {}", data, written, port);
-    else {
-        std::stringstream temp;
-        for (int i = 0; i < size; i ++) {
-            if (data[i] != '\r')
-                temp << data[i];
-        }
-        SPDLOG_TRACE("Wrote '{}' (size={}) to {}", temp.str(), written, port);
-    }
+
+    print_write_trace_msg(data, written, endpoint);
+
     return written;
 }
 
@@ -118,12 +115,9 @@ unsigned char *socket_handler::read_socket_uc() const {
         // Can't receive a negative number of bytes ;)
         return nullptr;
     }
-    std::stringstream temp;
-    for (int i = 0; i < n; i ++) {
-        if (sync_buf[i] != '\r')
-            temp << sync_buf[i];
-    }
-    SPDLOG_TRACE("Read '{}' (size={}) from {}", temp.str(), n, port);
+
+    print_read_trace_msg(sync_buf, n, endpoint);
+
     // Add null terminator at the end of transmission for easier processing by parent class(s)
     sync_buf[n] = '\0';
     return sync_buf;

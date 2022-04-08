@@ -14,13 +14,15 @@ using std::stringstream;
 using std::string;
 using namespace std::this_thread; // sleep_for, sleep_until
 using namespace std::chrono; // nanoseconds, system_clock, seconds
+using namespace estts;
+using namespace estts::endurosat;
 
 /**
  * @brief esttc default constructor that initializes serial_handler
  * @return None
  */
 esttc::esttc() {
-    esttc_symbols = new estts::endurosat::esttc;
+    esttc_symbols = new estts::endurosat::esttc_const;
 }
 
 // 10.1 - STATUS CONTROL WORD ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -32,14 +34,6 @@ esttc::esttc() {
 estts::Status esttc::default_mode() {
     return write_scw(esttc_symbols->default_mode);
 }
-
-/**
- * @brief Enables transparent pipe mode on Endurosat UHF Transceiver module
- * @return estts::Status indication success/failure of ESTTC command transmission
- */
-estts::Status esttc::enable_pipe() {
-    return write_scw(esttc_symbols->enable_pipe);
-};
 
 /**
  *  @brief Sends a command with a Status Control Word (SCW) that changes the Endurosat UHF Transceiver's settings
@@ -869,23 +863,4 @@ std::string esttc::calculate_crc32(string string) {
 
 esttc::~esttc() {
     delete esttc_symbols;
-}
-
-estts::Status esttc::enable_satellite_bcn() {
-    int retries;
-    string resp;
-    SPDLOG_TRACE("Enabling beacon on satellite");
-    this->enable_pipe();
-    write_serial_s("ES+W22003343\r");
-    do {}
-    while (read_serial_s().empty());
-    do {
-        sleep_until(system_clock::now() + seconds(1));
-        retries--;
-        if (retries <= 0) {
-            SPDLOG_ERROR("Oof PIPE didn't exit properly..");
-            return estts::ES_UNSUCCESSFUL;
-        }
-    } while ((resp = read_serial_s()).empty() || resp.find("+ESTTC") == std::string::npos);
-    return estts::ES_OK;
 }
