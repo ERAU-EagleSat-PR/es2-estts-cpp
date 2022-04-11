@@ -1,0 +1,276 @@
+\hypertarget{serial__handler_8cpp_source}{}\doxysection{serial\+\_\+handler.\+cpp}
+\label{serial__handler_8cpp_source}\index{src/ti/serial\_handler.cpp@{src/ti/serial\_handler.cpp}}
+\mbox{\hyperlink{serial__handler_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00001}00001 \textcolor{comment}{/* Copyright © EagleSat II -\/ Embry Riddle Aeronautical University -\/ All rights reserved -\/ 2022 */}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00002}00002 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00003}00003 \textcolor{comment}{// Created by Hayden Roszell on 3/17/22.}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00005}00005 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00006}00006 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00007}00007 \textcolor{preprocessor}{\#include <sstream>}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00008}00008 \textcolor{preprocessor}{\#include <dirent.h>}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00009}00009 \textcolor{preprocessor}{\#include <cstring>}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00010}00010 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00011}00011 \textcolor{preprocessor}{\#include <termios.h>}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00012}00012 \textcolor{preprocessor}{\#include <boost/asio.hpp>}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00013}00013 \textcolor{preprocessor}{\#include <sys/ioctl.h>}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00014}00014 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{serial__handler_8h}{serial\_handler.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00015}00015 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{helper_8h}{helper.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00017}00017 \textcolor{keyword}{using namespace }boost::asio;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00018}00018 \textcolor{keyword}{using namespace }\mbox{\hyperlink{namespaceestts}{estts}};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00019}00019 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00025}\mbox{\hyperlink{classserial__handler_a68871959f62c474b929e1ac54a48d7e3}{00025}} \mbox{\hyperlink{classserial__handler_a68871959f62c474b929e1ac54a48d7e3}{serial\_handler::serial\_handler}}() : io(), serial(io) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00026}00026 \textcolor{preprocessor}{\#ifndef \_\_ESTTS\_OS\_LINUX\_\_}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00027}00027     this-\/>port = \mbox{\hyperlink{namespaceestts_1_1ti__serial_af88559cc3a610579dd720a0a2aad373a}{estts::ti\_serial::TI\_SERIAL\_ADDRESS}};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00028}00028 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00029}00029     \textcolor{keywordflow}{if} (\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{ES\_OK}} != find\_serial\_port())}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00030}00030         \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"{}Couldn't find serial device to attach to."{}});}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00031}00031 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00032}00032     this-\/>baud = 115200;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00034}00034     sync\_buf = \textcolor{keyword}{new} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}[\mbox{\hyperlink{constants_8h_a096e513d29e84ca228cf341ea28b59b2}{MAX\_SERIAL\_READ}}];}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00036}00036     SPDLOG\_DEBUG(\textcolor{stringliteral}{"{}Opening serial port \{\} with \{\} baud"{}}, port, baud);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00038}00038     \textcolor{keywordflow}{if} (\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{ES\_OK}} != \mbox{\hyperlink{classserial__handler_a92b5b23a89c1948f5b965af2a9e7b9d1}{initialize\_serial\_port}}()) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00039}00039         SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Failed to initialize serial port \{\}"{}}, port);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00040}00040         \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"{}Failed to initialize serial port."{}});}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00041}00041     \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00042}00042 \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00043}00043 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00048}\mbox{\hyperlink{classserial__handler_a92b5b23a89c1948f5b965af2a9e7b9d1}{00048}} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classserial__handler_a92b5b23a89c1948f5b965af2a9e7b9d1}{serial\_handler::initialize\_serial\_port}}() \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00049}00049     boost::system::error\_code error;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00051}00051     \textcolor{keywordflow}{if} (serial.is\_open())}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00052}00052         serial.close();}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00054}00054     serial.open(port, error);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00055}00055     \textcolor{keywordflow}{if} (error) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00056}00056         SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Failed to open serial port \{\} -\/ \{\}"{}}, port, error.message());}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00057}00057         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}{ES\_UNSUCCESSFUL}};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00058}00058     \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00059}00059 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00060}00060     \textcolor{keyword}{struct }termios tty\{\};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00061}00061     \textcolor{keywordflow}{if} (tcgetattr(serial.lowest\_layer().native\_handle(), \&tty) != 0) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00062}00062         SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Error \%i from tcgetattr: \%s\(\backslash\)n"{}}, errno, strerror(errno));}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00063}00063         SPDLOG\_INFO(\textcolor{stringliteral}{"{}Did you mean to use TI Dev Mode? See README.md"{}});}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00064}00064         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}{ES\_UNSUCCESSFUL}};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00065}00065     \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00066}00066 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00067}00067     \textcolor{comment}{// Initialize Terminos structure}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00068}00068     tty.c\_lflag \&= \string~ICANON;  \textcolor{comment}{// Disable UNIX Canonical mode (\(\backslash\)n != terminator)}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00069}00069     tty.c\_lflag \&= \string~ECHO;    \textcolor{comment}{// Disable echo}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00070}00070     tty.c\_lflag \&= \string~ECHOE;   \textcolor{comment}{// Disable erasure}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00071}00071     tty.c\_lflag \&= \string~ECHONL;  \textcolor{comment}{// Disable new-\/line echo}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00072}00072     tty.c\_lflag \&= \string~ISIG;    \textcolor{comment}{// Disable interpretation of INTR, QUIT and SUSP}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00073}00073     \textcolor{comment}{// tty.c\_iflag \&= \string~(IXON | IXOFF | IXANY); // Disable software flow control}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00074}00074     \textcolor{comment}{// tty.c\_iflag \&= \string~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL); // Disable any special handling of received bytes}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00075}00075 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00076}00076     \textcolor{comment}{// Save tty settings, also check for error}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00077}00077     \textcolor{keywordflow}{if} (tcsetattr(serial.lowest\_layer().native\_handle(), TCSANOW, \&tty) != 0) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00078}00078         SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Error \{\} from tcsetattr: \{\}"{}}, errno, strerror(errno));}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00079}00079         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}{ES\_UNSUCCESSFUL}};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00080}00080     \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00081}00081 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00082}00082     \textcolor{keywordflow}{try} \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00083}00083         serial.set\_option(boost::asio::serial\_port\_base::baud\_rate(baud));}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00084}00084         serial.set\_option(boost::asio::serial\_port\_base::character\_size(8));}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00085}00085         serial.set\_option(boost::asio::serial\_port\_base::flow\_control(boost::asio::serial\_port\_base::flow\_control::none));}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00086}00086         serial.set\_option(boost::asio::serial\_port\_base::parity(boost::asio::serial\_port\_base::parity::none));}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00087}00087         serial.set\_option(boost::asio::serial\_port\_base::stop\_bits(boost::asio::serial\_port\_base::stop\_bits::one));}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00088}00088     \} \textcolor{keywordflow}{catch} (boost::system::system\_error::exception \&e) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00089}00089         SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Failed to configure serial port with baud \{\} -\/ \{\}"{}}, baud, e.what());}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00090}00090         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}{ES\_UNSUCCESSFUL}};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00091}00091     \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00093}00093     \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00094}00094 \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00095}00095 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00103}\mbox{\hyperlink{classserial__handler_a6a4d6a714fc75d69e031bfd75d3c3907}{00103}} \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classserial__handler_a6a4d6a714fc75d69e031bfd75d3c3907}{serial\_handler::write\_serial\_uc}}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *data, \textcolor{keywordtype}{int} size) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00104}00104     \textcolor{keywordflow}{if} (!serial.is\_open()) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00105}00105         SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Serial port \{\} not open"{}}, port);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00106}00106         \textcolor{keywordflow}{return} -\/1;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00107}00107     \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00108}00108     \textcolor{keywordtype}{size\_t} written = 0;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00109}00109     boost::system::error\_code error;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00110}00110     \textcolor{comment}{// written = serial.write\_some(buffer(data,size), error);}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00111}00111     written = write(serial, buffer(data,size), error);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00112}00112     \textcolor{keywordflow}{if} (error) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00113}00113         SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Failed to write to serial port -\/ \{\}"{}}, error.message());}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00114}00114         \textcolor{keywordflow}{if} (error == boost::asio::error::eof)}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00115}00115             \mbox{\hyperlink{classserial__handler_a92b5b23a89c1948f5b965af2a9e7b9d1}{initialize\_serial\_port}}();}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00116}00116     \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00117}00117     \mbox{\hyperlink{helper_8cpp_ae6b0bef88432f1293395cedddb95acd9}{print\_write\_trace\_msg}}(data, written, port);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00118}00118 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00119}00119     \textcolor{keywordflow}{return} written;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00120}00120 \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00121}00121 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00130}\mbox{\hyperlink{classserial__handler_a333442045a5b1dd87c9c68d2bcec03d7}{00130}} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *\mbox{\hyperlink{classserial__handler_a333442045a5b1dd87c9c68d2bcec03d7}{serial\_handler::read\_serial\_uc}}() \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00131}00131     \textcolor{comment}{// Clear cache buf}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00132}00132     \mbox{\hyperlink{classserial__handler_aa7d13713149cd5742762e2bbb5b67d7e}{cache}}.clear();}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00133}00133 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00134}00134     \textcolor{keywordflow}{if} (!serial.is\_open()) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00135}00135         SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Serial port \{\} not open"{}}, port);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00136}00136         \textcolor{keywordflow}{return} \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00137}00137     \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00138}00138     \textcolor{keywordtype}{size\_t} n = 0;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00139}00139     boost::system::error\_code error;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00140}00140     n = serial.read\_some(buffer(sync\_buf, \mbox{\hyperlink{constants_8h_a096e513d29e84ca228cf341ea28b59b2}{MAX\_SERIAL\_READ}}), error);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00141}00141     \textcolor{keywordflow}{if} (error) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00142}00142         SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Failed to read from serial port -\/ \{\}"{}}, error.message());}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00143}00143         \textcolor{keywordflow}{if} (error == boost::asio::error::eof)}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00144}00144             \mbox{\hyperlink{classserial__handler_a92b5b23a89c1948f5b965af2a9e7b9d1}{initialize\_serial\_port}}();}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00145}00145     \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00146}00146 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00147}00147     \mbox{\hyperlink{helper_8cpp_a0545ffe03934dde15d00c1c8311959ab}{print\_read\_trace\_msg}}(sync\_buf, n, port);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00148}00148 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00149}00149     sync\_buf[n] = \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00150}00150     \mbox{\hyperlink{classserial__handler_aa7d13713149cd5742762e2bbb5b67d7e}{cache}} << sync\_buf;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00151}00151     \textcolor{keywordflow}{return} sync\_buf;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00152}00152 \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00153}00153 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00159}\mbox{\hyperlink{classserial__handler_a943e36aeeb74e9b4e1ccc9eb740c24b0}{00159}} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classserial__handler_a943e36aeeb74e9b4e1ccc9eb740c24b0}{serial\_handler::write\_serial\_s}}(\textcolor{keyword}{const} std::string \&data) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00160}00160     \textcolor{keywordflow}{if} (!serial.is\_open()) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00161}00161         SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Serial port \{\} not open"{}}, port);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00162}00162         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00163}00163     \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00164}00164     \textcolor{comment}{// Cast string to const unsigned char *, then cast away const to pass}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00165}00165     \textcolor{comment}{// to method that writes unsigned char}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00166}00166     \textcolor{keyword}{auto} csc\_data = \textcolor{keyword}{const\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *\textcolor{keyword}{>}(\textcolor{keyword}{reinterpret\_cast<}\textcolor{keyword}{const }\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *\textcolor{keyword}{>}(data.c\_str()));}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00167}00167     \textcolor{keywordflow}{if} (this-\/>\mbox{\hyperlink{classserial__handler_a6a4d6a714fc75d69e031bfd75d3c3907}{write\_serial\_uc}}(csc\_data, (\textcolor{keywordtype}{int}) data.length()) < 0) \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}{estts::ES\_UNSUCCESSFUL}};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00168}00168     \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00169}00169 \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00170}00170 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00175}\mbox{\hyperlink{classserial__handler_af78069b109df607d6b6bcac6520b47ab}{00175}} std::string \mbox{\hyperlink{classserial__handler_af78069b109df607d6b6bcac6520b47ab}{serial\_handler::read\_serial\_s}}() \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00176}00176     \textcolor{keywordflow}{if} (!serial.is\_open()) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00177}00177         SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Serial port \{\} not open"{}}, port);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00178}00178         \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00179}00179     \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00180}00180     \textcolor{comment}{// Read serial data}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00181}00181     \textcolor{keyword}{auto} read = this-\/>\mbox{\hyperlink{classserial__handler_a333442045a5b1dd87c9c68d2bcec03d7}{read\_serial\_uc}}();}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00182}00182     \textcolor{keywordflow}{if} (read == \textcolor{keyword}{nullptr}) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00183}00183         \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00184}00184     \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00185}00185     \textcolor{comment}{// Type cast unsigned char (auto) to a char *}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00186}00186     \textcolor{comment}{// Then call std::string constructor}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00187}00187     std::string string\_read(\textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{char} \textcolor{keyword}{const }*\textcolor{keyword}{>}(read));}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00188}00188     \textcolor{keywordflow}{return} string\_read;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00189}00189 \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00190}00190 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00191}\mbox{\hyperlink{classserial__handler_a254dacf340cb60af26a925f98991d622}{00191}} \mbox{\hyperlink{classserial__handler_a254dacf340cb60af26a925f98991d622}{serial\_handler::\string~serial\_handler}}() \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00192}00192     serial.close();}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00193}00193 \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00194}00194 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00195}\mbox{\hyperlink{classserial__handler_a2f8e634f9aa9bbd4f0696e23b4a93cc9}{00195}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classserial__handler_a2f8e634f9aa9bbd4f0696e23b4a93cc9}{serial\_handler::clear\_serial\_fifo}}() \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00196}00196     SPDLOG\_TRACE(\textcolor{stringliteral}{"{}Clearing serial FIFO buffer"{}});}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00197}00197     \textcolor{keywordflow}{while} (\mbox{\hyperlink{classserial__handler_aba0b61e3848d19dc8f221ad5502fea70}{check\_serial\_bytes\_avail}}() > 0)}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00198}00198         \mbox{\hyperlink{classserial__handler_af78069b109df607d6b6bcac6520b47ab}{read\_serial\_s}}();}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00199}00199 \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00200}00200 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00201}\mbox{\hyperlink{classserial__handler_a81214efa87dbdb53f8bcd427403723cc}{00201}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classserial__handler_a2f8e634f9aa9bbd4f0696e23b4a93cc9}{serial\_handler::clear\_serial\_fifo}}(\textcolor{keyword}{const} std::function<\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}}(std::string)> \&cb) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00202}00202     SPDLOG\_TRACE(\textcolor{stringliteral}{"{}Clearing serial FIFO buffer"{}});}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00203}00203     \textcolor{keywordflow}{while} (\mbox{\hyperlink{classserial__handler_aba0b61e3848d19dc8f221ad5502fea70}{check\_serial\_bytes\_avail}}() > 0)}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00204}00204         cb(\mbox{\hyperlink{classserial__handler_af78069b109df607d6b6bcac6520b47ab}{read\_serial\_s}}());}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00205}00205 \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00206}00206 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00207}\mbox{\hyperlink{classserial__handler_aba0b61e3848d19dc8f221ad5502fea70}{00207}} \textcolor{keywordtype}{int} \mbox{\hyperlink{classserial__handler_aba0b61e3848d19dc8f221ad5502fea70}{serial\_handler::check\_serial\_bytes\_avail}}() \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00208}00208     \textcolor{keywordtype}{int} value = 0;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00209}00209     \textcolor{keywordflow}{if} (0 != ioctl(serial.lowest\_layer().native\_handle(), FIONREAD, \&value)) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00210}00210         SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Failed to get bytes available -\/ \{\}"{}},}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00211}00211                      boost::system::error\_code(errno, boost::asio::error::get\_system\_category()).message());}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00212}00212     \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00213}00213     \textcolor{keywordflow}{return} value;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00214}00214 \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00215}00215 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00216}\mbox{\hyperlink{classserial__handler_adf8ea71d63fe9706480e17c558f54053}{00216}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classserial__handler_adf8ea71d63fe9706480e17c558f54053}{serial\_handler::read\_serial\_async}}(\textcolor{keyword}{const} std::function<\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}}(\textcolor{keywordtype}{char} *, \textcolor{keywordtype}{size\_t})>\& cb) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00217}00217     serial.async\_read\_some(buffer(\mbox{\hyperlink{classserial__handler_a0ee5f89f35fcac6b5f655e3fb20f1efa}{async\_buf}}, \mbox{\hyperlink{constants_8h_a096e513d29e84ca228cf341ea28b59b2}{MAX\_SERIAL\_READ}}), \mbox{\hyperlink{classserial__handler_a0b5adbc2a9da9a8421567d7283e59eb2}{get\_generic\_async\_read\_lambda}}(cb));}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00218}00218 \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00219}00219 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00220}\mbox{\hyperlink{classserial__handler_a0b5adbc2a9da9a8421567d7283e59eb2}{00220}} std::function<void(boost::system::error\_code, \textcolor{keywordtype}{size\_t})> \mbox{\hyperlink{classserial__handler_a0b5adbc2a9da9a8421567d7283e59eb2}{serial\_handler::get\_generic\_async\_read\_lambda}}(\textcolor{keyword}{const} std::function<\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{Status}}(\textcolor{keywordtype}{char} *, \textcolor{keywordtype}{size\_t})>\& estts\_callback) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00221}00221     \textcolor{keywordflow}{return} [estts\_callback, \textcolor{keyword}{this}] (\textcolor{keyword}{const} boost::system::error\_code\& error, std::size\_t bytes\_transferred) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00222}00222         \textcolor{keywordflow}{if} (error) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00223}00223             spdlog::error(\textcolor{stringliteral}{"{}Async read failed -\/ \{\}"{}}, error.message().c\_str());}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00224}00224         \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00225}00225         std::stringstream temp;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00226}00226         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{char} i : \mbox{\hyperlink{classserial__handler_a0ee5f89f35fcac6b5f655e3fb20f1efa}{async\_buf}}) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00227}00227             \textcolor{keywordflow}{if} (i != \textcolor{charliteral}{'\(\backslash\)r'})}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00228}00228                 temp << i;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00229}00229         \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00230}00230         spdlog::info(\textcolor{stringliteral}{"{}Async callback lambda -\/ Got back -\/> \{\}"{}}, temp.str());}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00231}00231 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00232}00232         estts\_callback(this-\/>async\_buf, bytes\_transferred);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00233}00233 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00234}00234         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00235}00235     \};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00236}00236 \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00237}00237 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00238}\mbox{\hyperlink{classserial__handler_a19ddaedf8ee347b8e0a0d0ab9b72ba63}{00238}} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *\mbox{\hyperlink{classserial__handler_a333442045a5b1dd87c9c68d2bcec03d7}{serial\_handler::read\_serial\_uc}}(\textcolor{keywordtype}{int} bytes) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00239}00239     \textcolor{comment}{// Clear cache buf}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00240}00240     \mbox{\hyperlink{classserial__handler_aa7d13713149cd5742762e2bbb5b67d7e}{cache}}.clear();}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00241}00241 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00242}00242     \textcolor{keywordflow}{if} (!serial.is\_open()) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00243}00243         SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Serial port \{\} not open"{}}, port);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00244}00244         \textcolor{keywordflow}{return} \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00245}00245     \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00246}00246     SPDLOG\_TRACE(\textcolor{stringliteral}{"{}Reading \{\} bytes from \{\}"{}}, bytes, port);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00247}00247 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00248}00248     boost::system::error\_code error;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00249}00249     \textcolor{keyword}{auto} n = read(serial, buffer(sync\_buf, bytes), error);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00250}00250     \textcolor{keywordflow}{if} (error) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00251}00251         SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Failed to read from serial port -\/ \{\}"{}}, error.message());}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00252}00252         \textcolor{keywordflow}{if} (error == boost::asio::error::eof)}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00253}00253             \mbox{\hyperlink{classserial__handler_a92b5b23a89c1948f5b965af2a9e7b9d1}{initialize\_serial\_port}}();}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00254}00254     \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00255}00255     \textcolor{comment}{// Add null terminator at the end of transmission for easier processing by parent class(s)}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00256}00256     sync\_buf[n] = \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00257}00257 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00258}00258     \mbox{\hyperlink{helper_8cpp_a0545ffe03934dde15d00c1c8311959ab}{print\_read\_trace\_msg}}(sync\_buf, n, port);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00259}00259 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00260}00260     \mbox{\hyperlink{classserial__handler_aa7d13713149cd5742762e2bbb5b67d7e}{cache}} << sync\_buf;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00261}00261     \textcolor{keywordflow}{return} sync\_buf;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00262}00262 \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00263}00263 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00264}\mbox{\hyperlink{classserial__handler_a4c55df240da8f8b7d91e08f2733cffd8}{00264}} std::string \mbox{\hyperlink{classserial__handler_af78069b109df607d6b6bcac6520b47ab}{serial\_handler::read\_serial\_s}}(\textcolor{keywordtype}{int} bytes) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00265}00265     \textcolor{keywordflow}{if} (!serial.is\_open()) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00266}00266         SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Serial port \{\} not open"{}}, port);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00267}00267         \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00268}00268     \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00269}00269     \textcolor{comment}{// Read serial data}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00270}00270     \textcolor{keyword}{auto} read = this-\/>\mbox{\hyperlink{classserial__handler_a333442045a5b1dd87c9c68d2bcec03d7}{read\_serial\_uc}}(bytes);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00271}00271     \textcolor{keywordflow}{if} (read == \textcolor{keyword}{nullptr}) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00272}00272         \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00273}00273     \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00274}00274     \textcolor{comment}{// Type cast unsigned char (auto) to a char *}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00275}00275     \textcolor{comment}{// Then call std::string constructor}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00276}00276     std::string string\_read(\textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{char} \textcolor{keyword}{const }*\textcolor{keyword}{>}(read));}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00277}00277 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00278}00278     \textcolor{keywordflow}{return} string\_read;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00279}00279 \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00280}00280 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00281}00281 \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{Status}} serial\_handler::find\_serial\_port() \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00282}00282     std::string serial\_dir = \textcolor{stringliteral}{"{}/dev/serial/by-\/id"{}};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00283}00283     std::stringstream temp\_sym;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00284}00284     DIR * d = opendir(serial\_dir.c\_str()); \textcolor{comment}{// open the path}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00285}00285     \textcolor{keywordflow}{if} (d == \textcolor{keyword}{nullptr}) \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}{estts::ES\_UNSUCCESSFUL}}; \textcolor{comment}{// if was not able to open path, return}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00286}00286     \textcolor{keyword}{struct }dirent * dir;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00287}00287     \textcolor{keywordflow}{while} ((dir = readdir(d)) != \textcolor{keyword}{nullptr}) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00288}00288         \textcolor{keywordflow}{if} (dir-\/>d\_type == DT\_LNK \&\& strcmp(dir-\/>d\_name,\textcolor{stringliteral}{"{}."{}})!=0 \&\& strcmp(dir-\/>d\_name,\textcolor{stringliteral}{"{}.."{}})!=0 ) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00289}00289             \textcolor{comment}{// Basically if we get here whatever is inside by-\/id is a symlink pointing to the /dev}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00290}00290             \textcolor{comment}{// location we want to connect to. We need to get the absolute path.}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00291}00291             temp\_sym << serial\_dir << \textcolor{stringliteral}{"{}/"{}} << dir-\/>d\_name;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00292}00292             SPDLOG\_INFO(\textcolor{stringliteral}{"{}Found serial device mounted at \{\}"{}}, temp\_sym.str());}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00293}00293             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00294}00294         \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00295}00295     \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00296}00296     \textcolor{keywordflow}{if} (temp\_sym.str().empty()) \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00297}00297         SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Didn't find serial port to attach to. Ensure that device is plugged in and mounted."{}});}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00298}00298         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a1ed850f834a32a72cbd8ee2d118d53e6}{ES\_NOTFOUND}};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00299}00299     \}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00300}00300     this-\/>port = temp\_sym.str();}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00301}00301     closedir(d);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00302}00302     \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8cpp_source_l00303}00303 \}}
+
+\end{DoxyCode}

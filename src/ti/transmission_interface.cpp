@@ -219,12 +219,12 @@ Status transmission_interface::enable_pipe() {
                 }
             }
         }
-        if (pipe_mode)
+        if (pipe_mode == PIPE_ON)
             break;
         SPDLOG_WARN("PIPE enable unsuccessful. Retrying ({}/{} retries)", retries + 1, endurosat::MAX_RETRIES);
     }
 
-    if (!pipe_mode) {
+    if (pipe_mode != PIPE_ON) {
         SPDLOG_ERROR("Failed to enable PIPE on ground station transceiver.");
         return ES_UNSUCCESSFUL;
     }
@@ -382,7 +382,7 @@ void transmission_interface::detect_satellite_in_range() {
     std::string enable_bcn = "ES+W22003340\r";
 
     for (;;) {
-        if (!obc_session_active && pipe_mode == PIPE_OFF) {
+        if (!obc_session_active && pipe_mode == PIPE_OFF && !gstxvr_session_active) {
             SPDLOG_TRACE("detect_satellite_in_range - locking mutex");
             mtx.lock();
             if (ES_OK == enable_pipe()) {
@@ -441,4 +441,26 @@ void transmission_interface::end_dispatch_threads() {
         }
         dispatch_threadpool_active = false;
     }
+}
+
+estts::Status transmission_interface::request_gstxvr_session() {
+    mtx.lock();
+    int retries = 0;
+    while (obc_session_active || pipe_mode != PIPE_OFF) {
+        sleep_until(system_clock::now() + milliseconds (500));
+        if (retries > ESTTS_REQUEST_SESSION_TIMEOUT_SECONDS * 2) {
+            SPDLOG_WARN("Failed to request ground station transceiver session - timed out");
+            return ES_UNSUCCESSFUL;
+        }
+    }
+    gstxvr_session_active = true;
+    mtx.unlock();
+    return ES_OK;
+}
+
+estts::Status transmission_interface::end_gstxvr_session() {
+    mtx.lock();
+    gstxvr_session_active = false;
+    mtx.unlock();
+    return ES_OK;
 }

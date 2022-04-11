@@ -1,0 +1,256 @@
+\hypertarget{namespaceestts}{}\doxysection{estts Namespace Reference}
+\label{namespaceestts}\index{estts@{estts}}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespaceestts_1_1ax25}{ax25}}
+\item 
+namespace \mbox{\hyperlink{namespaceestts_1_1cosmos}{cosmos}}
+\item 
+namespace \mbox{\hyperlink{namespaceestts_1_1dispatcher}{dispatcher}}
+\item 
+namespace \mbox{\hyperlink{namespaceestts_1_1endurosat}{endurosat}}
+\item 
+namespace \mbox{\hyperlink{namespaceestts_1_1es2__commands}{es2\+\_\+commands}}
+\item 
+namespace \mbox{\hyperlink{namespaceestts_1_1es2__endpoint}{es2\+\_\+endpoint}}
+\item 
+namespace \mbox{\hyperlink{namespaceestts_1_1es2__telemetry}{es2\+\_\+telemetry}}
+\item 
+namespace \mbox{\hyperlink{namespaceestts_1_1estts__response__code}{estts\+\_\+response\+\_\+code}}
+\item 
+namespace \mbox{\hyperlink{namespaceestts_1_1telem__handler}{telem\+\_\+handler}}
+\item 
+namespace \mbox{\hyperlink{namespaceestts_1_1ti__serial}{ti\+\_\+serial}}
+\item 
+namespace \mbox{\hyperlink{namespaceestts_1_1ti__socket}{ti\+\_\+socket}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structestts_1_1command__object}{command\+\_\+object}}
+\item 
+struct \mbox{\hyperlink{structestts_1_1dispatched__command}{dispatched\+\_\+command}}
+\item 
+struct \mbox{\hyperlink{structestts_1_1telemetry__object}{telemetry\+\_\+object}}
+\item 
+struct \mbox{\hyperlink{structestts_1_1waiting__command}{waiting\+\_\+command}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structestts_1_1command__object}{estts\+::command\+\_\+object}} \mbox{\hyperlink{namespaceestts_a0acd462d37285da5e13fdcdf47e34827}{command\+\_\+object}}
+\item 
+typedef struct \mbox{\hyperlink{structestts_1_1telemetry__object}{estts\+::telemetry\+\_\+object}} \mbox{\hyperlink{namespaceestts_a93056b34bca866100c17913bbc8ef7a2}{telemetry\+\_\+object}}
+\item 
+typedef struct \mbox{\hyperlink{structestts_1_1dispatched__command}{estts\+::dispatched\+\_\+command}} \mbox{\hyperlink{namespaceestts_afbb541070b2499242ceb8322fd560e27}{dispatched\+\_\+command}}
+\item 
+typedef struct \mbox{\hyperlink{structestts_1_1waiting__command}{estts\+::waiting\+\_\+command}} \mbox{\hyperlink{namespaceestts_a69e01917c63c7aadeee31026522c7ccc}{waiting\+\_\+command}}
+\item 
+typedef std\+::function$<$ std\+::string(\mbox{\hyperlink{structestts_1_1command__object}{estts\+::command\+\_\+object}} $\ast$, std\+::function$<$ \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}}(std\+::vector$<$ \mbox{\hyperlink{structestts_1_1telemetry__object}{estts\+::telemetry\+\_\+object}} $\ast$ $>$)$>$)$>$ \mbox{\hyperlink{namespaceestts_ae6b6e5425cb54e6100346835d79d461a}{dispatch\+\_\+fct}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{Status}} \{ \newline
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{ES\+\_\+\+OK}} = 0
+, \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a153afd946fd44755081851bd0b61a35b}{ES\+\_\+\+SUCCESS}} = 0
+, \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}{ES\+\_\+\+UNSUCCESSFUL}} = 1
+, \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{ES\+\_\+\+UNINITIALIZED}} = 2
+, \newline
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a2236cf6c2b6b039c4cf21d113663b04d}{ES\+\_\+\+MEMORY\+\_\+\+ERROR}} = 3
+, \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad734e33d0132964d3f499bde8572c445}{ES\+\_\+\+WAITING}} = 3
+, \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a049278f9ec59895539e42dff58105629}{ES\+\_\+\+BAD\+\_\+\+OPTION}} = 405
+, \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a4bd6c037720c16c2998a8ab6fcfa3002}{ES\+\_\+\+UNAUTHORIZED}} = 403
+, \newline
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ab6180644c0b6190ec64f895f8c2ee5ff}{ES\+\_\+\+SERVER\+\_\+\+ERROR}} = 500
+, \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad36c6331dfa27458bd9687d3d87f39a2}{ES\+\_\+\+INPROGRESS}} = 300
+, \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a1ed850f834a32a72cbd8ee2d118d53e6}{ES\+\_\+\+NOTFOUND}} = 404
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const char \mbox{\hyperlink{namespaceestts_a69cb81ce4b4159af5544ee3b4fd8ba1c}{REMOVABLE\+\_\+\+STORAGE\+\_\+\+NAME}} \mbox{[}$\,$\mbox{]} = \char`\"{}Samsung\+\_\+\+T5\char`\"{}
+\item 
+const int \mbox{\hyperlink{namespaceestts_a0275154edfe5ca1a425672d4180b622d}{ESTTS\+\_\+\+MAX\+\_\+\+RETRIES}} = 2
+\item 
+const int \mbox{\hyperlink{namespaceestts_a568f17193f73938b966fd798c4667b2f}{ESTTS\+\_\+\+RETRY\+\_\+\+WAIT\+\_\+\+SEC}} = 1
+\item 
+const int \mbox{\hyperlink{namespaceestts_a94e814150766181b243fa076e7af509b}{ESTTS\+\_\+\+AWAIT\+\_\+\+RESPONSE\+\_\+\+PERIOD\+\_\+\+SEC}} = 5
+\item 
+const int \mbox{\hyperlink{namespaceestts_a33efa8c518f1662b533dc3ad0d52342a}{ESTTS\+\_\+\+SATELLITE\+\_\+\+CONNECTION\+\_\+\+TIMEOUT\+\_\+\+MIN}} = 90
+\item 
+const int \mbox{\hyperlink{namespaceestts_a72d5e33f0f3a7e188b72391f476a766a}{ESTTS\+\_\+\+CHECK\+\_\+\+SATELLITE\+\_\+\+INRANGE\+\_\+\+INTERVAL\+\_\+\+SEC}} = 30
+\item 
+const int \mbox{\hyperlink{namespaceestts_a3a3479ab029432a6a207100f474c2efa}{ESTTS\+\_\+\+REQUEST\+\_\+\+SESSION\+\_\+\+TIMEOUT\+\_\+\+SECONDS}} = 300
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{namespaceestts_a0acd462d37285da5e13fdcdf47e34827}\label{namespaceestts_a0acd462d37285da5e13fdcdf47e34827}} 
+\index{estts@{estts}!command\_object@{command\_object}}
+\index{command\_object@{command\_object}!estts@{estts}}
+\doxysubsubsection{\texorpdfstring{command\_object}{command\_object}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structestts_1_1command__object}{estts\+::command\+\_\+object}} \mbox{\hyperlink{structestts_1_1command__object}{estts\+::command\+\_\+object}}}
+
+\mbox{\Hypertarget{namespaceestts_ae6b6e5425cb54e6100346835d79d461a}\label{namespaceestts_ae6b6e5425cb54e6100346835d79d461a}} 
+\index{estts@{estts}!dispatch\_fct@{dispatch\_fct}}
+\index{dispatch\_fct@{dispatch\_fct}!estts@{estts}}
+\doxysubsubsection{\texorpdfstring{dispatch\_fct}{dispatch\_fct}}
+{\footnotesize\ttfamily typedef std\+::function$<$std\+::string(\mbox{\hyperlink{structestts_1_1command__object}{estts\+::command\+\_\+object}} $\ast$, std\+::function$<$\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}}(std\+::vector$<$\mbox{\hyperlink{structestts_1_1telemetry__object}{estts\+::telemetry\+\_\+object}} $\ast$$>$)$>$)$>$ \mbox{\hyperlink{namespaceestts_ae6b6e5425cb54e6100346835d79d461a}{estts\+::dispatch\+\_\+fct}}}
+
+
+
+Definition at line \mbox{\hyperlink{constants_8h_source_l00298}{298}} of file \mbox{\hyperlink{constants_8h_source}{constants.\+h}}.
+
+\mbox{\Hypertarget{namespaceestts_afbb541070b2499242ceb8322fd560e27}\label{namespaceestts_afbb541070b2499242ceb8322fd560e27}} 
+\index{estts@{estts}!dispatched\_command@{dispatched\_command}}
+\index{dispatched\_command@{dispatched\_command}!estts@{estts}}
+\doxysubsubsection{\texorpdfstring{dispatched\_command}{dispatched\_command}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structestts_1_1dispatched__command}{estts\+::dispatched\+\_\+command}} \mbox{\hyperlink{structestts_1_1dispatched__command}{estts\+::dispatched\+\_\+command}}}
+
+\mbox{\Hypertarget{namespaceestts_a93056b34bca866100c17913bbc8ef7a2}\label{namespaceestts_a93056b34bca866100c17913bbc8ef7a2}} 
+\index{estts@{estts}!telemetry\_object@{telemetry\_object}}
+\index{telemetry\_object@{telemetry\_object}!estts@{estts}}
+\doxysubsubsection{\texorpdfstring{telemetry\_object}{telemetry\_object}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structestts_1_1telemetry__object}{estts\+::telemetry\+\_\+object}} \mbox{\hyperlink{structestts_1_1telemetry__object}{estts\+::telemetry\+\_\+object}}}
+
+\mbox{\Hypertarget{namespaceestts_a69e01917c63c7aadeee31026522c7ccc}\label{namespaceestts_a69e01917c63c7aadeee31026522c7ccc}} 
+\index{estts@{estts}!waiting\_command@{waiting\_command}}
+\index{waiting\_command@{waiting\_command}!estts@{estts}}
+\doxysubsubsection{\texorpdfstring{waiting\_command}{waiting\_command}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structestts_1_1waiting__command}{estts\+::waiting\+\_\+command}} \mbox{\hyperlink{structestts_1_1waiting__command}{estts\+::waiting\+\_\+command}}}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}\label{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}} 
+\index{estts@{estts}!Status@{Status}}
+\index{Status@{Status}!estts@{estts}}
+\doxysubsubsection{\texorpdfstring{Status}{Status}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ES\_OK@{ES\_OK}!estts@{estts}}\index{estts@{estts}!ES\_OK@{ES\_OK}}}\mbox{\Hypertarget{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}\label{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}} 
+ES\+\_\+\+OK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ES\_SUCCESS@{ES\_SUCCESS}!estts@{estts}}\index{estts@{estts}!ES\_SUCCESS@{ES\_SUCCESS}}}\mbox{\Hypertarget{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a153afd946fd44755081851bd0b61a35b}\label{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a153afd946fd44755081851bd0b61a35b}} 
+ES\+\_\+\+SUCCESS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ES\_UNSUCCESSFUL@{ES\_UNSUCCESSFUL}!estts@{estts}}\index{estts@{estts}!ES\_UNSUCCESSFUL@{ES\_UNSUCCESSFUL}}}\mbox{\Hypertarget{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}\label{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}} 
+ES\+\_\+\+UNSUCCESSFUL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ES\_UNINITIALIZED@{ES\_UNINITIALIZED}!estts@{estts}}\index{estts@{estts}!ES\_UNINITIALIZED@{ES\_UNINITIALIZED}}}\mbox{\Hypertarget{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}\label{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}} 
+ES\+\_\+\+UNINITIALIZED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ES\_MEMORY\_ERROR@{ES\_MEMORY\_ERROR}!estts@{estts}}\index{estts@{estts}!ES\_MEMORY\_ERROR@{ES\_MEMORY\_ERROR}}}\mbox{\Hypertarget{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a2236cf6c2b6b039c4cf21d113663b04d}\label{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a2236cf6c2b6b039c4cf21d113663b04d}} 
+ES\+\_\+\+MEMORY\+\_\+\+ERROR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ES\_WAITING@{ES\_WAITING}!estts@{estts}}\index{estts@{estts}!ES\_WAITING@{ES\_WAITING}}}\mbox{\Hypertarget{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad734e33d0132964d3f499bde8572c445}\label{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad734e33d0132964d3f499bde8572c445}} 
+ES\+\_\+\+WAITING&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ES\_BAD\_OPTION@{ES\_BAD\_OPTION}!estts@{estts}}\index{estts@{estts}!ES\_BAD\_OPTION@{ES\_BAD\_OPTION}}}\mbox{\Hypertarget{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a049278f9ec59895539e42dff58105629}\label{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a049278f9ec59895539e42dff58105629}} 
+ES\+\_\+\+BAD\+\_\+\+OPTION&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ES\_UNAUTHORIZED@{ES\_UNAUTHORIZED}!estts@{estts}}\index{estts@{estts}!ES\_UNAUTHORIZED@{ES\_UNAUTHORIZED}}}\mbox{\Hypertarget{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a4bd6c037720c16c2998a8ab6fcfa3002}\label{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a4bd6c037720c16c2998a8ab6fcfa3002}} 
+ES\+\_\+\+UNAUTHORIZED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ES\_SERVER\_ERROR@{ES\_SERVER\_ERROR}!estts@{estts}}\index{estts@{estts}!ES\_SERVER\_ERROR@{ES\_SERVER\_ERROR}}}\mbox{\Hypertarget{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ab6180644c0b6190ec64f895f8c2ee5ff}\label{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ab6180644c0b6190ec64f895f8c2ee5ff}} 
+ES\+\_\+\+SERVER\+\_\+\+ERROR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ES\_INPROGRESS@{ES\_INPROGRESS}!estts@{estts}}\index{estts@{estts}!ES\_INPROGRESS@{ES\_INPROGRESS}}}\mbox{\Hypertarget{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad36c6331dfa27458bd9687d3d87f39a2}\label{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad36c6331dfa27458bd9687d3d87f39a2}} 
+ES\+\_\+\+INPROGRESS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ES\_NOTFOUND@{ES\_NOTFOUND}!estts@{estts}}\index{estts@{estts}!ES\_NOTFOUND@{ES\_NOTFOUND}}}\mbox{\Hypertarget{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a1ed850f834a32a72cbd8ee2d118d53e6}\label{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a1ed850f834a32a72cbd8ee2d118d53e6}} 
+ES\+\_\+\+NOTFOUND&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{constants_8h_source_l00077}{77}} of file \mbox{\hyperlink{constants_8h_source}{constants.\+h}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespaceestts_a94e814150766181b243fa076e7af509b}\label{namespaceestts_a94e814150766181b243fa076e7af509b}} 
+\index{estts@{estts}!ESTTS\_AWAIT\_RESPONSE\_PERIOD\_SEC@{ESTTS\_AWAIT\_RESPONSE\_PERIOD\_SEC}}
+\index{ESTTS\_AWAIT\_RESPONSE\_PERIOD\_SEC@{ESTTS\_AWAIT\_RESPONSE\_PERIOD\_SEC}!estts@{estts}}
+\doxysubsubsection{\texorpdfstring{ESTTS\_AWAIT\_RESPONSE\_PERIOD\_SEC}{ESTTS\_AWAIT\_RESPONSE\_PERIOD\_SEC}}
+{\footnotesize\ttfamily const int estts\+::\+ESTTS\+\_\+\+AWAIT\+\_\+\+RESPONSE\+\_\+\+PERIOD\+\_\+\+SEC = 5}
+
+
+
+Definition at line \mbox{\hyperlink{constants_8h_source_l00017}{17}} of file \mbox{\hyperlink{constants_8h_source}{constants.\+h}}.
+
+\mbox{\Hypertarget{namespaceestts_a72d5e33f0f3a7e188b72391f476a766a}\label{namespaceestts_a72d5e33f0f3a7e188b72391f476a766a}} 
+\index{estts@{estts}!ESTTS\_CHECK\_SATELLITE\_INRANGE\_INTERVAL\_SEC@{ESTTS\_CHECK\_SATELLITE\_INRANGE\_INTERVAL\_SEC}}
+\index{ESTTS\_CHECK\_SATELLITE\_INRANGE\_INTERVAL\_SEC@{ESTTS\_CHECK\_SATELLITE\_INRANGE\_INTERVAL\_SEC}!estts@{estts}}
+\doxysubsubsection{\texorpdfstring{ESTTS\_CHECK\_SATELLITE\_INRANGE\_INTERVAL\_SEC}{ESTTS\_CHECK\_SATELLITE\_INRANGE\_INTERVAL\_SEC}}
+{\footnotesize\ttfamily const int estts\+::\+ESTTS\+\_\+\+CHECK\+\_\+\+SATELLITE\+\_\+\+INRANGE\+\_\+\+INTERVAL\+\_\+\+SEC = 30}
+
+
+
+Definition at line \mbox{\hyperlink{constants_8h_source_l00019}{19}} of file \mbox{\hyperlink{constants_8h_source}{constants.\+h}}.
+
+\mbox{\Hypertarget{namespaceestts_a0275154edfe5ca1a425672d4180b622d}\label{namespaceestts_a0275154edfe5ca1a425672d4180b622d}} 
+\index{estts@{estts}!ESTTS\_MAX\_RETRIES@{ESTTS\_MAX\_RETRIES}}
+\index{ESTTS\_MAX\_RETRIES@{ESTTS\_MAX\_RETRIES}!estts@{estts}}
+\doxysubsubsection{\texorpdfstring{ESTTS\_MAX\_RETRIES}{ESTTS\_MAX\_RETRIES}}
+{\footnotesize\ttfamily const int estts\+::\+ESTTS\+\_\+\+MAX\+\_\+\+RETRIES = 2}
+
+
+
+Definition at line \mbox{\hyperlink{constants_8h_source_l00015}{15}} of file \mbox{\hyperlink{constants_8h_source}{constants.\+h}}.
+
+\mbox{\Hypertarget{namespaceestts_a3a3479ab029432a6a207100f474c2efa}\label{namespaceestts_a3a3479ab029432a6a207100f474c2efa}} 
+\index{estts@{estts}!ESTTS\_REQUEST\_SESSION\_TIMEOUT\_SECONDS@{ESTTS\_REQUEST\_SESSION\_TIMEOUT\_SECONDS}}
+\index{ESTTS\_REQUEST\_SESSION\_TIMEOUT\_SECONDS@{ESTTS\_REQUEST\_SESSION\_TIMEOUT\_SECONDS}!estts@{estts}}
+\doxysubsubsection{\texorpdfstring{ESTTS\_REQUEST\_SESSION\_TIMEOUT\_SECONDS}{ESTTS\_REQUEST\_SESSION\_TIMEOUT\_SECONDS}}
+{\footnotesize\ttfamily const int estts\+::\+ESTTS\+\_\+\+REQUEST\+\_\+\+SESSION\+\_\+\+TIMEOUT\+\_\+\+SECONDS = 300}
+
+
+
+Definition at line \mbox{\hyperlink{constants_8h_source_l00020}{20}} of file \mbox{\hyperlink{constants_8h_source}{constants.\+h}}.
+
+\mbox{\Hypertarget{namespaceestts_a568f17193f73938b966fd798c4667b2f}\label{namespaceestts_a568f17193f73938b966fd798c4667b2f}} 
+\index{estts@{estts}!ESTTS\_RETRY\_WAIT\_SEC@{ESTTS\_RETRY\_WAIT\_SEC}}
+\index{ESTTS\_RETRY\_WAIT\_SEC@{ESTTS\_RETRY\_WAIT\_SEC}!estts@{estts}}
+\doxysubsubsection{\texorpdfstring{ESTTS\_RETRY\_WAIT\_SEC}{ESTTS\_RETRY\_WAIT\_SEC}}
+{\footnotesize\ttfamily const int estts\+::\+ESTTS\+\_\+\+RETRY\+\_\+\+WAIT\+\_\+\+SEC = 1}
+
+
+
+Definition at line \mbox{\hyperlink{constants_8h_source_l00016}{16}} of file \mbox{\hyperlink{constants_8h_source}{constants.\+h}}.
+
+\mbox{\Hypertarget{namespaceestts_a33efa8c518f1662b533dc3ad0d52342a}\label{namespaceestts_a33efa8c518f1662b533dc3ad0d52342a}} 
+\index{estts@{estts}!ESTTS\_SATELLITE\_CONNECTION\_TIMEOUT\_MIN@{ESTTS\_SATELLITE\_CONNECTION\_TIMEOUT\_MIN}}
+\index{ESTTS\_SATELLITE\_CONNECTION\_TIMEOUT\_MIN@{ESTTS\_SATELLITE\_CONNECTION\_TIMEOUT\_MIN}!estts@{estts}}
+\doxysubsubsection{\texorpdfstring{ESTTS\_SATELLITE\_CONNECTION\_TIMEOUT\_MIN}{ESTTS\_SATELLITE\_CONNECTION\_TIMEOUT\_MIN}}
+{\footnotesize\ttfamily const int estts\+::\+ESTTS\+\_\+\+SATELLITE\+\_\+\+CONNECTION\+\_\+\+TIMEOUT\+\_\+\+MIN = 90}
+
+
+
+Definition at line \mbox{\hyperlink{constants_8h_source_l00018}{18}} of file \mbox{\hyperlink{constants_8h_source}{constants.\+h}}.
+
+\mbox{\Hypertarget{namespaceestts_a69cb81ce4b4159af5544ee3b4fd8ba1c}\label{namespaceestts_a69cb81ce4b4159af5544ee3b4fd8ba1c}} 
+\index{estts@{estts}!REMOVABLE\_STORAGE\_NAME@{REMOVABLE\_STORAGE\_NAME}}
+\index{REMOVABLE\_STORAGE\_NAME@{REMOVABLE\_STORAGE\_NAME}!estts@{estts}}
+\doxysubsubsection{\texorpdfstring{REMOVABLE\_STORAGE\_NAME}{REMOVABLE\_STORAGE\_NAME}}
+{\footnotesize\ttfamily const char estts\+::\+REMOVABLE\+\_\+\+STORAGE\+\_\+\+NAME\mbox{[}$\,$\mbox{]} = \char`\"{}Samsung\+\_\+\+T5\char`\"{}}
+
+
+
+Definition at line \mbox{\hyperlink{constants_8h_source_l00013}{13}} of file \mbox{\hyperlink{constants_8h_source}{constants.\+h}}.
+

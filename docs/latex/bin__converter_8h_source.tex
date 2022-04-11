@@ -1,0 +1,74 @@
+\hypertarget{bin__converter_8h_source}{}\doxysection{bin\+\_\+converter.\+h}
+\label{bin__converter_8h_source}\index{src/utils/bin\_converter.h@{src/utils/bin\_converter.h}}
+\mbox{\hyperlink{bin__converter_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00001}00001 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00002}00002 \textcolor{comment}{// Created by Cody on 12/17/2021.}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00005}00005 \textcolor{preprocessor}{\#ifndef ESTTS\_BIN\_CONVERTER\_H}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00006}00006 \textcolor{preprocessor}{\#define ESTTS\_BIN\_CONVERTER\_H}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00008}00008 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00009}00009 \textcolor{preprocessor}{\#include <unordered\_map>}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00010}00010 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00011}\mbox{\hyperlink{classbin__converter}{00011}} \textcolor{keyword}{class }\mbox{\hyperlink{classbin__converter}{bin\_converter}} \{}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00012}00012 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00013}00013     \textcolor{comment}{/* Container used to convert Hex characters (Key) to Binary strings (Value) */}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00014}00014     \textcolor{keyword}{const} std::unordered\_map<char, std::string> hexToBinMap = \{}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00015}00015             \{\textcolor{charliteral}{'0'}, \textcolor{stringliteral}{"{}0000"{}}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00016}00016             \{\textcolor{charliteral}{'1'}, \textcolor{stringliteral}{"{}0001"{}}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00017}00017             \{\textcolor{charliteral}{'2'}, \textcolor{stringliteral}{"{}0010"{}}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00018}00018             \{\textcolor{charliteral}{'3'}, \textcolor{stringliteral}{"{}0011"{}}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00019}00019             \{\textcolor{charliteral}{'4'}, \textcolor{stringliteral}{"{}0100"{}}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00020}00020             \{\textcolor{charliteral}{'5'}, \textcolor{stringliteral}{"{}0101"{}}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00021}00021             \{\textcolor{charliteral}{'6'}, \textcolor{stringliteral}{"{}0110"{}}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00022}00022             \{\textcolor{charliteral}{'7'}, \textcolor{stringliteral}{"{}0111"{}}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00023}00023             \{\textcolor{charliteral}{'8'}, \textcolor{stringliteral}{"{}1000"{}}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00024}00024             \{\textcolor{charliteral}{'9'}, \textcolor{stringliteral}{"{}1001"{}}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00025}00025             \{\textcolor{charliteral}{'a'}, \textcolor{stringliteral}{"{}1010"{}}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00026}00026             \{\textcolor{charliteral}{'b'}, \textcolor{stringliteral}{"{}1011"{}}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00027}00027             \{\textcolor{charliteral}{'c'}, \textcolor{stringliteral}{"{}1100"{}}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00028}00028             \{\textcolor{charliteral}{'d'}, \textcolor{stringliteral}{"{}1101"{}}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00029}00029             \{\textcolor{charliteral}{'e'}, \textcolor{stringliteral}{"{}1110"{}}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00030}00030             \{\textcolor{charliteral}{'f'}, \textcolor{stringliteral}{"{}1111"{}}\}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00031}00031     \};}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00033}00033     \textcolor{comment}{/* Container used to convert Binary strings (Key) to Hex characters (Value) */}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00034}00034     \textcolor{keyword}{const} std::unordered\_map<std::string, char> BinToHexMap = \{}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00035}00035             \{\textcolor{stringliteral}{"{}0000"{}}, \textcolor{charliteral}{'0'}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00036}00036             \{\textcolor{stringliteral}{"{}0001"{}}, \textcolor{charliteral}{'1'}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00037}00037             \{\textcolor{stringliteral}{"{}0010"{}}, \textcolor{charliteral}{'2'}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00038}00038             \{\textcolor{stringliteral}{"{}0011"{}}, \textcolor{charliteral}{'3'}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00039}00039             \{\textcolor{stringliteral}{"{}0100"{}}, \textcolor{charliteral}{'4'}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00040}00040             \{\textcolor{stringliteral}{"{}0101"{}}, \textcolor{charliteral}{'5'}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00041}00041             \{\textcolor{stringliteral}{"{}0110"{}}, \textcolor{charliteral}{'6'}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00042}00042             \{\textcolor{stringliteral}{"{}0111"{}}, \textcolor{charliteral}{'7'}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00043}00043             \{\textcolor{stringliteral}{"{}1000"{}}, \textcolor{charliteral}{'8'}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00044}00044             \{\textcolor{stringliteral}{"{}1001"{}}, \textcolor{charliteral}{'9'}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00045}00045             \{\textcolor{stringliteral}{"{}1010"{}}, \textcolor{charliteral}{'a'}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00046}00046             \{\textcolor{stringliteral}{"{}1011"{}}, \textcolor{charliteral}{'b'}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00047}00047             \{\textcolor{stringliteral}{"{}1100"{}}, \textcolor{charliteral}{'c'}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00048}00048             \{\textcolor{stringliteral}{"{}1101"{}}, \textcolor{charliteral}{'d'}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00049}00049             \{\textcolor{stringliteral}{"{}1110"{}}, \textcolor{charliteral}{'e'}\},}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00050}00050             \{\textcolor{stringliteral}{"{}1111"{}}, \textcolor{charliteral}{'f'}\}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00051}00051     \};}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00052}00052 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00053}00053     \textcolor{comment}{// \string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~ Convert To Binary  \string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00054}00054 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00055}00055     \textcolor{comment}{/* Converts hex string to binary and also checks size */}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00056}\mbox{\hyperlink{classbin__converter_a76f75abef4a8088bef73984eea4fd8e8}{00056}}     std::string \mbox{\hyperlink{classbin__converter_a76f75abef4a8088bef73984eea4fd8e8}{toBinary}}(\textcolor{keywordtype}{short} \textcolor{keywordtype}{int} size, \textcolor{keyword}{const} std::string \&hexField);}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00058}00058     \textcolor{comment}{/* Converts hex string to binary */}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00059}\mbox{\hyperlink{classbin__converter_ade339891f03caaf58b57f7a0f6ebfc19}{00059}}     std::string \mbox{\hyperlink{classbin__converter_ade339891f03caaf58b57f7a0f6ebfc19}{toBinary}}(\textcolor{keyword}{const} std::string \&hexField);}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00060}00060 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00061}00061     \textcolor{comment}{/* Converts an unsigned char array to binary */}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00062}00062     std::string \mbox{\hyperlink{classbin__converter_a76f75abef4a8088bef73984eea4fd8e8}{toBinary}}(\textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} field[]);}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00064}00064     \textcolor{comment}{/* Converts an unsigned char to binary */}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00065}00065     std::string \mbox{\hyperlink{classbin__converter_a76f75abef4a8088bef73984eea4fd8e8}{toBinary}}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} field);}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00066}00066 \};}
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8h_source_l00068}00068 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//ESTTS\_BIN\_CONVERTER\_H}}
+
+\end{DoxyCode}

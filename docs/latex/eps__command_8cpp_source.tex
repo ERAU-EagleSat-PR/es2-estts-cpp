@@ -1,0 +1,399 @@
+\hypertarget{eps__command_8cpp_source}{}\doxysection{eps\+\_\+command.\+cpp}
+\label{eps__command_8cpp_source}\index{src/fapi/command\_handler/eps\_command.cpp@{src/fapi/command\_handler/eps\_command.cpp}}
+\mbox{\hyperlink{eps__command_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00001}00001 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00002}00002 \textcolor{comment}{// Created by Hayden Roszell on 12/21/21.}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00005}00005 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00006}00006 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{eps__command_8h}{eps\_command.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00008}\mbox{\hyperlink{classeps__command_a794569f490fdb72f2eda2044b36d71d5}{00008}} std::string \mbox{\hyperlink{classeps__command_a794569f490fdb72f2eda2044b36d71d5}{eps\_command::get\_eps\_vitals}}(\textcolor{keyword}{const} \mbox{\hyperlink{namespaceestts_ae6b6e5425cb54e6100346835d79d461a}{estts::dispatch\_fct}}\& dispatch, \textcolor{keyword}{const} std::function<\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}}(\mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1vitals}{estts::es2\_telemetry::eps::vitals}} *)>\& telem\_callback) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00009}00009     SPDLOG\_INFO(\textcolor{stringliteral}{"{}Getting EagleSat II EPS Vitals"{}});}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00010}00010     \textcolor{keyword}{auto} command = \textcolor{keyword}{new} \mbox{\hyperlink{namespaceestts_a0acd462d37285da5e13fdcdf47e34827}{estts::command\_object}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00011}00011 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00012}00012     command-\/>\mbox{\hyperlink{structestts_1_1command__object_ad89218b4126234f089f597a7f493cd8a}{address}} = \mbox{\hyperlink{namespaceestts_1_1es2__endpoint_a0342b3c48236b02fd3544a76d3cbd3a9}{estts::es2\_endpoint::ES\_EPS}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00013}00013     command-\/>commandID = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1eps_af397da45ae9315d4a75f2a41c462c270}{estts::es2\_commands::eps::EPS\_GET\_HEALTH}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00014}00014     command-\/>method = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1method_a5f0eb4120226fc310a383c7fed53e2be}{estts::es2\_commands::method::ES\_READ}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00015}00015     command-\/>sequence = 01;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00016}00016     command-\/>timeStamp = 8456;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00017}00017 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00018}00018 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00019}00019 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00020}00020     \textcolor{comment}{// This obj\_callback is expected by the dispatcher/command handler, which will filter and construct telemetry objects}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00021}00021     \textcolor{comment}{// and pass them to this function. Once this process is complete, this function should know how to decode}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00022}00022     \textcolor{comment}{// the telemetry object into the expected structure (in this case, an EPS Vitals structure), and pass the vitals to}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00023}00023     \textcolor{comment}{// the obj\_callback function passed as an argument. This process keeps logic specific to EPS in the EPS}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00024}00024     \textcolor{comment}{// command function, and changes the execution of the function to the command handler, where it should be. However, from}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00025}00025     \textcolor{comment}{// the perspective of this EPS get vitals function, the specific time when the obj\_callback is called doesn't matter in any way,}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00026}00026     \textcolor{comment}{// because now the responsibility of handling the telemetry is pushed to the future when it's actually available.}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00027}00027     \textcolor{keyword}{auto} eps\_telem\_decomposition\_callback = [telem\_callback] (\textcolor{keyword}{const} std::vector<estts::telemetry\_object *>\& telem) -\/> \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00028}00028         \textcolor{keywordflow}{if} (telem.empty()) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00029}00029             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00030}00030         \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00031}00031         \textcolor{comment}{// TODO do something with the telem\_obj vector passed to this function}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00032}00032         \textcolor{keyword}{auto} vitals = \textcolor{keyword}{new} \mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1vitals}{estts::es2\_telemetry::eps::vitals}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00034}00034         vitals-\/>\mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1vitals_a5a99ac03654ecccabfc5b7fe87b4f34f}{battery\_voltage}} = 9.0;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00035}00035         vitals-\/>brownouts = 0;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00036}00036         vitals-\/>charge\_time\_mins = 24;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00038}00038         spdlog::info(\textcolor{stringliteral}{"{}EPS Vitals: battery voltage: \{\} -\/ brownouts: \{\} -\/ charge time (min) \{\}"{}}, vitals-\/>battery\_voltage, vitals-\/>brownouts, vitals-\/>charge\_time\_mins);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00040}00040         telem\_callback(vitals);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00041}00041     \};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00042}00042 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00043}00043     \textcolor{comment}{// We're expecting the dispatcher to call the telemetry decomposition function. As seen above, the telemetry}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00044}00044     \textcolor{comment}{// decomposition knows how to handle a telemetry object of the EPS vitals type (which is matched by the address/command}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00045}00045     \textcolor{comment}{// in the command configuration), and calls the obj\_callback function passed in by the calling body. Note that when this function}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00046}00046     \textcolor{comment}{// returns, it is expected that the entire telemetry collection and storage process is handled by the callbacks.}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00047}00047     \textcolor{comment}{// This means that at no point does this function need to run again, because the context is implied by the lambdas.}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00048}00048 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00049}00049     \textcolor{comment}{// Note that our obj\_callback model allows this function to return with no repercussions, and using the unique command}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00050}00050     \textcolor{comment}{// serial number, we can fetch the command status at any time.}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00051}00051     \textcolor{keywordflow}{return} dispatch(command, eps\_telem\_decomposition\_callback);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00052}00052 \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00054}\mbox{\hyperlink{classeps__command_aeeb5fa83bd6a36b1d2d3d2074c493e19}{00054}} std::string \mbox{\hyperlink{classeps__command_aeeb5fa83bd6a36b1d2d3d2074c493e19}{eps\_command::get\_eps\_batteryVoltage}}(\textcolor{keyword}{const} \mbox{\hyperlink{namespaceestts_ae6b6e5425cb54e6100346835d79d461a}{estts::dispatch\_fct}} \&dispatch) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00055}00055     \textcolor{keyword}{auto} temp = \textcolor{keyword}{new} \mbox{\hyperlink{namespaceestts_a0acd462d37285da5e13fdcdf47e34827}{estts::command\_object}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00057}00057     temp-\/>\mbox{\hyperlink{structestts_1_1command__object_ad89218b4126234f089f597a7f493cd8a}{address}} = \mbox{\hyperlink{namespaceestts_1_1es2__endpoint_a0342b3c48236b02fd3544a76d3cbd3a9}{estts::es2\_endpoint::ES\_EPS}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00058}00058     temp-\/>commandID = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1eps_a2c41614ed0fa3279be5399126ddcc2a5}{estts::es2\_commands::eps::EPS\_GET\_BATTERY\_VOLTAGE}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00059}00059     temp-\/>method = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1method_a5f0eb4120226fc310a383c7fed53e2be}{estts::es2\_commands::method::ES\_READ}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00060}00060     temp-\/>sequence = 01;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00061}00061     temp-\/>timeStamp = 8456;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00062}00062 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00063}00063     SPDLOG\_INFO(\textcolor{stringliteral}{"{}Attempting to get EPS battery voltage"{}});}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00064}00064 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00065}00065     \textcolor{keyword}{auto} eps\_telem\_decomposition\_callback = [] (\textcolor{keyword}{const} std::vector<estts::telemetry\_object *>\& telem) -\/> \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00066}00066         \textcolor{keywordflow}{if} (telem.empty()) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00067}00067             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00068}00068         \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00069}00069         \textcolor{keyword}{auto} eps\_voltage = \textcolor{keyword}{new} \mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1eps__voltage}{estts::es2\_telemetry::eps::eps\_voltage}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00071}00071         eps\_voltage-\/>\mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1eps__voltage_a9e151afc268cfebf430e3d8f005619dc}{battery\_voltage}} = 9.0;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00072}00072 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00073}00073         spdlog::info(\textcolor{stringliteral}{"{}EPS battery voltage : \{\}"{}}, eps\_voltage-\/>battery\_voltage);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00074}00074         spdlog::info(\textcolor{stringliteral}{"{}Got back battery voltage -\/ it worked"{}});}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00075}00075         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00076}00076     \};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00077}00077 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00078}00078     \textcolor{keywordflow}{return} dispatch(temp, eps\_telem\_decomposition\_callback);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00079}00079 \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00080}00080 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00081}00081 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00082}\mbox{\hyperlink{classeps__command_aaf42f57feab2406d0de60538e0d21a0c}{00082}} std::string \mbox{\hyperlink{classeps__command_aaf42f57feab2406d0de60538e0d21a0c}{eps\_command::get\_eps\_batteryCurrent}}(\textcolor{keyword}{const} \mbox{\hyperlink{namespaceestts_ae6b6e5425cb54e6100346835d79d461a}{estts::dispatch\_fct}} \&dispatch) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00083}00083     \textcolor{keyword}{auto} command = \textcolor{keyword}{new} \mbox{\hyperlink{namespaceestts_a0acd462d37285da5e13fdcdf47e34827}{estts::command\_object}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00085}00085     command-\/>\mbox{\hyperlink{structestts_1_1command__object_ad89218b4126234f089f597a7f493cd8a}{address}} = \mbox{\hyperlink{namespaceestts_1_1es2__endpoint_a0342b3c48236b02fd3544a76d3cbd3a9}{estts::es2\_endpoint::ES\_EPS}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00086}00086     command-\/>commandID = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1eps_a9a3863973d54869b77b4189eca684716}{estts::es2\_commands::eps::EPS\_GET\_BATTERY\_CURRENT}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00087}00087     command-\/>method = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1method_a5f0eb4120226fc310a383c7fed53e2be}{estts::es2\_commands::method::ES\_READ}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00088}00088     command-\/>sequence = 01;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00089}00089     command-\/>timeStamp = 8456;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00090}00090 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00091}00091     SPDLOG\_INFO(\textcolor{stringliteral}{"{}Attempting to get EPS battery current"{}});}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00093}00093 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00094}00094     \textcolor{keyword}{auto} eps\_telem\_decomposition\_callback = [] (\textcolor{keyword}{const} std::vector<estts::telemetry\_object *>\& telem) -\/> \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00095}00095         \textcolor{keywordflow}{if} (telem.empty()) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00096}00096             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00097}00097         \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00098}00098         \textcolor{comment}{// TODO do something with the telem\_obj vector passed to this function}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00099}00099         \textcolor{keyword}{auto} eps\_current = \textcolor{keyword}{new} \mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1eps__current}{estts::es2\_telemetry::eps::eps\_current}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00100}00100 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00101}00101         eps\_current-\/>\mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1eps__current_a6ea9abd9069d05043ef47ed05af6f69d}{battery\_current}} = 9.0;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00102}00102 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00103}00103         spdlog::info(\textcolor{stringliteral}{"{}EPS battery current : \{\}"{}}, eps\_current-\/>battery\_current);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00104}00104 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00105}00105         spdlog::info(\textcolor{stringliteral}{"{}Got back battery current -\/ it worked"{}});}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00106}00106     \};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00107}00107 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00108}00108     \textcolor{keywordflow}{return} dispatch(command, eps\_telem\_decomposition\_callback);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00109}00109 \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00110}00110 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00111}00111 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00112}\mbox{\hyperlink{classeps__command_a6a8e08663f9d16eb254fda9427ec9776}{00112}} std::string \mbox{\hyperlink{classeps__command_a6a8e08663f9d16eb254fda9427ec9776}{eps\_command::get\_eps\_5Vbus\_current}}(\textcolor{keyword}{const} \mbox{\hyperlink{namespaceestts_ae6b6e5425cb54e6100346835d79d461a}{estts::dispatch\_fct}} \&dispatch) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00113}00113     \textcolor{keyword}{auto} temp = \textcolor{keyword}{new} \mbox{\hyperlink{namespaceestts_a0acd462d37285da5e13fdcdf47e34827}{estts::command\_object}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00114}00114 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00115}00115     temp-\/>\mbox{\hyperlink{structestts_1_1command__object_ad89218b4126234f089f597a7f493cd8a}{address}} = \mbox{\hyperlink{namespaceestts_1_1es2__endpoint_a0342b3c48236b02fd3544a76d3cbd3a9}{estts::es2\_endpoint::ES\_EPS}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00116}00116     temp-\/>commandID = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1eps_a2c8aa8cd4cfcf21368c78b8309a87788}{estts::es2\_commands::eps::EPS\_GET\_5VBUS\_CURRENT}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00117}00117     temp-\/>method = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1method_a5f0eb4120226fc310a383c7fed53e2be}{estts::es2\_commands::method::ES\_READ}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00118}00118     temp-\/>sequence = 01;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00119}00119     temp-\/>timeStamp = 8467;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00120}00120 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00121}00121     SPDLOG\_INFO(\textcolor{stringliteral}{"{}Attempting to get EPS 5V bus current"{}});}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00122}00122 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00123}00123 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00124}00124 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00125}00125 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00126}00126     \textcolor{keyword}{auto} eps\_telem\_decomposition\_callback = [] (\textcolor{keyword}{const} std::vector<estts::telemetry\_object *>\& telem) -\/> \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00127}00127         \textcolor{keywordflow}{if} (telem.empty()) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00128}00128             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00129}00129         \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00130}00130         \textcolor{comment}{// TODO do something with the telem\_obj vector passed to this function}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00131}00131         \textcolor{keyword}{auto} eps\_5Vbus\_current = \textcolor{keyword}{new} \mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1eps__5_vbus__current}{estts::es2\_telemetry::eps::eps\_5Vbus\_current}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00132}00132 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00133}00133         eps\_5Vbus\_current-\/>\mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1eps__5_vbus__current_aeeb08117caf5a68c0a1511e7eae07314}{bus\_current}} = 9.0;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00134}00134 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00135}00135         spdlog::info(\textcolor{stringliteral}{"{}EPS 5V bus current : \{\}"{}}, eps\_5Vbus\_current-\/>bus\_current);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00136}00136 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00137}00137         spdlog::info(\textcolor{stringliteral}{"{}Got back 5V bus current -\/ it worked"{}});}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00138}00138     \};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00139}00139 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00140}00140     \textcolor{keywordflow}{return} dispatch(temp, eps\_telem\_decomposition\_callback);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00141}00141 \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00142}00142 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00143}00143 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00144}\mbox{\hyperlink{classeps__command_a2c0c3ec6588ae130494aa9c5f8d19934}{00144}} std::string \mbox{\hyperlink{classeps__command_a2c0c3ec6588ae130494aa9c5f8d19934}{eps\_command::get\_eps\_3Vbus\_current}}(\textcolor{keyword}{const} \mbox{\hyperlink{namespaceestts_ae6b6e5425cb54e6100346835d79d461a}{estts::dispatch\_fct}} \&dispatch) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00145}00145 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00146}00146     \textcolor{keyword}{auto} temp = \textcolor{keyword}{new} \mbox{\hyperlink{namespaceestts_a0acd462d37285da5e13fdcdf47e34827}{estts::command\_object}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00147}00147 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00148}00148     temp-\/>\mbox{\hyperlink{structestts_1_1command__object_ad89218b4126234f089f597a7f493cd8a}{address}} = \mbox{\hyperlink{namespaceestts_1_1es2__endpoint_a0342b3c48236b02fd3544a76d3cbd3a9}{estts::es2\_endpoint::ES\_EPS}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00149}00149     temp-\/>commandID = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1eps_aa6dd5d5c48d7ad14c98f1365e4013b63}{estts::es2\_commands::eps::EPS\_GET\_3VBUS\_CURRENT}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00150}00150     temp-\/>method = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1method_a5f0eb4120226fc310a383c7fed53e2be}{estts::es2\_commands::method::ES\_READ}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00151}00151     temp-\/>sequence = 01;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00152}00152     temp-\/>timeStamp = 8489;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00153}00153 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00154}00154     SPDLOG\_INFO(\textcolor{stringliteral}{"{}Attempting to get EPS 3.3V bus current"{}});}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00155}00155 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00156}00156 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00157}00157 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00158}00158 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00159}00159     \textcolor{keyword}{auto} eps\_telem\_decomposition\_callback = [] (\textcolor{keyword}{const} std::vector<estts::telemetry\_object *>\& telem) -\/> \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00160}00160         \textcolor{keywordflow}{if} (telem.empty()) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00161}00161             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00162}00162         \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00163}00163         \textcolor{comment}{// TODO do something with the telem\_obj vector passed to this function}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00164}00164         \textcolor{keyword}{auto} eps\_3Vbus\_current = \textcolor{keyword}{new} \mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1eps__3_vbus__current}{estts::es2\_telemetry::eps::eps\_3Vbus\_current}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00165}00165 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00166}00166         eps\_3Vbus\_current-\/>\mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1eps__3_vbus__current_acbbed65cd5caa2b3b9df418cb994046f}{bus\_current}} = 9.0;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00167}00167 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00168}00168         spdlog::info(\textcolor{stringliteral}{"{}EPS 3.3V bus current : \{\}"{}}, eps\_3Vbus\_current-\/>bus\_current);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00169}00169 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00170}00170         spdlog::info(\textcolor{stringliteral}{"{}Got back 3.3V bus current -\/ it worked"{}});}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00171}00171     \};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00172}00172 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00173}00173     \textcolor{keywordflow}{return} dispatch(temp, eps\_telem\_decomposition\_callback);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00174}00174 \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00175}00175 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00176}00176 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00177}\mbox{\hyperlink{classeps__command_a6ed9ac50d2c35e537b585bc6e06275fa}{00177}} std::string \mbox{\hyperlink{classeps__command_a6ed9ac50d2c35e537b585bc6e06275fa}{eps\_command::get\_eps\_temp\_sensor5}}(\textcolor{keyword}{const} \mbox{\hyperlink{namespaceestts_ae6b6e5425cb54e6100346835d79d461a}{estts::dispatch\_fct}} \&dispatch) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00178}00178 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00179}00179     \textcolor{keyword}{auto} temp = \textcolor{keyword}{new} \mbox{\hyperlink{namespaceestts_a0acd462d37285da5e13fdcdf47e34827}{estts::command\_object}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00180}00180 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00181}00181     temp-\/>\mbox{\hyperlink{structestts_1_1command__object_ad89218b4126234f089f597a7f493cd8a}{address}} = \mbox{\hyperlink{namespaceestts_1_1es2__endpoint_a0342b3c48236b02fd3544a76d3cbd3a9}{estts::es2\_endpoint::ES\_EPS}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00182}00182     temp-\/>commandID = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1eps_aab8ab8159637bd751e53da8502814156}{estts::es2\_commands::eps::EPS\_GET\_TEMP\_SENSOR5}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00183}00183     temp-\/>method = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1method_a5f0eb4120226fc310a383c7fed53e2be}{estts::es2\_commands::method::ES\_READ}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00184}00184     temp-\/>sequence = 01;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00185}00185     temp-\/>timeStamp = 8330;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00186}00186 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00187}00187     SPDLOG\_INFO(\textcolor{stringliteral}{"{}Attempting to get EPS external temperature sensor 5"{}});}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00188}00188 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00189}00189 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00190}00190 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00191}00191     \textcolor{keyword}{auto} eps\_telem\_decomposition\_callback = [] (\textcolor{keyword}{const} std::vector<estts::telemetry\_object *>\& telem) -\/> \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00192}00192         \textcolor{keywordflow}{if} (telem.empty()) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00193}00193             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00194}00194         \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00195}00195         \textcolor{keyword}{auto} eps\_externalTemp\_sensor5 = \textcolor{keyword}{new} \mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1eps__external_temp__sensor5}{estts::es2\_telemetry::eps::eps\_externalTemp\_sensor5}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00196}00196 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00197}00197         eps\_externalTemp\_sensor5-\/>\mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1eps__external_temp__sensor5_a4fb09923dd1282b7d178dc875f6f934f}{external\_temperature}} = 1.5;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00198}00198 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00199}00199         spdlog::info(\textcolor{stringliteral}{"{}EPS external temperature sensor \#5 reads : \{\}"{}}, eps\_externalTemp\_sensor5-\/>external\_temperature);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00200}00200         spdlog::info(\textcolor{stringliteral}{"{}Got back the external temperature sensor -\/ it worked"{}});}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00201}00201         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00202}00202     \};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00203}00203 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00204}00204     \textcolor{keywordflow}{return} dispatch(temp, eps\_telem\_decomposition\_callback);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00205}00205 \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00206}00206 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00207}00207 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00208}\mbox{\hyperlink{classeps__command_a39b84906ea560dd0f4751c350c094d23}{00208}} std::string \mbox{\hyperlink{classeps__command_a39b84906ea560dd0f4751c350c094d23}{eps\_command::get\_eps\_temp\_sensor6}}(\textcolor{keyword}{const} \mbox{\hyperlink{namespaceestts_ae6b6e5425cb54e6100346835d79d461a}{estts::dispatch\_fct}} \&dispatch) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00209}00209 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00210}00210     \textcolor{keyword}{auto} temp = \textcolor{keyword}{new} \mbox{\hyperlink{namespaceestts_a0acd462d37285da5e13fdcdf47e34827}{estts::command\_object}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00211}00211 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00212}00212     temp-\/>\mbox{\hyperlink{structestts_1_1command__object_ad89218b4126234f089f597a7f493cd8a}{address}} = \mbox{\hyperlink{namespaceestts_1_1es2__endpoint_a0342b3c48236b02fd3544a76d3cbd3a9}{estts::es2\_endpoint::ES\_EPS}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00213}00213     temp-\/>commandID = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1eps_afe2574fd1c4174015f8e89259a983ccb}{estts::es2\_commands::eps::EPS\_GET\_TEMP\_SENSOR6}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00214}00214     temp-\/>method = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1method_a5f0eb4120226fc310a383c7fed53e2be}{estts::es2\_commands::method::ES\_READ}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00215}00215     temp-\/>sequence = 01;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00216}00216     temp-\/>timeStamp = 8987;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00217}00217 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00218}00218     SPDLOG\_INFO(\textcolor{stringliteral}{"{}Attempting to get EPS external temperature sensor 6"{}});}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00219}00219 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00220}00220 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00221}00221 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00222}00222     \textcolor{keyword}{auto} eps\_telem\_decomposition\_callback = [] (\textcolor{keyword}{const} std::vector<estts::telemetry\_object *>\& telem) -\/> \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00223}00223         \textcolor{keywordflow}{if} (telem.empty()) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00224}00224             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00225}00225         \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00226}00226         \textcolor{keyword}{auto} eps\_externalTemp\_sensor6 = \textcolor{keyword}{new} \mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1eps__external_temp__sensor6}{estts::es2\_telemetry::eps::eps\_externalTemp\_sensor6}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00227}00227 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00228}00228         eps\_externalTemp\_sensor6-\/>\mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1eps__external_temp__sensor6_a7e1f9ffce223872c9b9c83232ed6b1ed}{external\_temperature}} = 1.5;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00229}00229 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00230}00230         spdlog::info(\textcolor{stringliteral}{"{}EPS external temperature sensor \#6 reads : \{\}"{}}, eps\_externalTemp\_sensor6-\/>external\_temperature);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00231}00231         spdlog::info(\textcolor{stringliteral}{"{}Got back the external temperature sensor -\/ it worked"{}});}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00232}00232         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00233}00233     \};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00234}00234 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00235}00235     \textcolor{keywordflow}{return} dispatch(temp, eps\_telem\_decomposition\_callback);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00236}00236 \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00237}00237 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00238}00238 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00239}\mbox{\hyperlink{classeps__command_ac37d842182eb18503727f107b438ced4}{00239}} std::string \mbox{\hyperlink{classeps__command_ac37d842182eb18503727f107b438ced4}{eps\_command::get\_eps\_temp\_sensor7}}(\textcolor{keyword}{const} \mbox{\hyperlink{namespaceestts_ae6b6e5425cb54e6100346835d79d461a}{estts::dispatch\_fct}} \&dispatch) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00240}00240 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00241}00241     \textcolor{keyword}{auto} temp = \textcolor{keyword}{new} \mbox{\hyperlink{namespaceestts_a0acd462d37285da5e13fdcdf47e34827}{estts::command\_object}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00242}00242 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00243}00243     temp-\/>\mbox{\hyperlink{structestts_1_1command__object_ad89218b4126234f089f597a7f493cd8a}{address}} = \mbox{\hyperlink{namespaceestts_1_1es2__endpoint_a0342b3c48236b02fd3544a76d3cbd3a9}{estts::es2\_endpoint::ES\_EPS}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00244}00244     temp-\/>commandID = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1eps_ab6377834f2d9892f4b2f40b03ed9f287}{estts::es2\_commands::eps::EPS\_GET\_TEMP\_SENSOR7}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00245}00245     temp-\/>method = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1method_a5f0eb4120226fc310a383c7fed53e2be}{estts::es2\_commands::method::ES\_READ}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00246}00246     temp-\/>sequence = 01;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00247}00247     temp-\/>timeStamp = 8987;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00248}00248 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00249}00249     SPDLOG\_INFO(\textcolor{stringliteral}{"{}Attempting to get EPS external temperature sensor 7"{}});}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00250}00250 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00251}00251 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00252}00252 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00253}00253     \textcolor{keyword}{auto} eps\_telem\_decomposition\_callback = [] (\textcolor{keyword}{const} std::vector<estts::telemetry\_object *>\& telem) -\/> \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00254}00254         \textcolor{keywordflow}{if} (telem.empty()) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00255}00255             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00256}00256         \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00257}00257         \textcolor{keyword}{auto} eps\_externalTemp\_sensor7 = \textcolor{keyword}{new} \mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1eps__external_temp__sensor7}{estts::es2\_telemetry::eps::eps\_externalTemp\_sensor7}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00258}00258 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00259}00259         eps\_externalTemp\_sensor7-\/>\mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1eps__external_temp__sensor7_a8f8f4717a29a63cd083b93d5619c82d1}{external\_temperature}} = 1.5;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00260}00260 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00261}00261         spdlog::info(\textcolor{stringliteral}{"{}EPS external temperature sensor \#7 reads : \{\}"{}}, eps\_externalTemp\_sensor7-\/>external\_temperature);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00262}00262         spdlog::info(\textcolor{stringliteral}{"{}Got back the external temperature sensor -\/ it worked"{}});}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00263}00263         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00264}00264     \};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00265}00265 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00266}00266     \textcolor{keywordflow}{return} dispatch(temp, eps\_telem\_decomposition\_callback);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00267}00267 \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00268}00268 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00269}00269 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00270}\mbox{\hyperlink{classeps__command_a0efe7d533a18fb1f15caacd955e17a77}{00270}} std::string \mbox{\hyperlink{classeps__command_a0efe7d533a18fb1f15caacd955e17a77}{eps\_command::get\_eps\_battery\_temp\_sensor1}}(\textcolor{keyword}{const} \mbox{\hyperlink{namespaceestts_ae6b6e5425cb54e6100346835d79d461a}{estts::dispatch\_fct}} \&dispatch) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00271}00271 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00272}00272     \textcolor{keyword}{auto} temp = \textcolor{keyword}{new} \mbox{\hyperlink{namespaceestts_a0acd462d37285da5e13fdcdf47e34827}{estts::command\_object}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00273}00273 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00274}00274     temp-\/>\mbox{\hyperlink{structestts_1_1command__object_ad89218b4126234f089f597a7f493cd8a}{address}} = \mbox{\hyperlink{namespaceestts_1_1es2__endpoint_a0342b3c48236b02fd3544a76d3cbd3a9}{estts::es2\_endpoint::ES\_EPS}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00275}00275     temp-\/>commandID = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1eps_a111781f89d72998fa513780174610162}{estts::es2\_commands::eps::EPS\_GET\_BATTERY\_TEMP\_SENSOR1}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00276}00276     temp-\/>method = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1method_a5f0eb4120226fc310a383c7fed53e2be}{estts::es2\_commands::method::ES\_READ}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00277}00277     temp-\/>sequence = 01;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00278}00278     temp-\/>timeStamp = 8278;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00279}00279 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00280}00280     SPDLOG\_INFO(\textcolor{stringliteral}{"{}Attempting to get EPS battery temp sensor 1"{}});}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00281}00281 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00282}00282 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00283}00283 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00284}00284     \textcolor{keyword}{auto} eps\_telem\_decomposition\_callback = [] (\textcolor{keyword}{const} std::vector<estts::telemetry\_object *>\& telem) -\/> \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00285}00285         \textcolor{keywordflow}{if} (telem.empty()) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00286}00286             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00287}00287         \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00288}00288         \textcolor{keyword}{auto} eps\_batteryTemp\_sensor1 = \textcolor{keyword}{new} \mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1eps__battery_temp__sensor1}{estts::es2\_telemetry::eps::eps\_batteryTemp\_sensor1}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00289}00289 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00290}00290         eps\_batteryTemp\_sensor1-\/>\mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1eps__battery_temp__sensor1_ac6e62e9f6ef0a66e12b78330b839b97f}{battery\_temperature}} = 1.5;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00291}00291 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00292}00292         spdlog::info(\textcolor{stringliteral}{"{}EPS battery temp sensor 1 reads : \{\}"{}}, eps\_batteryTemp\_sensor1-\/>battery\_temperature);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00293}00293         spdlog::info(\textcolor{stringliteral}{"{}Got back the battery temp sensor -\/ it worked"{}});}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00294}00294         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00295}00295     \};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00296}00296 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00297}00297     \textcolor{keywordflow}{return} dispatch(temp, eps\_telem\_decomposition\_callback);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00298}00298 \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00299}00299 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00300}00300 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00301}\mbox{\hyperlink{classeps__command_afb6f4332e70c5670955f9d3d3c8d7a8d}{00301}} std::string \mbox{\hyperlink{classeps__command_afb6f4332e70c5670955f9d3d3c8d7a8d}{eps\_command::get\_eps\_battery\_temp\_sensor2}}(\textcolor{keyword}{const} \mbox{\hyperlink{namespaceestts_ae6b6e5425cb54e6100346835d79d461a}{estts::dispatch\_fct}} \&dispatch) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00302}00302 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00303}00303     \textcolor{keyword}{auto} temp = \textcolor{keyword}{new} \mbox{\hyperlink{namespaceestts_a0acd462d37285da5e13fdcdf47e34827}{estts::command\_object}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00304}00304 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00305}00305     temp-\/>\mbox{\hyperlink{structestts_1_1command__object_ad89218b4126234f089f597a7f493cd8a}{address}} = \mbox{\hyperlink{namespaceestts_1_1es2__endpoint_a0342b3c48236b02fd3544a76d3cbd3a9}{estts::es2\_endpoint::ES\_EPS}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00306}00306     temp-\/>commandID = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1eps_aae8ad017a1e8ec6f9156e89460cfd08e}{estts::es2\_commands::eps::EPS\_GET\_BATTERY\_TEMP\_SENSOR2}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00307}00307     temp-\/>method = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1method_a5f0eb4120226fc310a383c7fed53e2be}{estts::es2\_commands::method::ES\_READ}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00308}00308     temp-\/>sequence = 01;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00309}00309     temp-\/>timeStamp = 8672;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00310}00310 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00311}00311     SPDLOG\_INFO(\textcolor{stringliteral}{"{}Attempting to get EPS battery temp sensor 2"{}});}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00312}00312 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00313}00313 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00314}00314 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00315}00315     \textcolor{keyword}{auto} eps\_telem\_decomposition\_callback = [] (\textcolor{keyword}{const} std::vector<estts::telemetry\_object *>\& telem) -\/> \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00316}00316         \textcolor{keywordflow}{if} (telem.empty()) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00317}00317             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00318}00318         \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00319}00319         \textcolor{keyword}{auto} eps\_batteryTemp\_sensor2 = \textcolor{keyword}{new} \mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1eps__battery_temp__sensor2}{estts::es2\_telemetry::eps::eps\_batteryTemp\_sensor2}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00320}00320 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00321}00321         eps\_batteryTemp\_sensor2-\/>\mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1eps__battery_temp__sensor2_ae2eab77a0842eddf6e79c87e738f72a6}{battery\_temperature}} = 1.5;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00322}00322 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00323}00323         spdlog::info(\textcolor{stringliteral}{"{}EPS battery temp sensor 2 reads : \{\}"{}}, eps\_batteryTemp\_sensor2-\/>battery\_temperature);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00324}00324         spdlog::info(\textcolor{stringliteral}{"{}Got back the battery temp sensor -\/ it worked"{}});}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00325}00325         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00326}00326     \};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00327}00327 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00328}00328     \textcolor{keywordflow}{return} dispatch(temp, eps\_telem\_decomposition\_callback);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00329}00329 \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00330}00330 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00331}00331 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00332}\mbox{\hyperlink{classeps__command_afa372c1b7f976a13fd72aad0ae10a69b}{00332}} std::string \mbox{\hyperlink{classeps__command_afa372c1b7f976a13fd72aad0ae10a69b}{eps\_command::get\_eps\_battery\_temp\_sensor3}}(\textcolor{keyword}{const} \mbox{\hyperlink{namespaceestts_ae6b6e5425cb54e6100346835d79d461a}{estts::dispatch\_fct}} \&dispatch) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00333}00333 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00334}00334     \textcolor{keyword}{auto} temp = \textcolor{keyword}{new} \mbox{\hyperlink{namespaceestts_a0acd462d37285da5e13fdcdf47e34827}{estts::command\_object}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00335}00335 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00336}00336     temp-\/>\mbox{\hyperlink{structestts_1_1command__object_ad89218b4126234f089f597a7f493cd8a}{address}} = \mbox{\hyperlink{namespaceestts_1_1es2__endpoint_a0342b3c48236b02fd3544a76d3cbd3a9}{estts::es2\_endpoint::ES\_EPS}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00337}00337     temp-\/>commandID = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1eps_afc485cecac9e577f51aaae75d4a05fb1}{estts::es2\_commands::eps::EPS\_GET\_BATTERY\_TEMP\_SENSOR3}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00338}00338     temp-\/>method = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1method_a5f0eb4120226fc310a383c7fed53e2be}{estts::es2\_commands::method::ES\_READ}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00339}00339     temp-\/>sequence = 01;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00340}00340     temp-\/>timeStamp = 8782;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00341}00341 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00342}00342     SPDLOG\_INFO(\textcolor{stringliteral}{"{}Attempting to get EPS battery temp sensor 3"{}});}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00343}00343 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00344}00344 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00345}00345 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00346}00346     \textcolor{keyword}{auto} eps\_telem\_decomposition\_callback = [] (\textcolor{keyword}{const} std::vector<estts::telemetry\_object *>\& telem) -\/> \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00347}00347         \textcolor{keywordflow}{if} (telem.empty()) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00348}00348             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00349}00349         \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00350}00350         \textcolor{keyword}{auto} eps\_batteryTemp\_sensor3 = \textcolor{keyword}{new} \mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1eps__battery_temp__sensor3}{estts::es2\_telemetry::eps::eps\_batteryTemp\_sensor3}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00351}00351 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00352}00352         eps\_batteryTemp\_sensor3-\/>\mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1eps__battery_temp__sensor3_a822205d2f145f1793a596e76b597cc52}{battery\_temperature}} = 1.5;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00353}00353 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00354}00354         spdlog::info(\textcolor{stringliteral}{"{}EPS battery temp sensor 3 reads : \{\}"{}}, eps\_batteryTemp\_sensor3-\/>battery\_temperature);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00355}00355         spdlog::info(\textcolor{stringliteral}{"{}Got back the battery temp sensor -\/ it worked"{}});}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00356}00356         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00357}00357     \};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00358}00358 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00359}00359     \textcolor{keywordflow}{return} dispatch(temp, eps\_telem\_decomposition\_callback);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00360}00360 \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00361}00361 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00362}00362 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00363}\mbox{\hyperlink{classeps__command_aa97b3ecd330cab2e551b028770d84893}{00363}} std::string \mbox{\hyperlink{classeps__command_aa97b3ecd330cab2e551b028770d84893}{eps\_command::get\_eps\_battery\_temp\_sensor4}}(\textcolor{keyword}{const} \mbox{\hyperlink{namespaceestts_ae6b6e5425cb54e6100346835d79d461a}{estts::dispatch\_fct}} \&dispatch) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00364}00364 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00365}00365     \textcolor{keyword}{auto} temp = \textcolor{keyword}{new} \mbox{\hyperlink{namespaceestts_a0acd462d37285da5e13fdcdf47e34827}{estts::command\_object}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00366}00366 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00367}00367     temp-\/>\mbox{\hyperlink{structestts_1_1command__object_ad89218b4126234f089f597a7f493cd8a}{address}} = \mbox{\hyperlink{namespaceestts_1_1es2__endpoint_a0342b3c48236b02fd3544a76d3cbd3a9}{estts::es2\_endpoint::ES\_EPS}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00368}00368     temp-\/>commandID = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1eps_a333fd17b1664eac537198094a400710b}{estts::es2\_commands::eps::EPS\_GET\_BATTERY\_TEMP\_SENSOR4}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00369}00369     temp-\/>method = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1method_a5f0eb4120226fc310a383c7fed53e2be}{estts::es2\_commands::method::ES\_READ}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00370}00370     temp-\/>sequence = 01;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00371}00371     temp-\/>timeStamp = 8674;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00372}00372 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00373}00373     SPDLOG\_INFO(\textcolor{stringliteral}{"{}Attempting to get EPS battery temp sensor 4"{}});}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00374}00374 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00375}00375 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00376}00376 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00377}00377     \textcolor{keyword}{auto} eps\_telem\_decomposition\_callback = [] (\textcolor{keyword}{const} std::vector<estts::telemetry\_object *>\& telem) -\/> \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00378}00378         \textcolor{keywordflow}{if} (telem.empty()) \{}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00379}00379             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00380}00380         \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00381}00381         \textcolor{keyword}{auto} eps\_batteryTemp\_sensor4 = \textcolor{keyword}{new} \mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1eps__battery_temp__sensor4}{estts::es2\_telemetry::eps::eps\_batteryTemp\_sensor4}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00382}00382 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00383}00383         eps\_batteryTemp\_sensor4-\/>\mbox{\hyperlink{structestts_1_1es2__telemetry_1_1eps_1_1eps__battery_temp__sensor4_a62edc8fd103b2217e2104450eeba956a}{battery\_temperature}} = 1.5;}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00384}00384 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00385}00385         spdlog::info(\textcolor{stringliteral}{"{}EPS battery temp sensor 4 reads : \{\}"{}}, eps\_batteryTemp\_sensor4-\/>battery\_temperature);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00386}00386         spdlog::info(\textcolor{stringliteral}{"{}Got back the battery temp sensor -\/ it worked"{}});}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00387}00387         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00388}00388     \};}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00389}00389 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00390}00390     \textcolor{keywordflow}{return} dispatch(temp, eps\_telem\_decomposition\_callback);}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00391}00391 \}}
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00392}00392 }
+\DoxyCodeLine{\Hypertarget{eps__command_8cpp_source_l00393}00393 \mbox{\hyperlink{classeps__command_a172bc871666ad39d0c1989f9b9694e25}{eps\_command::eps\_command}}() = \textcolor{keywordflow}{default};}
+
+\end{DoxyCode}

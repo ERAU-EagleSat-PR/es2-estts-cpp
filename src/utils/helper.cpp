@@ -99,11 +99,13 @@ std::string find_removable_storage() {
 void print_write_trace_msg(unsigned char *message_uc, size_t bytes, const std::string& endpoint) {
     std::string message(reinterpret_cast<char*>(message_uc));
     std::replace( message.begin(), message.end(), '\r', ' ');
+    message.append("\0");
     SPDLOG_TRACE("Wrote '{}' (size={} bytes) to {}", message, bytes, endpoint);
 }
 
 void print_read_trace_msg(unsigned char *message_uc, size_t bytes, const std::string& endpoint) {
     std::string message(reinterpret_cast<char*>(message_uc));
     std::replace( message.begin(), message.end(), '\r', ' ');
+    message.append("\0");
     SPDLOG_TRACE("Read '{}' (size={} bytes) from {}", message, bytes, endpoint);
 }

@@ -36,19 +36,37 @@ groundstation_cmdtelem_manager::groundstation_cmdtelem_manager(transmission_inte
 void groundstation_cmdtelem_manager::dispatch() {
     std::string message;
     for (;;) {
+start:
         if (!waiting.empty()) {
             SPDLOG_TRACE("{} commands in queue", waiting.size());
+
+            if (!ti->gstxvr_session_active) {
+                // Request a new communication session from the ground station transceiver
+                if (ES_OK != this->ti->request_gstxvr_session()) {
+                    SPDLOG_ERROR("Failed to request new session.");
+                    goto start; // todo This should probably have a more elegant solution..
+                }
+            }
+
             if(this->ti->gs_transmit(waiting.front()->frame) != estts::ES_OK){
                 SPDLOG_TRACE("Failed to transmit.");
                 }
             else {
                 auto telem = this->ti->receive();
+                SPDLOG_INFO("Got response from ground station transceiver.");
                 if(waiting.front()->str_callback != nullptr){
                     waiting.front()->str_callback(telem);
                 }
-                SPDLOG_TRACE("Transmission Successful");
+                SPDLOG_TRACE("Command with serial number {} executed successfully.", waiting.front()->serial_number);
             }
             waiting.pop_front();
+
+            if (waiting.empty() && ti->gstxvr_session_active) {
+                if (ES_OK != this->ti->end_gstxvr_session()) {
+                    SPDLOG_WARN("Failed to end session rip");
+                }
+                SPDLOG_INFO("Waiting for more commands");
+            }
         }
     }
 }

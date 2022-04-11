@@ -1,0 +1,98 @@
+\hypertarget{transmission__interface_8h_source}{}\doxysection{transmission\+\_\+interface.\+h}
+\label{transmission__interface_8h_source}\index{src/ti/transmission\_interface.h@{src/ti/transmission\_interface.h}}
+\mbox{\hyperlink{transmission__interface_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00001}00001 \textcolor{comment}{/* Copyright © EagleSat II -\/ Embry Riddle Aeronautical University -\/ All rights reserved -\/ 2022 */}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00002}00002 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00003}00003 \textcolor{comment}{// Created by Hayden Roszell on 12/21/21.}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00005}00005 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00006}00006 \textcolor{preprocessor}{\#ifndef ESTTS\_TRANSMISSION\_INTERFACE\_H}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00007}00007 \textcolor{preprocessor}{\#define ESTTS\_TRANSMISSION\_INTERFACE\_H}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00008}00008 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00009}00009 \textcolor{preprocessor}{\#include <mutex>}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00010}00010 \textcolor{preprocessor}{\#include <thread>}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00011}00011 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{esttc_8h}{esttc.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00012}00012 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{socket__handler_8h}{socket\_handler.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00013}00013 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00014}\mbox{\hyperlink{classtransmission__interface}{00014}} \textcolor{keyword}{class }\mbox{\hyperlink{classtransmission__interface}{transmission\_interface}} : \textcolor{keyword}{virtual} \textcolor{keyword}{public} \mbox{\hyperlink{classesttc}{esttc}}, \textcolor{keyword}{virtual} \textcolor{keyword}{public} \mbox{\hyperlink{classsocket__handler}{socket\_handler}} \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00015}00015 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00016}00016     std::vector<std::function<void()>> dispatch\_functions;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00017}00017 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00018}00018     std::vector<std::thread> dispatch\_threadpool;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00019}00019 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00020}00020     std::function<\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}}(std::string)> primary\_telem\_cb;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00021}00021 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00022}00022     std::mutex mtx;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00023}00023 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00024}00024     std::thread pipe\_keeper;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00025}00025 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00026}00026     std::thread inrange\_checker;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00028}00028     \mbox{\hyperlink{namespaceestts_1_1endurosat_a52f79648af19824db1a45013ca1bedfe}{estts::endurosat::PIPE\_State}} pipe\_mode;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00030}00030     \textcolor{keywordtype}{bool} dispatch\_threadpool\_active;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00037}00037     \textcolor{keywordtype}{void} maintain\_pipe();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00038}00038 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00044}00044     [[noreturn]] \textcolor{keywordtype}{void} detect\_satellite\_in\_range();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00046}00046     \textcolor{keywordtype}{void} start\_dispatch\_threads();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00048}00048     \textcolor{keywordtype}{void} end\_dispatch\_threads();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00055}00055     std::string internal\_receive();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00057}00057 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00058}\mbox{\hyperlink{classtransmission__interface_a78aad522999539ba17879d069f85e5e8}{00058}}     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classtransmission__interface_a78aad522999539ba17879d069f85e5e8}{obc\_session\_active}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00059}00059 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00060}\mbox{\hyperlink{classtransmission__interface_a91a6ef6752aed796f742c42229c1902a}{00060}}     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classtransmission__interface_a91a6ef6752aed796f742c42229c1902a}{satellite\_in\_range}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00062}\mbox{\hyperlink{classtransmission__interface_a8b89b962dc3cd6174d6510b1a638c3a9}{00062}}     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classtransmission__interface_a8b89b962dc3cd6174d6510b1a638c3a9}{gstxvr\_session\_active}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00064}00064     \textcolor{keywordtype}{void} \mbox{\hyperlink{classtransmission__interface_af7b2eafe5b5b38ecd6762f97301fc378}{register\_dispatch\_function}}(\textcolor{keyword}{const} std::function<\textcolor{keywordtype}{void}()>\& fct);}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00065}00065 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00070}00070     \textcolor{keyword}{explicit} \mbox{\hyperlink{classtransmission__interface_a2d2a2721b23f525b3b476fb2327d53f8}{transmission\_interface}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00071}00071 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00075}00075     \mbox{\hyperlink{classtransmission__interface_ad4e3acd1179aecbc893282a88df1b6c2}{\string~transmission\_interface}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00076}00076 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00083}\mbox{\hyperlink{classtransmission__interface_a240ed1e78890767f2e7a2e68fcb285de}{00083}}     \textcolor{keywordtype}{void} \mbox{\hyperlink{classtransmission__interface_a240ed1e78890767f2e7a2e68fcb285de}{set\_telem\_callback}}(\textcolor{keyword}{const} std::function<\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}}(std::string)>\& cb) \{ primary\_telem\_cb = cb;\}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00092}00092     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classtransmission__interface_abd3531828b03ac77784e239a1305ce33}{transmit}}(\textcolor{keyword}{const} std::string \&value);}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00093}00093 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00102}00102     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classtransmission__interface_abd3531828b03ac77784e239a1305ce33}{transmit}}(\textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *value, \textcolor{keywordtype}{int} length);}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00103}00103 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00109}00109     std::string \mbox{\hyperlink{classtransmission__interface_aec2a512e3525ce9a55ff911a098ba8f5}{receive}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00110}00110 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00115}00115     std::string \mbox{\hyperlink{classtransmission__interface_a2e7c9b9f062986498dda02b8fcc10f90}{nonblock\_receive}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00116}00116 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00121}00121     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} * \mbox{\hyperlink{classtransmission__interface_addc2a2399f5e7d7849cc2570a64a6868}{receive\_uc}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00122}00122 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00128}00128     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classtransmission__interface_a6ade78122ffd8e877c652f51e18bc8f5}{request\_obc\_session}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00129}00129 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00130}00130     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classtransmission__interface_add18ff424ac330cb196a4fb79615f95d}{request\_gstxvr\_session}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00131}00131 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00132}00132     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classtransmission__interface_aa74ce8697844726379edc1afeb8bdc01}{end\_gstxvr\_session}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00133}00133 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00138}\mbox{\hyperlink{classtransmission__interface_a7661df78e8696c694e22d70dc348b396}{00138}}     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classtransmission__interface_a7661df78e8696c694e22d70dc348b396}{check\_session\_active}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} \mbox{\hyperlink{classtransmission__interface_a78aad522999539ba17879d069f85e5e8}{obc\_session\_active}}; \};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00139}00139 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00145}00145     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classtransmission__interface_a2f5fbd64c440f4f2bd79893826288b43}{end\_obc\_session}}(\textcolor{keyword}{const} std::string\& end\_frame);}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00146}00146 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00151}00151     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classtransmission__interface_a2f9ae91d4dedc1c02dd03665013e75e4}{check\_data\_available}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00152}00152 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00160}00160     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classtransmission__interface_a4d524ad4b05c07cbdab71560657f087b}{gs\_transmit}}(\textcolor{keyword}{const} std::string \&value);}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00161}00161 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00162}00162     \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00163}00163 \textcolor{comment}{     * CRITICAL NOTE -\/ The function calling enable\_pipe OR disable\_pipe MUST take the mutex.}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00164}00164 \textcolor{comment}{     * These functions execute REGARDLESS of the mutex state.}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00165}00165 \textcolor{comment}{     */}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00166}00166 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00167}00167     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classtransmission__interface_a8a820449dd79476726937cd227c227e3}{enable\_pipe}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00168}00168 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00169}00169     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classtransmission__interface_aa3ab068aa556878fa12e9a66477264f2}{disable\_pipe}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00170}00170 \};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00171}00171 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00172}00172 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8h_source_l00173}00173 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//ESTTS\_TRANSMISSION\_INTERFACE\_H}}
+
+\end{DoxyCode}

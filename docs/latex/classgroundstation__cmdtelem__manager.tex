@@ -1,0 +1,66 @@
+\hypertarget{classgroundstation__cmdtelem__manager}{}\doxysection{groundstation\+\_\+cmdtelem\+\_\+manager Class Reference}
+\label{classgroundstation__cmdtelem__manager}\index{groundstation\_cmdtelem\_manager@{groundstation\_cmdtelem\_manager}}
+
+
+{\ttfamily \#include $<$groundstation\+\_\+cmdtelem\+\_\+manager.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classgroundstation__cmdtelem__manager_a6b25d5c0c9f88b724fd1494f634b86de}{groundstation\+\_\+cmdtelem\+\_\+manager}} (\mbox{\hyperlink{classtransmission__interface}{transmission\+\_\+interface}} $\ast$ti, std\+::function$<$ \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}}(std\+::string)$>$ telem\+\_\+callback)
+\begin{DoxyCompactList}\small\item\em Default constructor for ground station command/telemetry manager. Takes argument for a transmission interface and initializes the command handler. Note that in order to run the dispatcher, dispatcher\+\_\+init must be called. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classgroundstation__cmdtelem__manager_afec6a1b07448afe77441ccb32678ab77}{schedule\+\_\+command}} (std\+::string command, const std\+::function$<$ \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}}(std\+::string)$>$ \&callback)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{groundstation__cmdtelem__manager_8h_source_l00015}{15}} of file \mbox{\hyperlink{groundstation__cmdtelem__manager_8h_source}{groundstation\+\_\+cmdtelem\+\_\+manager.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classgroundstation__cmdtelem__manager_a6b25d5c0c9f88b724fd1494f634b86de}\label{classgroundstation__cmdtelem__manager_a6b25d5c0c9f88b724fd1494f634b86de}} 
+\index{groundstation\_cmdtelem\_manager@{groundstation\_cmdtelem\_manager}!groundstation\_cmdtelem\_manager@{groundstation\_cmdtelem\_manager}}
+\index{groundstation\_cmdtelem\_manager@{groundstation\_cmdtelem\_manager}!groundstation\_cmdtelem\_manager@{groundstation\_cmdtelem\_manager}}
+\doxysubsubsection{\texorpdfstring{groundstation\_cmdtelem\_manager()}{groundstation\_cmdtelem\_manager()}}
+{\footnotesize\ttfamily groundstation\+\_\+cmdtelem\+\_\+manager\+::groundstation\+\_\+cmdtelem\+\_\+manager (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classtransmission__interface}{transmission\+\_\+interface}} $\ast$}]{ti,  }\item[{std\+::function$<$ \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}}(std\+::string)$>$}]{telem\+\_\+callback }\end{DoxyParamCaption})}
+
+
+
+Default constructor for ground station command/telemetry manager. Takes argument for a transmission interface and initializes the command handler. Note that in order to run the dispatcher, dispatcher\+\_\+init must be called. 
+
+
+
+Definition at line \mbox{\hyperlink{groundstation__cmdtelem__manager_8cpp_source_l00026}{26}} of file \mbox{\hyperlink{groundstation__cmdtelem__manager_8cpp_source}{groundstation\+\_\+cmdtelem\+\_\+manager.\+cpp}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classgroundstation__cmdtelem__manager_afec6a1b07448afe77441ccb32678ab77}\label{classgroundstation__cmdtelem__manager_afec6a1b07448afe77441ccb32678ab77}} 
+\index{groundstation\_cmdtelem\_manager@{groundstation\_cmdtelem\_manager}!schedule\_command@{schedule\_command}}
+\index{schedule\_command@{schedule\_command}!groundstation\_cmdtelem\_manager@{groundstation\_cmdtelem\_manager}}
+\doxysubsubsection{\texorpdfstring{schedule\_command()}{schedule\_command()}}
+{\footnotesize\ttfamily std\+::string groundstation\+\_\+cmdtelem\+\_\+manager\+::schedule\+\_\+command (\begin{DoxyParamCaption}\item[{std\+::string}]{command,  }\item[{const std\+::function$<$ \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}}(std\+::string)$>$ \&}]{callback }\end{DoxyParamCaption})}
+
+Function that takes argument for a string command passed by a higher level interface, and a callback function that is called with the response to the command as argument. It\textquotesingle{}s implied that this function should handle whatever telemetry is returned by the dispatch process. This function creates a waiting\+\_\+command object and stores a serial number, the callback function, and the command string expected to dispatch during the next satellite pass. 
+\begin{DoxyParams}{Parameters}
+{\em command} & String command received by higher level interface \\
+\hline
+{\em callback} & Callback with form std\+::function$<$estts\+::\+Status(std\+::string)$>$ \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String serial number associated with newly scheduled command 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{groundstation__cmdtelem__manager_8cpp_source_l00008}{8}} of file \mbox{\hyperlink{groundstation__cmdtelem__manager_8cpp_source}{groundstation\+\_\+cmdtelem\+\_\+manager.\+cpp}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/fapi/\mbox{\hyperlink{groundstation__cmdtelem__manager_8h}{groundstation\+\_\+cmdtelem\+\_\+manager.\+h}}\item 
+src/fapi/\mbox{\hyperlink{groundstation__cmdtelem__manager_8cpp}{groundstation\+\_\+cmdtelem\+\_\+manager.\+cpp}}\end{DoxyCompactItemize}

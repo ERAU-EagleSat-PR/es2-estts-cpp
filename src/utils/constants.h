@@ -17,6 +17,7 @@ namespace estts {
     const int ESTTS_AWAIT_RESPONSE_PERIOD_SEC = 5;
     const int ESTTS_SATELLITE_CONNECTION_TIMEOUT_MIN = 90;
     const int ESTTS_CHECK_SATELLITE_INRANGE_INTERVAL_SEC = 30;
+    const int ESTTS_REQUEST_SESSION_TIMEOUT_SECONDS = 300;
 
     namespace cosmos {
         const char COSMOS_SERVER_ADDR[] = "172.30.95.164"; // 172.30.95.164 172.19.35.160
