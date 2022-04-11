@@ -59,6 +59,8 @@ public:
 
     bool satellite_in_range;
 
+    bool gstxvr_session_active;
+
     void register_dispatch_function(const std::function<void()>& fct);
 
     /**
@@ -124,6 +126,10 @@ public:
      * @return ES_OK if a session is active
      */
     estts::Status request_obc_session();
+
+    estts::Status request_gstxvr_session();
+
+    estts::Status end_gstxvr_session();
 
     /**
      * Function that returns the status of obc_session_active

@@ -1,0 +1,1138 @@
+\begin{theindex}
+
+  \item {$\sim$command\_handler}
+    \subitem {command\_handler}, \hyperpage{38}
+  \item {$\sim$esttc}
+    \subitem {esttc}, \hyperpage{59}
+  \item {$\sim$obc\_session\_manager}
+    \subitem {obc\_session\_manager}, \hyperpage{85}
+  \item {$\sim$posix\_serial}
+    \subitem {posix\_serial}, \hyperpage{87}
+  \item {$\sim$serial\_handler}
+    \subitem {serial\_handler}, \hyperpage{92}
+  \item {$\sim$socket\_handler}
+    \subitem {socket\_handler}, \hyperpage{97}
+  \item {$\sim$transmission\_interface}
+    \subitem {transmission\_interface}, \hyperpage{102}
+
+  \indexspace
+
+  \item {acs\_command}, \hyperpage{31}
+    \subitem {deploy\_magnetometer\_boom}, \hyperpage{31}
+    \subitem {enable\_acs}, \hyperpage{31}
+    \subitem {get\_current\_position}, \hyperpage{32}
+    \subitem {power\_acs}, \hyperpage{32}
+    \subitem {set\_ctrl\_mode}, \hyperpage{32}
+    \subitem {set\_est\_mode}, \hyperpage{32}
+  \item {ACS\_DEP\_MAG\_BOOM}
+    \subitem {estts::es2\_commands::acs}, \hyperpage{18}
+  \item {ACS\_ENABLE}
+    \subitem {estts::es2\_commands::acs}, \hyperpage{18}
+  \item {ACS\_EST\_ANG\_RATES\_FINE}
+    \subitem {estts::es2\_commands::acs}, \hyperpage{18}
+  \item {ACS\_GET\_CC\_CURRENT}
+    \subitem {estts::es2\_commands::acs}, \hyperpage{18}
+  \item {ACS\_GET\_GPS\_LAT}
+    \subitem {estts::es2\_commands::acs}, \hyperpage{19}
+  \item {ACS\_GET\_GPS\_LONG}
+    \subitem {estts::es2\_commands::acs}, \hyperpage{19}
+  \item {ACS\_GET\_MAGNET}
+    \subitem {estts::es2\_commands::acs}, \hyperpage{19}
+  \item {ACS\_GET\_MAGNETO}
+    \subitem {estts::es2\_commands::acs}, \hyperpage{19}
+  \item {ACS\_GET\_POS}
+    \subitem {estts::es2\_commands::acs}, \hyperpage{19}
+  \item {ACS\_POWER}
+    \subitem {estts::es2\_commands::acs}, \hyperpage{19}
+  \item {ACS\_RATE\_SENSE\_RATE}
+    \subitem {estts::es2\_commands::acs}, \hyperpage{20}
+  \item {ACS\_SAVE\_CONFIG}
+    \subitem {estts::es2\_commands::acs}, \hyperpage{20}
+  \item {ACS\_SET\_ANG\_RATE}
+    \subitem {estts::es2\_commands::acs}, \hyperpage{20}
+  \item {ACS\_SET\_ATT\_ANG}
+    \subitem {estts::es2\_commands::acs}, \hyperpage{20}
+  \item {ACS\_SET\_CTRL\_MODE}
+    \subitem {estts::es2\_commands::acs}, \hyperpage{20}
+  \item {ACS\_SET\_EST\_MODE}
+    \subitem {estts::es2\_commands::acs}, \hyperpage{20}
+  \item {ACS\_SET\_INERTIA}
+    \subitem {estts::es2\_commands::acs}, \hyperpage{21}
+  \item {ACS\_SET\_MAG\_MNT}
+    \subitem {estts::es2\_commands::acs}, \hyperpage{21}
+  \item {ACS\_SET\_MAG\_MNT\_MTRX}
+    \subitem {estts::es2\_commands::acs}, \hyperpage{21}
+  \item {ACS\_SET\_MAGNETORQUER}
+    \subitem {estts::es2\_commands::acs}, \hyperpage{21}
+  \item {ADDRESS}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{73}
+  \item {address}
+    \subitem {estts::command\_object}, \hyperpage{40}
+    \subitem {estts::telemetry\_object}, \hyperpage{100}
+  \item {ascii\_to\_hex}
+    \subitem {helper.cpp}, \hyperpage{183}
+    \subitem {helper.h}, \hyperpage{186}
+  \item {async\_buf}
+    \subitem {serial\_handler}, \hyperpage{95}
+  \item {await\_completion}
+    \subitem {obc\_session\_manager}, \hyperpage{85}
+  \item {AX25\_CONTROL}
+    \subitem {estts::ax25}, \hyperpage{13}
+  \item {AX25\_DESTINATION\_ADDRESS}
+    \subitem {estts::ax25}, \hyperpage{13}
+  \item {AX25\_FLAG}
+    \subitem {estts::ax25}, \hyperpage{13}
+  \item {AX25\_PID}
+    \subitem {estts::ax25}, \hyperpage{13}
+  \item {AX25\_SOURCE\_ADDRESS}
+    \subitem {estts::ax25}, \hyperpage{13}
+  \item {AX25\_SSID0}
+    \subitem {estts::ax25}, \hyperpage{13}
+  \item {AX25\_SSID1}
+    \subitem {estts::ax25}, \hyperpage{14}
+  \item {ax25\_ui\_frame\_constructor}, \hyperpage{33}
+    \subitem {ax25\_ui\_frame\_constructor}, \hyperpage{33}
+    \subitem {construct\_ax25}, \hyperpage{33}
+    \subitem {encode\_ax25\_frame}, \hyperpage{34}
+  \item {ax25\_ui\_frame\_destructor}, \hyperpage{34}
+    \subitem {ax25\_ui\_frame\_destructor}, \hyperpage{35}
+    \subitem {destruct\_ax25}, \hyperpage{35}
+
+  \indexspace
+
+  \item {battery\_current}
+    \subitem {estts::es2\_telemetry::eps::eps\_current}, \hyperpage{54}
+  \item {battery\_temperature}
+    \subitem {estts::es2\_telemetry::eps::eps\_batteryTemp\_sensor1}, 
+		\hyperpage{48}
+    \subitem {estts::es2\_telemetry::eps::eps\_batteryTemp\_sensor2}, 
+		\hyperpage{49}
+    \subitem {estts::es2\_telemetry::eps::eps\_batteryTemp\_sensor3}, 
+		\hyperpage{50}
+    \subitem {estts::es2\_telemetry::eps::eps\_batteryTemp\_sensor4}, 
+		\hyperpage{50}
+  \item {battery\_voltage}
+    \subitem {estts::es2\_telemetry::eps::eps\_voltage}, \hyperpage{56}
+    \subitem {estts::es2\_telemetry::eps::vitals}, \hyperpage{108}
+  \item {bin\_converter}, \hyperpage{35}
+    \subitem {toBinary}, \hyperpage{36}
+  \item {BLANK}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{73}
+  \item {brownouts}
+    \subitem {estts::es2\_telemetry::eps::vitals}, \hyperpage{108}
+  \item {build\_info\_field}
+    \subitem {info\_field}, \hyperpage{82}
+  \item {build\_telemetry\_object}
+    \subitem {info\_field}, \hyperpage{82}
+  \item {bus\_current}
+    \subitem {estts::es2\_telemetry::eps::eps\_3Vbus\_current}, 
+		\hyperpage{47}
+    \subitem {estts::es2\_telemetry::eps::eps\_5Vbus\_current}, 
+		\hyperpage{48}
+
+  \indexspace
+
+  \item {cache}
+    \subitem {posix\_serial}, \hyperpage{89}
+    \subitem {serial\_handler}, \hyperpage{95}
+  \item {calculate\_crc32}
+    \subitem {esttc}, \hyperpage{59}
+  \item {charge\_time\_mins}
+    \subitem {estts::es2\_telemetry::eps::vitals}, \hyperpage{109}
+  \item {check\_data\_available}
+    \subitem {transmission\_interface}, \hyperpage{103}
+  \item {check\_serial\_bytes\_avail}
+    \subitem {posix\_serial}, \hyperpage{88}
+    \subitem {serial\_handler}, \hyperpage{92}
+  \item {check\_session\_active}
+    \subitem {transmission\_interface}, \hyperpage{103}
+  \item {check\_sock\_bytes\_avail}
+    \subitem {socket\_handler}, \hyperpage{97}
+  \item {clear\_serial\_fifo}
+    \subitem {posix\_serial}, \hyperpage{88}
+    \subitem {serial\_handler}, \hyperpage{92, 93}
+  \item {CMD\_ANT\_READ\_WRITE}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{73}
+  \item {CMD\_ANT\_RELEASE\_CONFIG}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{73}
+  \item {CMD\_AUDIO\_BCN\_P\_TRANS}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{74}
+  \item {CMD\_AUTO\_AX25\_DECODE}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{74}
+  \item {CMD\_BCN\_MSG\_CONFIG}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{74}
+  \item {CMD\_BCN\_MSG\_TRANS\_CONFIG}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{74}
+  \item {CMD\_DEST\_CALL\_SIGN}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{74}
+  \item {CMD\_DVC\_ADDR\_CONFIG}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{74}
+  \item {CMD\_ENABLE\_DISABLE\_RADIO\_CRC}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{75}
+  \item {CMD\_FORCE\_BCN\_CMD}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{75}
+  \item {CMD\_FRAM\_MEM\_READ\_WRITE}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{75}
+  \item {CMD\_FRMWR\_UPDATE}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{75}
+  \item {CMD\_I2C\_RESIST\_CONFIG}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{75}
+  \item {CMD\_LOW\_PWR\_MODE}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{75}
+  \item {CMD\_PIPE\_MODE\_TMOUT\_CONFIG}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{76}
+  \item {CMD\_RADIO\_FREQ\_CONFIG}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{76}
+  \item {CMD\_RADIO\_TRANS\_PROP\_CONFIG}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{76}
+  \item {CMD\_READ\_DVC\_PAYLOAD}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{76}
+  \item {CMD\_READ\_RECEIV\_PCKTS}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{76}
+  \item {CMD\_READ\_SFTWR\_VER}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{76}
+  \item {CMD\_READ\_TRANS\_PCKTS}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{77}
+  \item {CMD\_READ\_TRANS\_PCKTS\_CRC}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{77}
+  \item {CMD\_READ\_UPTIME}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{77}
+  \item {CMD\_READ\_WRITE\_I2C}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{77}
+  \item {CMD\_RESTORE}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{77}
+  \item {CMD\_SCW}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{77}
+  \item {CMD\_SECURE\_MODE}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{78}
+  \item {CMD\_SRC\_CALL\_SIGN}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{78}
+  \item {CMD\_TEMP\_VAL}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{78}
+  \item {CMD\_TERM\_RESIST\_CONFIG}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{78}
+  \item {command}
+    \subitem {estts::dispatched\_command}, \hyperpage{45}
+    \subitem {estts::waiting\_command}, \hyperpage{109}
+    \subitem {info\_field}, \hyperpage{83}
+  \item {command\_handler}, \hyperpage{37}
+    \subitem {$\sim$command\_handler}, \hyperpage{38}
+    \subitem {command\_handler}, \hyperpage{38}
+    \subitem {completed\_cache}, \hyperpage{39}
+    \subitem {dispatched}, \hyperpage{39}
+    \subitem {execute}, \hyperpage{38}
+    \subitem {init\_command\_handler}, \hyperpage{38}
+  \item {command\_handler.cpp}
+    \subitem {validate\_response\_code}, \hyperpage{111}
+  \item {command\_object}
+    \subitem {estts}, \hyperpage{10}
+  \item {commandID}
+    \subitem {estts::command\_object}, \hyperpage{40}
+    \subitem {estts::telemetry\_object}, \hyperpage{100}
+  \item {completed\_cache}
+    \subitem {command\_handler}, \hyperpage{39}
+  \item {constants.h}
+    \subitem {MAX\_SERIAL\_READ}, \hyperpage{178}
+    \subitem {SPDLOG\_ACTIVE\_LEVEL}, \hyperpage{178}
+  \item {construct\_ax25}
+    \subitem {ax25\_ui\_frame\_constructor}, \hyperpage{33}
+  \item {COSMOS\_GROUNDSTATION\_CMD\_TELEM\_PORT}
+    \subitem {estts::cosmos}, \hyperpage{14}
+  \item {cosmos\_groundstation\_handler}, \hyperpage{41}
+    \subitem {cosmos\_groundstation\_handler}, \hyperpage{41}
+    \subitem {cosmos\_groundstation\_init}, \hyperpage{42}
+  \item {cosmos\_groundstation\_init}
+    \subitem {cosmos\_groundstation\_handler}, \hyperpage{42}
+  \item {cosmos\_handler}, \hyperpage{42}
+    \subitem {cosmos\_handler}, \hyperpage{43}
+    \subitem {cosmos\_init}, \hyperpage{43}
+    \subitem {initialize\_cosmos\_daemon}, \hyperpage{43}
+  \item {cosmos\_init}
+    \subitem {cosmos\_handler}, \hyperpage{43}
+  \item {COSMOS\_PRIMARY\_CMD\_TELEM\_PORT}
+    \subitem {estts::cosmos}, \hyperpage{15}
+  \item {COSMOS\_SATELLITE\_TXVR\_CMD\_TELEM\_PORT}
+    \subitem {estts::cosmos}, \hyperpage{15}
+  \item {cosmos\_satellite\_txvr\_handler}, \hyperpage{44}
+    \subitem {cosmos\_satellite\_txvr\_handler}, \hyperpage{44}
+    \subitem {cosmos\_satellite\_txvr\_init}, \hyperpage{44}
+  \item {cosmos\_satellite\_txvr\_init}
+    \subitem {cosmos\_satellite\_txvr\_handler}, \hyperpage{44}
+  \item {COSMOS\_SERVER\_ADDR}
+    \subitem {estts::cosmos}, \hyperpage{15}
+  \item {crp\_command}, \hyperpage{45}
+  \item {CRP\_GET\_DATA}
+    \subitem {estts::es2\_commands::crp}, \hyperpage{21}
+
+  \indexspace
+
+  \item {data}
+    \subitem {estts::command\_object}, \hyperpage{40}
+    \subitem {estts::telemetry\_object}, \hyperpage{100}
+  \item {default\_mode}
+    \subitem {esttc}, \hyperpage{59}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{73}
+  \item {deploy\_magnetometer\_boom}
+    \subitem {acs\_command}, \hyperpage{31}
+  \item {destruct\_ax25}
+    \subitem {ax25\_ui\_frame\_destructor}, \hyperpage{35}
+  \item {disable\_pipe}
+    \subitem {transmission\_interface}, \hyperpage{103}
+  \item {dispatch\_fct}
+    \subitem {estts}, \hyperpage{10}
+  \item {dispatched}
+    \subitem {command\_handler}, \hyperpage{39}
+  \item {dispatched\_command}
+    \subitem {estts}, \hyperpage{10}
+  \item {DOWNLINK\_XOR}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{78}
+
+  \indexspace
+
+  \item {enable\_acs}
+    \subitem {acs\_command}, \hyperpage{31}
+  \item {enable\_pipe}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{73}
+    \subitem {transmission\_interface}, \hyperpage{103}
+  \item {encode\_ax25\_frame}
+    \subitem {ax25\_ui\_frame\_constructor}, \hyperpage{34}
+  \item {END}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{78}
+  \item {end\_gstxvr\_session}
+    \subitem {transmission\_interface}, \hyperpage{104}
+  \item {end\_obc\_session}
+    \subitem {transmission\_interface}, \hyperpage{104}
+  \item {END\_SESSION\_FRAME}
+    \subitem {estts::ax25}, \hyperpage{14}
+  \item {eps\_command}, \hyperpage{51}
+    \subitem {eps\_command}, \hyperpage{51}
+    \subitem {get\_eps\_3Vbus\_current}, \hyperpage{51}
+    \subitem {get\_eps\_5Vbus\_current}, \hyperpage{51}
+    \subitem {get\_eps\_battery\_temp\_sensor1}, \hyperpage{52}
+    \subitem {get\_eps\_battery\_temp\_sensor2}, \hyperpage{52}
+    \subitem {get\_eps\_battery\_temp\_sensor3}, \hyperpage{52}
+    \subitem {get\_eps\_battery\_temp\_sensor4}, \hyperpage{52}
+    \subitem {get\_eps\_batteryCurrent}, \hyperpage{52}
+    \subitem {get\_eps\_batteryVoltage}, \hyperpage{52}
+    \subitem {get\_eps\_temp\_sensor5}, \hyperpage{53}
+    \subitem {get\_eps\_temp\_sensor6}, \hyperpage{53}
+    \subitem {get\_eps\_temp\_sensor7}, \hyperpage{53}
+    \subitem {get\_eps\_vitals}, \hyperpage{53}
+  \item {EPS\_GET\_3VBUS\_CURRENT}
+    \subitem {estts::es2\_commands::eps}, \hyperpage{22}
+  \item {EPS\_GET\_5VBUS\_CURRENT}
+    \subitem {estts::es2\_commands::eps}, \hyperpage{22}
+  \item {EPS\_GET\_BATTERY\_CURRENT}
+    \subitem {estts::es2\_commands::eps}, \hyperpage{22}
+  \item {EPS\_GET\_BATTERY\_TEMP\_SENSOR1}
+    \subitem {estts::es2\_commands::eps}, \hyperpage{23}
+  \item {EPS\_GET\_BATTERY\_TEMP\_SENSOR2}
+    \subitem {estts::es2\_commands::eps}, \hyperpage{23}
+  \item {EPS\_GET\_BATTERY\_TEMP\_SENSOR3}
+    \subitem {estts::es2\_commands::eps}, \hyperpage{23}
+  \item {EPS\_GET\_BATTERY\_TEMP\_SENSOR4}
+    \subitem {estts::es2\_commands::eps}, \hyperpage{23}
+  \item {EPS\_GET\_BATTERY\_VOLTAGE}
+    \subitem {estts::es2\_commands::eps}, \hyperpage{23}
+  \item {EPS\_GET\_COMMAND\_43}
+    \subitem {estts::es2\_commands::eps}, \hyperpage{23}
+  \item {EPS\_GET\_HEALTH}
+    \subitem {estts::es2\_commands::eps}, \hyperpage{24}
+  \item {EPS\_GET\_TEMP\_SENSOR5}
+    \subitem {estts::es2\_commands::eps}, \hyperpage{24}
+  \item {EPS\_GET\_TEMP\_SENSOR6}
+    \subitem {estts::es2\_commands::eps}, \hyperpage{24}
+  \item {EPS\_GET\_TEMP\_SENSOR7}
+    \subitem {estts::es2\_commands::eps}, \hyperpage{24}
+  \item {ES\_ACS}
+    \subitem {estts::es2\_endpoint}, \hyperpage{26}
+  \item {ES\_BAD\_OPTION}
+    \subitem {estts}, \hyperpage{11}
+  \item {ES\_BAUD}
+    \subitem {estts::endurosat}, \hyperpage{16}
+  \item {ES\_CRP}
+    \subitem {estts::es2\_endpoint}, \hyperpage{26}
+  \item {ES\_EPS}
+    \subitem {estts::es2\_endpoint}, \hyperpage{26}
+  \item {ES\_INPROGRESS}
+    \subitem {estts}, \hyperpage{11}
+  \item {ES\_MDE}
+    \subitem {estts::es2\_endpoint}, \hyperpage{26}
+  \item {ES\_MEMORY\_ERROR}
+    \subitem {estts}, \hyperpage{11}
+  \item {ES\_NOTFOUND}
+    \subitem {estts}, \hyperpage{11}
+  \item {ES\_OBC}
+    \subitem {estts::es2\_endpoint}, \hyperpage{27}
+  \item {ES\_OFFLINE\_LOG}
+    \subitem {estts::es2\_endpoint}, \hyperpage{27}
+  \item {ES\_OK}
+    \subitem {estts}, \hyperpage{11}
+  \item {ES\_READ}
+    \subitem {estts::es2\_commands::method}, \hyperpage{25}
+  \item {ES\_SERVER\_ERROR}
+    \subitem {estts}, \hyperpage{11}
+  \item {ES\_SUCCESS}
+    \subitem {estts}, \hyperpage{11}
+  \item {ES\_TELEMETRY}
+    \subitem {estts::es2\_endpoint}, \hyperpage{27}
+  \item {ES\_UNAUTHORIZED}
+    \subitem {estts}, \hyperpage{11}
+  \item {ES\_UNINITIALIZED}
+    \subitem {estts}, \hyperpage{11}
+  \item {ES\_UNSUCCESSFUL}
+    \subitem {estts}, \hyperpage{11}
+  \item {ES\_WAITING}
+    \subitem {estts}, \hyperpage{11}
+  \item {ES\_WRITE}
+    \subitem {estts::es2\_commands::method}, \hyperpage{25}
+  \item {esttc}, \hyperpage{57}
+    \subitem {$\sim$esttc}, \hyperpage{59}
+    \subitem {calculate\_crc32}, \hyperpage{59}
+    \subitem {default\_mode}, \hyperpage{59}
+    \subitem {esttc}, \hyperpage{59}
+    \subitem {read\_ant\_release\_config}, \hyperpage{60}
+    \subitem {read\_bcn\_trans\_period}, \hyperpage{60}
+    \subitem {read\_config\_ax25\_decode}, \hyperpage{61}
+    \subitem {read\_dvc\_payload\_size}, \hyperpage{61}
+    \subitem {read\_i2c\_resist\_config}, \hyperpage{61}
+    \subitem {read\_low\_pwr\_mode}, \hyperpage{62}
+    \subitem {read\_radio\_crc16}, \hyperpage{62}
+    \subitem {read\_radio\_freq}, \hyperpage{62}
+    \subitem {read\_radio\_trans\_prop\_config}, \hyperpage{63}
+    \subitem {read\_scw}, \hyperpage{63}
+    \subitem {read\_src\_call\_sign}, \hyperpage{64}
+    \subitem {read\_trans\_pckts}, \hyperpage{64}
+    \subitem {read\_trans\_pckts\_crc}, \hyperpage{65}
+    \subitem {read\_uptime}, \hyperpage{65}
+    \subitem {update\_firmware}, \hyperpage{66}
+    \subitem {update\_firmware\_sequence}, \hyperpage{66}
+    \subitem {write\_ant\_release\_config}, \hyperpage{66}
+    \subitem {write\_bcn\_trans\_period}, \hyperpage{68}
+    \subitem {write\_config\_ax25\_decode}, \hyperpage{68}
+    \subitem {write\_dvc\_addr\_config}, \hyperpage{68}
+    \subitem {write\_i2c\_resist\_config}, \hyperpage{69}
+    \subitem {write\_low\_pwr\_mode}, \hyperpage{69}
+    \subitem {write\_radio\_crc16}, \hyperpage{69}
+    \subitem {write\_radio\_freq\_config}, \hyperpage{70}
+    \subitem {write\_radio\_trans\_prop\_config}, \hyperpage{70}
+    \subitem {write\_res\_default\_vals}, \hyperpage{70}
+    \subitem {write\_scw}, \hyperpage{71}
+    \subitem {write\_src\_call\_sign}, \hyperpage{71}
+  \item {estts}, \hyperpage{9}
+    \subitem {command\_object}, \hyperpage{10}
+    \subitem {dispatch\_fct}, \hyperpage{10}
+    \subitem {dispatched\_command}, \hyperpage{10}
+    \subitem {ES\_BAD\_OPTION}, \hyperpage{11}
+    \subitem {ES\_INPROGRESS}, \hyperpage{11}
+    \subitem {ES\_MEMORY\_ERROR}, \hyperpage{11}
+    \subitem {ES\_NOTFOUND}, \hyperpage{11}
+    \subitem {ES\_OK}, \hyperpage{11}
+    \subitem {ES\_SERVER\_ERROR}, \hyperpage{11}
+    \subitem {ES\_SUCCESS}, \hyperpage{11}
+    \subitem {ES\_UNAUTHORIZED}, \hyperpage{11}
+    \subitem {ES\_UNINITIALIZED}, \hyperpage{11}
+    \subitem {ES\_UNSUCCESSFUL}, \hyperpage{11}
+    \subitem {ES\_WAITING}, \hyperpage{11}
+    \subitem {ESTTS\_AWAIT\_RESPONSE\_PERIOD\_SEC}, \hyperpage{11}
+    \subitem {ESTTS\_CHECK\_SATELLITE\_INRANGE\_INTERVAL\_SEC}, 
+		\hyperpage{11}
+    \subitem {ESTTS\_MAX\_RETRIES}, \hyperpage{11}
+    \subitem {ESTTS\_REQUEST\_SESSION\_TIMEOUT\_SECONDS}, 
+		\hyperpage{12}
+    \subitem {ESTTS\_RETRY\_WAIT\_SEC}, \hyperpage{12}
+    \subitem {ESTTS\_SATELLITE\_CONNECTION\_TIMEOUT\_MIN}, 
+		\hyperpage{12}
+    \subitem {REMOVABLE\_STORAGE\_NAME}, \hyperpage{12}
+    \subitem {Status}, \hyperpage{11}
+    \subitem {telemetry\_object}, \hyperpage{10}
+    \subitem {waiting\_command}, \hyperpage{10}
+  \item {estts::ax25}, \hyperpage{12}
+    \subitem {AX25\_CONTROL}, \hyperpage{13}
+    \subitem {AX25\_DESTINATION\_ADDRESS}, \hyperpage{13}
+    \subitem {AX25\_FLAG}, \hyperpage{13}
+    \subitem {AX25\_PID}, \hyperpage{13}
+    \subitem {AX25\_SOURCE\_ADDRESS}, \hyperpage{13}
+    \subitem {AX25\_SSID0}, \hyperpage{13}
+    \subitem {AX25\_SSID1}, \hyperpage{14}
+    \subitem {END\_SESSION\_FRAME}, \hyperpage{14}
+    \subitem {NEW\_SESSION\_FRAME}, \hyperpage{14}
+  \item {estts::command\_object}, \hyperpage{39}
+    \subitem {address}, \hyperpage{40}
+    \subitem {commandID}, \hyperpage{40}
+    \subitem {data}, \hyperpage{40}
+    \subitem {method}, \hyperpage{40}
+    \subitem {sequence}, \hyperpage{40}
+    \subitem {timeStamp}, \hyperpage{41}
+  \item {estts::cosmos}, \hyperpage{14}
+    \subitem {COSMOS\_GROUNDSTATION\_CMD\_TELEM\_PORT}, \hyperpage{14}
+    \subitem {COSMOS\_PRIMARY\_CMD\_TELEM\_PORT}, \hyperpage{15}
+    \subitem {COSMOS\_SATELLITE\_TXVR\_CMD\_TELEM\_PORT}, 
+		\hyperpage{15}
+    \subitem {COSMOS\_SERVER\_ADDR}, \hyperpage{15}
+  \item {estts::dispatched\_command}, \hyperpage{45}
+    \subitem {command}, \hyperpage{45}
+    \subitem {frame}, \hyperpage{45}
+    \subitem {obj\_callback}, \hyperpage{46}
+    \subitem {response\_code}, \hyperpage{46}
+    \subitem {serial\_number}, \hyperpage{46}
+    \subitem {str\_callback}, \hyperpage{46}
+    \subitem {telem\_obj}, \hyperpage{46}
+    \subitem {telem\_str}, \hyperpage{46}
+  \item {estts::dispatcher}, \hyperpage{15}
+    \subitem {MAX\_COMPLETED\_CACHE}, \hyperpage{15}
+  \item {estts::endurosat}, \hyperpage{16}
+    \subitem {ES\_BAUD}, \hyperpage{16}
+    \subitem {MAX\_ES\_TXVR\_TEMP}, \hyperpage{16}
+    \subitem {MAX\_RETRIES}, \hyperpage{17}
+    \subitem {PIPE\_DURATION\_SEC}, \hyperpage{17}
+    \subitem {PIPE\_OFF}, \hyperpage{16}
+    \subitem {PIPE\_ON}, \hyperpage{16}
+    \subitem {PIPE\_State}, \hyperpage{16}
+    \subitem {PIPE\_WAITING}, \hyperpage{16}
+    \subitem {WAIT\_TIME\_SEC}, \hyperpage{17}
+  \item {estts::endurosat::esttc\_const}, \hyperpage{72}
+    \subitem {ADDRESS}, \hyperpage{73}
+    \subitem {BLANK}, \hyperpage{73}
+    \subitem {CMD\_ANT\_READ\_WRITE}, \hyperpage{73}
+    \subitem {CMD\_ANT\_RELEASE\_CONFIG}, \hyperpage{73}
+    \subitem {CMD\_AUDIO\_BCN\_P\_TRANS}, \hyperpage{74}
+    \subitem {CMD\_AUTO\_AX25\_DECODE}, \hyperpage{74}
+    \subitem {CMD\_BCN\_MSG\_CONFIG}, \hyperpage{74}
+    \subitem {CMD\_BCN\_MSG\_TRANS\_CONFIG}, \hyperpage{74}
+    \subitem {CMD\_DEST\_CALL\_SIGN}, \hyperpage{74}
+    \subitem {CMD\_DVC\_ADDR\_CONFIG}, \hyperpage{74}
+    \subitem {CMD\_ENABLE\_DISABLE\_RADIO\_CRC}, \hyperpage{75}
+    \subitem {CMD\_FORCE\_BCN\_CMD}, \hyperpage{75}
+    \subitem {CMD\_FRAM\_MEM\_READ\_WRITE}, \hyperpage{75}
+    \subitem {CMD\_FRMWR\_UPDATE}, \hyperpage{75}
+    \subitem {CMD\_I2C\_RESIST\_CONFIG}, \hyperpage{75}
+    \subitem {CMD\_LOW\_PWR\_MODE}, \hyperpage{75}
+    \subitem {CMD\_PIPE\_MODE\_TMOUT\_CONFIG}, \hyperpage{76}
+    \subitem {CMD\_RADIO\_FREQ\_CONFIG}, \hyperpage{76}
+    \subitem {CMD\_RADIO\_TRANS\_PROP\_CONFIG}, \hyperpage{76}
+    \subitem {CMD\_READ\_DVC\_PAYLOAD}, \hyperpage{76}
+    \subitem {CMD\_READ\_RECEIV\_PCKTS}, \hyperpage{76}
+    \subitem {CMD\_READ\_SFTWR\_VER}, \hyperpage{76}
+    \subitem {CMD\_READ\_TRANS\_PCKTS}, \hyperpage{77}
+    \subitem {CMD\_READ\_TRANS\_PCKTS\_CRC}, \hyperpage{77}
+    \subitem {CMD\_READ\_UPTIME}, \hyperpage{77}
+    \subitem {CMD\_READ\_WRITE\_I2C}, \hyperpage{77}
+    \subitem {CMD\_RESTORE}, \hyperpage{77}
+    \subitem {CMD\_SCW}, \hyperpage{77}
+    \subitem {CMD\_SECURE\_MODE}, \hyperpage{78}
+    \subitem {CMD\_SRC\_CALL\_SIGN}, \hyperpage{78}
+    \subitem {CMD\_TEMP\_VAL}, \hyperpage{78}
+    \subitem {CMD\_TERM\_RESIST\_CONFIG}, \hyperpage{78}
+    \subitem {default\_mode}, \hyperpage{73}
+    \subitem {DOWNLINK\_XOR}, \hyperpage{78}
+    \subitem {enable\_pipe}, \hyperpage{73}
+    \subitem {END}, \hyperpage{78}
+    \subitem {HEADER}, \hyperpage{79}
+    \subitem {METHOD\_FIRMWARE\_UPDATE}, \hyperpage{79}
+    \subitem {METHOD\_READ}, \hyperpage{79}
+    \subitem {METHOD\_WRITE}, \hyperpage{79}
+    \subitem {NUM\_OF\_RETRIES}, \hyperpage{79}
+    \subitem {scw\_body}, \hyperpage{79}
+    \subitem {SCW\_Commands}, \hyperpage{73}
+    \subitem {scw\_stopper}, \hyperpage{73}
+    \subitem {UPLINK\_XOR}, \hyperpage{80}
+  \item {estts::es2\_commands}, \hyperpage{17}
+  \item {estts::es2\_commands::acs}, \hyperpage{18}
+    \subitem {ACS\_DEP\_MAG\_BOOM}, \hyperpage{18}
+    \subitem {ACS\_ENABLE}, \hyperpage{18}
+    \subitem {ACS\_EST\_ANG\_RATES\_FINE}, \hyperpage{18}
+    \subitem {ACS\_GET\_CC\_CURRENT}, \hyperpage{18}
+    \subitem {ACS\_GET\_GPS\_LAT}, \hyperpage{19}
+    \subitem {ACS\_GET\_GPS\_LONG}, \hyperpage{19}
+    \subitem {ACS\_GET\_MAGNET}, \hyperpage{19}
+    \subitem {ACS\_GET\_MAGNETO}, \hyperpage{19}
+    \subitem {ACS\_GET\_POS}, \hyperpage{19}
+    \subitem {ACS\_POWER}, \hyperpage{19}
+    \subitem {ACS\_RATE\_SENSE\_RATE}, \hyperpage{20}
+    \subitem {ACS\_SAVE\_CONFIG}, \hyperpage{20}
+    \subitem {ACS\_SET\_ANG\_RATE}, \hyperpage{20}
+    \subitem {ACS\_SET\_ATT\_ANG}, \hyperpage{20}
+    \subitem {ACS\_SET\_CTRL\_MODE}, \hyperpage{20}
+    \subitem {ACS\_SET\_EST\_MODE}, \hyperpage{20}
+    \subitem {ACS\_SET\_INERTIA}, \hyperpage{21}
+    \subitem {ACS\_SET\_MAG\_MNT}, \hyperpage{21}
+    \subitem {ACS\_SET\_MAG\_MNT\_MTRX}, \hyperpage{21}
+    \subitem {ACS\_SET\_MAGNETORQUER}, \hyperpage{21}
+  \item {estts::es2\_commands::crp}, \hyperpage{21}
+    \subitem {CRP\_GET\_DATA}, \hyperpage{21}
+  \item {estts::es2\_commands::eps}, \hyperpage{22}
+    \subitem {EPS\_GET\_3VBUS\_CURRENT}, \hyperpage{22}
+    \subitem {EPS\_GET\_5VBUS\_CURRENT}, \hyperpage{22}
+    \subitem {EPS\_GET\_BATTERY\_CURRENT}, \hyperpage{22}
+    \subitem {EPS\_GET\_BATTERY\_TEMP\_SENSOR1}, \hyperpage{23}
+    \subitem {EPS\_GET\_BATTERY\_TEMP\_SENSOR2}, \hyperpage{23}
+    \subitem {EPS\_GET\_BATTERY\_TEMP\_SENSOR3}, \hyperpage{23}
+    \subitem {EPS\_GET\_BATTERY\_TEMP\_SENSOR4}, \hyperpage{23}
+    \subitem {EPS\_GET\_BATTERY\_VOLTAGE}, \hyperpage{23}
+    \subitem {EPS\_GET\_COMMAND\_43}, \hyperpage{23}
+    \subitem {EPS\_GET\_HEALTH}, \hyperpage{24}
+    \subitem {EPS\_GET\_TEMP\_SENSOR5}, \hyperpage{24}
+    \subitem {EPS\_GET\_TEMP\_SENSOR6}, \hyperpage{24}
+    \subitem {EPS\_GET\_TEMP\_SENSOR7}, \hyperpage{24}
+  \item {estts::es2\_commands::mde}, \hyperpage{24}
+    \subitem {MDE\_GET\_STATUS}, \hyperpage{24}
+  \item {estts::es2\_commands::method}, \hyperpage{25}
+    \subitem {ES\_READ}, \hyperpage{25}
+    \subitem {ES\_WRITE}, \hyperpage{25}
+  \item {estts::es2\_commands::obc}, \hyperpage{25}
+    \subitem {OBC\_GET\_HEALTH}, \hyperpage{25}
+  \item {estts::es2\_endpoint}, \hyperpage{26}
+    \subitem {ES\_ACS}, \hyperpage{26}
+    \subitem {ES\_CRP}, \hyperpage{26}
+    \subitem {ES\_EPS}, \hyperpage{26}
+    \subitem {ES\_MDE}, \hyperpage{26}
+    \subitem {ES\_OBC}, \hyperpage{27}
+    \subitem {ES\_OFFLINE\_LOG}, \hyperpage{27}
+    \subitem {ES\_TELEMETRY}, \hyperpage{27}
+  \item {estts::es2\_telemetry}, \hyperpage{27}
+  \item {estts::es2\_telemetry::acs}, \hyperpage{27}
+  \item {estts::es2\_telemetry::eps}, \hyperpage{27}
+  \item {estts::es2\_telemetry::eps::eps\_3Vbus\_current}, 
+		\hyperpage{47}
+    \subitem {bus\_current}, \hyperpage{47}
+  \item {estts::es2\_telemetry::eps::eps\_5Vbus\_current}, 
+		\hyperpage{47}
+    \subitem {bus\_current}, \hyperpage{48}
+  \item {estts::es2\_telemetry::eps::eps\_batteryTemp\_sensor1}, 
+		\hyperpage{48}
+    \subitem {battery\_temperature}, \hyperpage{48}
+  \item {estts::es2\_telemetry::eps::eps\_batteryTemp\_sensor2}, 
+		\hyperpage{49}
+    \subitem {battery\_temperature}, \hyperpage{49}
+  \item {estts::es2\_telemetry::eps::eps\_batteryTemp\_sensor3}, 
+		\hyperpage{49}
+    \subitem {battery\_temperature}, \hyperpage{50}
+  \item {estts::es2\_telemetry::eps::eps\_batteryTemp\_sensor4}, 
+		\hyperpage{50}
+    \subitem {battery\_temperature}, \hyperpage{50}
+  \item {estts::es2\_telemetry::eps::eps\_current}, \hyperpage{54}
+    \subitem {battery\_current}, \hyperpage{54}
+  \item {estts::es2\_telemetry::eps::eps\_externalTemp\_sensor5}, 
+		\hyperpage{54}
+    \subitem {external\_temperature}, \hyperpage{54}
+  \item {estts::es2\_telemetry::eps::eps\_externalTemp\_sensor6}, 
+		\hyperpage{55}
+    \subitem {external\_temperature}, \hyperpage{55}
+  \item {estts::es2\_telemetry::eps::eps\_externalTemp\_sensor7}, 
+		\hyperpage{55}
+    \subitem {external\_temperature}, \hyperpage{56}
+  \item {estts::es2\_telemetry::eps::eps\_voltage}, \hyperpage{56}
+    \subitem {battery\_voltage}, \hyperpage{56}
+  \item {estts::es2\_telemetry::eps::vitals}, \hyperpage{108}
+    \subitem {battery\_voltage}, \hyperpage{108}
+    \subitem {brownouts}, \hyperpage{108}
+    \subitem {charge\_time\_mins}, \hyperpage{109}
+  \item {estts::estts\_response\_code}, \hyperpage{28}
+    \subitem {OBC\_FAILURE}, \hyperpage{28}
+    \subitem {SUCCESS}, \hyperpage{28}
+    \subitem {UNRECOGNIZED\_REQUEST}, \hyperpage{28}
+  \item {estts::telem\_handler}, \hyperpage{28}
+    \subitem {TELEM\_HANDLER\_STATE\_FILE}, \hyperpage{28}
+  \item {estts::telemetry\_object}, \hyperpage{100}
+    \subitem {address}, \hyperpage{100}
+    \subitem {commandID}, \hyperpage{100}
+    \subitem {data}, \hyperpage{100}
+    \subitem {response\_code}, \hyperpage{100}
+    \subitem {sequence}, \hyperpage{101}
+    \subitem {timeStamp}, \hyperpage{101}
+  \item {estts::ti\_serial}, \hyperpage{29}
+    \subitem {TI\_SERIAL\_ADDRESS}, \hyperpage{29}
+  \item {estts::ti\_socket}, \hyperpage{29}
+    \subitem {MAX\_RETRIES}, \hyperpage{29}
+    \subitem {TI\_SOCKET\_ADDRESS}, \hyperpage{29}
+    \subitem {TI\_SOCKET\_BUF\_SZ}, \hyperpage{30}
+    \subitem {TI\_SOCKET\_PORT}, \hyperpage{30}
+    \subitem {WAIT\_TIME\_SEC}, \hyperpage{30}
+  \item {estts::waiting\_command}, \hyperpage{109}
+    \subitem {command}, \hyperpage{109}
+    \subitem {frame}, \hyperpage{109}
+    \subitem {obj\_callback}, \hyperpage{110}
+    \subitem {serial\_number}, \hyperpage{110}
+    \subitem {str\_callback}, \hyperpage{110}
+  \item {ESTTS\_AWAIT\_RESPONSE\_PERIOD\_SEC}
+    \subitem {estts}, \hyperpage{11}
+  \item {ESTTS\_CHECK\_SATELLITE\_INRANGE\_INTERVAL\_SEC}
+    \subitem {estts}, \hyperpage{11}
+  \item {ESTTS\_MAX\_RETRIES}
+    \subitem {estts}, \hyperpage{11}
+  \item {ESTTS\_REQUEST\_SESSION\_TIMEOUT\_SECONDS}
+    \subitem {estts}, \hyperpage{12}
+  \item {ESTTS\_RETRY\_WAIT\_SEC}
+    \subitem {estts}, \hyperpage{12}
+  \item {ESTTS\_SATELLITE\_CONNECTION\_TIMEOUT\_MIN}
+    \subitem {estts}, \hyperpage{12}
+  \item {execute}
+    \subitem {command\_handler}, \hyperpage{38}
+  \item {external\_temperature}
+    \subitem {estts::es2\_telemetry::eps::eps\_externalTemp\_sensor5}, 
+		\hyperpage{54}
+    \subitem {estts::es2\_telemetry::eps::eps\_externalTemp\_sensor6}, 
+		\hyperpage{55}
+    \subitem {estts::es2\_telemetry::eps::eps\_externalTemp\_sensor7}, 
+		\hyperpage{56}
+
+  \indexspace
+
+  \item {find\_removable\_storage}
+    \subitem {helper.cpp}, \hyperpage{183}
+    \subitem {helper.h}, \hyperpage{186}
+  \item {frame}
+    \subitem {estts::dispatched\_command}, \hyperpage{45}
+    \subitem {estts::waiting\_command}, \hyperpage{109}
+
+  \indexspace
+
+  \item {generate\_serial\_number}
+    \subitem {helper.cpp}, \hyperpage{183}
+    \subitem {helper.h}, \hyperpage{187}
+  \item {get\_current\_position}
+    \subitem {acs\_command}, \hyperpage{32}
+  \item {get\_eps\_3Vbus\_current}
+    \subitem {eps\_command}, \hyperpage{51}
+  \item {get\_eps\_5Vbus\_current}
+    \subitem {eps\_command}, \hyperpage{51}
+  \item {get\_eps\_battery\_temp\_sensor1}
+    \subitem {eps\_command}, \hyperpage{52}
+  \item {get\_eps\_battery\_temp\_sensor2}
+    \subitem {eps\_command}, \hyperpage{52}
+  \item {get\_eps\_battery\_temp\_sensor3}
+    \subitem {eps\_command}, \hyperpage{52}
+  \item {get\_eps\_battery\_temp\_sensor4}
+    \subitem {eps\_command}, \hyperpage{52}
+  \item {get\_eps\_batteryCurrent}
+    \subitem {eps\_command}, \hyperpage{52}
+  \item {get\_eps\_batteryVoltage}
+    \subitem {eps\_command}, \hyperpage{52}
+  \item {get\_eps\_temp\_sensor5}
+    \subitem {eps\_command}, \hyperpage{53}
+  \item {get\_eps\_temp\_sensor6}
+    \subitem {eps\_command}, \hyperpage{53}
+  \item {get\_eps\_temp\_sensor7}
+    \subitem {eps\_command}, \hyperpage{53}
+  \item {get\_eps\_vitals}
+    \subitem {eps\_command}, \hyperpage{53}
+  \item {get\_generic\_async\_read\_lambda}
+    \subitem {serial\_handler}, \hyperpage{93}
+  \item {groundstation\_cmdtelem\_manager}, \hyperpage{80}
+    \subitem {groundstation\_cmdtelem\_manager}, \hyperpage{80}
+    \subitem {schedule\_command}, \hyperpage{81}
+  \item {gs\_transmit}
+    \subitem {transmission\_interface}, \hyperpage{104}
+  \item {gstxvr\_session\_active}
+    \subitem {transmission\_interface}, \hyperpage{107}
+
+  \indexspace
+
+  \item {HEADER}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{79}
+  \item {helper.cpp}
+    \subitem {ascii\_to\_hex}, \hyperpage{183}
+    \subitem {find\_removable\_storage}, \hyperpage{183}
+    \subitem {generate\_serial\_number}, \hyperpage{183}
+    \subitem {hex\_to\_ascii}, \hyperpage{183}
+    \subitem {print\_read\_trace\_msg}, \hyperpage{184}
+    \subitem {print\_write\_trace\_msg}, \hyperpage{184}
+  \item {helper.h}
+    \subitem {ascii\_to\_hex}, \hyperpage{186}
+    \subitem {find\_removable\_storage}, \hyperpage{186}
+    \subitem {generate\_serial\_number}, \hyperpage{187}
+    \subitem {hex\_to\_ascii}, \hyperpage{187}
+    \subitem {print\_read\_trace\_msg}, \hyperpage{187}
+    \subitem {print\_write\_trace\_msg}, \hyperpage{187}
+  \item {hex\_to\_ascii}
+    \subitem {helper.cpp}, \hyperpage{183}
+    \subitem {helper.h}, \hyperpage{187}
+
+  \indexspace
+
+  \item {info\_field}, \hyperpage{81}
+    \subitem {build\_info\_field}, \hyperpage{82}
+    \subitem {build\_telemetry\_object}, \hyperpage{82}
+    \subitem {command}, \hyperpage{83}
+    \subitem {info\_field}, \hyperpage{82}
+  \item {init\_command\_handler}
+    \subitem {command\_handler}, \hyperpage{38}
+  \item {init\_socket\_handle}
+    \subitem {socket\_handler}, \hyperpage{97}
+  \item {initialize\_cosmos\_daemon}
+    \subitem {cosmos\_handler}, \hyperpage{43}
+  \item {initialize\_serial\_port}
+    \subitem {serial\_handler}, \hyperpage{93}
+
+  \indexspace
+
+  \item {MAX\_COMPLETED\_CACHE}
+    \subitem {estts::dispatcher}, \hyperpage{15}
+  \item {MAX\_ES\_TXVR\_TEMP}
+    \subitem {estts::endurosat}, \hyperpage{16}
+  \item {MAX\_RETRIES}
+    \subitem {estts::endurosat}, \hyperpage{17}
+    \subitem {estts::ti\_socket}, \hyperpage{29}
+  \item {MAX\_SERIAL\_READ}
+    \subitem {constants.h}, \hyperpage{178}
+  \item {mde\_command}, \hyperpage{83}
+  \item {MDE\_GET\_STATUS}
+    \subitem {estts::es2\_commands::mde}, \hyperpage{24}
+  \item {method}
+    \subitem {estts::command\_object}, \hyperpage{40}
+  \item {METHOD\_FIRMWARE\_UPDATE}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{79}
+  \item {METHOD\_READ}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{79}
+  \item {METHOD\_WRITE}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{79}
+
+  \indexspace
+
+  \item {NEW\_SESSION\_FRAME}
+    \subitem {estts::ax25}, \hyperpage{14}
+  \item {nonblock\_receive}
+    \subitem {transmission\_interface}, \hyperpage{105}
+  \item {NUM\_OF\_RETRIES}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{79}
+
+  \indexspace
+
+  \item {obc\_command}, \hyperpage{83}
+  \item {OBC\_FAILURE}
+    \subitem {estts::estts\_response\_code}, \hyperpage{28}
+  \item {OBC\_GET\_HEALTH}
+    \subitem {estts::es2\_commands::obc}, \hyperpage{25}
+  \item {obc\_session\_active}
+    \subitem {transmission\_interface}, \hyperpage{107}
+  \item {obc\_session\_manager}, \hyperpage{84}
+    \subitem {$\sim$obc\_session\_manager}, \hyperpage{85}
+    \subitem {await\_completion}, \hyperpage{85}
+    \subitem {obc\_session\_manager}, \hyperpage{84}
+    \subitem {schedule\_command}, \hyperpage{85, 86}
+  \item {obj\_callback}
+    \subitem {estts::dispatched\_command}, \hyperpage{46}
+    \subitem {estts::waiting\_command}, \hyperpage{110}
+
+  \indexspace
+
+  \item {PIPE\_DURATION\_SEC}
+    \subitem {estts::endurosat}, \hyperpage{17}
+  \item {PIPE\_OFF}
+    \subitem {estts::endurosat}, \hyperpage{16}
+  \item {PIPE\_ON}
+    \subitem {estts::endurosat}, \hyperpage{16}
+  \item {PIPE\_State}
+    \subitem {estts::endurosat}, \hyperpage{16}
+  \item {PIPE\_WAITING}
+    \subitem {estts::endurosat}, \hyperpage{16}
+  \item {port}
+    \subitem {socket\_handler}, \hyperpage{99}
+  \item {posix\_serial}, \hyperpage{86}
+    \subitem {$\sim$posix\_serial}, \hyperpage{87}
+    \subitem {cache}, \hyperpage{89}
+    \subitem {check\_serial\_bytes\_avail}, \hyperpage{88}
+    \subitem {clear\_serial\_fifo}, \hyperpage{88}
+    \subitem {posix\_serial}, \hyperpage{87}
+    \subitem {read\_serial\_s}, \hyperpage{88}
+    \subitem {read\_serial\_uc}, \hyperpage{88}
+    \subitem {write\_serial\_s}, \hyperpage{88}
+    \subitem {write\_serial\_uc}, \hyperpage{89}
+  \item {power\_acs}
+    \subitem {acs\_command}, \hyperpage{32}
+  \item {print\_read\_trace\_msg}
+    \subitem {helper.cpp}, \hyperpage{184}
+    \subitem {helper.h}, \hyperpage{187}
+  \item {print\_write\_trace\_msg}
+    \subitem {helper.cpp}, \hyperpage{184}
+    \subitem {helper.h}, \hyperpage{187}
+
+  \indexspace
+
+  \item {read\_ant\_release\_config}
+    \subitem {esttc}, \hyperpage{60}
+  \item {read\_bcn\_trans\_period}
+    \subitem {esttc}, \hyperpage{60}
+  \item {read\_config\_ax25\_decode}
+    \subitem {esttc}, \hyperpage{61}
+  \item {read\_dvc\_payload\_size}
+    \subitem {esttc}, \hyperpage{61}
+  \item {read\_i2c\_resist\_config}
+    \subitem {esttc}, \hyperpage{61}
+  \item {read\_low\_pwr\_mode}
+    \subitem {esttc}, \hyperpage{62}
+  \item {read\_radio\_crc16}
+    \subitem {esttc}, \hyperpage{62}
+  \item {read\_radio\_freq}
+    \subitem {esttc}, \hyperpage{62}
+  \item {read\_radio\_trans\_prop\_config}
+    \subitem {esttc}, \hyperpage{63}
+  \item {read\_scw}
+    \subitem {esttc}, \hyperpage{63}
+  \item {read\_serial\_async}
+    \subitem {serial\_handler}, \hyperpage{93}
+  \item {read\_serial\_s}
+    \subitem {posix\_serial}, \hyperpage{88}
+    \subitem {serial\_handler}, \hyperpage{93, 94}
+  \item {read\_serial\_uc}
+    \subitem {posix\_serial}, \hyperpage{88}
+    \subitem {serial\_handler}, \hyperpage{94}
+  \item {read\_socket\_s}
+    \subitem {socket\_handler}, \hyperpage{98}
+  \item {read\_socket\_uc}
+    \subitem {socket\_handler}, \hyperpage{98}
+  \item {read\_src\_call\_sign}
+    \subitem {esttc}, \hyperpage{64}
+  \item {read\_trans\_pckts}
+    \subitem {esttc}, \hyperpage{64}
+  \item {read\_trans\_pckts\_crc}
+    \subitem {esttc}, \hyperpage{65}
+  \item {read\_uptime}
+    \subitem {esttc}, \hyperpage{65}
+  \item {receive}
+    \subitem {transmission\_interface}, \hyperpage{105}
+  \item {receive\_uc}
+    \subitem {transmission\_interface}, \hyperpage{105}
+  \item {register\_dispatch\_function}
+    \subitem {transmission\_interface}, \hyperpage{105}
+  \item {REMOVABLE\_STORAGE\_NAME}
+    \subitem {estts}, \hyperpage{12}
+  \item {request\_gstxvr\_session}
+    \subitem {transmission\_interface}, \hyperpage{106}
+  \item {request\_obc\_session}
+    \subitem {transmission\_interface}, \hyperpage{106}
+  \item {response\_code}
+    \subitem {estts::dispatched\_command}, \hyperpage{46}
+    \subitem {estts::telemetry\_object}, \hyperpage{100}
+
+  \indexspace
+
+  \item {satellite\_in\_range}
+    \subitem {transmission\_interface}, \hyperpage{108}
+  \item {satellite\_txvr\_cmdtelem\_manager}, \hyperpage{90}
+    \subitem {satellite\_txvr\_cmdtelem\_manager}, \hyperpage{90}
+    \subitem {schedule\_command}, \hyperpage{90}
+  \item {schedule\_command}
+    \subitem {groundstation\_cmdtelem\_manager}, \hyperpage{81}
+    \subitem {obc\_session\_manager}, \hyperpage{85, 86}
+    \subitem {satellite\_txvr\_cmdtelem\_manager}, \hyperpage{90}
+  \item {scw\_body}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{79}
+  \item {SCW\_Commands}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{73}
+  \item {scw\_stopper}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{73}
+  \item {sequence}
+    \subitem {estts::command\_object}, \hyperpage{40}
+    \subitem {estts::telemetry\_object}, \hyperpage{101}
+  \item {serial\_handler}, \hyperpage{91}
+    \subitem {$\sim$serial\_handler}, \hyperpage{92}
+    \subitem {async\_buf}, \hyperpage{95}
+    \subitem {cache}, \hyperpage{95}
+    \subitem {check\_serial\_bytes\_avail}, \hyperpage{92}
+    \subitem {clear\_serial\_fifo}, \hyperpage{92, 93}
+    \subitem {get\_generic\_async\_read\_lambda}, \hyperpage{93}
+    \subitem {initialize\_serial\_port}, \hyperpage{93}
+    \subitem {read\_serial\_async}, \hyperpage{93}
+    \subitem {read\_serial\_s}, \hyperpage{93, 94}
+    \subitem {read\_serial\_uc}, \hyperpage{94}
+    \subitem {serial\_handler}, \hyperpage{92}
+    \subitem {write\_serial\_s}, \hyperpage{94}
+    \subitem {write\_serial\_uc}, \hyperpage{95}
+  \item {serial\_number}
+    \subitem {estts::dispatched\_command}, \hyperpage{46}
+    \subitem {estts::waiting\_command}, \hyperpage{110}
+  \item {set\_ctrl\_mode}
+    \subitem {acs\_command}, \hyperpage{32}
+  \item {set\_est\_mode}
+    \subitem {acs\_command}, \hyperpage{32}
+  \item {set\_telem\_callback}
+    \subitem {transmission\_interface}, \hyperpage{106}
+  \item {sock}
+    \subitem {socket\_handler}, \hyperpage{99}
+  \item {socket\_handler}, \hyperpage{96}
+    \subitem {$\sim$socket\_handler}, \hyperpage{97}
+    \subitem {check\_sock\_bytes\_avail}, \hyperpage{97}
+    \subitem {init\_socket\_handle}, \hyperpage{97}
+    \subitem {port}, \hyperpage{99}
+    \subitem {read\_socket\_s}, \hyperpage{98}
+    \subitem {read\_socket\_uc}, \hyperpage{98}
+    \subitem {sock}, \hyperpage{99}
+    \subitem {socket\_handler}, \hyperpage{97}
+    \subitem {write\_socket\_s}, \hyperpage{98}
+    \subitem {write\_socket\_uc}, \hyperpage{99}
+  \item {SPDLOG\_ACTIVE\_LEVEL}
+    \subitem {constants.h}, \hyperpage{178}
+  \item {src/fapi/command\_handler.cpp}, \hyperpage{111, 112}
+  \item {src/fapi/command\_handler.h}, \hyperpage{113, 114}
+  \item {src/fapi/command\_handler/acs\_command.cpp}, 
+		\hyperpage{114, 115}
+  \item {src/fapi/command\_handler/acs\_command.h}, \hyperpage{116}
+  \item {src/fapi/command\_handler/crp\_command.cpp}, \hyperpage{117}
+  \item {src/fapi/command\_handler/crp\_command.h}, \hyperpage{117}
+  \item {src/fapi/command\_handler/eps\_command.cpp}, 
+		\hyperpage{117, 118}
+  \item {src/fapi/command\_handler/eps\_command.h}, \hyperpage{123}
+  \item {src/fapi/command\_handler/mde\_command.cpp}, 
+		\hyperpage{123, 124}
+  \item {src/fapi/command\_handler/mde\_command.h}, \hyperpage{124}
+  \item {src/fapi/command\_handler/obc\_command.cpp}, \hyperpage{124}
+  \item {src/fapi/command\_handler/obc\_command.h}, 
+		\hyperpage{124, 125}
+  \item {src/fapi/cosmos\_groundstation\_handler.cpp}, \hyperpage{125}
+  \item {src/fapi/cosmos\_groundstation\_handler.h}, \hyperpage{126}
+  \item {src/fapi/cosmos\_handler.cpp}, \hyperpage{127}
+  \item {src/fapi/cosmos\_handler.h}, \hyperpage{128}
+  \item {src/fapi/cosmos\_satellite\_txvr\_handler.cpp}, 
+		\hyperpage{129}
+  \item {src/fapi/cosmos\_satellite\_txvr\_handler.h}, 
+		\hyperpage{129, 130}
+  \item {src/fapi/groundstation\_cmdtelem\_manager.cpp}, 
+		\hyperpage{130}
+  \item {src/fapi/groundstation\_cmdtelem\_manager.h}, \hyperpage{131}
+  \item {src/fapi/obc\_session\_manager.cpp}, \hyperpage{132}
+  \item {src/fapi/obc\_session\_manager.h}, \hyperpage{134}
+  \item {src/fapi/satellite\_txvr\_cmdtelem\_manager.cpp}, 
+		\hyperpage{135}
+  \item {src/fapi/satellite\_txvr\_cmdtelem\_manager.h}, 
+		\hyperpage{136}
+  \item {src/ti/esttc.cpp}, \hyperpage{137}
+  \item {src/ti/esttc.h}, \hyperpage{145}
+  \item {src/ti/posix\_serial.cpp}, \hyperpage{146}
+  \item {src/ti/posix\_serial.h}, \hyperpage{149, 150}
+  \item {src/ti/serial\_handler.cpp}, \hyperpage{150}
+  \item {src/ti/serial\_handler.h}, \hyperpage{154}
+  \item {src/ti/socket\_handler.cpp}, \hyperpage{155}
+  \item {src/ti/socket\_handler.h}, \hyperpage{157}
+  \item {src/ti/transmission\_interface.cpp}, \hyperpage{158}
+  \item {src/ti/transmission\_interface.h}, \hyperpage{164}
+  \item {src/tnc\_emulator/ax25\_ui\_frame\_constructor.cpp}, 
+		\hyperpage{165}
+  \item {src/tnc\_emulator/ax25\_ui\_frame\_constructor.h}, 
+		\hyperpage{167}
+  \item {src/tnc\_emulator/ax25\_ui\_frame\_destructor.cpp}, 
+		\hyperpage{168}
+  \item {src/tnc\_emulator/ax25\_ui\_frame\_destructor.h}, 
+		\hyperpage{170}
+  \item {src/tnc\_emulator/info\_field.cpp}, \hyperpage{171}
+  \item {src/tnc\_emulator/info\_field.h}, \hyperpage{172, 173}
+  \item {src/utils/bin\_converter.cpp}, \hyperpage{173}
+  \item {src/utils/bin\_converter.h}, \hyperpage{174}
+  \item {src/utils/constants.h}, \hyperpage{175}, \hyperpage{179}
+  \item {src/utils/helper.cpp}, \hyperpage{182}, \hyperpage{184}
+  \item {src/utils/helper.h}, \hyperpage{186}, \hyperpage{188}
+  \item {Status}
+    \subitem {estts}, \hyperpage{11}
+  \item {str\_callback}
+    \subitem {estts::dispatched\_command}, \hyperpage{46}
+    \subitem {estts::waiting\_command}, \hyperpage{110}
+  \item {SUCCESS}
+    \subitem {estts::estts\_response\_code}, \hyperpage{28}
+
+  \indexspace
+
+  \item {TELEM\_HANDLER\_STATE\_FILE}
+    \subitem {estts::telem\_handler}, \hyperpage{28}
+  \item {telem\_obj}
+    \subitem {estts::dispatched\_command}, \hyperpage{46}
+  \item {telem\_str}
+    \subitem {estts::dispatched\_command}, \hyperpage{46}
+  \item {telemetry\_object}
+    \subitem {estts}, \hyperpage{10}
+  \item {TI\_SERIAL\_ADDRESS}
+    \subitem {estts::ti\_serial}, \hyperpage{29}
+  \item {TI\_SOCKET\_ADDRESS}
+    \subitem {estts::ti\_socket}, \hyperpage{29}
+  \item {TI\_SOCKET\_BUF\_SZ}
+    \subitem {estts::ti\_socket}, \hyperpage{30}
+  \item {TI\_SOCKET\_PORT}
+    \subitem {estts::ti\_socket}, \hyperpage{30}
+  \item {timeStamp}
+    \subitem {estts::command\_object}, \hyperpage{41}
+    \subitem {estts::telemetry\_object}, \hyperpage{101}
+  \item {toBinary}
+    \subitem {bin\_converter}, \hyperpage{36}
+  \item {transmission\_interface}, \hyperpage{101}
+    \subitem {$\sim$transmission\_interface}, \hyperpage{102}
+    \subitem {check\_data\_available}, \hyperpage{103}
+    \subitem {check\_session\_active}, \hyperpage{103}
+    \subitem {disable\_pipe}, \hyperpage{103}
+    \subitem {enable\_pipe}, \hyperpage{103}
+    \subitem {end\_gstxvr\_session}, \hyperpage{104}
+    \subitem {end\_obc\_session}, \hyperpage{104}
+    \subitem {gs\_transmit}, \hyperpage{104}
+    \subitem {gstxvr\_session\_active}, \hyperpage{107}
+    \subitem {nonblock\_receive}, \hyperpage{105}
+    \subitem {obc\_session\_active}, \hyperpage{107}
+    \subitem {receive}, \hyperpage{105}
+    \subitem {receive\_uc}, \hyperpage{105}
+    \subitem {register\_dispatch\_function}, \hyperpage{105}
+    \subitem {request\_gstxvr\_session}, \hyperpage{106}
+    \subitem {request\_obc\_session}, \hyperpage{106}
+    \subitem {satellite\_in\_range}, \hyperpage{108}
+    \subitem {set\_telem\_callback}, \hyperpage{106}
+    \subitem {transmission\_interface}, \hyperpage{102}
+    \subitem {transmit}, \hyperpage{106, 107}
+  \item {transmit}
+    \subitem {transmission\_interface}, \hyperpage{106, 107}
+
+  \indexspace
+
+  \item {UNRECOGNIZED\_REQUEST}
+    \subitem {estts::estts\_response\_code}, \hyperpage{28}
+  \item {update\_firmware}
+    \subitem {esttc}, \hyperpage{66}
+  \item {update\_firmware\_sequence}
+    \subitem {esttc}, \hyperpage{66}
+  \item {UPLINK\_XOR}
+    \subitem {estts::endurosat::esttc\_const}, \hyperpage{80}
+
+  \indexspace
+
+  \item {validate\_response\_code}
+    \subitem {command\_handler.cpp}, \hyperpage{111}
+
+  \indexspace
+
+  \item {WAIT\_TIME\_SEC}
+    \subitem {estts::endurosat}, \hyperpage{17}
+    \subitem {estts::ti\_socket}, \hyperpage{30}
+  \item {waiting\_command}
+    \subitem {estts}, \hyperpage{10}
+  \item {write\_ant\_release\_config}
+    \subitem {esttc}, \hyperpage{66}
+  \item {write\_bcn\_trans\_period}
+    \subitem {esttc}, \hyperpage{68}
+  \item {write\_config\_ax25\_decode}
+    \subitem {esttc}, \hyperpage{68}
+  \item {write\_dvc\_addr\_config}
+    \subitem {esttc}, \hyperpage{68}
+  \item {write\_i2c\_resist\_config}
+    \subitem {esttc}, \hyperpage{69}
+  \item {write\_low\_pwr\_mode}
+    \subitem {esttc}, \hyperpage{69}
+  \item {write\_radio\_crc16}
+    \subitem {esttc}, \hyperpage{69}
+  \item {write\_radio\_freq\_config}
+    \subitem {esttc}, \hyperpage{70}
+  \item {write\_radio\_trans\_prop\_config}
+    \subitem {esttc}, \hyperpage{70}
+  \item {write\_res\_default\_vals}
+    \subitem {esttc}, \hyperpage{70}
+  \item {write\_scw}
+    \subitem {esttc}, \hyperpage{71}
+  \item {write\_serial\_s}
+    \subitem {posix\_serial}, \hyperpage{88}
+    \subitem {serial\_handler}, \hyperpage{94}
+  \item {write\_serial\_uc}
+    \subitem {posix\_serial}, \hyperpage{89}
+    \subitem {serial\_handler}, \hyperpage{95}
+  \item {write\_socket\_s}
+    \subitem {socket\_handler}, \hyperpage{98}
+  \item {write\_socket\_uc}
+    \subitem {socket\_handler}, \hyperpage{99}
+  \item {write\_src\_call\_sign}
+    \subitem {esttc}, \hyperpage{71}
+
+\end{theindex}

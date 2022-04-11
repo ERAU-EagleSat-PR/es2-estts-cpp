@@ -1,0 +1,52 @@
+\hypertarget{posix__serial_8h_source}{}\doxysection{posix\+\_\+serial.\+h}
+\label{posix__serial_8h_source}\index{src/ti/posix\_serial.h@{src/ti/posix\_serial.h}}
+\mbox{\hyperlink{posix__serial_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00001}00001 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00002}00002 \textcolor{comment}{// Created by Hayden Roszell on 3/17/22.}}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00005}00005 \textcolor{preprocessor}{\#ifndef ESTTS\_TI\_POSIX\_SERIAL\_H}}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00006}00006 \textcolor{preprocessor}{\#define ESTTS\_TI\_POSIX\_SERIAL\_H}}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00008}00008 \textcolor{preprocessor}{\#include <sstream>}}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00009}00009 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{constants_8h}{constants.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00010}00010 }
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00011}00011 }
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00012}\mbox{\hyperlink{classposix__serial}{00012}} \textcolor{keyword}{class }\mbox{\hyperlink{classposix__serial}{posix\_serial}} \{}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00013}00013     \textcolor{comment}{// Private variables}}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00014}00014     \textcolor{keywordtype}{int} serial\_port;}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00016}00016     \textcolor{comment}{// Private functions}}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00017}00017     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} open\_port();}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00018}00018 }
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00019}00019     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} initialize\_serial\_port();}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00020}00020 }
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00021}00021     \textcolor{keyword}{const} \textcolor{keywordtype}{char} *port;}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00022}00022     \textcolor{keywordtype}{int} baud;}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00023}00023 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00024}00024     \textcolor{comment}{// Check here first, maybe what you're waiting for is already received..}}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00025}00025     \textcolor{comment}{// Note -\/ cleared every time read is called}}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00026}\mbox{\hyperlink{classposix__serial_afcaa42d3f41159383a84691146782679}{00026}}     std::stringstream \mbox{\hyperlink{classposix__serial_afcaa42d3f41159383a84691146782679}{cache}};}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00028}00028     \mbox{\hyperlink{classposix__serial_a47ab5646c890aa7c86cc429b5e1bf82f}{posix\_serial}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *port, \textcolor{keywordtype}{int} baud);}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00030}00030     \mbox{\hyperlink{classposix__serial_ae315cc0311d68a3f552922602dab7e41}{\string~posix\_serial}}();}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00032}00032     \textcolor{keyword}{virtual} ssize\_t \mbox{\hyperlink{classposix__serial_a1c7f93960332f1b62085eeb7494871a2}{write\_serial\_uc}}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *data, \textcolor{keywordtype}{int} size) \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00034}00034     \textcolor{keyword}{virtual} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *\mbox{\hyperlink{classposix__serial_abe2c9c1d2c970da11e8f65e30c00e9c4}{read\_serial\_uc}}();}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00036}00036     \textcolor{keyword}{virtual} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classposix__serial_a050aed63ae5e4d14b22310822ebb6d5d}{write\_serial\_s}}(\textcolor{keyword}{const} std::string \&data) \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00038}00038     \textcolor{keyword}{virtual} std::string \mbox{\hyperlink{classposix__serial_ac210369f855bac5e2a84c7a0cc6ca1e1}{read\_serial\_s}}();}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00040}00040     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classposix__serial_a15d95c8ed761b43f46c19dec7e825b17}{clear\_serial\_fifo}}();}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00042}00042     \textcolor{keyword}{virtual} \textcolor{keywordtype}{int} \mbox{\hyperlink{classposix__serial_a54c899775a7e98d4e7ab93abce4d25ad}{check\_serial\_bytes\_avail}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00043}00043 \};}
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{posix__serial_8h_source_l00046}00046 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//ESTTS\_TI\_POSIX\_SERIAL\_H}}
+
+\end{DoxyCode}

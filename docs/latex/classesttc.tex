@@ -1,0 +1,784 @@
+\hypertarget{classesttc}{}\doxysection{esttc Class Reference}
+\label{classesttc}\index{esttc@{esttc}}
+
+
+{\ttfamily \#include $<$esttc.\+h$>$}
+
+Inheritance diagram for esttc\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classesttc}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_ae9a7cb3700074186564aa0ff13eca6f7}{default\+\_\+mode}} ()
+\begin{DoxyCompactList}\small\item\em Enables the default value of every SCW field on Endurosat UHF Transceiver module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_a2624f9ce0014813d183f152f0ff87003}{write\+\_\+scw}} (uint16\+\_\+t scw\+\_\+command)
+\begin{DoxyCompactList}\small\item\em Sends a command with a Status Control Word (SCW) that changes the Endurosat UHF Transceiver\textquotesingle{}s settings. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_a4fc7d8954aa04c31f53178b12311a173}{read\+\_\+scw}} (std\+::string \&RSSI, std\+::string \&dvc\+\_\+addr, std\+::string \&rst\+\_\+ctr, std\+::string \&scw)
+\begin{DoxyCompactList}\small\item\em Send a command to read the current status of the Transceiver given its current Status Control Word (SCW) \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_a9e4a95484dc3302d1365e1c0ac1074b9}{write\+\_\+radio\+\_\+freq\+\_\+config}} (const std\+::string \&frac=\char`\"{}76620\+F41\char`\"{}, const std\+::string \&div=\char`\"{}41\char`\"{})
+\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_a1f65bcc8d7a10b4742a0d3188a7a5738}{read\+\_\+radio\+\_\+freq}} (std\+::string \&RSSI, std\+::string \&frac, std\+::string \&div)
+\begin{DoxyCompactList}\small\item\em Get the radio frequency and the last RSSI (Received signal strength indication) of the UHF Transceiver module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_a079a5461d60e43988da49b613617b08a}{read\+\_\+uptime}} (std\+::string \&RSSI, std\+::string \&uptime)
+\begin{DoxyCompactList}\small\item\em Get the uptime of the UHF Transceiver. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_a9650406be47e9ea6914c843c58864943}{read\+\_\+trans\+\_\+pckts}} (std\+::string \&RSSI, std\+::string \&pckt\+\_\+num)
+\begin{DoxyCompactList}\small\item\em Get the number of transmitted packets from the UHF Transceiver. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_a542f244e8d3ac508af0a6c5f2d24afac}{read\+\_\+trans\+\_\+pckts\+\_\+crc}} (std\+::string \&RSSI, std\+::string \&pckt\+\_\+num)
+\begin{DoxyCompactList}\small\item\em Get the number of transmitted packets that contained CRC errors from the UHF Transceiver. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_a5cee710fed848c5f7dab62d1695547be}{write\+\_\+bcn\+\_\+trans\+\_\+period}} (const std\+::string \&period=\char`\"{}003C\char`\"{})
+\begin{DoxyCompactList}\small\item\em Configure the beacon message transmission period of the UHF Transceiver. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_afe66f70a053899b5338f4ee211fd6eb9}{read\+\_\+bcn\+\_\+trans\+\_\+period}} (std\+::string \&RSSI, std\+::string \&period)
+\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_aa2df128c441e7aa4ef3dfde15e4036ff}{write\+\_\+res\+\_\+default\+\_\+vals}} ()
+\begin{DoxyCompactList}\small\item\em restore default values to UHF Transceiver for Destination/\+Source/\+Morse code call sign, Audio beacon period and message, Text beadon period, and Pipe timeout period \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_a13e5dd41812390eb82f0ee453080f1b3}{write\+\_\+i2c\+\_\+resist\+\_\+config}} (const std\+::string \&resistor\+\_\+config)
+\begin{DoxyCompactList}\small\item\em Configure the I2C Pull-\/\+Up resistor configuration of the UHF Transceiver. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_abeae63e2714338790f9f1204b3a3cbd1}{read\+\_\+i2c\+\_\+resist\+\_\+config}} (std\+::string \&selected\+\_\+resistor)
+\begin{DoxyCompactList}\small\item\em Read the current I2C Pull-\/\+Up resistor configuration of the UHF Transceiver. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_a9eed39acf91a06546bcf50f34bf55b84}{write\+\_\+radio\+\_\+crc16}} (const std\+::string \&mode)
+\begin{DoxyCompactList}\small\item\em Enable or disable the UHF Transceiver\textquotesingle{}s radio packet CRC16. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_a766279ad3e5e21ee68a497748ae4aadf}{read\+\_\+radio\+\_\+crc16}} (std\+::string \&mode)
+\begin{DoxyCompactList}\small\item\em Read whether radio packet CRC16 is enabled or disabled for the UHF Transceiver. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_a707e8ad1d0bc6fedd25f7833ff1860ee}{write\+\_\+config\+\_\+ax25\+\_\+decode}} (const std\+::string \&config\+\_\+bit)
+\begin{DoxyCompactList}\small\item\em Write the configuration bit that determines whether the UHF Transceiver\textquotesingle{}s Auto AX.\+25 Decode is Enabled/\+Disabled. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_a0aa0544354511220afffd74e2e3cd07b}{read\+\_\+config\+\_\+ax25\+\_\+decode}} (std\+::string \&config\+\_\+bit)
+\begin{DoxyCompactList}\small\item\em Get the configuration bit that determines whether the UHF Transceiver\textquotesingle{}s Auto AX.\+25 Decode is Enabled/\+Disabled. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_adce8771bddea2d29a01a51893bc67933}{write\+\_\+ant\+\_\+release\+\_\+config}} (const std\+::string \&ant\+\_\+config)
+\begin{DoxyCompactList}\small\item\em Configure the UHF Transceiver antenna release configuration. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_aaf598ec2febc952a013ed033f8b6278d}{read\+\_\+ant\+\_\+release\+\_\+config}} (std\+::string \&ant\+\_\+config)
+\begin{DoxyCompactList}\small\item\em Read the UHF Transceiver\textquotesingle{}s current antenna release configuration. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_a16d8bf87166f731b3c720c10348856a7}{write\+\_\+low\+\_\+pwr\+\_\+mode}} ()
+\begin{DoxyCompactList}\small\item\em Toggle the low power mode of the UHF Transceiver. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_a9ed91e3715780ce1e6e1e053761d801f}{read\+\_\+low\+\_\+pwr\+\_\+mode}} (std\+::string \&mode)
+\begin{DoxyCompactList}\small\item\em Read the current power mode of the UHF Transceiver. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_ae18b3379d1af72e4a3ae5a8614c684e3}{write\+\_\+src\+\_\+call\+\_\+sign}} (const std\+::string \&call\+\_\+sign=\char`\"{}XX0\+UHF\char`\"{})
+\begin{DoxyCompactList}\small\item\em Write a new source call sign for the UHF Transceiver. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_a8aa9fe9d7783a320f2cd92f92b435822}{read\+\_\+src\+\_\+call\+\_\+sign}} (std\+::string \&call\+\_\+sign)
+\begin{DoxyCompactList}\small\item\em Read the current source call sign of the UHF Transceiver. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_aa6b43a2766a67e6f39b0997ab2118da6}{read\+\_\+dvc\+\_\+payload\+\_\+size}} (std\+::string \&payload\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Read the current size of the device payload of the UHF Transceiver. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_ace29ec80c813a13ec6508b56805f0149}{write\+\_\+dvc\+\_\+addr\+\_\+config}} (const std\+::string \&new\+\_\+addr=\char`\"{}22\char`\"{})
+\begin{DoxyCompactList}\small\item\em Write a new device address for the UHF Transceiver. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_a810f8ccfda92f21cbbc3f7456604d54d}{write\+\_\+radio\+\_\+trans\+\_\+prop\+\_\+config}} (const std\+::string \&prop\+\_\+group, const std\+::string \&bytes, const std\+::string \&offset, const std\+::string \&data)
+\begin{DoxyCompactList}\small\item\em Write a new configuration for the Radio Transceiver Property of the UHF Transceiver. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_aa981443fe7387bffd1d94c2935e55b6b}{read\+\_\+radio\+\_\+trans\+\_\+prop\+\_\+config}} (const std\+::string \&prop\+\_\+group, const std\+::string \&bytes, const std\+::string \&offset, std\+::string \&data)
+\begin{DoxyCompactList}\small\item\em Read the current configuration of the Radio Transceiver Property of the UHF Transceiver. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_a6f212547353c11caafaeeb99aac0f049}{update\+\_\+firmware}} (const std\+::string \&all\+\_\+lines)
+\begin{DoxyCompactList}\small\item\em Fully update the firmware of the UHF Transceiver. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classesttc_a9c01d3b6422fc154b96438175a950028}{update\+\_\+firmware\+\_\+sequence}} (const std\+::string \&one\+\_\+line)
+\begin{DoxyCompactList}\small\item\em Update the firmware of the UHF Transceiver. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classesttc_ace5f28ba67a6125fef69e31144d626cd}{esttc}} ()
+\begin{DoxyCompactList}\small\item\em esttc default constructor that initializes \mbox{\hyperlink{classserial__handler}{serial\+\_\+handler}} \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classesttc_a730954acfaf493bc80b783fb38244af7}{$\sim$esttc}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::string \mbox{\hyperlink{classesttc_afd4728d25e6e106646e9c6414f8f1836}{calculate\+\_\+crc32}} (std\+::string string)
+\begin{DoxyCompactList}\small\item\em Calculates CRC32 of command string specified by Enduro\+Sat. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{esttc_8h_source_l00011}{11}} of file \mbox{\hyperlink{esttc_8h_source}{esttc.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classesttc_ace5f28ba67a6125fef69e31144d626cd}\label{classesttc_ace5f28ba67a6125fef69e31144d626cd}} 
+\index{esttc@{esttc}!esttc@{esttc}}
+\index{esttc@{esttc}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{esttc()}{esttc()}}
+{\footnotesize\ttfamily esttc\+::esttc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+esttc default constructor that initializes \mbox{\hyperlink{classserial__handler}{serial\+\_\+handler}} 
+
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00024}{24}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_a730954acfaf493bc80b783fb38244af7}\label{classesttc_a730954acfaf493bc80b783fb38244af7}} 
+\index{esttc@{esttc}!````~esttc@{$\sim$esttc}}
+\index{````~esttc@{$\sim$esttc}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{$\sim$esttc()}{~esttc()}}
+{\footnotesize\ttfamily esttc\+::$\sim$esttc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00864}{864}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classesttc_afd4728d25e6e106646e9c6414f8f1836}\label{classesttc_afd4728d25e6e106646e9c6414f8f1836}} 
+\index{esttc@{esttc}!calculate\_crc32@{calculate\_crc32}}
+\index{calculate\_crc32@{calculate\_crc32}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{calculate\_crc32()}{calculate\_crc32()}}
+{\footnotesize\ttfamily std\+::string esttc\+::calculate\+\_\+crc32 (\begin{DoxyParamCaption}\item[{std\+::string}]{string }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Calculates CRC32 of command string specified by Enduro\+Sat. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em string} & String input to calculate CRC32 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Calculated CRC32 of inputted string 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00859}{859}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_ae9a7cb3700074186564aa0ff13eca6f7}\label{classesttc_ae9a7cb3700074186564aa0ff13eca6f7}} 
+\index{esttc@{esttc}!default\_mode@{default\_mode}}
+\index{default\_mode@{default\_mode}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{default\_mode()}{default\_mode()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::default\+\_\+mode (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Enables the default value of every SCW field on Endurosat UHF Transceiver module. 
+
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00034}{34}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_aaf598ec2febc952a013ed033f8b6278d}\label{classesttc_aaf598ec2febc952a013ed033f8b6278d}} 
+\index{esttc@{esttc}!read\_ant\_release\_config@{read\_ant\_release\_config}}
+\index{read\_ant\_release\_config@{read\_ant\_release\_config}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{read\_ant\_release\_config()}{read\_ant\_release\_config()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::read\+\_\+ant\+\_\+release\+\_\+config (\begin{DoxyParamCaption}\item[{std\+::string \&}]{ant\+\_\+config }\end{DoxyParamCaption})}
+
+
+
+Read the UHF Transceiver\textquotesingle{}s current antenna release configuration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ant\+\_\+config} & The current UHF Antenna Release Configuration in HEX \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00465}{465}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_afe66f70a053899b5338f4ee211fd6eb9}\label{classesttc_afe66f70a053899b5338f4ee211fd6eb9}} 
+\index{esttc@{esttc}!read\_bcn\_trans\_period@{read\_bcn\_trans\_period}}
+\index{read\_bcn\_trans\_period@{read\_bcn\_trans\_period}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{read\_bcn\_trans\_period()}{read\_bcn\_trans\_period()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::read\+\_\+bcn\+\_\+trans\+\_\+period (\begin{DoxyParamCaption}\item[{std\+::string \&}]{RSSI,  }\item[{std\+::string \&}]{period }\end{DoxyParamCaption})}
+
+Read the beacon message transmission period from the UHF Transceiver 
+\begin{DoxyParams}{Parameters}
+{\em RSSI} & Received Signal Strength Indicator \\
+\hline
+{\em period} & The current beacon message transmission period \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00261}{261}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_a0aa0544354511220afffd74e2e3cd07b}\label{classesttc_a0aa0544354511220afffd74e2e3cd07b}} 
+\index{esttc@{esttc}!read\_config\_ax25\_decode@{read\_config\_ax25\_decode}}
+\index{read\_config\_ax25\_decode@{read\_config\_ax25\_decode}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{read\_config\_ax25\_decode()}{read\_config\_ax25\_decode()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::read\+\_\+config\+\_\+ax25\+\_\+decode (\begin{DoxyParamCaption}\item[{std\+::string \&}]{config\+\_\+bit }\end{DoxyParamCaption})}
+
+
+
+Get the configuration bit that determines whether the UHF Transceiver\textquotesingle{}s Auto AX.\+25 Decode is Enabled/\+Disabled. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em config\+\_\+bit} & The bit (\textquotesingle{}1\textquotesingle{} or \textquotesingle{}0\textquotesingle{}) that determines if automatic ax.\+25 decoding is enabled \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00421}{421}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_aa6b43a2766a67e6f39b0997ab2118da6}\label{classesttc_aa6b43a2766a67e6f39b0997ab2118da6}} 
+\index{esttc@{esttc}!read\_dvc\_payload\_size@{read\_dvc\_payload\_size}}
+\index{read\_dvc\_payload\_size@{read\_dvc\_payload\_size}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{read\_dvc\_payload\_size()}{read\_dvc\_payload\_size()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::read\+\_\+dvc\+\_\+payload\+\_\+size (\begin{DoxyParamCaption}\item[{std\+::string \&}]{payload\+\_\+size }\end{DoxyParamCaption})}
+
+
+
+Read the current size of the device payload of the UHF Transceiver. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em payload\+\_\+size} & The size of the payload in HEX \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00575}{575}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_abeae63e2714338790f9f1204b3a3cbd1}\label{classesttc_abeae63e2714338790f9f1204b3a3cbd1}} 
+\index{esttc@{esttc}!read\_i2c\_resist\_config@{read\_i2c\_resist\_config}}
+\index{read\_i2c\_resist\_config@{read\_i2c\_resist\_config}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{read\_i2c\_resist\_config()}{read\_i2c\_resist\_config()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::read\+\_\+i2c\+\_\+resist\+\_\+config (\begin{DoxyParamCaption}\item[{std\+::string \&}]{selected\+\_\+resistor }\end{DoxyParamCaption})}
+
+
+
+Read the current I2C Pull-\/\+Up resistor configuration of the UHF Transceiver. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em selected\+\_\+resistor} & The currently selected I2C pull-\/up resistor configuration in HEX \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00332}{332}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_a9ed91e3715780ce1e6e1e053761d801f}\label{classesttc_a9ed91e3715780ce1e6e1e053761d801f}} 
+\index{esttc@{esttc}!read\_low\_pwr\_mode@{read\_low\_pwr\_mode}}
+\index{read\_low\_pwr\_mode@{read\_low\_pwr\_mode}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{read\_low\_pwr\_mode()}{read\_low\_pwr\_mode()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::read\+\_\+low\+\_\+pwr\+\_\+mode (\begin{DoxyParamCaption}\item[{std\+::string \&}]{mode }\end{DoxyParamCaption})}
+
+
+
+Read the current power mode of the UHF Transceiver. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em power\+\_\+mode} & The current power mode of the UHF Transceiver (\char`\"{}00\char`\"{} \mbox{[}Normal Mode\mbox{]} or \char`\"{}01\char`\"{} \mbox{[}Low Power Mode\mbox{]}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00508}{508}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_a766279ad3e5e21ee68a497748ae4aadf}\label{classesttc_a766279ad3e5e21ee68a497748ae4aadf}} 
+\index{esttc@{esttc}!read\_radio\_crc16@{read\_radio\_crc16}}
+\index{read\_radio\_crc16@{read\_radio\_crc16}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{read\_radio\_crc16()}{read\_radio\_crc16()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::read\+\_\+radio\+\_\+crc16 (\begin{DoxyParamCaption}\item[{std\+::string \&}]{mode }\end{DoxyParamCaption})}
+
+
+
+Read whether radio packet CRC16 is enabled or disabled for the UHF Transceiver. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mode} & A bit (\textquotesingle{}0\textquotesingle{}, or \textquotesingle{}1\textquotesingle{}) that determines if radio packet CRC16 is enabled or disabled \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00376}{376}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_a1f65bcc8d7a10b4742a0d3188a7a5738}\label{classesttc_a1f65bcc8d7a10b4742a0d3188a7a5738}} 
+\index{esttc@{esttc}!read\_radio\_freq@{read\_radio\_freq}}
+\index{read\_radio\_freq@{read\_radio\_freq}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{read\_radio\_freq()}{read\_radio\_freq()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::read\+\_\+radio\+\_\+freq (\begin{DoxyParamCaption}\item[{std\+::string \&}]{RSSI,  }\item[{std\+::string \&}]{frac,  }\item[{std\+::string \&}]{div }\end{DoxyParamCaption})}
+
+
+
+Get the radio frequency and the last RSSI (Received signal strength indication) of the UHF Transceiver module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em RSSI} & Received Signal Strength Indicator \\
+\hline
+{\em frac} & Fractional part of the radio PLL synthesizer in HEX format \\
+\hline
+{\em div} & Integer divider of the radio PLL synthesizer in HEX format \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00138}{138}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_aa981443fe7387bffd1d94c2935e55b6b}\label{classesttc_aa981443fe7387bffd1d94c2935e55b6b}} 
+\index{esttc@{esttc}!read\_radio\_trans\_prop\_config@{read\_radio\_trans\_prop\_config}}
+\index{read\_radio\_trans\_prop\_config@{read\_radio\_trans\_prop\_config}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{read\_radio\_trans\_prop\_config()}{read\_radio\_trans\_prop\_config()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::read\+\_\+radio\+\_\+trans\+\_\+prop\+\_\+config (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{prop\+\_\+group,  }\item[{const std\+::string \&}]{bytes,  }\item[{const std\+::string \&}]{offset,  }\item[{std\+::string \&}]{data }\end{DoxyParamCaption})}
+
+
+
+Read the current configuration of the Radio Transceiver Property of the UHF Transceiver. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em prop\+\_\+group} & The current property group in HEX \\
+\hline
+{\em bytes} & The current number of bytes in HEX \\
+\hline
+{\em offset} & The current start offset of the property content in HEX \\
+\hline
+{\em data} & The current variable size data in HEX \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00662}{662}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_a4fc7d8954aa04c31f53178b12311a173}\label{classesttc_a4fc7d8954aa04c31f53178b12311a173}} 
+\index{esttc@{esttc}!read\_scw@{read\_scw}}
+\index{read\_scw@{read\_scw}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{read\_scw()}{read\_scw()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::read\+\_\+scw (\begin{DoxyParamCaption}\item[{std\+::string \&}]{RSSI,  }\item[{std\+::string \&}]{dvc\+\_\+addr,  }\item[{std\+::string \&}]{rst\+\_\+ctr,  }\item[{std\+::string \&}]{scw }\end{DoxyParamCaption})}
+
+
+
+Send a command to read the current status of the Transceiver given its current Status Control Word (SCW) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em RSSI} & Received Signal Strength Indicator \\
+\hline
+{\em dvc\+\_\+addr} & The device address in HEX format \\
+\hline
+{\em rst\+\_\+ctr} & Reset Counter -\/ Counts number of times the device has been reset \\
+\hline
+{\em scw} & The current Status Control Word \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00087}{87}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_a8aa9fe9d7783a320f2cd92f92b435822}\label{classesttc_a8aa9fe9d7783a320f2cd92f92b435822}} 
+\index{esttc@{esttc}!read\_src\_call\_sign@{read\_src\_call\_sign}}
+\index{read\_src\_call\_sign@{read\_src\_call\_sign}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{read\_src\_call\_sign()}{read\_src\_call\_sign()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::read\+\_\+src\+\_\+call\+\_\+sign (\begin{DoxyParamCaption}\item[{std\+::string \&}]{call\+\_\+sign }\end{DoxyParamCaption})}
+
+
+
+Read the current source call sign of the UHF Transceiver. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em call\+\_\+sign} & The current source call sign (ex. \char`\"{}\+XX0\+UHF\char`\"{}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00552}{552}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_a9650406be47e9ea6914c843c58864943}\label{classesttc_a9650406be47e9ea6914c843c58864943}} 
+\index{esttc@{esttc}!read\_trans\_pckts@{read\_trans\_pckts}}
+\index{read\_trans\_pckts@{read\_trans\_pckts}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{read\_trans\_pckts()}{read\_trans\_pckts()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::read\+\_\+trans\+\_\+pckts (\begin{DoxyParamCaption}\item[{std\+::string \&}]{RSSI,  }\item[{std\+::string \&}]{pckt\+\_\+num }\end{DoxyParamCaption})}
+
+
+
+Get the number of transmitted packets from the UHF Transceiver. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em RSSI} & Received Signal Strength Indicator \\
+\hline
+{\em pckt\+\_\+num} & The number of transmitted packets in HEX format \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00189}{189}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_a542f244e8d3ac508af0a6c5f2d24afac}\label{classesttc_a542f244e8d3ac508af0a6c5f2d24afac}} 
+\index{esttc@{esttc}!read\_trans\_pckts\_crc@{read\_trans\_pckts\_crc}}
+\index{read\_trans\_pckts\_crc@{read\_trans\_pckts\_crc}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{read\_trans\_pckts\_crc()}{read\_trans\_pckts\_crc()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::read\+\_\+trans\+\_\+pckts\+\_\+crc (\begin{DoxyParamCaption}\item[{std\+::string \&}]{RSSI,  }\item[{std\+::string \&}]{pckt\+\_\+num }\end{DoxyParamCaption})}
+
+
+
+Get the number of transmitted packets that contained CRC errors from the UHF Transceiver. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em RSSI} & Received Signal Strength Indicator \\
+\hline
+{\em pckt\+\_\+num} & The number of transmitted packets with CRC errors in HEX format \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00214}{214}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_a079a5461d60e43988da49b613617b08a}\label{classesttc_a079a5461d60e43988da49b613617b08a}} 
+\index{esttc@{esttc}!read\_uptime@{read\_uptime}}
+\index{read\_uptime@{read\_uptime}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{read\_uptime()}{read\_uptime()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::read\+\_\+uptime (\begin{DoxyParamCaption}\item[{std\+::string \&}]{RSSI,  }\item[{std\+::string \&}]{uptime }\end{DoxyParamCaption})}
+
+
+
+Get the uptime of the UHF Transceiver. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em RSSI} & Received Signal Strength Indicator \\
+\hline
+{\em uptime} & Uptime value in seconds in HEX format \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00164}{164}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_a6f212547353c11caafaeeb99aac0f049}\label{classesttc_a6f212547353c11caafaeeb99aac0f049}} 
+\index{esttc@{esttc}!update\_firmware@{update\_firmware}}
+\index{update\_firmware@{update\_firmware}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{update\_firmware()}{update\_firmware()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::update\+\_\+firmware (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{all\+\_\+lines }\end{DoxyParamCaption})}
+
+
+
+Fully update the firmware of the UHF Transceiver. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em all\+\_\+lines} & The variable length data which comprises of all lines of the .SCRM file separated by new line characters \textquotesingle{}\textbackslash{}n\textquotesingle{} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00702}{702}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_a9c01d3b6422fc154b96438175a950028}\label{classesttc_a9c01d3b6422fc154b96438175a950028}} 
+\index{esttc@{esttc}!update\_firmware\_sequence@{update\_firmware\_sequence}}
+\index{update\_firmware\_sequence@{update\_firmware\_sequence}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{update\_firmware\_sequence()}{update\_firmware\_sequence()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::update\+\_\+firmware\+\_\+sequence (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{one\+\_\+line }\end{DoxyParamCaption})}
+
+
+
+Update the firmware of the UHF Transceiver. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em one\+\_\+line} & The variable length data which comprises of a single line of the .SCRM file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00757}{757}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_adce8771bddea2d29a01a51893bc67933}\label{classesttc_adce8771bddea2d29a01a51893bc67933}} 
+\index{esttc@{esttc}!write\_ant\_release\_config@{write\_ant\_release\_config}}
+\index{write\_ant\_release\_config@{write\_ant\_release\_config}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{write\_ant\_release\_config()}{write\_ant\_release\_config()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::write\+\_\+ant\+\_\+release\+\_\+config (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{ant\+\_\+config }\end{DoxyParamCaption})}
+
+
+
+Configure the UHF Transceiver antenna release configuration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ant\+\_\+config} & UHF Antenna Release Configuration (4 chars) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00444}{444}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_a5cee710fed848c5f7dab62d1695547be}\label{classesttc_a5cee710fed848c5f7dab62d1695547be}} 
+\index{esttc@{esttc}!write\_bcn\_trans\_period@{write\_bcn\_trans\_period}}
+\index{write\_bcn\_trans\_period@{write\_bcn\_trans\_period}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{write\_bcn\_trans\_period()}{write\_bcn\_trans\_period()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::write\+\_\+bcn\+\_\+trans\+\_\+period (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{period = {\ttfamily \char`\"{}003C\char`\"{}} }\end{DoxyParamCaption})}
+
+
+
+Configure the beacon message transmission period of the UHF Transceiver. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em period} & The desired period (in seconds in HEX format) to set \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00238}{238}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_a707e8ad1d0bc6fedd25f7833ff1860ee}\label{classesttc_a707e8ad1d0bc6fedd25f7833ff1860ee}} 
+\index{esttc@{esttc}!write\_config\_ax25\_decode@{write\_config\_ax25\_decode}}
+\index{write\_config\_ax25\_decode@{write\_config\_ax25\_decode}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{write\_config\_ax25\_decode()}{write\_config\_ax25\_decode()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::write\+\_\+config\+\_\+ax25\+\_\+decode (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{config\+\_\+bit }\end{DoxyParamCaption})}
+
+
+
+Write the configuration bit that determines whether the UHF Transceiver\textquotesingle{}s Auto AX.\+25 Decode is Enabled/\+Disabled. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em config\+\_\+bit} & The bit (\textquotesingle{}1\textquotesingle{} or \textquotesingle{}0\textquotesingle{}) that determines if automatic ax.\+25 decoding is enabled \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00399}{399}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_ace29ec80c813a13ec6508b56805f0149}\label{classesttc_ace29ec80c813a13ec6508b56805f0149}} 
+\index{esttc@{esttc}!write\_dvc\_addr\_config@{write\_dvc\_addr\_config}}
+\index{write\_dvc\_addr\_config@{write\_dvc\_addr\_config}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{write\_dvc\_addr\_config()}{write\_dvc\_addr\_config()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::write\+\_\+dvc\+\_\+addr\+\_\+config (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{new\+\_\+addr = {\ttfamily \char`\"{}22\char`\"{}} }\end{DoxyParamCaption})}
+
+
+
+Write a new device address for the UHF Transceiver. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+\_\+addr} & The new device address for the UHF Transceiver in HEX (\char`\"{}22\char`\"{} or \char`\"{}23\char`\"{}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00598}{598}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_a13e5dd41812390eb82f0ee453080f1b3}\label{classesttc_a13e5dd41812390eb82f0ee453080f1b3}} 
+\index{esttc@{esttc}!write\_i2c\_resist\_config@{write\_i2c\_resist\_config}}
+\index{write\_i2c\_resist\_config@{write\_i2c\_resist\_config}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{write\_i2c\_resist\_config()}{write\_i2c\_resist\_config()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::write\+\_\+i2c\+\_\+resist\+\_\+config (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{resistor\+\_\+config }\end{DoxyParamCaption})}
+
+
+
+Configure the I2C Pull-\/\+Up resistor configuration of the UHF Transceiver. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em resistor\+\_\+config} & The desired I2C pull-\/up resistor configuration in HEX \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00311}{311}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_a16d8bf87166f731b3c720c10348856a7}\label{classesttc_a16d8bf87166f731b3c720c10348856a7}} 
+\index{esttc@{esttc}!write\_low\_pwr\_mode@{write\_low\_pwr\_mode}}
+\index{write\_low\_pwr\_mode@{write\_low\_pwr\_mode}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{write\_low\_pwr\_mode()}{write\_low\_pwr\_mode()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::write\+\_\+low\+\_\+pwr\+\_\+mode (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Toggle the low power mode of the UHF Transceiver. 
+
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00487}{487}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_a9eed39acf91a06546bcf50f34bf55b84}\label{classesttc_a9eed39acf91a06546bcf50f34bf55b84}} 
+\index{esttc@{esttc}!write\_radio\_crc16@{write\_radio\_crc16}}
+\index{write\_radio\_crc16@{write\_radio\_crc16}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{write\_radio\_crc16()}{write\_radio\_crc16()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::write\+\_\+radio\+\_\+crc16 (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{mode }\end{DoxyParamCaption})}
+
+
+
+Enable or disable the UHF Transceiver\textquotesingle{}s radio packet CRC16. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mode} & A bit (\textquotesingle{}0\textquotesingle{}, or \textquotesingle{}1\textquotesingle{}) that determines if radio packet CRC16 is enabled or disabled \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00355}{355}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_a9e4a95484dc3302d1365e1c0ac1074b9}\label{classesttc_a9e4a95484dc3302d1365e1c0ac1074b9}} 
+\index{esttc@{esttc}!write\_radio\_freq\_config@{write\_radio\_freq\_config}}
+\index{write\_radio\_freq\_config@{write\_radio\_freq\_config}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{write\_radio\_freq\_config()}{write\_radio\_freq\_config()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::write\+\_\+radio\+\_\+freq\+\_\+config (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{frac = {\ttfamily \char`\"{}76620F41\char`\"{}},  }\item[{const std\+::string \&}]{div = {\ttfamily \char`\"{}41\char`\"{}} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classesttc_a810f8ccfda92f21cbbc3f7456604d54d}\label{classesttc_a810f8ccfda92f21cbbc3f7456604d54d}} 
+\index{esttc@{esttc}!write\_radio\_trans\_prop\_config@{write\_radio\_trans\_prop\_config}}
+\index{write\_radio\_trans\_prop\_config@{write\_radio\_trans\_prop\_config}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{write\_radio\_trans\_prop\_config()}{write\_radio\_trans\_prop\_config()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::write\+\_\+radio\+\_\+trans\+\_\+prop\+\_\+config (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{prop\+\_\+group,  }\item[{const std\+::string \&}]{bytes,  }\item[{const std\+::string \&}]{offset,  }\item[{const std\+::string \&}]{data }\end{DoxyParamCaption})}
+
+
+
+Write a new configuration for the Radio Transceiver Property of the UHF Transceiver. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em prop\+\_\+group} & The property group in HEX \\
+\hline
+{\em bytes} & The number of bytes in HEX \\
+\hline
+{\em offset} & The start offset of the property content in HEX \\
+\hline
+{\em data} & The variable size data in HEX \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00624}{624}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_aa2df128c441e7aa4ef3dfde15e4036ff}\label{classesttc_aa2df128c441e7aa4ef3dfde15e4036ff}} 
+\index{esttc@{esttc}!write\_res\_default\_vals@{write\_res\_default\_vals}}
+\index{write\_res\_default\_vals@{write\_res\_default\_vals}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{write\_res\_default\_vals()}{write\_res\_default\_vals()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::write\+\_\+res\+\_\+default\+\_\+vals (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+restore default values to UHF Transceiver for Destination/\+Source/\+Morse code call sign, Audio beacon period and message, Text beadon period, and Pipe timeout period 
+
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00288}{288}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_a2624f9ce0014813d183f152f0ff87003}\label{classesttc_a2624f9ce0014813d183f152f0ff87003}} 
+\index{esttc@{esttc}!write\_scw@{write\_scw}}
+\index{write\_scw@{write\_scw}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{write\_scw()}{write\_scw()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::write\+\_\+scw (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{scw\+\_\+command }\end{DoxyParamCaption})}
+
+
+
+Sends a command with a Status Control Word (SCW) that changes the Endurosat UHF Transceiver\textquotesingle{}s settings. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em scw\+\_\+command} & A command to change the SCW to a different configuration (e.\+g. enable\+\_\+pipe) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00043}{43}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+\mbox{\Hypertarget{classesttc_ae18b3379d1af72e4a3ae5a8614c684e3}\label{classesttc_ae18b3379d1af72e4a3ae5a8614c684e3}} 
+\index{esttc@{esttc}!write\_src\_call\_sign@{write\_src\_call\_sign}}
+\index{write\_src\_call\_sign@{write\_src\_call\_sign}!esttc@{esttc}}
+\doxysubsubsection{\texorpdfstring{write\_src\_call\_sign()}{write\_src\_call\_sign()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} esttc\+::write\+\_\+src\+\_\+call\+\_\+sign (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{call\+\_\+sign = {\ttfamily \char`\"{}XX0UHF\char`\"{}} }\end{DoxyParamCaption})}
+
+
+
+Write a new source call sign for the UHF Transceiver. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em call\+\_\+sign} & The new source call sign you want to replace the old one with (ex. \char`\"{}\+XX0\+UHF\char`\"{}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{esttc_8cpp_source_l00531}{531}} of file \mbox{\hyperlink{esttc_8cpp_source}{esttc.\+cpp}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/ti/\mbox{\hyperlink{esttc_8h}{esttc.\+h}}\item 
+src/ti/\mbox{\hyperlink{esttc_8cpp}{esttc.\+cpp}}\end{DoxyCompactItemize}

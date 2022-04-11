@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="spdlog"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\src\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\usr\;CMake Files\..\..\usr\lib\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\Boost-1.71.0\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\boost_headers-1.71.0\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\boost_system-1.71.0\;CMake Files\runtime\;CMake Files\lib\;CMake Files\lib\spdlog\;CMake Files\lib\spdlog\cmake\;CMake Files\lib\json\;CMake Files\lib\json\cmake\;CMake Files\tests\;CMake Files\tests\estts-cosmos-demo1\;CMake Files\tests\serial-test\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/lib/spdlog"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j2 -f &quot;/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/lib/spdlog/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j2 -f &quot;/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/lib/spdlog/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j2 -f &quot;/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/lib/spdlog/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j2 -f &quot;/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/lib/spdlog/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="spdlog">
+				<Option output="/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/lib/spdlog/libspdlogd.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/lib/spdlog"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DSPDLOG_COMPILED_LIB"/>
+					<Add directory="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/aarch64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/aarch64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j2 -f &quot;/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/lib/spdlog/Makefile&quot;  VERBOSE=1 spdlog"/>
+					<CompileFile command="/usr/bin/make -j2 -f &quot;/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/lib/spdlog/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j2 -f &quot;/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/lib/spdlog/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j2 -f &quot;/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/lib/spdlog/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="spdlog/fast">
+				<Option output="/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/lib/spdlog/libspdlogd.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/lib/spdlog"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DSPDLOG_COMPILED_LIB"/>
+					<Add directory="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/aarch64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/aarch64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j2 -f &quot;/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/lib/spdlog/Makefile&quot;  VERBOSE=1 spdlog/fast"/>
+					<CompileFile command="/usr/bin/make -j2 -f &quot;/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/lib/spdlog/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j2 -f &quot;/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/lib/spdlog/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j2 -f &quot;/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/lib/spdlog/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/async.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/async_logger-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/async_logger.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/common-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/common.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/backtracer-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/backtracer.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/circular_q.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/console_globals.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/file_helper-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/file_helper.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/fmt_helper.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/log_msg-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/log_msg.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/log_msg_buffer-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/log_msg_buffer.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/mpmc_blocking_q.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/null_mutex.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/os-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/os.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/periodic_worker-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/periodic_worker.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/registry-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/registry.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/synchronous_factory.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/tcp_client-windows.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/tcp_client.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/thread_pool-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/thread_pool.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/udp_client-windows.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/udp_client.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/details/windows_include.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/fmt/bin_to_hex.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/fmt/bundled/args.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/fmt/bundled/chrono.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/fmt/bundled/color.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/fmt/bundled/compile.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/fmt/bundled/core.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/fmt/bundled/format-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/fmt/bundled/format.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/fmt/bundled/locale.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/fmt/bundled/os.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/fmt/bundled/ostream.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/fmt/bundled/printf.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/fmt/bundled/ranges.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/fmt/bundled/xchar.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/fmt/chrono.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/fmt/compile.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/fmt/fmt.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/fmt/ostr.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/fmt/ranges.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/fmt/xchar.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/formatter.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/fwd.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/logger-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/logger.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/pattern_formatter-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/pattern_formatter.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/android_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/ansicolor_sink-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/ansicolor_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/base_sink-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/base_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/basic_file_sink-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/basic_file_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/daily_file_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/dist_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/dup_filter_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/hourly_file_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/mongo_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/msvc_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/null_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/ostream_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/qt_sinks.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/ringbuffer_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/rotating_file_sink-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/rotating_file_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/sink-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/stdout_color_sinks-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/stdout_color_sinks.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/stdout_sinks-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/stdout_sinks.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/syslog_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/systemd_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/tcp_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/udp_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/win_eventlog_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/wincolor_sink-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/sinks/wincolor_sink.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/spdlog-inl.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/spdlog.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/stopwatch.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/tweakme.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include/spdlog/version.h">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/src/async.cpp">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/src/cfg.cpp">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/src/color_sinks.cpp">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/src/file_sinks.cpp">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/src/fmt.cpp">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/src/spdlog.cpp">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/src/stdout_sinks.cpp">
+			<Option target="spdlog"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/../../usr/lib/aarch64-linux-gnu/cmake/BoostDetectToolset-1.71.0.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/../../usr/lib/aarch64-linux-gnu/cmake/Boost-1.71.0/BoostConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\Boost-1.71.0\"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/../../usr/lib/aarch64-linux-gnu/cmake/Boost-1.71.0/BoostConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\Boost-1.71.0\"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/../../usr/lib/aarch64-linux-gnu/cmake/boost_headers-1.71.0/boost_headers-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\boost_headers-1.71.0\"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/../../usr/lib/aarch64-linux-gnu/cmake/boost_headers-1.71.0/boost_headers-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\boost_headers-1.71.0\"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/../../usr/lib/aarch64-linux-gnu/cmake/boost_system-1.71.0/boost_system-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\boost_system-1.71.0\"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/../../usr/lib/aarch64-linux-gnu/cmake/boost_system-1.71.0/boost_system-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\boost_system-1.71.0\"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/../../usr/lib/aarch64-linux-gnu/cmake/boost_system-1.71.0/libboost_system-variant-shared.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\boost_system-1.71.0\"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/../../usr/lib/aarch64-linux-gnu/cmake/boost_system-1.71.0/libboost_system-variant-static.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\boost_system-1.71.0\"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/runtime/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\runtime\"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\spdlog\"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/cmake/ide.cmake">
+			<Option virtualFolder="CMake Files\lib\spdlog\cmake\"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/spdlog/cmake/utils.cmake">
+			<Option virtualFolder="CMake Files\lib\spdlog\cmake\"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/json/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\json\"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/json/cmake/config.cmake.in">
+			<Option virtualFolder="CMake Files\lib\json\cmake\"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/json/cmake/nlohmann_jsonConfigVersion.cmake.in">
+			<Option virtualFolder="CMake Files\lib\json\cmake\"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/json/cmake/pkg-config.pc.in">
+			<Option virtualFolder="CMake Files\lib\json\cmake\"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/tests/estts-cosmos-demo1/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\tests\estts-cosmos-demo1\"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/tests/serial-test/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\tests\serial-test\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

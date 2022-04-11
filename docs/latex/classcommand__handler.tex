@@ -1,0 +1,132 @@
+\hypertarget{classcommand__handler}{}\doxysection{command\+\_\+handler Class Reference}
+\label{classcommand__handler}\index{command\_handler@{command\_handler}}
+
+
+{\ttfamily \#include $<$command\+\_\+handler.\+h$>$}
+
+Inheritance diagram for command\+\_\+handler\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classcommand__handler}
+\end{center}
+\end{figure}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcommand__handler_a79a10166c8445fb42a29e936f6758013}{command\+\_\+handler}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. Note that the \mbox{\hyperlink{classcommand__handler}{command\+\_\+handler}} requires that init\+\_\+command\+\_\+handler be called before use. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classcommand__handler_a8552cb1b015187a6d2cc2b11c37ec32c}{init\+\_\+command\+\_\+handler}} (\mbox{\hyperlink{classtransmission__interface}{transmission\+\_\+interface}} $\ast$ti)
+\begin{DoxyCompactList}\small\item\em Initializes command handler by allocating local transmission interface instance. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcommand__handler_a230996dd388eb9e4eb7361806766b3fc}{$\sim$command\+\_\+handler}} ()
+\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classcommand__handler_af40f3dfc28b78ed071c3008c56ad8173}{execute}} (\mbox{\hyperlink{structestts_1_1waiting__command}{estts\+::waiting\+\_\+command}} $\ast$command)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \mbox{\hyperlink{structestts_1_1dispatched__command}{estts\+::dispatched\+\_\+command}} $\ast$ $>$ \mbox{\hyperlink{classcommand__handler_adab73c65f8e8be7654d8c34414ac48bc}{dispatched}}
+\item 
+std\+::vector$<$ completed $\ast$ $>$ \mbox{\hyperlink{classcommand__handler_ab8759a552e07c52e542cf4ad7a0a2e9d}{completed\+\_\+cache}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{command__handler_8h_source_l00015}{15}} of file \mbox{\hyperlink{command__handler_8h_source}{command\+\_\+handler.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcommand__handler_a79a10166c8445fb42a29e936f6758013}\label{classcommand__handler_a79a10166c8445fb42a29e936f6758013}} 
+\index{command\_handler@{command\_handler}!command\_handler@{command\_handler}}
+\index{command\_handler@{command\_handler}!command\_handler@{command\_handler}}
+\doxysubsubsection{\texorpdfstring{command\_handler()}{command\_handler()}}
+{\footnotesize\ttfamily command\+\_\+handler\+::command\+\_\+handler (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}, {\ttfamily [protected]}}
+
+
+
+Default constructor. Note that the \mbox{\hyperlink{classcommand__handler}{command\+\_\+handler}} requires that init\+\_\+command\+\_\+handler be called before use. 
+
+
+
+Definition at line \mbox{\hyperlink{command__handler_8cpp_source_l00032}{32}} of file \mbox{\hyperlink{command__handler_8cpp_source}{command\+\_\+handler.\+cpp}}.
+
+\mbox{\Hypertarget{classcommand__handler_a230996dd388eb9e4eb7361806766b3fc}\label{classcommand__handler_a230996dd388eb9e4eb7361806766b3fc}} 
+\index{command\_handler@{command\_handler}!````~command\_handler@{$\sim$command\_handler}}
+\index{````~command\_handler@{$\sim$command\_handler}!command\_handler@{command\_handler}}
+\doxysubsubsection{\texorpdfstring{$\sim$command\_handler()}{~command\_handler()}}
+{\footnotesize\ttfamily command\+\_\+handler\+::$\sim$command\+\_\+handler (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [default]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcommand__handler_af40f3dfc28b78ed071c3008c56ad8173}\label{classcommand__handler_af40f3dfc28b78ed071c3008c56ad8173}} 
+\index{command\_handler@{command\_handler}!execute@{execute}}
+\index{execute@{execute}!command\_handler@{command\_handler}}
+\doxysubsubsection{\texorpdfstring{execute()}{execute()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} command\+\_\+handler\+::execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structestts_1_1waiting__command}{estts\+::waiting\+\_\+command}} $\ast$}]{command }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Primary command execution point. Takes argument for a waiting command object and calls associated execution handler. 
+\begin{DoxyParams}{Parameters}
+{\em command} & Pointer to an \mbox{\hyperlink{structestts_1_1waiting__command}{estts\+::waiting\+\_\+command}} object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ES\+\_\+\+OK if command was executed properly. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{command__handler_8cpp_source_l00036}{36}} of file \mbox{\hyperlink{command__handler_8cpp_source}{command\+\_\+handler.\+cpp}}.
+
+\mbox{\Hypertarget{classcommand__handler_a8552cb1b015187a6d2cc2b11c37ec32c}\label{classcommand__handler_a8552cb1b015187a6d2cc2b11c37ec32c}} 
+\index{command\_handler@{command\_handler}!init\_command\_handler@{init\_command\_handler}}
+\index{init\_command\_handler@{init\_command\_handler}!command\_handler@{command\_handler}}
+\doxysubsubsection{\texorpdfstring{init\_command\_handler()}{init\_command\_handler()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} command\+\_\+handler\+::init\+\_\+command\+\_\+handler (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classtransmission__interface}{transmission\+\_\+interface}} $\ast$}]{ti }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Initializes command handler by allocating local transmission interface instance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ti} & Transmission interface object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{command__handler_8cpp_source_l00099}{99}} of file \mbox{\hyperlink{command__handler_8cpp_source}{command\+\_\+handler.\+cpp}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcommand__handler_ab8759a552e07c52e542cf4ad7a0a2e9d}\label{classcommand__handler_ab8759a552e07c52e542cf4ad7a0a2e9d}} 
+\index{command\_handler@{command\_handler}!completed\_cache@{completed\_cache}}
+\index{completed\_cache@{completed\_cache}!command\_handler@{command\_handler}}
+\doxysubsubsection{\texorpdfstring{completed\_cache}{completed\_cache}}
+{\footnotesize\ttfamily std\+::vector$<$completed $\ast$$>$ command\+\_\+handler\+::completed\+\_\+cache\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{command__handler_8h_source_l00042}{42}} of file \mbox{\hyperlink{command__handler_8h_source}{command\+\_\+handler.\+h}}.
+
+\mbox{\Hypertarget{classcommand__handler_adab73c65f8e8be7654d8c34414ac48bc}\label{classcommand__handler_adab73c65f8e8be7654d8c34414ac48bc}} 
+\index{command\_handler@{command\_handler}!dispatched@{dispatched}}
+\index{dispatched@{dispatched}!command\_handler@{command\_handler}}
+\doxysubsubsection{\texorpdfstring{dispatched}{dispatched}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{structestts_1_1dispatched__command}{estts\+::dispatched\+\_\+command}} $\ast$$>$ command\+\_\+handler\+::dispatched\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{command__handler_8h_source_l00040}{40}} of file \mbox{\hyperlink{command__handler_8h_source}{command\+\_\+handler.\+h}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/fapi/\mbox{\hyperlink{command__handler_8h}{command\+\_\+handler.\+h}}\item 
+src/fapi/\mbox{\hyperlink{command__handler_8cpp}{command\+\_\+handler.\+cpp}}\end{DoxyCompactItemize}

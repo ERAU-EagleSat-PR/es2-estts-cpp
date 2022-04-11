@@ -1,0 +1,84 @@
+\hypertarget{esttc_8h_source}{}\doxysection{esttc.\+h}
+\label{esttc_8h_source}\index{src/ti/esttc.h@{src/ti/esttc.h}}
+\mbox{\hyperlink{esttc_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00001}00001 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00002}00002 \textcolor{comment}{// Created by Hayden Roszell on 12/10/21.}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00005}00005 \textcolor{preprocessor}{\#ifndef ESTTS\_ESTTC\_H}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00006}00006 \textcolor{preprocessor}{\#define ESTTS\_ESTTC\_H}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00008}00008 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{serial__handler_8h}{serial\_handler.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00009}00009 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{constants_8h}{constants.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00010}00010 }
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00011}\mbox{\hyperlink{classesttc}{00011}} \textcolor{keyword}{class }\mbox{\hyperlink{classesttc}{esttc}} : \textcolor{keyword}{virtual} \textcolor{keyword}{public} \mbox{\hyperlink{classserial__handler}{serial\_handler}} \{}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00012}00012 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00013}00013     \mbox{\hyperlink{classestts_1_1endurosat_1_1esttc__const}{estts::endurosat::esttc\_const}} *esttc\_symbols;}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00015}00015     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} build\_esttc\_command(\textcolor{keywordtype}{char} method, \textcolor{keyword}{const} \textcolor{keywordtype}{char} *command\_code,  std::string \&response, \textcolor{keyword}{const} std::string\& body = \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00017}00017     \textcolor{keyword}{static} std::vector<std::string> split\_lines(\textcolor{keyword}{const} std::string \&all\_lines, \textcolor{keywordtype}{size\_t} num\_of\_lines);}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00018}00018 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00019}00019 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00020}00020 }
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00021}00021     \textcolor{comment}{// 10.1 -\/ STATUS CONTROL WORD (SCW)}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00022}00022     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_ae9a7cb3700074186564aa0ff13eca6f7}{default\_mode}}();}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00023}00023     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_a2624f9ce0014813d183f152f0ff87003}{write\_scw}}(uint16\_t scw\_command);}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00024}00024     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_a4fc7d8954aa04c31f53178b12311a173}{read\_scw}}(std::string \&RSSI, std::string \&dvc\_addr, std::string \&rst\_ctr, std::string \&scw);}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00025}00025     \textcolor{comment}{// 10.2 -\/ RADIO FREQUENCY CONFIGURATION}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00026}\mbox{\hyperlink{classesttc_a9e4a95484dc3302d1365e1c0ac1074b9}{00026}}     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_a9e4a95484dc3302d1365e1c0ac1074b9}{write\_radio\_freq\_config}}(\textcolor{keyword}{const} std::string\& frac = \textcolor{stringliteral}{"{}76620F41"{}}, \textcolor{keyword}{const} std::string\& div = \textcolor{stringliteral}{"{}41"{}});}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00027}00027     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_a1f65bcc8d7a10b4742a0d3188a7a5738}{read\_radio\_freq}}(std::string \&RSSI, std::string \&frac, std::string \&div);}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00028}00028     \textcolor{comment}{// 10.3 -\/ READ UPTIME}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00029}00029     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_a079a5461d60e43988da49b613617b08a}{read\_uptime}}(std::string \&RSSI, std::string \&uptime);}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00030}00030     \textcolor{comment}{// 10.4 -\/ READ NUMBER OF TRANSMITTED PACKETS}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00031}00031     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_a9650406be47e9ea6914c843c58864943}{read\_trans\_pckts}}(std::string \&RSSI, std::string \&pckt\_num);}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00032}00032     \textcolor{comment}{// 10.6 -\/ READ NUMBER OF TRANSMITTED PACKETS WITH A CRC ERROR}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00033}00033     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_a542f244e8d3ac508af0a6c5f2d24afac}{read\_trans\_pckts\_crc}}(std::string \&RSSI, std::string \&pckt\_num);}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00034}00034     \textcolor{comment}{// 10.8 -\/ BEACON MESSAGE TRANSMISSION PERIOD CONFIGURATION}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00035}00035     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_a5cee710fed848c5f7dab62d1695547be}{write\_bcn\_trans\_period}}(\textcolor{keyword}{const} std::string \&period = \textcolor{stringliteral}{"{}003C"{}});}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00036}00036     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_afe66f70a053899b5338f4ee211fd6eb9}{read\_bcn\_trans\_period}}(std::string \&RSSI, std::string \&period);}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00037}00037     \textcolor{comment}{// 10.10 -\/ RESTORE DEFAULT VALUES}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00038}00038     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_aa2df128c441e7aa4ef3dfde15e4036ff}{write\_res\_default\_vals}}();}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00039}00039     \textcolor{comment}{// 10.31 -\/ I2C PULL-\/UP RESISTORS CONFIGURATION READ/WRITE}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00040}00040     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_a13e5dd41812390eb82f0ee453080f1b3}{write\_i2c\_resist\_config}}(\textcolor{keyword}{const} std::string \&resistor\_config);}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00041}00041     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_abeae63e2714338790f9f1204b3a3cbd1}{read\_i2c\_resist\_config}}(std::string \&selected\_resistor);}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00042}00042     \textcolor{comment}{// 10.12 -\/ ENABLING/DISABLING RADIO PACKET CRC16}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00043}00043     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_a9eed39acf91a06546bcf50f34bf55b84}{write\_radio\_crc16}}(\textcolor{keyword}{const} std::string \&mode);}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00044}00044     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_a766279ad3e5e21ee68a497748ae4aadf}{read\_radio\_crc16}}(std::string \&mode);}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00045}00045     \textcolor{comment}{// 10.14 -\/ ENABLING/DISABLING AUTOMATIC AX.25 DECODING}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00046}00046     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_a707e8ad1d0bc6fedd25f7833ff1860ee}{write\_config\_ax25\_decode}}(\textcolor{keyword}{const} std::string \&config\_bit); \textcolor{comment}{// Consider replacing the param with a char type}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00047}00047     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_a0aa0544354511220afffd74e2e3cd07b}{read\_config\_ax25\_decode}}(std::string \&config\_bit);}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00048}00048     \textcolor{comment}{// 10.16 -\/ UHF ANTENNA RELEASE CONFIGURATION}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00049}00049     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_adce8771bddea2d29a01a51893bc67933}{write\_ant\_release\_config}}(\textcolor{keyword}{const} std::string \&ant\_config);}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00050}00050     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_aaf598ec2febc952a013ed033f8b6278d}{read\_ant\_release\_config}}(std::string \&ant\_config);}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00051}00051     \textcolor{comment}{// 10.18 -\/ LOW POWER MODE}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00052}00052     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_a16d8bf87166f731b3c720c10348856a7}{write\_low\_pwr\_mode}}();}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00053}00053     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_a9ed91e3715780ce1e6e1e053761d801f}{read\_low\_pwr\_mode}}(std::string \&mode);}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00054}00054     \textcolor{comment}{// 10.20 -\/ SOURCE CALL SIGN}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00055}00055     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_ae18b3379d1af72e4a3ae5a8614c684e3}{write\_src\_call\_sign}}(\textcolor{keyword}{const} std::string \&call\_sign = \textcolor{stringliteral}{"{}XX0UHF"{}});}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00056}00056     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_a8aa9fe9d7783a320f2cd92f92b435822}{read\_src\_call\_sign}}(std::string \&call\_sign);}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00057}00057     \textcolor{comment}{// 10.24 -\/ READ DEVICE PAYLOAD SIZE}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00058}00058     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_aa6b43a2766a67e6f39b0997ab2118da6}{read\_dvc\_payload\_size}}(std::string \&payload\_size);}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00059}00059     \textcolor{comment}{// 10.26 -\/ DEVICE ADDRESS CONFIGURATION}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00060}00060     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_ace29ec80c813a13ec6508b56805f0149}{write\_dvc\_addr\_config}}(\textcolor{keyword}{const} std::string \&new\_addr = \textcolor{stringliteral}{"{}22"{}});}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00061}00061     \textcolor{comment}{// 10.28 -\/ RADIO TRANSCEIVER PROPERTY CONFIGURATION}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00062}00062     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_a810f8ccfda92f21cbbc3f7456604d54d}{write\_radio\_trans\_prop\_config}}(\textcolor{keyword}{const} std::string \&prop\_group, \textcolor{keyword}{const} std::string \&bytes,}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00063}00063                                                                                                     \textcolor{keyword}{const} std::string \&offset, \textcolor{keyword}{const} std::string \&data);}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00064}00064     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_aa981443fe7387bffd1d94c2935e55b6b}{read\_radio\_trans\_prop\_config}}(\textcolor{keyword}{const} std::string \&prop\_group, \textcolor{keyword}{const} std::string \&bytes,}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00065}00065                                                                                                     \textcolor{keyword}{const} std::string \&offset, std::string \&data);}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00066}00066     \textcolor{comment}{// 10.30 -\/ FIRMWARE UPDATE}}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00067}00067     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_a6f212547353c11caafaeeb99aac0f049}{update\_firmware}}(\textcolor{keyword}{const} std::string \&all\_lines);}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00068}00068     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classesttc_a9c01d3b6422fc154b96438175a950028}{update\_firmware\_sequence}}(\textcolor{keyword}{const} std::string \&one\_line);}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00069}00069 }
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00070}00070     \textcolor{keyword}{static} std::string \mbox{\hyperlink{classesttc_afd4728d25e6e106646e9c6414f8f1836}{calculate\_crc32}}(std::string \textcolor{keywordtype}{string});}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00071}00071 }
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00072}00072     \mbox{\hyperlink{classesttc_ace5f28ba67a6125fef69e31144d626cd}{esttc}}();}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00073}00073 }
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00074}00074     \mbox{\hyperlink{classesttc_a730954acfaf493bc80b783fb38244af7}{\string~esttc}}();}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00075}00075 \};}
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00076}00076 }
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00077}00077 }
+\DoxyCodeLine{\Hypertarget{esttc_8h_source_l00078}00078 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//ESTTS\_ESTTC\_H}}
+
+\end{DoxyCode}

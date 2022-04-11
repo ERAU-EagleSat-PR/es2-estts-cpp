@@ -1,0 +1,58 @@
+\hypertarget{ax25__ui__frame__constructor_8h_source}{}\doxysection{ax25\+\_\+ui\+\_\+frame\+\_\+constructor.\+h}
+\label{ax25__ui__frame__constructor_8h_source}\index{src/tnc\_emulator/ax25\_ui\_frame\_constructor.h@{src/tnc\_emulator/ax25\_ui\_frame\_constructor.h}}
+\mbox{\hyperlink{ax25__ui__frame__constructor_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00001}00001 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00002}00002 \textcolor{comment}{// Created by Cody on 12/17/2021.}}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00005}00005 \textcolor{preprocessor}{\#ifndef ES2\_ESTTS\_CPP\_FRAME\_CONSTRUCTOR\_H}}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00006}00006 \textcolor{preprocessor}{\#define ES2\_ESTTS\_CPP\_FRAME\_CONSTRUCTOR\_H}}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00008}00008 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00009}00009 \textcolor{preprocessor}{\#include <sstream>}}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00010}00010 \textcolor{preprocessor}{\#include <unordered\_map>}}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00011}00011 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{info__field_8h}{info\_field.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00012}00012 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{bin__converter_8h}{bin\_converter.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00013}00013 }
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00014}\mbox{\hyperlink{classax25__ui__frame__constructor}{00014}} \textcolor{keyword}{class }\mbox{\hyperlink{classax25__ui__frame__constructor}{ax25\_ui\_frame\_constructor}} : \textcolor{keyword}{virtual} \textcolor{keyword}{public} \mbox{\hyperlink{classinfo__field}{info\_field}} \{}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00015}00015 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00017}00017     \textcolor{comment}{/* Getters for Header Field */}}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00018}00018     \textcolor{keyword}{static} std::string getFlag();}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00019}00019 }
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00020}00020     \textcolor{keyword}{static} std::string getDestAddr();}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00021}00021 }
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00022}00022     \textcolor{keyword}{static} std::string getSSID0();}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00023}00023 }
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00024}00024     \textcolor{keyword}{static} std::string getSrcAddr();}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00025}00025 }
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00026}00026     \textcolor{keyword}{static} std::string getSSID1();}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00028}00028     \textcolor{keyword}{static} std::string getControl();}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00030}00030     \textcolor{keyword}{static} std::string getPID();}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00032}00032     std::string getInfoField();}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00034}00034     \textcolor{keyword}{static} std::string perform\_nrzi\_encoding(std::string raw);}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00036}00036     \textcolor{keyword}{static} std::string calculate\_crc16\_ccit(std::string value);}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00038}00038     \textcolor{keyword}{static} std::string scramble\_frame(std::string raw);}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00040}00040 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00042}00042     std::string \mbox{\hyperlink{classax25__ui__frame__constructor_a013593b7a35f83383f571b45a2570ce5}{encode\_ax25\_frame}}(std::string raw);}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00043}00043 }
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00044}00044 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00045}00045     \textcolor{comment}{/* Constructors */}}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00046}\mbox{\hyperlink{classax25__ui__frame__constructor_a222dcd0e656c83587546919ff6beb812}{00046}}     \textcolor{keyword}{explicit} \mbox{\hyperlink{classax25__ui__frame__constructor_a222dcd0e656c83587546919ff6beb812}{ax25\_ui\_frame\_constructor}}(\mbox{\hyperlink{structestts_1_1command__object}{estts::command\_object}} *\mbox{\hyperlink{classinfo__field_a0af4b86aaae9b53a3295347c449d563a}{command}}) : \mbox{\hyperlink{classinfo__field}{info\_field}}(\mbox{\hyperlink{classinfo__field_a0af4b86aaae9b53a3295347c449d563a}{command}}) \{\}}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00048}00048     \textcolor{comment}{/* Encoded AX.25 Frame Constructor */}}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00049}00049     std::string \mbox{\hyperlink{classax25__ui__frame__constructor_a417a6f4d7f8b751d6a82169085be8179}{construct\_ax25}}();}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00050}00050 \};}
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00051}00051 }
+\DoxyCodeLine{\Hypertarget{ax25__ui__frame__constructor_8h_source_l00052}00052 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

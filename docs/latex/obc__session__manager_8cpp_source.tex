@@ -1,0 +1,133 @@
+\hypertarget{obc__session__manager_8cpp_source}{}\doxysection{obc\+\_\+session\+\_\+manager.\+cpp}
+\label{obc__session__manager_8cpp_source}\index{src/fapi/obc\_session\_manager.cpp@{src/fapi/obc\_session\_manager.cpp}}
+\mbox{\hyperlink{obc__session__manager_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00001}00001 \textcolor{comment}{/* Copyright © EagleSat II -\/ Embry Riddle Aeronautical University -\/ All rights reserved -\/ 2022 */}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00002}00002 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00003}00003 \textcolor{comment}{// Created by Hayden Roszell on 1/4/22.}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00005}00005 }
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00006}00006 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{helper_8h}{helper.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00007}00007 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{obc__session__manager_8h}{obc\_session\_manager.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00008}00008 }
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00009}00009 \textcolor{keyword}{using namespace }\mbox{\hyperlink{namespaceestts}{estts}};}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00010}00010 }
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00011}00011 \textcolor{comment}{// https://stackoverflow.com/questions/15752659/thread-\/pooling-\/in-\/c11}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00012}00012 }
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00013}\mbox{\hyperlink{classobc__session__manager_ace38882e1903ab6f7dc153e05708ef36}{00013}} std::string \mbox{\hyperlink{classobc__session__manager_a612cd440795cdf99d5c25ec9e4d23269}{obc\_session\_manager::schedule\_command}}(\mbox{\hyperlink{structestts_1_1command__object}{command\_object}} * command, std::function<\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{Status}}(std::vector<telemetry\_object *>)> decomp\_callback) \{}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00014}00014     \textcolor{keywordflow}{if} (ti == \textcolor{keyword}{nullptr}) \{}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00015}00015         SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Transmission interface not initialized. Was init\_session\_manager() called?"{}});}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00016}00016     \}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00017}00017 }
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00018}00018     \textcolor{keyword}{auto} new\_command = \textcolor{keyword}{new} \mbox{\hyperlink{namespaceestts_a69e01917c63c7aadeee31026522c7ccc}{waiting\_command}};}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00019}00019     new\_command-\/>\mbox{\hyperlink{structestts_1_1waiting__command_a3bea18bb036c4cda388cdb90c704b51c}{command}} = command;}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00020}00020     new\_command-\/>serial\_number = \mbox{\hyperlink{helper_8cpp_a5ff6db2c2701923812f81ad11ac4f292}{generate\_serial\_number}}();}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00021}00021     new\_command-\/>obj\_callback = std::move(decomp\_callback);}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00022}00022     new\_command-\/>str\_callback = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00023}00023     new\_command-\/>frame = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00024}00024 }
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00025}00025     waiting.push\_back(new\_command);}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00027}00027     SPDLOG\_DEBUG(\textcolor{stringliteral}{"{}Scheduled new command with serial number \{\}"{}}, new\_command-\/>serial\_number);}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00028}00028     \textcolor{keywordflow}{return} new\_command-\/>serial\_number;}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00029}00029 \}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00030}00030 }
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00031}\mbox{\hyperlink{classobc__session__manager_a612cd440795cdf99d5c25ec9e4d23269}{00031}} std::string \mbox{\hyperlink{classobc__session__manager_a612cd440795cdf99d5c25ec9e4d23269}{obc\_session\_manager::schedule\_command}}(std::string command,}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00032}00032                                               \textcolor{keyword}{const} std::function<\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}}(std::string)>\& callback) \{}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00033}00033     \textcolor{keywordflow}{if} (ti == \textcolor{keyword}{nullptr}) \{}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00034}00034         SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Transmission interface not initialized. Was init\_session\_manager() called?"{}});}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00035}00035     \}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00036}00036     \textcolor{keyword}{auto} new\_command = \textcolor{keyword}{new} \mbox{\hyperlink{namespaceestts_a69e01917c63c7aadeee31026522c7ccc}{waiting\_command}};}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00037}00037     new\_command-\/>\mbox{\hyperlink{structestts_1_1waiting__command_ac413dc43defc2fcc4bc9c14239ac19ec}{frame}} = std::move(command);}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00038}00038     new\_command-\/>serial\_number = \mbox{\hyperlink{helper_8cpp_a5ff6db2c2701923812f81ad11ac4f292}{generate\_serial\_number}}();}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00039}00039     new\_command-\/>str\_callback = callback;}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00040}00040     new\_command-\/>command = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00041}00041     new\_command-\/>obj\_callback = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00042}00042 }
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00043}00043     waiting.push\_back(new\_command);}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00045}00045     SPDLOG\_DEBUG(\textcolor{stringliteral}{"{}Scheduled new command with serial number \{\}"{}}, new\_command-\/>serial\_number);}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00046}00046     \textcolor{keywordflow}{return} new\_command-\/>serial\_number;}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00047}00047 \}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00048}00048 }
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00049}\mbox{\hyperlink{classobc__session__manager_af2c332f763d96273d4cf4fbb637161fa}{00049}} \mbox{\hyperlink{classobc__session__manager_af2c332f763d96273d4cf4fbb637161fa}{obc\_session\_manager::obc\_session\_manager}}(\mbox{\hyperlink{classtransmission__interface}{transmission\_interface}} * ti) \{}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00050}00050     this-\/>ti = ti;}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00051}00051     this-\/>\mbox{\hyperlink{classcommand__handler_a8552cb1b015187a6d2cc2b11c37ec32c}{init\_command\_handler}}(ti);}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00052}00052     ti-\/>\mbox{\hyperlink{classtransmission__interface_af7b2eafe5b5b38ecd6762f97301fc378}{register\_dispatch\_function}}( [\textcolor{keyword}{this}] () \{this-\/>dispatch();\} );}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00053}00053 \}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00054}00054 }
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00055}\mbox{\hyperlink{classobc__session__manager_a84a2662bf457fccbc402d9025bee0df9}{00055}} \mbox{\hyperlink{classobc__session__manager_af2c332f763d96273d4cf4fbb637161fa}{obc\_session\_manager::obc\_session\_manager}}(\mbox{\hyperlink{classtransmission__interface}{transmission\_interface}} * ti, std::function<\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}}(std::string)> telem\_callback) \{}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00056}00056     this-\/>telem\_callback = std::move(telem\_callback);}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00058}00058     this-\/>ti = ti;}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00059}00059     this-\/>\mbox{\hyperlink{classcommand__handler_a8552cb1b015187a6d2cc2b11c37ec32c}{init\_command\_handler}}(this-\/>ti);}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00060}00060     ti-\/>\mbox{\hyperlink{classtransmission__interface_a240ed1e78890767f2e7a2e68fcb285de}{set\_telem\_callback}}(this-\/>telem\_callback);}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00061}00061     \textcolor{comment}{// Create a new thread, pass in dispatch() function and current object}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00062}00062     ti-\/>\mbox{\hyperlink{classtransmission__interface_af7b2eafe5b5b38ecd6762f97301fc378}{register\_dispatch\_function}}( [\textcolor{keyword}{this}] () \{this-\/>dispatch();\} );}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00063}00063 \}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00064}00064 }
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00065}\mbox{\hyperlink{classobc__session__manager_a3ba0b7320d04728bc8b2931f90e62a97}{00065}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classobc__session__manager_a3ba0b7320d04728bc8b2931f90e62a97}{obc\_session\_manager::await\_completion}}() \{}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00066}00066     \textcolor{comment}{// If the thread is joinable (IE it's active), join the thread}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00067}00067     \textcolor{comment}{// Join blocks until the thread returns.}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00068}00068     \textcolor{keywordflow}{if} (session\_worker.joinable())}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00069}00069         session\_worker.join();}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00070}00070 \}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00071}00071 }
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00072}\mbox{\hyperlink{classobc__session__manager_a197327b794c36e67844cde5e0bdebee1}{00072}} \mbox{\hyperlink{classobc__session__manager_a197327b794c36e67844cde5e0bdebee1}{obc\_session\_manager::\string~obc\_session\_manager}}() \{}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00073}00073     \mbox{\hyperlink{classobc__session__manager_a3ba0b7320d04728bc8b2931f90e62a97}{await\_completion}}();}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00074}00074     \textcolor{keyword}{delete} ti;}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00075}00075     \textcolor{keywordflow}{if} (!\mbox{\hyperlink{classcommand__handler_adab73c65f8e8be7654d8c34414ac48bc}{dispatched}}.empty())}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00076}00076         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \&i : \mbox{\hyperlink{classcommand__handler_adab73c65f8e8be7654d8c34414ac48bc}{dispatched}})}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00077}00077             \textcolor{keyword}{delete} i;}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00078}00078     \textcolor{keywordflow}{if} (!waiting.empty())}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00079}00079         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \&i : waiting)}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00080}00080             \textcolor{keyword}{delete} i;}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00081}00081 \}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00082}00082 }
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00083}00083 \textcolor{keywordtype}{void} obc\_session\_manager::dispatch() \{}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00084}00084     \textcolor{keyword}{using namespace }std::this\_thread; \textcolor{comment}{// sleep\_for, sleep\_until}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00085}00085     \textcolor{keyword}{using namespace }std::chrono; \textcolor{comment}{// nanoseconds, system\_clock, seconds}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00086}00086     \textcolor{keywordflow}{for} (;;) \{}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00087}00087 start:}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00088}00088         \textcolor{keywordflow}{if} (!waiting.empty()) \{}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00089}00089             SPDLOG\_TRACE(\textcolor{stringliteral}{"{}\{\} commands in queue"{}}, waiting.size());}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00090}00090             \textcolor{keywordflow}{if} (!ti-\/>\mbox{\hyperlink{classtransmission__interface_a78aad522999539ba17879d069f85e5e8}{obc\_session\_active}}) \{}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00091}00091                 \textcolor{comment}{// Request a new communication session from EagleSat II}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00092}00092                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{ES\_OK}} != this-\/>ti-\/>\mbox{\hyperlink{classtransmission__interface_a6ade78122ffd8e877c652f51e18bc8f5}{request\_obc\_session}}()) \{}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00093}00093                     SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Failed to request new session."{}});}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00094}00094                     \textcolor{keywordflow}{goto} start; \textcolor{comment}{// todo This should probably have a more elegant solution..}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00095}00095                 \}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00096}00096             \}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00097}00097 }
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00098}00098             \textcolor{comment}{// After execute is called, the session is in progress. Set this state before, so that abstracted objects}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00099}00099             \textcolor{comment}{// stay up to date.}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00100}00100             SPDLOG\_TRACE(\textcolor{stringliteral}{"{}Session status: \{\}"{}}, ti-\/>\mbox{\hyperlink{classtransmission__interface_a78aad522999539ba17879d069f85e5e8}{obc\_session\_active}});}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00101}00101             \textcolor{keywordflow}{if} (\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{ES\_OK}} != this-\/>\mbox{\hyperlink{classcommand__handler_af40f3dfc28b78ed071c3008c56ad8173}{execute}}(waiting.front())) \{}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00102}00102                 SPDLOG\_WARN(\textcolor{stringliteral}{"{}Failed to execute command with serial number \{\}"{}}, waiting.front()-\/>serial\_number);}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00103}00103             \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00104}00104                 SPDLOG\_INFO(\textcolor{stringliteral}{"{}Command executed successfully"{}});}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00105}00105             \}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00106}00106             waiting.pop\_front();}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00107}00107 }
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00108}00108             \textcolor{keywordflow}{if} (waiting.empty() \&\& ti-\/>\mbox{\hyperlink{classtransmission__interface_a78aad522999539ba17879d069f85e5e8}{obc\_session\_active}}) \{}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00109}00109                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{ES\_OK}} != this-\/>ti-\/>\mbox{\hyperlink{classtransmission__interface_a2f5fbd64c440f4f2bd79893826288b43}{end\_obc\_session}}(\mbox{\hyperlink{namespaceestts_1_1ax25_ababcef289907125b08b3fa4ad8ffcf8e}{ax25::END\_SESSION\_FRAME}})) \{}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00110}00110                     SPDLOG\_WARN(\textcolor{stringliteral}{"{}Failed to end session rip"{}});}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00111}00111                 \}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00112}00112                 SPDLOG\_INFO(\textcolor{stringliteral}{"{}Waiting for more commands"{}});}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00113}00113             \}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00114}00114 }
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00115}00115         \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00116}00116 }
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00117}00117             \textcolor{comment}{// Handle stream}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00118}00118             \textcolor{keyword}{auto} stream = ti-\/>\mbox{\hyperlink{classtransmission__interface_a2e7c9b9f062986498dda02b8fcc10f90}{nonblock\_receive}}();}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00119}00119             \textcolor{keywordflow}{if} (!stream.empty() \&\& this-\/>telem\_callback != \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00120}00120                 telem\_callback(stream);}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00121}00121         \}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00122}00122         \textcolor{keywordflow}{if} (!ti-\/>\mbox{\hyperlink{classtransmission__interface_a91a6ef6752aed796f742c42229c1902a}{satellite\_in\_range}}) \{}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00123}00123             SPDLOG\_DEBUG(\textcolor{stringliteral}{"{}OBC Dispatch worker -\/ Detected satellite is outside range, exiting."{}});}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00124}00124             \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00125}00125         \}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00126}00126     \}}
+\DoxyCodeLine{\Hypertarget{obc__session__manager_8cpp_source_l00127}00127 \}}
+
+\end{DoxyCode}

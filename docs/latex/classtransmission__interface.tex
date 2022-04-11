@@ -1,0 +1,357 @@
+\hypertarget{classtransmission__interface}{}\doxysection{transmission\+\_\+interface Class Reference}
+\label{classtransmission__interface}\index{transmission\_interface@{transmission\_interface}}
+
+
+{\ttfamily \#include $<$transmission\+\_\+interface.\+h$>$}
+
+Inheritance diagram for transmission\+\_\+interface\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classtransmission__interface}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classtransmission__interface_af7b2eafe5b5b38ecd6762f97301fc378}{register\+\_\+dispatch\+\_\+function}} (const std\+::function$<$ void()$>$ \&fct)
+\item 
+\mbox{\hyperlink{classtransmission__interface_a2d2a2721b23f525b3b476fb2327d53f8}{transmission\+\_\+interface}} ()
+\item 
+\mbox{\hyperlink{classtransmission__interface_ad4e3acd1179aecbc893282a88df1b6c2}{$\sim$transmission\+\_\+interface}} ()
+\item 
+void \mbox{\hyperlink{classtransmission__interface_a240ed1e78890767f2e7a2e68fcb285de}{set\+\_\+telem\+\_\+callback}} (const std\+::function$<$ \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}}(std\+::string)$>$ \&cb)
+\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classtransmission__interface_abd3531828b03ac77784e239a1305ce33}{transmit}} (const std\+::string \&value)
+\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classtransmission__interface_a884c20120bc57f0e15f1ec0961c59354}{transmit}} (const unsigned char $\ast$value, int length)
+\item 
+std\+::string \mbox{\hyperlink{classtransmission__interface_aec2a512e3525ce9a55ff911a098ba8f5}{receive}} ()
+\item 
+std\+::string \mbox{\hyperlink{classtransmission__interface_a2e7c9b9f062986498dda02b8fcc10f90}{nonblock\+\_\+receive}} ()
+\item 
+unsigned char $\ast$ \mbox{\hyperlink{classtransmission__interface_addc2a2399f5e7d7849cc2570a64a6868}{receive\+\_\+uc}} ()
+\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classtransmission__interface_a6ade78122ffd8e877c652f51e18bc8f5}{request\+\_\+obc\+\_\+session}} ()
+\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classtransmission__interface_add18ff424ac330cb196a4fb79615f95d}{request\+\_\+gstxvr\+\_\+session}} ()
+\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classtransmission__interface_aa74ce8697844726379edc1afeb8bdc01}{end\+\_\+gstxvr\+\_\+session}} ()
+\item 
+bool \mbox{\hyperlink{classtransmission__interface_a7661df78e8696c694e22d70dc348b396}{check\+\_\+session\+\_\+active}} () const
+\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classtransmission__interface_a2f5fbd64c440f4f2bd79893826288b43}{end\+\_\+obc\+\_\+session}} (const std\+::string \&end\+\_\+frame)
+\item 
+bool \mbox{\hyperlink{classtransmission__interface_a2f9ae91d4dedc1c02dd03665013e75e4}{check\+\_\+data\+\_\+available}} ()
+\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classtransmission__interface_a4d524ad4b05c07cbdab71560657f087b}{gs\+\_\+transmit}} (const std\+::string \&value)
+\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classtransmission__interface_a8a820449dd79476726937cd227c227e3}{enable\+\_\+pipe}} ()
+\begin{DoxyCompactList}\small\item\em Enables transparent pipe mode on Endurosat UHF Transceiver module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classtransmission__interface_aa3ab068aa556878fa12e9a66477264f2}{disable\+\_\+pipe}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{classtransmission__interface_a78aad522999539ba17879d069f85e5e8}{obc\+\_\+session\+\_\+active}}
+\item 
+bool \mbox{\hyperlink{classtransmission__interface_a91a6ef6752aed796f742c42229c1902a}{satellite\+\_\+in\+\_\+range}}
+\item 
+bool \mbox{\hyperlink{classtransmission__interface_a8b89b962dc3cd6174d6510b1a638c3a9}{gstxvr\+\_\+session\+\_\+active}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{transmission__interface_8h_source_l00014}{14}} of file \mbox{\hyperlink{transmission__interface_8h_source}{transmission\+\_\+interface.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classtransmission__interface_a2d2a2721b23f525b3b476fb2327d53f8}\label{classtransmission__interface_a2d2a2721b23f525b3b476fb2327d53f8}} 
+\index{transmission\_interface@{transmission\_interface}!transmission\_interface@{transmission\_interface}}
+\index{transmission\_interface@{transmission\_interface}!transmission\_interface@{transmission\_interface}}
+\doxysubsubsection{\texorpdfstring{transmission\_interface()}{transmission\_interface()}}
+{\footnotesize\ttfamily transmission\+\_\+interface\+::transmission\+\_\+interface (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+Default constructor that initializes each class inherited by \mbox{\hyperlink{classtransmission__interface}{transmission\+\_\+interface}}, and ensures that the mutex is unlocked. 
+
+Definition at line \mbox{\hyperlink{transmission__interface_8cpp_source_l00016}{16}} of file \mbox{\hyperlink{transmission__interface_8cpp_source}{transmission\+\_\+interface.\+cpp}}.
+
+\mbox{\Hypertarget{classtransmission__interface_ad4e3acd1179aecbc893282a88df1b6c2}\label{classtransmission__interface_ad4e3acd1179aecbc893282a88df1b6c2}} 
+\index{transmission\_interface@{transmission\_interface}!````~transmission\_interface@{$\sim$transmission\_interface}}
+\index{````~transmission\_interface@{$\sim$transmission\_interface}!transmission\_interface@{transmission\_interface}}
+\doxysubsubsection{\texorpdfstring{$\sim$transmission\_interface()}{~transmission\_interface()}}
+{\footnotesize\ttfamily transmission\+\_\+interface\+::$\sim$transmission\+\_\+interface (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Default destructor that ensures a safe exit of \mbox{\hyperlink{classtransmission__interface}{transmission\+\_\+interface}} 
+
+Definition at line \mbox{\hyperlink{transmission__interface_8cpp_source_l00088}{88}} of file \mbox{\hyperlink{transmission__interface_8cpp_source}{transmission\+\_\+interface.\+cpp}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classtransmission__interface_a2f9ae91d4dedc1c02dd03665013e75e4}\label{classtransmission__interface_a2f9ae91d4dedc1c02dd03665013e75e4}} 
+\index{transmission\_interface@{transmission\_interface}!check\_data\_available@{check\_data\_available}}
+\index{check\_data\_available@{check\_data\_available}!transmission\_interface@{transmission\_interface}}
+\doxysubsubsection{\texorpdfstring{check\_data\_available()}{check\_data\_available()}}
+{\footnotesize\ttfamily bool transmission\+\_\+interface\+::check\+\_\+data\+\_\+available (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Function that returns the data available on the underlying interface. \begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{transmission__interface_8cpp_source_l00098}{98}} of file \mbox{\hyperlink{transmission__interface_8cpp_source}{transmission\+\_\+interface.\+cpp}}.
+
+\mbox{\Hypertarget{classtransmission__interface_a7661df78e8696c694e22d70dc348b396}\label{classtransmission__interface_a7661df78e8696c694e22d70dc348b396}} 
+\index{transmission\_interface@{transmission\_interface}!check\_session\_active@{check\_session\_active}}
+\index{check\_session\_active@{check\_session\_active}!transmission\_interface@{transmission\_interface}}
+\doxysubsubsection{\texorpdfstring{check\_session\_active()}{check\_session\_active()}}
+{\footnotesize\ttfamily bool transmission\+\_\+interface\+::check\+\_\+session\+\_\+active (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Function that returns the status of obc\+\_\+session\+\_\+active \begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{transmission__interface_8h_source_l00138}{138}} of file \mbox{\hyperlink{transmission__interface_8h_source}{transmission\+\_\+interface.\+h}}.
+
+\mbox{\Hypertarget{classtransmission__interface_aa3ab068aa556878fa12e9a66477264f2}\label{classtransmission__interface_aa3ab068aa556878fa12e9a66477264f2}} 
+\index{transmission\_interface@{transmission\_interface}!disable\_pipe@{disable\_pipe}}
+\index{disable\_pipe@{disable\_pipe}!transmission\_interface@{transmission\_interface}}
+\doxysubsubsection{\texorpdfstring{disable\_pipe()}{disable\_pipe()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{Status}} transmission\+\_\+interface\+::disable\+\_\+pipe (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{transmission__interface_8cpp_source_l00239}{239}} of file \mbox{\hyperlink{transmission__interface_8cpp_source}{transmission\+\_\+interface.\+cpp}}.
+
+\mbox{\Hypertarget{classtransmission__interface_a8a820449dd79476726937cd227c227e3}\label{classtransmission__interface_a8a820449dd79476726937cd227c227e3}} 
+\index{transmission\_interface@{transmission\_interface}!enable\_pipe@{enable\_pipe}}
+\index{enable\_pipe@{enable\_pipe}!transmission\_interface@{transmission\_interface}}
+\doxysubsubsection{\texorpdfstring{enable\_pipe()}{enable\_pipe()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{Status}} transmission\+\_\+interface\+::enable\+\_\+pipe (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Enables transparent pipe mode on Endurosat UHF Transceiver module. 
+
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} indication success/failure of ESTTC command transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{transmission__interface_8cpp_source_l00199}{199}} of file \mbox{\hyperlink{transmission__interface_8cpp_source}{transmission\+\_\+interface.\+cpp}}.
+
+\mbox{\Hypertarget{classtransmission__interface_aa74ce8697844726379edc1afeb8bdc01}\label{classtransmission__interface_aa74ce8697844726379edc1afeb8bdc01}} 
+\index{transmission\_interface@{transmission\_interface}!end\_gstxvr\_session@{end\_gstxvr\_session}}
+\index{end\_gstxvr\_session@{end\_gstxvr\_session}!transmission\_interface@{transmission\_interface}}
+\doxysubsubsection{\texorpdfstring{end\_gstxvr\_session()}{end\_gstxvr\_session()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} transmission\+\_\+interface\+::end\+\_\+gstxvr\+\_\+session (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{transmission__interface_8cpp_source_l00461}{461}} of file \mbox{\hyperlink{transmission__interface_8cpp_source}{transmission\+\_\+interface.\+cpp}}.
+
+\mbox{\Hypertarget{classtransmission__interface_a2f5fbd64c440f4f2bd79893826288b43}\label{classtransmission__interface_a2f5fbd64c440f4f2bd79893826288b43}} 
+\index{transmission\_interface@{transmission\_interface}!end\_obc\_session@{end\_obc\_session}}
+\index{end\_obc\_session@{end\_obc\_session}!transmission\_interface@{transmission\_interface}}
+\doxysubsubsection{\texorpdfstring{end\_obc\_session()}{end\_obc\_session()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{Status}} transmission\+\_\+interface\+::end\+\_\+obc\+\_\+session (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{end\+\_\+frame }\end{DoxyParamCaption})}
+
+Function that waits for PIPE to exit, thereby ending the communication session with the satellite. 
+\begin{DoxyParams}{Parameters}
+{\em end\+\_\+frame} & Deprecated \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ES\+\_\+\+OK if session ends successfully 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{transmission__interface_8cpp_source_l00366}{366}} of file \mbox{\hyperlink{transmission__interface_8cpp_source}{transmission\+\_\+interface.\+cpp}}.
+
+\mbox{\Hypertarget{classtransmission__interface_a4d524ad4b05c07cbdab71560657f087b}\label{classtransmission__interface_a4d524ad4b05c07cbdab71560657f087b}} 
+\index{transmission\_interface@{transmission\_interface}!gs\_transmit@{gs\_transmit}}
+\index{gs\_transmit@{gs\_transmit}!transmission\_interface@{transmission\_interface}}
+\doxysubsubsection{\texorpdfstring{gs\_transmit()}{gs\_transmit()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{Status}} transmission\+\_\+interface\+::gs\+\_\+transmit (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{value }\end{DoxyParamCaption})}
+
+Uses Enduro\+Sat transceiver to transmit string Value. Note that this is designed to be used to transmit data to the groundstation transceiver, not to other peripherals. Other methods should be created if another communication medium is required. 
+\begin{DoxyParams}{Parameters}
+{\em value} & String value to transmit. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ES\+\_\+\+OK if transmission was successful 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{transmission__interface_8cpp_source_l00179}{179}} of file \mbox{\hyperlink{transmission__interface_8cpp_source}{transmission\+\_\+interface.\+cpp}}.
+
+\mbox{\Hypertarget{classtransmission__interface_a2e7c9b9f062986498dda02b8fcc10f90}\label{classtransmission__interface_a2e7c9b9f062986498dda02b8fcc10f90}} 
+\index{transmission\_interface@{transmission\_interface}!nonblock\_receive@{nonblock\_receive}}
+\index{nonblock\_receive@{nonblock\_receive}!transmission\_interface@{transmission\_interface}}
+\doxysubsubsection{\texorpdfstring{nonblock\_receive()}{nonblock\_receive()}}
+{\footnotesize\ttfamily std\+::string transmission\+\_\+interface\+::nonblock\+\_\+receive (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Nonblocking receive that returns immediately if no data is available. \begin{DoxyReturn}{Returns}
+\char`\"{}\char`\"{} if no data is available, or a string if data is received. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{transmission__interface_8cpp_source_l00166}{166}} of file \mbox{\hyperlink{transmission__interface_8cpp_source}{transmission\+\_\+interface.\+cpp}}.
+
+\mbox{\Hypertarget{classtransmission__interface_aec2a512e3525ce9a55ff911a098ba8f5}\label{classtransmission__interface_aec2a512e3525ce9a55ff911a098ba8f5}} 
+\index{transmission\_interface@{transmission\_interface}!receive@{receive}}
+\index{receive@{receive}!transmission\_interface@{transmission\_interface}}
+\doxysubsubsection{\texorpdfstring{receive()}{receive()}}
+{\footnotesize\ttfamily std\+::string transmission\+\_\+interface\+::receive (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Function that uses underlying communication interface to receive data. This function blocks for ESTTS\+\_\+\+AWAIT\+\_\+\+RESPONSE\+\_\+\+PERIOD\+\_\+\+SEC seconds while data is not available on the interface. \begin{DoxyReturn}{Returns}
+\char`\"{}\char`\"{} if function times out, or a string if data is received. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{transmission__interface_8cpp_source_l00054}{54}} of file \mbox{\hyperlink{transmission__interface_8cpp_source}{transmission\+\_\+interface.\+cpp}}.
+
+\mbox{\Hypertarget{classtransmission__interface_addc2a2399f5e7d7849cc2570a64a6868}\label{classtransmission__interface_addc2a2399f5e7d7849cc2570a64a6868}} 
+\index{transmission\_interface@{transmission\_interface}!receive\_uc@{receive\_uc}}
+\index{receive\_uc@{receive\_uc}!transmission\_interface@{transmission\_interface}}
+\doxysubsubsection{\texorpdfstring{receive\_uc()}{receive\_uc()}}
+{\footnotesize\ttfamily unsigned char $\ast$ transmission\+\_\+interface\+::receive\+\_\+uc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Function that receives data in the unsigned char $\ast$ form \begin{DoxyReturn}{Returns}
+nullptr if no data is found, or an unsigned char $\ast$ 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{transmission__interface_8cpp_source_l00150}{150}} of file \mbox{\hyperlink{transmission__interface_8cpp_source}{transmission\+\_\+interface.\+cpp}}.
+
+\mbox{\Hypertarget{classtransmission__interface_af7b2eafe5b5b38ecd6762f97301fc378}\label{classtransmission__interface_af7b2eafe5b5b38ecd6762f97301fc378}} 
+\index{transmission\_interface@{transmission\_interface}!register\_dispatch\_function@{register\_dispatch\_function}}
+\index{register\_dispatch\_function@{register\_dispatch\_function}!transmission\_interface@{transmission\_interface}}
+\doxysubsubsection{\texorpdfstring{register\_dispatch\_function()}{register\_dispatch\_function()}}
+{\footnotesize\ttfamily void transmission\+\_\+interface\+::register\+\_\+dispatch\+\_\+function (\begin{DoxyParamCaption}\item[{const std\+::function$<$ void()$>$ \&}]{fct }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{transmission__interface_8cpp_source_l00420}{420}} of file \mbox{\hyperlink{transmission__interface_8cpp_source}{transmission\+\_\+interface.\+cpp}}.
+
+\mbox{\Hypertarget{classtransmission__interface_add18ff424ac330cb196a4fb79615f95d}\label{classtransmission__interface_add18ff424ac330cb196a4fb79615f95d}} 
+\index{transmission\_interface@{transmission\_interface}!request\_gstxvr\_session@{request\_gstxvr\_session}}
+\index{request\_gstxvr\_session@{request\_gstxvr\_session}!transmission\_interface@{transmission\_interface}}
+\doxysubsubsection{\texorpdfstring{request\_gstxvr\_session()}{request\_gstxvr\_session()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} transmission\+\_\+interface\+::request\+\_\+gstxvr\+\_\+session (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{transmission__interface_8cpp_source_l00446}{446}} of file \mbox{\hyperlink{transmission__interface_8cpp_source}{transmission\+\_\+interface.\+cpp}}.
+
+\mbox{\Hypertarget{classtransmission__interface_a6ade78122ffd8e877c652f51e18bc8f5}\label{classtransmission__interface_a6ade78122ffd8e877c652f51e18bc8f5}} 
+\index{transmission\_interface@{transmission\_interface}!request\_obc\_session@{request\_obc\_session}}
+\index{request\_obc\_session@{request\_obc\_session}!transmission\_interface@{transmission\_interface}}
+\doxysubsubsection{\texorpdfstring{request\_obc\_session()}{request\_obc\_session()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{Status}} transmission\+\_\+interface\+::request\+\_\+obc\+\_\+session (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Function that requests a new session with the OBC on the satellite. This function enables PIPE on the ground txvr and on the satellite txvr, and creates a new thread to keep the session as long as obc\+\_\+session\+\_\+active is true. \begin{DoxyReturn}{Returns}
+ES\+\_\+\+OK if a session is active 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{transmission__interface_8cpp_source_l00283}{283}} of file \mbox{\hyperlink{transmission__interface_8cpp_source}{transmission\+\_\+interface.\+cpp}}.
+
+\mbox{\Hypertarget{classtransmission__interface_a240ed1e78890767f2e7a2e68fcb285de}\label{classtransmission__interface_a240ed1e78890767f2e7a2e68fcb285de}} 
+\index{transmission\_interface@{transmission\_interface}!set\_telem\_callback@{set\_telem\_callback}}
+\index{set\_telem\_callback@{set\_telem\_callback}!transmission\_interface@{transmission\_interface}}
+\doxysubsubsection{\texorpdfstring{set\_telem\_callback()}{set\_telem\_callback()}}
+{\footnotesize\ttfamily void transmission\+\_\+interface\+::set\+\_\+telem\+\_\+callback (\begin{DoxyParamCaption}\item[{const std\+::function$<$ \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}}(std\+::string)$>$ \&}]{cb }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Function that sets a telemetry callback used by the request new session function, which clears the serial FIFO register before requesting a session. This ensures that whatever is receiving telemetry gets all available telemetry. 
+\begin{DoxyParams}{Parameters}
+{\em cb} & Telemetry callback with form std\+::function$<$estts\+::\+Status(std\+::string)$>$ \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{transmission__interface_8h_source_l00083}{83}} of file \mbox{\hyperlink{transmission__interface_8h_source}{transmission\+\_\+interface.\+h}}.
+
+\mbox{\Hypertarget{classtransmission__interface_abd3531828b03ac77784e239a1305ce33}\label{classtransmission__interface_abd3531828b03ac77784e239a1305ce33}} 
+\index{transmission\_interface@{transmission\_interface}!transmit@{transmit}}
+\index{transmit@{transmit}!transmission\_interface@{transmission\_interface}}
+\doxysubsubsection{\texorpdfstring{transmit()}{transmit()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{Status}} transmission\+\_\+interface\+::transmit (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{value }\end{DoxyParamCaption})}
+
+Uses Enduro\+Sat transceiver to transmit const unsigned char $\ast$ value. Function warns if a session is not currently active. Note that this is designed to be used to transmit data to the satellite, not to other peripherals. Other methods should be created if another communication medium is required. 
+\begin{DoxyParams}{Parameters}
+{\em value} & String value to transmit. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ES\+\_\+\+OK if transmission was successful 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{transmission__interface_8cpp_source_l00030}{30}} of file \mbox{\hyperlink{transmission__interface_8cpp_source}{transmission\+\_\+interface.\+cpp}}.
+
+\mbox{\Hypertarget{classtransmission__interface_a884c20120bc57f0e15f1ec0961c59354}\label{classtransmission__interface_a884c20120bc57f0e15f1ec0961c59354}} 
+\index{transmission\_interface@{transmission\_interface}!transmit@{transmit}}
+\index{transmit@{transmit}!transmission\_interface@{transmission\_interface}}
+\doxysubsubsection{\texorpdfstring{transmit()}{transmit()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{Status}} transmission\+\_\+interface\+::transmit (\begin{DoxyParamCaption}\item[{const unsigned char $\ast$}]{value,  }\item[{int}]{length }\end{DoxyParamCaption})}
+
+Uses Enduro\+Sat transceiver to transmit string value. Function warns if a session is not currently active. Note that this is designed to be used to transmit data to the satellite, not to other peripherals. Other methods should be created if another communication medium is required. 
+\begin{DoxyParams}{Parameters}
+{\em value} & \\
+\hline
+{\em length} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{transmission__interface_8cpp_source_l00111}{111}} of file \mbox{\hyperlink{transmission__interface_8cpp_source}{transmission\+\_\+interface.\+cpp}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classtransmission__interface_a8b89b962dc3cd6174d6510b1a638c3a9}\label{classtransmission__interface_a8b89b962dc3cd6174d6510b1a638c3a9}} 
+\index{transmission\_interface@{transmission\_interface}!gstxvr\_session\_active@{gstxvr\_session\_active}}
+\index{gstxvr\_session\_active@{gstxvr\_session\_active}!transmission\_interface@{transmission\_interface}}
+\doxysubsubsection{\texorpdfstring{gstxvr\_session\_active}{gstxvr\_session\_active}}
+{\footnotesize\ttfamily bool transmission\+\_\+interface\+::gstxvr\+\_\+session\+\_\+active}
+
+
+
+Definition at line \mbox{\hyperlink{transmission__interface_8h_source_l00062}{62}} of file \mbox{\hyperlink{transmission__interface_8h_source}{transmission\+\_\+interface.\+h}}.
+
+\mbox{\Hypertarget{classtransmission__interface_a78aad522999539ba17879d069f85e5e8}\label{classtransmission__interface_a78aad522999539ba17879d069f85e5e8}} 
+\index{transmission\_interface@{transmission\_interface}!obc\_session\_active@{obc\_session\_active}}
+\index{obc\_session\_active@{obc\_session\_active}!transmission\_interface@{transmission\_interface}}
+\doxysubsubsection{\texorpdfstring{obc\_session\_active}{obc\_session\_active}}
+{\footnotesize\ttfamily bool transmission\+\_\+interface\+::obc\+\_\+session\+\_\+active}
+
+
+
+Definition at line \mbox{\hyperlink{transmission__interface_8h_source_l00058}{58}} of file \mbox{\hyperlink{transmission__interface_8h_source}{transmission\+\_\+interface.\+h}}.
+
+\mbox{\Hypertarget{classtransmission__interface_a91a6ef6752aed796f742c42229c1902a}\label{classtransmission__interface_a91a6ef6752aed796f742c42229c1902a}} 
+\index{transmission\_interface@{transmission\_interface}!satellite\_in\_range@{satellite\_in\_range}}
+\index{satellite\_in\_range@{satellite\_in\_range}!transmission\_interface@{transmission\_interface}}
+\doxysubsubsection{\texorpdfstring{satellite\_in\_range}{satellite\_in\_range}}
+{\footnotesize\ttfamily bool transmission\+\_\+interface\+::satellite\+\_\+in\+\_\+range}
+
+
+
+Definition at line \mbox{\hyperlink{transmission__interface_8h_source_l00060}{60}} of file \mbox{\hyperlink{transmission__interface_8h_source}{transmission\+\_\+interface.\+h}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/ti/\mbox{\hyperlink{transmission__interface_8h}{transmission\+\_\+interface.\+h}}\item 
+src/ti/\mbox{\hyperlink{transmission__interface_8cpp}{transmission\+\_\+interface.\+cpp}}\end{DoxyCompactItemize}

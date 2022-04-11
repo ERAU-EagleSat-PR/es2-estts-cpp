@@ -1,0 +1,48 @@
+\hypertarget{info__field_8h_source}{}\doxysection{info\+\_\+field.\+h}
+\label{info__field_8h_source}\index{src/tnc\_emulator/info\_field.h@{src/tnc\_emulator/info\_field.h}}
+\mbox{\hyperlink{info__field_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00001}00001 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00002}00002 \textcolor{comment}{// Created by Cody on 12/17/2021.}}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00005}00005 \textcolor{preprocessor}{\#ifndef ES2\_ESTTS\_CPP\_INFOFIELD\_H}}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00006}00006 \textcolor{preprocessor}{\#define ES2\_ESTTS\_CPP\_INFOFIELD\_H}}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00008}00008 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00009}00009 \textcolor{preprocessor}{\#include <unordered\_map>}}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00010}00010 \textcolor{preprocessor}{\#include <utility>}}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00011}00011 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{bin__converter_8h}{bin\_converter.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00012}00012 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{constants_8h}{constants.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00013}00013 }
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00014}\mbox{\hyperlink{classinfo__field}{00014}} \textcolor{keyword}{class }\mbox{\hyperlink{classinfo__field}{info\_field}} \{}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00015}00015 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00016}00016     \textcolor{comment}{/* Getters */}}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00017}00017     std::string getData();}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00018}00018 }
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00019}00019     std::string getAddress();}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00020}00020 }
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00021}00021     std::string getTimeStamp();}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00023}00023     std::string getSequence();}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00024}00024 }
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00025}00025     std::string getCommandID();}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00027}00027     std::string getMethod();}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00028}00028 }
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00029}00029 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00030}\mbox{\hyperlink{classinfo__field_a0af4b86aaae9b53a3295347c449d563a}{00030}}     \mbox{\hyperlink{structestts_1_1command__object}{estts::command\_object}} *\mbox{\hyperlink{classinfo__field_a0af4b86aaae9b53a3295347c449d563a}{command}};}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00032}00032     \textcolor{comment}{/* Encoded Information Field Getter */}}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00033}00033     std::string \mbox{\hyperlink{classinfo__field_aef8470f70ff2782a111969ac30d6c7a1}{build\_info\_field}}();}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00035}00035     \mbox{\hyperlink{structestts_1_1telemetry__object}{estts::telemetry\_object}} *\mbox{\hyperlink{classinfo__field_a1ce3f134d88845ab5f7bcd335cf71615}{build\_telemetry\_object}}(std::string \mbox{\hyperlink{classinfo__field}{info\_field}});}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00037}\mbox{\hyperlink{classinfo__field_aa744ac50e4af245608703a25cff776d8}{00037}}     \textcolor{keyword}{explicit} \mbox{\hyperlink{classinfo__field_aa744ac50e4af245608703a25cff776d8}{info\_field}}() : \mbox{\hyperlink{classinfo__field_a0af4b86aaae9b53a3295347c449d563a}{command}}(nullptr) \{\}}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00038}00038 }
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00039}\mbox{\hyperlink{classinfo__field_abda0646caa5f9a2f515595b374e0bb69}{00039}}     \textcolor{keyword}{explicit} \mbox{\hyperlink{classinfo__field_abda0646caa5f9a2f515595b374e0bb69}{info\_field}}(\mbox{\hyperlink{structestts_1_1command__object}{estts::command\_object}} *esttsCommand) : \mbox{\hyperlink{classinfo__field_a0af4b86aaae9b53a3295347c449d563a}{command}}(esttsCommand) \{\}}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00040}00040 \};}
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{info__field_8h_source_l00042}00042 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,133 @@
+\hypertarget{acs__command_8cpp_source}{}\doxysection{acs\+\_\+command.\+cpp}
+\label{acs__command_8cpp_source}\index{src/fapi/command\_handler/acs\_command.cpp@{src/fapi/command\_handler/acs\_command.cpp}}
+\mbox{\hyperlink{acs__command_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00001}00001 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00002}00002 \textcolor{comment}{// Created by Hayden Roszell on 12/21/21.}}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00005}00005 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{acs__command_8h}{acs\_command.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00006}00006 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00007}\mbox{\hyperlink{classacs__command_a7706eee3a230e093eb30ea474506b164}{00007}} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classacs__command_a7706eee3a230e093eb30ea474506b164}{acs\_command::get\_current\_position}}() \{}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00008}00008 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00009}00009 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00010}00010     \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00011}00011 \}}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00012}00012 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00013}\mbox{\hyperlink{classacs__command_aa93fdb7844e89e5e7c2d8b0addc23e75}{00013}} std::string \mbox{\hyperlink{classacs__command_aa93fdb7844e89e5e7c2d8b0addc23e75}{acs\_command::deploy\_magnetometer\_boom}}(\textcolor{keyword}{const} \mbox{\hyperlink{namespaceestts_ae6b6e5425cb54e6100346835d79d461a}{estts::dispatch\_fct}} \&dispatch) \{}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00015}00015     \textcolor{keyword}{auto} temp = \textcolor{keyword}{new} \mbox{\hyperlink{namespaceestts_a0acd462d37285da5e13fdcdf47e34827}{estts::command\_object}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00017}00017     temp-\/>\mbox{\hyperlink{structestts_1_1command__object_ad89218b4126234f089f597a7f493cd8a}{address}} = \mbox{\hyperlink{namespaceestts_1_1es2__endpoint_aebd5a420b6a5aed43f4f786db2222a69}{estts::es2\_endpoint::ES\_ACS}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00018}00018     temp-\/>commandID = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1acs_a047587ae1a196a5e913e47fb9f5839cb}{estts::es2\_commands::acs::ACS\_DEP\_MAG\_BOOM}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00019}00019     temp-\/>method = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1method_a7a9d415392264dc47b2fa31c3080c5f6}{estts::es2\_commands::method::ES\_WRITE}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00020}00020     temp-\/>sequence = 01;}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00021}00021     temp-\/>timeStamp = 1729;}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00023}00023     SPDLOG\_INFO(\textcolor{stringliteral}{"{}Attempting to Deploy Magnetometer Boom (in theory)"{}});}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00024}00024 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00025}00025     \textcolor{keyword}{auto} acs\_dep\_magnet\_boom\_callback = [] (\textcolor{keyword}{const} std::vector<estts::telemetry\_object *>\& telem) -\/> \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \{}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00026}00026         \textcolor{keywordflow}{if} (telem.empty()) \{}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00027}00027             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00028}00028         \}}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00029}00029         spdlog::info(\textcolor{stringliteral}{"{}Deployed Magnetometer Boom (hypothetically)!"{}});}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00030}00030         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00031}00031     \};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00033}00033     \textcolor{keywordflow}{return} dispatch(temp, acs\_dep\_magnet\_boom\_callback);}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00034}00034 \}}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00036}\mbox{\hyperlink{classacs__command_ab0a2c5dfd1bf4d18461e335ed3a85271}{00036}} std::string \mbox{\hyperlink{classacs__command_ab0a2c5dfd1bf4d18461e335ed3a85271}{acs\_command::enable\_acs}}(\textcolor{keyword}{const} \mbox{\hyperlink{namespaceestts_ae6b6e5425cb54e6100346835d79d461a}{estts::dispatch\_fct}} \&dispatch) \{}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00038}00038     \textcolor{keyword}{auto} temp = \textcolor{keyword}{new} \mbox{\hyperlink{namespaceestts_a0acd462d37285da5e13fdcdf47e34827}{estts::command\_object}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00040}00040     temp-\/>\mbox{\hyperlink{structestts_1_1command__object_ad89218b4126234f089f597a7f493cd8a}{address}} = \mbox{\hyperlink{namespaceestts_1_1es2__endpoint_aebd5a420b6a5aed43f4f786db2222a69}{estts::es2\_endpoint::ES\_ACS}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00041}00041     temp-\/>commandID = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1acs_ac043cb564ed907226e7588e83f9cabba}{estts::es2\_commands::acs::ACS\_ENABLE}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00042}00042     temp-\/>method = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1method_a7a9d415392264dc47b2fa31c3080c5f6}{estts::es2\_commands::method::ES\_WRITE}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00043}00043     temp-\/>sequence = 01;}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00044}00044     temp-\/>timeStamp = 1729;}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00046}00046     SPDLOG\_INFO(\textcolor{stringliteral}{"{}Attempting to Enable ACS"{}});}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00048}00048 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00049}00049     \textcolor{keyword}{auto} acs\_enable\_callback = [] (\textcolor{keyword}{const} std::vector<estts::telemetry\_object *>\& telem) -\/> \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \{}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00050}00050         \textcolor{keywordflow}{if} (telem.empty()) \{}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00051}00051             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00052}00052         \}}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00053}00053         spdlog::info(\textcolor{stringliteral}{"{}ACS Enabled!"{}});}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00054}00054         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00055}00055     \};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00057}00057     \textcolor{keywordflow}{return} dispatch(temp, acs\_enable\_callback);}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00058}00058 \}}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00059}00059 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00060}\mbox{\hyperlink{classacs__command_ad2b16fe8aed0c0ee780ab48dc6b1ac57}{00060}} std::string \mbox{\hyperlink{classacs__command_ad2b16fe8aed0c0ee780ab48dc6b1ac57}{acs\_command::power\_acs}}(\textcolor{keyword}{const} \mbox{\hyperlink{namespaceestts_ae6b6e5425cb54e6100346835d79d461a}{estts::dispatch\_fct}} \&dispatch) \{}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00062}00062     \textcolor{keyword}{auto} temp = \textcolor{keyword}{new} \mbox{\hyperlink{namespaceestts_a0acd462d37285da5e13fdcdf47e34827}{estts::command\_object}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00064}00064     temp-\/>\mbox{\hyperlink{structestts_1_1command__object_ad89218b4126234f089f597a7f493cd8a}{address}} = \mbox{\hyperlink{namespaceestts_1_1es2__endpoint_aebd5a420b6a5aed43f4f786db2222a69}{estts::es2\_endpoint::ES\_ACS}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00065}00065     temp-\/>commandID = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1acs_aeeab8ea372b5db55108641be2cea6f4c}{estts::es2\_commands::acs::ACS\_POWER}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00066}00066     temp-\/>method = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1method_a7a9d415392264dc47b2fa31c3080c5f6}{estts::es2\_commands::method::ES\_WRITE}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00067}00067     temp-\/>sequence = 01;}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00068}00068     temp-\/>timeStamp = 1729;}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00069}00069 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00070}00070     SPDLOG\_INFO(\textcolor{stringliteral}{"{}Attempting to Power ACS"{}});}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00071}00071 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00072}00072     \textcolor{keyword}{auto} acs\_power\_callback = [] (\textcolor{keyword}{const} std::vector<estts::telemetry\_object *>\& telem) -\/> \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \{}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00073}00073         \textcolor{keywordflow}{if} (telem.empty()) \{}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00074}00074             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00075}00075         \}}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00076}00076         spdlog::info(\textcolor{stringliteral}{"{}ACS Powered!"{}});}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00077}00077         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00078}00078     \};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00080}00080     \textcolor{keywordflow}{return} dispatch(temp, acs\_power\_callback);}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00081}00081 \}}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00082}00082 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00083}\mbox{\hyperlink{classacs__command_a316637262a3a4af5761031b32aeea831}{00083}} std::string \mbox{\hyperlink{classacs__command_a316637262a3a4af5761031b32aeea831}{acs\_command::set\_ctrl\_mode}}(\textcolor{keyword}{const} \mbox{\hyperlink{namespaceestts_ae6b6e5425cb54e6100346835d79d461a}{estts::dispatch\_fct}} \&dispatch) \{}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00085}00085     \textcolor{keyword}{auto} temp = \textcolor{keyword}{new} \mbox{\hyperlink{namespaceestts_a0acd462d37285da5e13fdcdf47e34827}{estts::command\_object}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00086}00086 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00087}00087     temp-\/>\mbox{\hyperlink{structestts_1_1command__object_ad89218b4126234f089f597a7f493cd8a}{address}} = \mbox{\hyperlink{namespaceestts_1_1es2__endpoint_aebd5a420b6a5aed43f4f786db2222a69}{estts::es2\_endpoint::ES\_ACS}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00088}00088     temp-\/>commandID = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1acs_a5988b8f00fb109f5f6b1d43309182920}{estts::es2\_commands::acs::ACS\_SET\_CTRL\_MODE}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00089}00089     temp-\/>method = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1method_a7a9d415392264dc47b2fa31c3080c5f6}{estts::es2\_commands::method::ES\_WRITE}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00090}00090     temp-\/>sequence = 01;}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00091}00091     temp-\/>timeStamp = 1729;}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00093}00093     SPDLOG\_INFO(\textcolor{stringliteral}{"{}Attempting to Set Control Mode"{}});}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00094}00094 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00095}00095     \textcolor{keyword}{auto} acs\_power\_callback = [] (\textcolor{keyword}{const} std::vector<estts::telemetry\_object *>\& telem) -\/> \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \{}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00096}00096         \textcolor{keywordflow}{if} (telem.empty()) \{}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00097}00097             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00098}00098         \}}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00099}00099         spdlog::info(\textcolor{stringliteral}{"{}Control Mode Set!"{}});}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00100}00100         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00101}00101     \};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00102}00102 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00103}00103     \textcolor{keywordflow}{return} dispatch(temp, acs\_power\_callback);}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00104}00104 \}}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00105}00105 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00106}\mbox{\hyperlink{classacs__command_aa603a660498eead07919585b06ebb4bf}{00106}} std::string \mbox{\hyperlink{classacs__command_aa603a660498eead07919585b06ebb4bf}{acs\_command::set\_est\_mode}}(\textcolor{keyword}{const} \mbox{\hyperlink{namespaceestts_ae6b6e5425cb54e6100346835d79d461a}{estts::dispatch\_fct}} \&dispatch) \{}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00107}00107 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00108}00108     \textcolor{keyword}{auto} temp = \textcolor{keyword}{new} \mbox{\hyperlink{namespaceestts_a0acd462d37285da5e13fdcdf47e34827}{estts::command\_object}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00109}00109 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00110}00110     temp-\/>\mbox{\hyperlink{structestts_1_1command__object_ad89218b4126234f089f597a7f493cd8a}{address}} = \mbox{\hyperlink{namespaceestts_1_1es2__endpoint_aebd5a420b6a5aed43f4f786db2222a69}{estts::es2\_endpoint::ES\_ACS}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00111}00111     temp-\/>commandID = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1acs_ae63aaddd8cc7f6b67f768c083f56335f}{estts::es2\_commands::acs::ACS\_SET\_EST\_MODE}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00112}00112     temp-\/>method = \mbox{\hyperlink{namespaceestts_1_1es2__commands_1_1method_a7a9d415392264dc47b2fa31c3080c5f6}{estts::es2\_commands::method::ES\_WRITE}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00113}00113     temp-\/>sequence = 01;}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00114}00114     temp-\/>timeStamp = 1729;}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00115}00115 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00116}00116     SPDLOG\_INFO(\textcolor{stringliteral}{"{}Attempting to Set Estimation Mode"{}});}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00117}00117 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00118}00118     \textcolor{keyword}{auto} acs\_power\_callback = [] (\textcolor{keyword}{const} std::vector<estts::telemetry\_object *>\& telem) -\/> \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \{}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00119}00119         \textcolor{keywordflow}{if} (telem.empty()) \{}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00120}00120             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00121}00121         \}}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00122}00122         spdlog::info(\textcolor{stringliteral}{"{}Estimation Mode Set!"{}});}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00123}00123         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00124}00124     \};}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00125}00125 }
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00126}00126     \textcolor{keywordflow}{return} dispatch(temp, acs\_power\_callback);}
+\DoxyCodeLine{\Hypertarget{acs__command_8cpp_source_l00127}00127 \}}
+
+\end{DoxyCode}
