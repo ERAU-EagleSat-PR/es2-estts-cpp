@@ -1,0 +1,98 @@
+\hypertarget{info__field_8cpp_source}{}\doxysection{info\+\_\+field.\+cpp}
+\label{info__field_8cpp_source}\index{src/tnc\_emulator/info\_field.cpp@{src/tnc\_emulator/info\_field.cpp}}
+\mbox{\hyperlink{info__field_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00001}00001 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00002}00002 \textcolor{comment}{// Created by Cody on 12/17/2021.}}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00005}00005 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00006}00006 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00007}00007 \textcolor{preprocessor}{\#include <sstream>}}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00008}00008 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{info__field_8h}{info\_field.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00009}00009 }
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00010}00010 \textcolor{keyword}{using} std::cerr;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00011}00011 \textcolor{keyword}{using} std::endl;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00012}00012 \textcolor{keyword}{using} std::string;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00013}00013 }
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00018}00018 \textcolor{keywordtype}{string} info\_field::getAddress() \{}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00019}00019     SPDLOG\_TRACE(\textcolor{stringliteral}{"{}Setting info field address to \{\}"{}}, this-\/>\mbox{\hyperlink{classinfo__field_a0af4b86aaae9b53a3295347c449d563a}{command}}-\/>\mbox{\hyperlink{structestts_1_1command__object_ad89218b4126234f089f597a7f493cd8a}{address}});}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00020}00020     \textcolor{keyword}{auto} address = std::to\_string(this-\/>\mbox{\hyperlink{classinfo__field_a0af4b86aaae9b53a3295347c449d563a}{command}}-\/>\mbox{\hyperlink{structestts_1_1command__object_ad89218b4126234f089f597a7f493cd8a}{address}});}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00021}00021     \textcolor{keywordflow}{if} (this-\/>\mbox{\hyperlink{classinfo__field_a0af4b86aaae9b53a3295347c449d563a}{command}}-\/>\mbox{\hyperlink{structestts_1_1command__object_a367cc98d880b20479b74d38b41b57435}{sequence}} < 10)}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00022}00022         address.insert(0, \textcolor{stringliteral}{"{}0"{}});}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00023}00023     \textcolor{keywordflow}{return} address;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00024}00024 \}}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00025}00025 }
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00030}00030 \textcolor{keywordtype}{string} info\_field::getTimeStamp() \{}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00031}00031     SPDLOG\_TRACE(\textcolor{stringliteral}{"{}Setting info field timestamp to \{\}"{}}, this-\/>\mbox{\hyperlink{classinfo__field_a0af4b86aaae9b53a3295347c449d563a}{command}}-\/>\mbox{\hyperlink{structestts_1_1command__object_a98ac2664cb731afe0fccc1853672b1c5}{timeStamp}});}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00032}00032     \textcolor{keywordflow}{return} std::to\_string(this-\/>\mbox{\hyperlink{classinfo__field_a0af4b86aaae9b53a3295347c449d563a}{command}}-\/>\mbox{\hyperlink{structestts_1_1command__object_a98ac2664cb731afe0fccc1853672b1c5}{timeStamp}});}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00033}00033 \}}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00039}00039 \textcolor{keywordtype}{string} info\_field::getSequence() \{}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00040}00040     SPDLOG\_TRACE(\textcolor{stringliteral}{"{}Setting info field frame sequence to \{\}"{}}, this-\/>\mbox{\hyperlink{classinfo__field_a0af4b86aaae9b53a3295347c449d563a}{command}}-\/>\mbox{\hyperlink{structestts_1_1command__object_a367cc98d880b20479b74d38b41b57435}{sequence}});}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00041}00041     \textcolor{keyword}{auto} sequence = std::to\_string(this-\/>\mbox{\hyperlink{classinfo__field_a0af4b86aaae9b53a3295347c449d563a}{command}}-\/>\mbox{\hyperlink{structestts_1_1command__object_a367cc98d880b20479b74d38b41b57435}{sequence}});}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00042}00042     \textcolor{keywordflow}{if} (this-\/>\mbox{\hyperlink{classinfo__field_a0af4b86aaae9b53a3295347c449d563a}{command}}-\/>\mbox{\hyperlink{structestts_1_1command__object_a367cc98d880b20479b74d38b41b57435}{sequence}} < 10)}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00043}00043         sequence.insert(0, \textcolor{stringliteral}{"{}0"{}});}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00044}00044     \textcolor{keywordflow}{return} sequence;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00045}00045 \}}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00046}00046 }
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00051}00051 \textcolor{keywordtype}{string} info\_field::getCommandID() \{}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00052}00052     SPDLOG\_TRACE(\textcolor{stringliteral}{"{}Setting info field command ID to \{\}"{}}, this-\/>\mbox{\hyperlink{classinfo__field_a0af4b86aaae9b53a3295347c449d563a}{command}}-\/>\mbox{\hyperlink{structestts_1_1command__object_a609ceadb9028d3789a2e03c83c73fef8}{commandID}});}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00053}00053     \textcolor{keyword}{auto} command\_id = std::to\_string(this-\/>\mbox{\hyperlink{classinfo__field_a0af4b86aaae9b53a3295347c449d563a}{command}}-\/>\mbox{\hyperlink{structestts_1_1command__object_a609ceadb9028d3789a2e03c83c73fef8}{commandID}});}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00054}00054     \textcolor{keywordflow}{if} (this-\/>\mbox{\hyperlink{classinfo__field_a0af4b86aaae9b53a3295347c449d563a}{command}}-\/>\mbox{\hyperlink{structestts_1_1command__object_a609ceadb9028d3789a2e03c83c73fef8}{commandID}} < 10)}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00055}00055         command\_id.insert(0, \textcolor{stringliteral}{"{}0"{}});}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00056}00056     \textcolor{keywordflow}{return} command\_id;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00057}00057 \}}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00058}00058 }
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00063}00063 \textcolor{keywordtype}{string} info\_field::getMethod() \{}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00064}00064     SPDLOG\_TRACE(\textcolor{stringliteral}{"{}Setting info field method to \{\}"{}}, this-\/>\mbox{\hyperlink{classinfo__field_a0af4b86aaae9b53a3295347c449d563a}{command}}-\/>\mbox{\hyperlink{structestts_1_1command__object_abdf9336ca1a8c75a3c52f5deaffe3927}{method}});}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00065}00065     \textcolor{keyword}{auto} method = std::to\_string(this-\/>\mbox{\hyperlink{classinfo__field_a0af4b86aaae9b53a3295347c449d563a}{command}}-\/>\mbox{\hyperlink{structestts_1_1command__object_abdf9336ca1a8c75a3c52f5deaffe3927}{method}});}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00066}00066     \textcolor{keywordflow}{return} method;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00067}00067 \}}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00073}00073 \textcolor{keywordtype}{string} info\_field::getData() \{}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00074}00074     \textcolor{keywordflow}{if} (this-\/>\mbox{\hyperlink{classinfo__field_a0af4b86aaae9b53a3295347c449d563a}{command}}-\/>\mbox{\hyperlink{structestts_1_1command__object_ac969740b25458c86cadc791ab01773a5}{data}} != \textcolor{keyword}{nullptr}) \{}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00075}00075         SPDLOG\_TRACE(\textcolor{stringliteral}{"{}Setting info field data to \{\}"{}}, this-\/>\mbox{\hyperlink{classinfo__field_a0af4b86aaae9b53a3295347c449d563a}{command}}-\/>\mbox{\hyperlink{structestts_1_1command__object_ac969740b25458c86cadc791ab01773a5}{data}});}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00076}00076         \textcolor{keywordflow}{return} \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{char} \textcolor{keyword}{const }*\textcolor{keyword}{>}(this-\/>\mbox{\hyperlink{classinfo__field_a0af4b86aaae9b53a3295347c449d563a}{command}}-\/>\mbox{\hyperlink{structestts_1_1command__object_ac969740b25458c86cadc791ab01773a5}{data}});}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00077}00077     \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00078}00078 \}}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00084}\mbox{\hyperlink{classinfo__field_aef8470f70ff2782a111969ac30d6c7a1}{00084}} \textcolor{keywordtype}{string} \mbox{\hyperlink{classinfo__field_aef8470f70ff2782a111969ac30d6c7a1}{info\_field::build\_info\_field}}() \{}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00085}00085     std::stringstream infoFieldStream;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00086}00086     infoFieldStream << getAddress() << getTimeStamp() << getSequence() << getCommandID() << getMethod() << getData();}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00087}00087     SPDLOG\_DEBUG(\textcolor{stringliteral}{"{}SAPI Info Field encoded to \{\}"{}}, infoFieldStream.str());}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00088}00088 }
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00089}00089     \textcolor{keywordflow}{return} infoFieldStream.str();}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00090}00090 \}}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00091}00091 }
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00092}\mbox{\hyperlink{classinfo__field_a1ce3f134d88845ab5f7bcd335cf71615}{00092}} \mbox{\hyperlink{structestts_1_1telemetry__object}{estts::telemetry\_object}} *\mbox{\hyperlink{classinfo__field_a1ce3f134d88845ab5f7bcd335cf71615}{info\_field::build\_telemetry\_object}}(std::string \mbox{\hyperlink{classinfo__field}{info\_field}}) \{}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00093}00093     \textcolor{keyword}{auto} resp = \textcolor{keyword}{new} \mbox{\hyperlink{namespaceestts_a93056b34bca866100c17913bbc8ef7a2}{estts::telemetry\_object}};}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00094}00094 }
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00095}00095     \textcolor{keywordtype}{int} address;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00096}00096     std::istringstream(\mbox{\hyperlink{classinfo__field}{info\_field}}.substr(0, 2)) >> address;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00097}00097     resp-\/>\mbox{\hyperlink{structestts_1_1telemetry__object_a4b4f6a36fa3132a25d172be7d7810607}{address}} = address;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00098}00098 }
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00099}00099     \textcolor{keywordtype}{int} timestamp;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00100}00100     std::istringstream(\mbox{\hyperlink{classinfo__field}{info\_field}}.substr(2, 4)) >> timestamp;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00101}00101     resp-\/>timeStamp = timestamp;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00102}00102 }
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00103}00103     \textcolor{keywordtype}{int} sequence;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00104}00104     std::istringstream(\mbox{\hyperlink{classinfo__field}{info\_field}}.substr(6, 2)) >> sequence;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00105}00105     resp-\/>sequence = sequence;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00106}00106 }
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00107}00107     \textcolor{keywordtype}{int} command\_id;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00108}00108     std::istringstream(\mbox{\hyperlink{classinfo__field}{info\_field}}.substr(8, 2)) >> command\_id;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00109}00109     resp-\/>commandID = command\_id;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00110}00110 }
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00111}00111     \textcolor{keywordtype}{int} response\_code;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00112}00112     std::istringstream(\mbox{\hyperlink{classinfo__field}{info\_field}}.substr(10, 1)) >> response\_code;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00113}00113     resp-\/>response\_code = response\_code;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00114}00114 }
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00115}00115     \textcolor{comment}{// resp-\/>data = info\_field.substr(12).c\_str(); todo figure this shit out}}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00116}00116 }
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00117}00117     SPDLOG\_TRACE(\textcolor{stringliteral}{"{}Frame info field decoded successfully. Telemetry object stored at \{\}"{}}, \textcolor{keyword}{static\_cast<}\textcolor{keyword}{const }\textcolor{keywordtype}{void}*\textcolor{keyword}{>}(resp));}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00118}00118 }
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00119}00119     \textcolor{keywordflow}{return} resp;}
+\DoxyCodeLine{\Hypertarget{info__field_8cpp_source_l00120}00120 \}}
+
+\end{DoxyCode}

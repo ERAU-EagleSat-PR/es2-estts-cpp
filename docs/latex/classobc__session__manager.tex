@@ -1,0 +1,148 @@
+\hypertarget{classobc__session__manager}{}\doxysection{obc\+\_\+session\+\_\+manager Class Reference}
+\label{classobc__session__manager}\index{obc\_session\_manager@{obc\_session\_manager}}
+
+
+{\ttfamily \#include $<$obc\+\_\+session\+\_\+manager.\+h$>$}
+
+Inheritance diagram for obc\+\_\+session\+\_\+manager\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classobc__session__manager}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classobc__session__manager_af2c332f763d96273d4cf4fbb637161fa}{obc\+\_\+session\+\_\+manager}} (\mbox{\hyperlink{classtransmission__interface}{transmission\+\_\+interface}} $\ast$ti)
+\begin{DoxyCompactList}\small\item\em Default constructor for command scheduler. Takes argument for a transmission interface and initializes the command handler. Note that in order to run the dispatcher, dispatcher\+\_\+init must be called. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classobc__session__manager_a84a2662bf457fccbc402d9025bee0df9}{obc\+\_\+session\+\_\+manager}} (\mbox{\hyperlink{classtransmission__interface}{transmission\+\_\+interface}} $\ast$ti, std\+::function$<$ \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}}(std\+::string)$>$ telem\+\_\+callback)
+\item 
+\mbox{\hyperlink{classobc__session__manager_a197327b794c36e67844cde5e0bdebee1}{$\sim$obc\+\_\+session\+\_\+manager}} ()
+\begin{DoxyCompactList}\small\item\em Cleans up internal structures. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classobc__session__manager_a612cd440795cdf99d5c25ec9e4d23269}{schedule\+\_\+command}} (std\+::string command, const std\+::function$<$ \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}}(std\+::string)$>$ \&callback)
+\item 
+std\+::string \mbox{\hyperlink{classobc__session__manager_ace38882e1903ab6f7dc153e05708ef36}{schedule\+\_\+command}} (\mbox{\hyperlink{structestts_1_1command__object}{estts\+::command\+\_\+object}} $\ast$command, std\+::function$<$ \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}}(std\+::vector$<$ \mbox{\hyperlink{structestts_1_1telemetry__object}{estts\+::telemetry\+\_\+object}} $\ast$ $>$)$>$ decomp\+\_\+callback)
+\begin{DoxyCompactList}\small\item\em Function that takes argument to a vector of command objects and a obj\+\_\+callback function expecting a pointer to a telemetry object as argument. It\textquotesingle{}s implied that this function should handle whatever telemetry is returned by the dispatch process. This function creates a waiting\+\_\+command object and stores a serial number, the obj\+\_\+callback function, and the command frames (as command\+\_\+objects) expected to dispatch during the next satellite pass. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classobc__session__manager_a3ba0b7320d04728bc8b2931f90e62a97}{await\+\_\+completion}} ()
+\begin{DoxyCompactList}\small\item\em Uses std\+::thread\+::join() to await thread completion. If commands continue to be added to queue, this function will block indefinitely. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{obc__session__manager_8h_source_l00028}{28}} of file \mbox{\hyperlink{obc__session__manager_8h_source}{obc\+\_\+session\+\_\+manager.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classobc__session__manager_af2c332f763d96273d4cf4fbb637161fa}\label{classobc__session__manager_af2c332f763d96273d4cf4fbb637161fa}} 
+\index{obc\_session\_manager@{obc\_session\_manager}!obc\_session\_manager@{obc\_session\_manager}}
+\index{obc\_session\_manager@{obc\_session\_manager}!obc\_session\_manager@{obc\_session\_manager}}
+\doxysubsubsection{\texorpdfstring{obc\_session\_manager()}{obc\_session\_manager()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily obc\+\_\+session\+\_\+manager\+::obc\+\_\+session\+\_\+manager (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classtransmission__interface}{transmission\+\_\+interface}} $\ast$}]{ti }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Default constructor for command scheduler. Takes argument for a transmission interface and initializes the command handler. Note that in order to run the dispatcher, dispatcher\+\_\+init must be called. 
+
+
+
+Definition at line \mbox{\hyperlink{obc__session__manager_8cpp_source_l00049}{49}} of file \mbox{\hyperlink{obc__session__manager_8cpp_source}{obc\+\_\+session\+\_\+manager.\+cpp}}.
+
+\mbox{\Hypertarget{classobc__session__manager_a84a2662bf457fccbc402d9025bee0df9}\label{classobc__session__manager_a84a2662bf457fccbc402d9025bee0df9}} 
+\index{obc\_session\_manager@{obc\_session\_manager}!obc\_session\_manager@{obc\_session\_manager}}
+\index{obc\_session\_manager@{obc\_session\_manager}!obc\_session\_manager@{obc\_session\_manager}}
+\doxysubsubsection{\texorpdfstring{obc\_session\_manager()}{obc\_session\_manager()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily obc\+\_\+session\+\_\+manager\+::obc\+\_\+session\+\_\+manager (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classtransmission__interface}{transmission\+\_\+interface}} $\ast$}]{ti,  }\item[{std\+::function$<$ \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}}(std\+::string)$>$}]{telem\+\_\+callback }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+Secondary constructor for command scheduler that takes argument for a telemetry callback handler that is called when lower layers receive telemetry. 
+\begin{DoxyParams}{Parameters}
+{\em telem\+\_\+callback} & Callback with form std\+::function$<$estts\+::\+Status(std\+::string)$>$ \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{obc__session__manager_8cpp_source_l00055}{55}} of file \mbox{\hyperlink{obc__session__manager_8cpp_source}{obc\+\_\+session\+\_\+manager.\+cpp}}.
+
+\mbox{\Hypertarget{classobc__session__manager_a197327b794c36e67844cde5e0bdebee1}\label{classobc__session__manager_a197327b794c36e67844cde5e0bdebee1}} 
+\index{obc\_session\_manager@{obc\_session\_manager}!````~obc\_session\_manager@{$\sim$obc\_session\_manager}}
+\index{````~obc\_session\_manager@{$\sim$obc\_session\_manager}!obc\_session\_manager@{obc\_session\_manager}}
+\doxysubsubsection{\texorpdfstring{$\sim$obc\_session\_manager()}{~obc\_session\_manager()}}
+{\footnotesize\ttfamily obc\+\_\+session\+\_\+manager\+::$\sim$obc\+\_\+session\+\_\+manager (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Cleans up internal structures. 
+
+
+
+Definition at line \mbox{\hyperlink{obc__session__manager_8cpp_source_l00072}{72}} of file \mbox{\hyperlink{obc__session__manager_8cpp_source}{obc\+\_\+session\+\_\+manager.\+cpp}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classobc__session__manager_a3ba0b7320d04728bc8b2931f90e62a97}\label{classobc__session__manager_a3ba0b7320d04728bc8b2931f90e62a97}} 
+\index{obc\_session\_manager@{obc\_session\_manager}!await\_completion@{await\_completion}}
+\index{await\_completion@{await\_completion}!obc\_session\_manager@{obc\_session\_manager}}
+\doxysubsubsection{\texorpdfstring{await\_completion()}{await\_completion()}}
+{\footnotesize\ttfamily void obc\+\_\+session\+\_\+manager\+::await\+\_\+completion (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Uses std\+::thread\+::join() to await thread completion. If commands continue to be added to queue, this function will block indefinitely. 
+
+
+
+Definition at line \mbox{\hyperlink{obc__session__manager_8cpp_source_l00065}{65}} of file \mbox{\hyperlink{obc__session__manager_8cpp_source}{obc\+\_\+session\+\_\+manager.\+cpp}}.
+
+\mbox{\Hypertarget{classobc__session__manager_ace38882e1903ab6f7dc153e05708ef36}\label{classobc__session__manager_ace38882e1903ab6f7dc153e05708ef36}} 
+\index{obc\_session\_manager@{obc\_session\_manager}!schedule\_command@{schedule\_command}}
+\index{schedule\_command@{schedule\_command}!obc\_session\_manager@{obc\_session\_manager}}
+\doxysubsubsection{\texorpdfstring{schedule\_command()}{schedule\_command()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily std\+::string obc\+\_\+session\+\_\+manager\+::schedule\+\_\+command (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structestts_1_1command__object}{estts\+::command\+\_\+object}} $\ast$}]{command,  }\item[{std\+::function$<$ \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}}(std\+::vector$<$ \mbox{\hyperlink{structestts_1_1telemetry__object}{estts\+::telemetry\+\_\+object}} $\ast$ $>$)$>$}]{decomp\+\_\+callback }\end{DoxyParamCaption})}
+
+
+
+Function that takes argument to a vector of command objects and a obj\+\_\+callback function expecting a pointer to a telemetry object as argument. It\textquotesingle{}s implied that this function should handle whatever telemetry is returned by the dispatch process. This function creates a waiting\+\_\+command object and stores a serial number, the obj\+\_\+callback function, and the command frames (as command\+\_\+objects) expected to dispatch during the next satellite pass. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & Vector of command\+\_\+object pointers to schedule for dispatching. \\
+\hline
+{\em decomp\+\_\+callback} & Callback pointer to a function that returns a Status and takes argument for a vector of telemetry\+\_\+objects. It\textquotesingle{}s implied that this obj\+\_\+callback function knows how to decode a vector of telemetry frames. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a unique string serial number for later retrieval of the command status. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{obc__session__manager_8cpp_source_l00013}{13}} of file \mbox{\hyperlink{obc__session__manager_8cpp_source}{obc\+\_\+session\+\_\+manager.\+cpp}}.
+
+\mbox{\Hypertarget{classobc__session__manager_a612cd440795cdf99d5c25ec9e4d23269}\label{classobc__session__manager_a612cd440795cdf99d5c25ec9e4d23269}} 
+\index{obc\_session\_manager@{obc\_session\_manager}!schedule\_command@{schedule\_command}}
+\index{schedule\_command@{schedule\_command}!obc\_session\_manager@{obc\_session\_manager}}
+\doxysubsubsection{\texorpdfstring{schedule\_command()}{schedule\_command()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily std\+::string obc\+\_\+session\+\_\+manager\+::schedule\+\_\+command (\begin{DoxyParamCaption}\item[{std\+::string}]{command,  }\item[{const std\+::function$<$ \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}}(std\+::string)$>$ \&}]{callback }\end{DoxyParamCaption})}
+
+Function that takes argument for a string command passed by a higher level interface, and a callback function that is called with the response to the command as argument. It\textquotesingle{}s implied that this function should handle whatever telemetry is returned by the dispatch process. This function creates a waiting\+\_\+command object and stores a serial number, the callback function, and the command string expected to dispatch during the next satellite pass. 
+\begin{DoxyParams}{Parameters}
+{\em command} & String command received by higher level interface \\
+\hline
+{\em callback} & Callback with form std\+::function$<$estts\+::\+Status(std\+::string)$>$ \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String serial number associated with newly scheduled command 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{obc__session__manager_8cpp_source_l00031}{31}} of file \mbox{\hyperlink{obc__session__manager_8cpp_source}{obc\+\_\+session\+\_\+manager.\+cpp}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/fapi/\mbox{\hyperlink{obc__session__manager_8h}{obc\+\_\+session\+\_\+manager.\+h}}\item 
+src/fapi/\mbox{\hyperlink{obc__session__manager_8cpp}{obc\+\_\+session\+\_\+manager.\+cpp}}\end{DoxyCompactItemize}

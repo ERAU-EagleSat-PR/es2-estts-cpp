@@ -1,0 +1,46 @@
+\hypertarget{cosmos__handler_8h_source}{}\doxysection{cosmos\+\_\+handler.\+h}
+\label{cosmos__handler_8h_source}\index{src/fapi/cosmos\_handler.h@{src/fapi/cosmos\_handler.h}}
+\mbox{\hyperlink{cosmos__handler_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00001}00001 \textcolor{comment}{/* Copyright © EagleSat II -\/ Embry Riddle Aeronautical University -\/ All rights reserved -\/ 2022 */}}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00002}00002 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00003}00003 \textcolor{comment}{// Created by Hayden Roszell on 2/24/22.}}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00005}00005 }
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00006}00006 \textcolor{preprocessor}{\#ifndef ESTTS\_COSMOS\_COSMOS\_HANDLER\_H}}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00007}00007 \textcolor{preprocessor}{\#define ESTTS\_COSMOS\_COSMOS\_HANDLER\_H}}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00008}00008 }
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00009}00009 \textcolor{preprocessor}{\#include <thread>}}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00010}00010 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{constants_8h}{constants.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00011}00011 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{cosmos__groundstation__handler_8h}{cosmos\_groundstation\_handler.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00012}00012 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{cosmos__satellite__txvr__handler_8h}{cosmos\_satellite\_txvr\_handler.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00013}00013 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{socket__handler_8h}{socket\_handler.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00014}00014 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{obc__session__manager_8h}{obc\_session\_manager.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00022}\mbox{\hyperlink{classcosmos__handler}{00022}} \textcolor{keyword}{class }\mbox{\hyperlink{classcosmos__handler}{cosmos\_handler}} : \textcolor{keyword}{virtual} \textcolor{keyword}{public} \mbox{\hyperlink{classcosmos__groundstation__handler}{cosmos\_groundstation\_handler}}, \textcolor{keyword}{virtual} \textcolor{keyword}{public} \mbox{\hyperlink{classcosmos__satellite__txvr__handler}{cosmos\_satellite\_txvr\_handler}} \{}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00023}00023 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00024}00024     \mbox{\hyperlink{classtransmission__interface}{transmission\_interface}} *ti;}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00025}00025 }
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00026}00026     \mbox{\hyperlink{classsocket__handler}{socket\_handler}} * sock;}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00028}00028     std::thread cosmos\_worker;}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00030}00030     \mbox{\hyperlink{classobc__session__manager}{obc\_session\_manager}} * obc\_session;}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00036}00036     [[noreturn]] \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} primary\_cosmos\_worker();}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00045}00045     \textcolor{keyword}{static} std::function<\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}}(std::string)> get\_generic\_command\_callback\_lambda(\textcolor{keyword}{const} std::string\& command, \mbox{\hyperlink{classsocket__handler}{socket\_handler}} * sock);}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00046}00046 }
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00053}00053     \textcolor{keyword}{static} std::function<\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}}(std::string)> get\_generic\_telemetry\_callback\_lambda(\mbox{\hyperlink{classsocket__handler}{socket\_handler}} * sock);}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00054}00054 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00058}00058     \mbox{\hyperlink{classcosmos__handler_a2577548efb4a0cbc5dab4993f601340c}{cosmos\_handler}}();}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00059}00059 }
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00065}00065     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classcosmos__handler_a8378bcbfe966a6b9c24c1d1d2bdc485a}{cosmos\_init}}();}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00066}00066 }
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00071}\mbox{\hyperlink{classcosmos__handler_a0108e12cc24475821e2a515a297439d4}{00071}}     \textcolor{keywordtype}{void} \mbox{\hyperlink{classcosmos__handler_a0108e12cc24475821e2a515a297439d4}{initialize\_cosmos\_daemon}}() \{ cosmos\_worker.join(); \}}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00072}00072 \};}
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00073}00073 }
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00074}00074 }
+\DoxyCodeLine{\Hypertarget{cosmos__handler_8h_source_l00075}00075 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//ESTTS\_COSMOS\_COSMOS\_HANDLER\_H}}
+
+\end{DoxyCode}

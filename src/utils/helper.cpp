@@ -2,7 +2,12 @@
 // Created by Hayden Roszell on 12/28/21.
 //
 
+#include <algorithm>
+#include <dirent.h>
 #include <sstream>
+#include <condition_variable>
+#include <random>
+#include <utility>
 #include "helper.h"
 
 std::string ascii_to_hex(const std::string& in) {
@@ -29,4 +34,78 @@ std::string hex_to_ascii(const std::string& hex) {
         ascii += ch;
     }
     return ascii;
+}
+
+/**
+ * @brief Creates 16-character serial number using C++ random library
+ * @return 16-character serial number
+ */
+std::string generate_serial_number() {
+    auto len = 16;
+    static const char alphanum[] =
+            "0123456789"
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            "abcdefghijklmnopqrstuvwxyz";
+    std::string tmp_s;
+    tmp_s.reserve(len);
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist6(1,sizeof(alphanum));
+
+    for (int i = 0; i < len; ++i) {
+        tmp_s += alphanum[dist6(rng) % (sizeof(alphanum) - 1)];
+    }
+
+    return tmp_s;
+}
+
+std::string find_removable_storage() {
+    std::stringstream ssd_dir;
+#ifdef __ESTTS_OS_LINUX__
+    ssd_dir << "/media/";
+    auto path_found = false;
+    DIR * d = opendir(ssd_dir.str().c_str());
+    if (d == nullptr) return "";
+    struct dirent * dir;
+    while ((dir = readdir(d)) != nullptr) {
+        ssd_dir.clear();
+        if (strcmp(dir->d_name, ".")!=0 && strcmp(dir->d_name, "..")!=0 && !path_found) {
+            std::stringstream temp_path;
+            temp_path << ssd_dir.str() << dir->d_name;
+            DIR * d1 = opendir(temp_path.str().c_str());
+            if (d1 != nullptr) {
+                struct dirent * dir1;
+                while ((dir1 = readdir(d1)) != nullptr) {
+                    if (dir->d_type == DT_DIR && strcmp(dir1->d_name, estts::REMOVABLE_STORAGE_NAME)==0) {
+                        ssd_dir << dir->d_name << "/" << dir1->d_name;
+                        SPDLOG_INFO("Constructed path to removable storage device - {}", ssd_dir.str());
+                        path_found = true;
+                    }
+                }
+            }
+            closedir(d1);
+        }
+    }
+    closedir(d);
+    if (path_found)
+        return ssd_dir.str();
+    else
+        return "";
+#else
+    return "";
+#endif
+}
+
+void print_write_trace_msg(unsigned char *message_uc, size_t bytes, const std::string& endpoint) {
+    std::string message(reinterpret_cast<char*>(message_uc));
+    std::replace( message.begin(), message.end(), '\r', ' ');
+    message.append("\0");
+    SPDLOG_TRACE("Wrote '{}' (size={} bytes) to {}", message, bytes, endpoint);
+}
+
+void print_read_trace_msg(unsigned char *message_uc, size_t bytes, const std::string& endpoint) {
+    std::string message(reinterpret_cast<char*>(message_uc));
+    std::replace( message.begin(), message.end(), '\r', ' ');
+    message.append("\0");
+    SPDLOG_TRACE("Read '{}' (size={} bytes) from {}", message, bytes, endpoint);
 }

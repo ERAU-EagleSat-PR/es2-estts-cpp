@@ -1,0 +1,93 @@
+\hypertarget{classax25__ui__frame__constructor}{}\doxysection{ax25\+\_\+ui\+\_\+frame\+\_\+constructor Class Reference}
+\label{classax25__ui__frame__constructor}\index{ax25\_ui\_frame\_constructor@{ax25\_ui\_frame\_constructor}}
+
+
+{\ttfamily \#include $<$ax25\+\_\+ui\+\_\+frame\+\_\+constructor.\+h$>$}
+
+Inheritance diagram for ax25\+\_\+ui\+\_\+frame\+\_\+constructor\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classax25__ui__frame__constructor}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classax25__ui__frame__constructor_a222dcd0e656c83587546919ff6beb812}{ax25\+\_\+ui\+\_\+frame\+\_\+constructor}} (\mbox{\hyperlink{structestts_1_1command__object}{estts\+::command\+\_\+object}} $\ast$\mbox{\hyperlink{classinfo__field_a0af4b86aaae9b53a3295347c449d563a}{command}})
+\item 
+std\+::string \mbox{\hyperlink{classax25__ui__frame__constructor_a417a6f4d7f8b751d6a82169085be8179}{construct\+\_\+ax25}} ()
+\begin{DoxyCompactList}\small\item\em Constructs and encodes AX.\+25 frame using AX.\+25 constant values. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{classax25__ui__frame__constructor_a013593b7a35f83383f571b45a2570ce5}{encode\+\_\+ax25\+\_\+frame}} (std\+::string raw)
+\begin{DoxyCompactList}\small\item\em Encodes AX.\+25 frame for transmission. Encoding includes scrambling and NRZI. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{ax25__ui__frame__constructor_8h_source_l00014}{14}} of file \mbox{\hyperlink{ax25__ui__frame__constructor_8h_source}{ax25\+\_\+ui\+\_\+frame\+\_\+constructor.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classax25__ui__frame__constructor_a222dcd0e656c83587546919ff6beb812}\label{classax25__ui__frame__constructor_a222dcd0e656c83587546919ff6beb812}} 
+\index{ax25\_ui\_frame\_constructor@{ax25\_ui\_frame\_constructor}!ax25\_ui\_frame\_constructor@{ax25\_ui\_frame\_constructor}}
+\index{ax25\_ui\_frame\_constructor@{ax25\_ui\_frame\_constructor}!ax25\_ui\_frame\_constructor@{ax25\_ui\_frame\_constructor}}
+\doxysubsubsection{\texorpdfstring{ax25\_ui\_frame\_constructor()}{ax25\_ui\_frame\_constructor()}}
+{\footnotesize\ttfamily ax25\+\_\+ui\+\_\+frame\+\_\+constructor\+::ax25\+\_\+ui\+\_\+frame\+\_\+constructor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structestts_1_1command__object}{estts\+::command\+\_\+object}} $\ast$}]{command }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+
+
+Definition at line \mbox{\hyperlink{ax25__ui__frame__constructor_8h_source_l00046}{46}} of file \mbox{\hyperlink{ax25__ui__frame__constructor_8h_source}{ax25\+\_\+ui\+\_\+frame\+\_\+constructor.\+h}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classax25__ui__frame__constructor_a417a6f4d7f8b751d6a82169085be8179}\label{classax25__ui__frame__constructor_a417a6f4d7f8b751d6a82169085be8179}} 
+\index{ax25\_ui\_frame\_constructor@{ax25\_ui\_frame\_constructor}!construct\_ax25@{construct\_ax25}}
+\index{construct\_ax25@{construct\_ax25}!ax25\_ui\_frame\_constructor@{ax25\_ui\_frame\_constructor}}
+\doxysubsubsection{\texorpdfstring{construct\_ax25()}{construct\_ax25()}}
+{\footnotesize\ttfamily string ax25\+\_\+ui\+\_\+frame\+\_\+constructor\+::construct\+\_\+ax25 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Constructs and encodes AX.\+25 frame using AX.\+25 constant values. 
+
+\begin{DoxyReturn}{Returns}
+Returns constructed and encoded AX.\+25 frame according to Enduro\+Sat specification 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{ax25__ui__frame__constructor_8cpp_source_l00095}{95}} of file \mbox{\hyperlink{ax25__ui__frame__constructor_8cpp_source}{ax25\+\_\+ui\+\_\+frame\+\_\+constructor.\+cpp}}.
+
+\mbox{\Hypertarget{classax25__ui__frame__constructor_a013593b7a35f83383f571b45a2570ce5}\label{classax25__ui__frame__constructor_a013593b7a35f83383f571b45a2570ce5}} 
+\index{ax25\_ui\_frame\_constructor@{ax25\_ui\_frame\_constructor}!encode\_ax25\_frame@{encode\_ax25\_frame}}
+\index{encode\_ax25\_frame@{encode\_ax25\_frame}!ax25\_ui\_frame\_constructor@{ax25\_ui\_frame\_constructor}}
+\doxysubsubsection{\texorpdfstring{encode\_ax25\_frame()}{encode\_ax25\_frame()}}
+{\footnotesize\ttfamily std\+::string ax25\+\_\+ui\+\_\+frame\+\_\+constructor\+::encode\+\_\+ax25\+\_\+frame (\begin{DoxyParamCaption}\item[{std\+::string}]{raw }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Encodes AX.\+25 frame for transmission. Encoding includes scrambling and NRZI. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em raw} & Raw hexadecimal AX.\+25 frame \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns encoded frame for transmission 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{ax25__ui__frame__constructor_8cpp_source_l00164}{164}} of file \mbox{\hyperlink{ax25__ui__frame__constructor_8cpp_source}{ax25\+\_\+ui\+\_\+frame\+\_\+constructor.\+cpp}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/tnc\+\_\+emulator/\mbox{\hyperlink{ax25__ui__frame__constructor_8h}{ax25\+\_\+ui\+\_\+frame\+\_\+constructor.\+h}}\item 
+src/tnc\+\_\+emulator/\mbox{\hyperlink{ax25__ui__frame__constructor_8cpp}{ax25\+\_\+ui\+\_\+frame\+\_\+constructor.\+cpp}}\end{DoxyCompactItemize}

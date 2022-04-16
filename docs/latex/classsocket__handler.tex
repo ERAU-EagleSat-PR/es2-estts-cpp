@@ -1,0 +1,217 @@
+\hypertarget{classsocket__handler}{}\doxysection{socket\+\_\+handler Class Reference}
+\label{classsocket__handler}\index{socket\_handler@{socket\_handler}}
+
+
+{\ttfamily \#include $<$socket\+\_\+handler.\+h$>$}
+
+Inheritance diagram for socket\+\_\+handler\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classsocket__handler}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classsocket__handler_a1f24b9efbfc73d3bc4dfd0f13f01ccc0}{socket\+\_\+handler}} (const char $\ast$address, int \mbox{\hyperlink{classsocket__handler_a370ee21bc48d632b7fbb3a477a8c9c9a}{port}})
+\begin{DoxyCompactList}\small\item\em Base constructor that initializes address and port, opens specified port as socket, and configures it. NOTE\+: \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classsocket__handler_a20630b4741794656f4214ab8e7b3e066}{$\sim$socket\+\_\+handler}} ()
+\item 
+std\+::string \mbox{\hyperlink{classsocket__handler_a258a5da9a77812c27032f18bd64779fe}{read\+\_\+socket\+\_\+s}} () const
+\begin{DoxyCompactList}\small\item\em Reads available data from socket and returns data as string. \end{DoxyCompactList}\item 
+unsigned char $\ast$ \mbox{\hyperlink{classsocket__handler_ac925e7df3af4516decfff5387c8aa854}{read\+\_\+socket\+\_\+uc}} () const
+\begin{DoxyCompactList}\small\item\em Reads available data from open socket. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classsocket__handler_a415ab8887b09cc4334c5191b0975e1eb}{write\+\_\+socket\+\_\+s}} (const std\+::string \&data) const
+\begin{DoxyCompactList}\small\item\em Writes string to open socket. \end{DoxyCompactList}\item 
+ssize\+\_\+t \mbox{\hyperlink{classsocket__handler_ab2fa4fc1e3a3e60748a2294af085a79a}{write\+\_\+socket\+\_\+uc}} (unsigned char $\ast$data, int size) const
+\begin{DoxyCompactList}\small\item\em Takes argument for a pointer to an unsigned char and transmits it across the open socket. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classsocket__handler_a39c17355f576d2a67839b73b0c47f86f}{init\+\_\+socket\+\_\+handle}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{classsocket__handler_a110ff9b93efb11333fb1c98558a35bd6}{sock}}
+\item 
+int \mbox{\hyperlink{classsocket__handler_a370ee21bc48d632b7fbb3a477a8c9c9a}{port}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{classsocket__handler_a306c5dc82f80b4608463505ee2128414}{check\+\_\+sock\+\_\+bytes\+\_\+avail}} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{socket__handler_8h_source_l00014}{14}} of file \mbox{\hyperlink{socket__handler_8h_source}{socket\+\_\+handler.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classsocket__handler_a1f24b9efbfc73d3bc4dfd0f13f01ccc0}\label{classsocket__handler_a1f24b9efbfc73d3bc4dfd0f13f01ccc0}} 
+\index{socket\_handler@{socket\_handler}!socket\_handler@{socket\_handler}}
+\index{socket\_handler@{socket\_handler}!socket\_handler@{socket\_handler}}
+\doxysubsubsection{\texorpdfstring{socket\_handler()}{socket\_handler()}}
+{\footnotesize\ttfamily socket\+\_\+handler\+::socket\+\_\+handler (\begin{DoxyParamCaption}\item[{const char $\ast$}]{address,  }\item[{int}]{port }\end{DoxyParamCaption})}
+
+
+
+Base constructor that initializes address and port, opens specified port as socket, and configures it. NOTE\+: 
+
+
+\begin{DoxyParams}{Parameters}
+{\em address} & Server address to connect to (EX \char`\"{}127.\+0.\+0.\+1\char`\"{}) \\
+\hline
+{\em port} & Server port to connect to (EX 8080) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{socket__handler_8cpp_source_l00024}{24}} of file \mbox{\hyperlink{socket__handler_8cpp_source}{socket\+\_\+handler.\+cpp}}.
+
+\mbox{\Hypertarget{classsocket__handler_a20630b4741794656f4214ab8e7b3e066}\label{classsocket__handler_a20630b4741794656f4214ab8e7b3e066}} 
+\index{socket\_handler@{socket\_handler}!````~socket\_handler@{$\sim$socket\_handler}}
+\index{````~socket\_handler@{$\sim$socket\_handler}!socket\_handler@{socket\_handler}}
+\doxysubsubsection{\texorpdfstring{$\sim$socket\_handler()}{~socket\_handler()}}
+{\footnotesize\ttfamily socket\+\_\+handler\+::$\sim$socket\+\_\+handler (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{socket__handler_8cpp_source_l00183}{183}} of file \mbox{\hyperlink{socket__handler_8cpp_source}{socket\+\_\+handler.\+cpp}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classsocket__handler_a306c5dc82f80b4608463505ee2128414}\label{classsocket__handler_a306c5dc82f80b4608463505ee2128414}} 
+\index{socket\_handler@{socket\_handler}!check\_sock\_bytes\_avail@{check\_sock\_bytes\_avail}}
+\index{check\_sock\_bytes\_avail@{check\_sock\_bytes\_avail}!socket\_handler@{socket\_handler}}
+\doxysubsubsection{\texorpdfstring{check\_sock\_bytes\_avail()}{check\_sock\_bytes\_avail()}}
+{\footnotesize\ttfamily int socket\+\_\+handler\+::check\+\_\+sock\+\_\+bytes\+\_\+avail (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{socket__handler_8cpp_source_l00162}{162}} of file \mbox{\hyperlink{socket__handler_8cpp_source}{socket\+\_\+handler.\+cpp}}.
+
+\mbox{\Hypertarget{classsocket__handler_a39c17355f576d2a67839b73b0c47f86f}\label{classsocket__handler_a39c17355f576d2a67839b73b0c47f86f}} 
+\index{socket\_handler@{socket\_handler}!init\_socket\_handle@{init\_socket\_handle}}
+\index{init\_socket\_handle@{init\_socket\_handle}!socket\_handler@{socket\_handler}}
+\doxysubsubsection{\texorpdfstring{init\_socket\_handle()}{init\_socket\_handle()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} socket\+\_\+handler\+::init\+\_\+socket\+\_\+handle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{socket__handler_8cpp_source_l00168}{168}} of file \mbox{\hyperlink{socket__handler_8cpp_source}{socket\+\_\+handler.\+cpp}}.
+
+\mbox{\Hypertarget{classsocket__handler_a258a5da9a77812c27032f18bd64779fe}\label{classsocket__handler_a258a5da9a77812c27032f18bd64779fe}} 
+\index{socket\_handler@{socket\_handler}!read\_socket\_s@{read\_socket\_s}}
+\index{read\_socket\_s@{read\_socket\_s}!socket\_handler@{socket\_handler}}
+\doxysubsubsection{\texorpdfstring{read\_socket\_s()}{read\_socket\_s()}}
+{\footnotesize\ttfamily std\+::string socket\+\_\+handler\+::read\+\_\+socket\+\_\+s (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Reads available data from socket and returns data as string. 
+
+\begin{DoxyReturn}{Returns}
+Returns translated string of received data 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{socket__handler_8cpp_source_l00145}{145}} of file \mbox{\hyperlink{socket__handler_8cpp_source}{socket\+\_\+handler.\+cpp}}.
+
+\mbox{\Hypertarget{classsocket__handler_ac925e7df3af4516decfff5387c8aa854}\label{classsocket__handler_ac925e7df3af4516decfff5387c8aa854}} 
+\index{socket\_handler@{socket\_handler}!read\_socket\_uc@{read\_socket\_uc}}
+\index{read\_socket\_uc@{read\_socket\_uc}!socket\_handler@{socket\_handler}}
+\doxysubsubsection{\texorpdfstring{read\_socket\_uc()}{read\_socket\_uc()}}
+{\footnotesize\ttfamily unsigned char $\ast$ socket\+\_\+handler\+::read\+\_\+socket\+\_\+uc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Reads available data from open socket. 
+
+\begin{DoxyReturn}{Returns}
+Returns nullptr if nothing was read, or the data read from socket if read was successful (and data was available).
+\end{DoxyReturn}
+CRITICAL NOTE\+: delete MUST be called when done with the value returned. If this is not done, a memory leak will be created. To avoid this issue, use read\+\_\+socket\+\_\+s 
+
+Definition at line \mbox{\hyperlink{socket__handler_8cpp_source_l00104}{104}} of file \mbox{\hyperlink{socket__handler_8cpp_source}{socket\+\_\+handler.\+cpp}}.
+
+\mbox{\Hypertarget{classsocket__handler_a415ab8887b09cc4334c5191b0975e1eb}\label{classsocket__handler_a415ab8887b09cc4334c5191b0975e1eb}} 
+\index{socket\_handler@{socket\_handler}!write\_socket\_s@{write\_socket\_s}}
+\index{write\_socket\_s@{write\_socket\_s}!socket\_handler@{socket\_handler}}
+\doxysubsubsection{\texorpdfstring{write\_socket\_s()}{write\_socket\_s()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} socket\+\_\+handler\+::write\+\_\+socket\+\_\+s (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{data }\end{DoxyParamCaption}) const}
+
+
+
+Writes string to open socket. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & String argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Number of bytes transferred across open socket 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{socket__handler_8cpp_source_l00131}{131}} of file \mbox{\hyperlink{socket__handler_8cpp_source}{socket\+\_\+handler.\+cpp}}.
+
+\mbox{\Hypertarget{classsocket__handler_ab2fa4fc1e3a3e60748a2294af085a79a}\label{classsocket__handler_ab2fa4fc1e3a3e60748a2294af085a79a}} 
+\index{socket\_handler@{socket\_handler}!write\_socket\_uc@{write\_socket\_uc}}
+\index{write\_socket\_uc@{write\_socket\_uc}!socket\_handler@{socket\_handler}}
+\doxysubsubsection{\texorpdfstring{write\_socket\_uc()}{write\_socket\_uc()}}
+{\footnotesize\ttfamily ssize\+\_\+t socket\+\_\+handler\+::write\+\_\+socket\+\_\+uc (\begin{DoxyParamCaption}\item[{unsigned char $\ast$}]{data,  }\item[{int}]{size }\end{DoxyParamCaption}) const}
+
+
+
+Takes argument for a pointer to an unsigned char and transmits it across the open socket. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Unsigned char $\ast$ containing bytes to be written \\
+\hline
+{\em size} & Size of data being transmitted \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns -\/1 if write failed, or the number of bytes written if call succeeded 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{socket__handler_8cpp_source_l00081}{81}} of file \mbox{\hyperlink{socket__handler_8cpp_source}{socket\+\_\+handler.\+cpp}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classsocket__handler_a370ee21bc48d632b7fbb3a477a8c9c9a}\label{classsocket__handler_a370ee21bc48d632b7fbb3a477a8c9c9a}} 
+\index{socket\_handler@{socket\_handler}!port@{port}}
+\index{port@{port}!socket\_handler@{socket\_handler}}
+\doxysubsubsection{\texorpdfstring{port}{port}}
+{\footnotesize\ttfamily int socket\+\_\+handler\+::port}
+
+
+
+Definition at line \mbox{\hyperlink{socket__handler_8h_source_l00034}{34}} of file \mbox{\hyperlink{socket__handler_8h_source}{socket\+\_\+handler.\+h}}.
+
+\mbox{\Hypertarget{classsocket__handler_a110ff9b93efb11333fb1c98558a35bd6}\label{classsocket__handler_a110ff9b93efb11333fb1c98558a35bd6}} 
+\index{socket\_handler@{socket\_handler}!sock@{sock}}
+\index{sock@{sock}!socket\_handler@{socket\_handler}}
+\doxysubsubsection{\texorpdfstring{sock}{sock}}
+{\footnotesize\ttfamily int socket\+\_\+handler\+::sock}
+
+
+
+Definition at line \mbox{\hyperlink{socket__handler_8h_source_l00034}{34}} of file \mbox{\hyperlink{socket__handler_8h_source}{socket\+\_\+handler.\+h}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/ti/\mbox{\hyperlink{socket__handler_8h}{socket\+\_\+handler.\+h}}\item 
+src/ti/\mbox{\hyperlink{socket__handler_8cpp}{socket\+\_\+handler.\+cpp}}\end{DoxyCompactItemize}

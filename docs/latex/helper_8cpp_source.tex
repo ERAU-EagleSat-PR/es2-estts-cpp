@@ -1,0 +1,113 @@
+\hypertarget{helper_8cpp_source}{}\doxysection{helper.\+cpp}
+\label{helper_8cpp_source}\index{src/utils/helper.cpp@{src/utils/helper.cpp}}
+\mbox{\hyperlink{helper_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00001}00001 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00002}00002 \textcolor{comment}{// Created by Hayden Roszell on 12/28/21.}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00005}00005 \textcolor{preprocessor}{\#include <algorithm>}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00006}00006 \textcolor{preprocessor}{\#include <dirent.h>}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00007}00007 \textcolor{preprocessor}{\#include <sstream>}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00008}00008 \textcolor{preprocessor}{\#include <condition\_variable>}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00009}00009 \textcolor{preprocessor}{\#include <random>}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00010}00010 \textcolor{preprocessor}{\#include <utility>}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00011}00011 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{helper_8h}{helper.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00012}00012 }
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00013}\mbox{\hyperlink{helper_8cpp_aa7d5d059ddd12b2db2e3526208ceda7a}{00013}} std::string \mbox{\hyperlink{helper_8cpp_aa7d5d059ddd12b2db2e3526208ceda7a}{ascii\_to\_hex}}(\textcolor{keyword}{const} std::string\& in) \{}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00014}00014     std::stringstream ret;}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00015}00015     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} i : in) \{}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00016}00016         ret << std::hex << (unsigned)i;}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00017}00017     \}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00018}00018     \textcolor{keywordflow}{return} ret.str();}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00019}00019 \}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00020}00020 }
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00021}\mbox{\hyperlink{helper_8cpp_a5a3ac476d1cc28f778bdbd954f0bd090}{00021}} std::string \mbox{\hyperlink{helper_8cpp_a5a3ac476d1cc28f778bdbd954f0bd090}{hex\_to\_ascii}}(\textcolor{keyword}{const} std::string\& hex) \{}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00022}00022     \textcolor{comment}{// initialize the ASCII code string as empty.}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00023}00023     std::string ascii = \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00024}00024     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < hex.length(); i += 2)}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00025}00025     \{}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00026}00026         \textcolor{comment}{// extract two characters from hex string}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00027}00027         std::string part = hex.substr(i, 2);}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00028}00028 }
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00029}00029         \textcolor{comment}{// change it into base 16 and}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00030}00030         \textcolor{comment}{// typecast as the character}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00031}00031         \textcolor{keywordtype}{char} ch = stoul(part, \textcolor{keyword}{nullptr}, 16);}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00033}00033         \textcolor{comment}{// add this char to final ASCII string}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00034}00034         ascii += ch;}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00035}00035     \}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00036}00036     \textcolor{keywordflow}{return} ascii;}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00037}00037 \}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00038}00038 }
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00043}\mbox{\hyperlink{helper_8cpp_a5ff6db2c2701923812f81ad11ac4f292}{00043}} std::string \mbox{\hyperlink{helper_8cpp_a5ff6db2c2701923812f81ad11ac4f292}{generate\_serial\_number}}() \{}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00044}00044     \textcolor{keyword}{auto} len = 16;}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00045}00045     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{char} alphanum[] =}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00046}00046             \textcolor{stringliteral}{"{}0123456789"{}}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00047}00047             \textcolor{stringliteral}{"{}ABCDEFGHIJKLMNOPQRSTUVWXYZ"{}}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00048}00048             \textcolor{stringliteral}{"{}abcdefghijklmnopqrstuvwxyz"{}};}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00049}00049     std::string tmp\_s;}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00050}00050     tmp\_s.reserve(len);}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00051}00051     std::random\_device dev;}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00052}00052     std::mt19937 rng(dev());}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00053}00053     std::uniform\_int\_distribution<std::mt19937::result\_type> dist6(1,\textcolor{keyword}{sizeof}(alphanum));}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00054}00054 }
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00055}00055     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < len; ++i) \{}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00056}00056         tmp\_s += alphanum[dist6(rng) \% (\textcolor{keyword}{sizeof}(alphanum) -\/ 1)];}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00057}00057     \}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00058}00058 }
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00059}00059     \textcolor{keywordflow}{return} tmp\_s;}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00060}00060 \}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00062}\mbox{\hyperlink{helper_8cpp_ab8ed5a5c0f44d644e0d787e3bd7e98e6}{00062}} std::string \mbox{\hyperlink{helper_8cpp_ab8ed5a5c0f44d644e0d787e3bd7e98e6}{find\_removable\_storage}}() \{}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00063}00063     std::stringstream ssd\_dir;}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00064}00064 \textcolor{preprocessor}{\#ifdef \_\_ESTTS\_OS\_LINUX\_\_}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00065}00065     ssd\_dir << \textcolor{stringliteral}{"{}/media/"{}};}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00066}00066     \textcolor{keyword}{auto} path\_found = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00067}00067     DIR * d = opendir(ssd\_dir.str().c\_str());}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00068}00068     \textcolor{keywordflow}{if} (d == \textcolor{keyword}{nullptr}) \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00069}00069     \textcolor{keyword}{struct }dirent * dir;}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00070}00070     \textcolor{keywordflow}{while} ((dir = readdir(d)) != \textcolor{keyword}{nullptr}) \{}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00071}00071         ssd\_dir.clear();}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00072}00072         \textcolor{keywordflow}{if} (strcmp(dir-\/>d\_name, \textcolor{stringliteral}{"{}."{}})!=0 \&\& strcmp(dir-\/>d\_name, \textcolor{stringliteral}{"{}.."{}})!=0 \&\& !path\_found) \{}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00073}00073             std::stringstream temp\_path;}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00074}00074             temp\_path << ssd\_dir.str() << dir-\/>d\_name;}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00075}00075             DIR * d1 = opendir(temp\_path.str().c\_str());}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00076}00076             \textcolor{keywordflow}{if} (d1 != \textcolor{keyword}{nullptr}) \{}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00077}00077                 \textcolor{keyword}{struct }dirent * dir1;}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00078}00078                 \textcolor{keywordflow}{while} ((dir1 = readdir(d1)) != \textcolor{keyword}{nullptr}) \{}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00079}00079                     \textcolor{keywordflow}{if} (dir-\/>d\_type == DT\_DIR \&\& strcmp(dir1-\/>d\_name, \mbox{\hyperlink{namespaceestts_a69cb81ce4b4159af5544ee3b4fd8ba1c}{estts::REMOVABLE\_STORAGE\_NAME}})==0) \{}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00080}00080                         ssd\_dir << dir-\/>d\_name << \textcolor{stringliteral}{"{}/"{}} << dir1-\/>d\_name;}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00081}00081                         SPDLOG\_INFO(\textcolor{stringliteral}{"{}Constructed path to removable storage device -\/ \{\}"{}}, ssd\_dir.str());}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00082}00082                         path\_found = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00083}00083                     \}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00084}00084                 \}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00085}00085             \}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00086}00086             closedir(d1);}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00087}00087         \}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00088}00088     \}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00089}00089     closedir(d);}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00090}00090     \textcolor{keywordflow}{if} (path\_found)}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00091}00091         \textcolor{keywordflow}{return} ssd\_dir.str();}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00092}00092     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00093}00093         \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00094}00094 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00095}00095     \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00096}00096 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00097}00097 \}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00098}00098 }
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00099}\mbox{\hyperlink{helper_8cpp_ae6b0bef88432f1293395cedddb95acd9}{00099}} \textcolor{keywordtype}{void} \mbox{\hyperlink{helper_8cpp_ae6b0bef88432f1293395cedddb95acd9}{print\_write\_trace\_msg}}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *message\_uc, \textcolor{keywordtype}{size\_t} bytes, \textcolor{keyword}{const} std::string\& endpoint) \{}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00100}00100     std::string message(\textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(message\_uc));}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00101}00101     std::replace( message.begin(), message.end(), \textcolor{charliteral}{'\(\backslash\)r'}, \textcolor{charliteral}{' '});}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00102}00102     message.append(\textcolor{stringliteral}{"{}\(\backslash\)0"{}});}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00103}00103     SPDLOG\_TRACE(\textcolor{stringliteral}{"{}Wrote '\{\}' (size=\{\} bytes) to \{\}"{}}, message, bytes, endpoint);}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00104}00104 \}}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00105}00105 }
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00106}\mbox{\hyperlink{helper_8cpp_a0545ffe03934dde15d00c1c8311959ab}{00106}} \textcolor{keywordtype}{void} \mbox{\hyperlink{helper_8cpp_a0545ffe03934dde15d00c1c8311959ab}{print\_read\_trace\_msg}}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *message\_uc, \textcolor{keywordtype}{size\_t} bytes, \textcolor{keyword}{const} std::string\& endpoint) \{}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00107}00107     std::string message(\textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(message\_uc));}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00108}00108     std::replace( message.begin(), message.end(), \textcolor{charliteral}{'\(\backslash\)r'}, \textcolor{charliteral}{' '});}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00109}00109     message.append(\textcolor{stringliteral}{"{}\(\backslash\)0"{}});}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00110}00110     SPDLOG\_TRACE(\textcolor{stringliteral}{"{}Read '\{\}' (size=\{\} bytes) from \{\}"{}}, message, bytes, endpoint);}
+\DoxyCodeLine{\Hypertarget{helper_8cpp_source_l00111}00111 \}}
+
+\end{DoxyCode}

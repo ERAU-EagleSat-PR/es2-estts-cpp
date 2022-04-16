@@ -1,0 +1,196 @@
+\hypertarget{classposix__serial}{}\doxysection{posix\+\_\+serial Class Reference}
+\label{classposix__serial}\index{posix\_serial@{posix\_serial}}
+
+
+{\ttfamily \#include $<$posix\+\_\+serial.\+h$>$}
+
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classposix__serial_a47ab5646c890aa7c86cc429b5e1bf82f}{posix\+\_\+serial}} (const char $\ast$port, int baud)
+\begin{DoxyCompactList}\small\item\em Base constructor that initializes port and baud, opens specified port as serial port, and configures it using Terminos. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classposix__serial_ae315cc0311d68a3f552922602dab7e41}{$\sim$posix\+\_\+serial}} ()
+\item 
+virtual ssize\+\_\+t \mbox{\hyperlink{classposix__serial_a1c7f93960332f1b62085eeb7494871a2}{write\+\_\+serial\+\_\+uc}} (unsigned char $\ast$data, int size) const
+\begin{DoxyCompactList}\small\item\em Takes argument for a pointer to an unsigned char and transmits it across the open serial port. \end{DoxyCompactList}\item 
+virtual unsigned char $\ast$ \mbox{\hyperlink{classposix__serial_abe2c9c1d2c970da11e8f65e30c00e9c4}{read\+\_\+serial\+\_\+uc}} ()
+\begin{DoxyCompactList}\small\item\em Reads available data from open serial port. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classposix__serial_a050aed63ae5e4d14b22310822ebb6d5d}{write\+\_\+serial\+\_\+s}} (const std\+::string \&data) const
+\begin{DoxyCompactList}\small\item\em Writes string to open serial port. \end{DoxyCompactList}\item 
+virtual std\+::string \mbox{\hyperlink{classposix__serial_ac210369f855bac5e2a84c7a0cc6ca1e1}{read\+\_\+serial\+\_\+s}} ()
+\begin{DoxyCompactList}\small\item\em Reads available data from serial port and returns data as string. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classposix__serial_a15d95c8ed761b43f46c19dec7e825b17}{clear\+\_\+serial\+\_\+fifo}} ()
+\item 
+virtual int \mbox{\hyperlink{classposix__serial_a54c899775a7e98d4e7ab93abce4d25ad}{check\+\_\+serial\+\_\+bytes\+\_\+avail}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::stringstream \mbox{\hyperlink{classposix__serial_afcaa42d3f41159383a84691146782679}{cache}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{posix__serial_8h_source_l00012}{12}} of file \mbox{\hyperlink{posix__serial_8h_source}{posix\+\_\+serial.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classposix__serial_a47ab5646c890aa7c86cc429b5e1bf82f}\label{classposix__serial_a47ab5646c890aa7c86cc429b5e1bf82f}} 
+\index{posix\_serial@{posix\_serial}!posix\_serial@{posix\_serial}}
+\index{posix\_serial@{posix\_serial}!posix\_serial@{posix\_serial}}
+\doxysubsubsection{\texorpdfstring{posix\_serial()}{posix\_serial()}}
+{\footnotesize\ttfamily posix\+\_\+serial\+::posix\+\_\+serial (\begin{DoxyParamCaption}\item[{const char $\ast$}]{port,  }\item[{int}]{baud }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Base constructor that initializes port and baud, opens specified port as serial port, and configures it using Terminos. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em port} & Serial port (EX \char`\"{}/dev/cu.\+usbmodem\char`\"{}) \\
+\hline
+{\em baud} & Serial baud rate (EX 115200) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{posix__serial_8cpp_source_l00027}{27}} of file \mbox{\hyperlink{posix__serial_8cpp_source}{posix\+\_\+serial.\+cpp}}.
+
+\mbox{\Hypertarget{classposix__serial_ae315cc0311d68a3f552922602dab7e41}\label{classposix__serial_ae315cc0311d68a3f552922602dab7e41}} 
+\index{posix\_serial@{posix\_serial}!````~posix\_serial@{$\sim$posix\_serial}}
+\index{````~posix\_serial@{$\sim$posix\_serial}!posix\_serial@{posix\_serial}}
+\doxysubsubsection{\texorpdfstring{$\sim$posix\_serial()}{~posix\_serial()}}
+{\footnotesize\ttfamily posix\+\_\+serial\+::$\sim$posix\+\_\+serial (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{posix__serial_8cpp_source_l00268}{268}} of file \mbox{\hyperlink{posix__serial_8cpp_source}{posix\+\_\+serial.\+cpp}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classposix__serial_a54c899775a7e98d4e7ab93abce4d25ad}\label{classposix__serial_a54c899775a7e98d4e7ab93abce4d25ad}} 
+\index{posix\_serial@{posix\_serial}!check\_serial\_bytes\_avail@{check\_serial\_bytes\_avail}}
+\index{check\_serial\_bytes\_avail@{check\_serial\_bytes\_avail}!posix\_serial@{posix\_serial}}
+\doxysubsubsection{\texorpdfstring{check\_serial\_bytes\_avail()}{check\_serial\_bytes\_avail()}}
+{\footnotesize\ttfamily int posix\+\_\+serial\+::check\+\_\+serial\+\_\+bytes\+\_\+avail (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Definition at line \mbox{\hyperlink{posix__serial_8cpp_source_l00278}{278}} of file \mbox{\hyperlink{posix__serial_8cpp_source}{posix\+\_\+serial.\+cpp}}.
+
+\mbox{\Hypertarget{classposix__serial_a15d95c8ed761b43f46c19dec7e825b17}\label{classposix__serial_a15d95c8ed761b43f46c19dec7e825b17}} 
+\index{posix\_serial@{posix\_serial}!clear\_serial\_fifo@{clear\_serial\_fifo}}
+\index{clear\_serial\_fifo@{clear\_serial\_fifo}!posix\_serial@{posix\_serial}}
+\doxysubsubsection{\texorpdfstring{clear\_serial\_fifo()}{clear\_serial\_fifo()}}
+{\footnotesize\ttfamily void posix\+\_\+serial\+::clear\+\_\+serial\+\_\+fifo (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Definition at line \mbox{\hyperlink{posix__serial_8cpp_source_l00272}{272}} of file \mbox{\hyperlink{posix__serial_8cpp_source}{posix\+\_\+serial.\+cpp}}.
+
+\mbox{\Hypertarget{classposix__serial_ac210369f855bac5e2a84c7a0cc6ca1e1}\label{classposix__serial_ac210369f855bac5e2a84c7a0cc6ca1e1}} 
+\index{posix\_serial@{posix\_serial}!read\_serial\_s@{read\_serial\_s}}
+\index{read\_serial\_s@{read\_serial\_s}!posix\_serial@{posix\_serial}}
+\doxysubsubsection{\texorpdfstring{read\_serial\_s()}{read\_serial\_s()}}
+{\footnotesize\ttfamily std\+::string posix\+\_\+serial\+::read\+\_\+serial\+\_\+s (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Reads available data from serial port and returns data as string. 
+
+\begin{DoxyReturn}{Returns}
+Returns translated string of received data 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{posix__serial_8cpp_source_l00249}{249}} of file \mbox{\hyperlink{posix__serial_8cpp_source}{posix\+\_\+serial.\+cpp}}.
+
+\mbox{\Hypertarget{classposix__serial_abe2c9c1d2c970da11e8f65e30c00e9c4}\label{classposix__serial_abe2c9c1d2c970da11e8f65e30c00e9c4}} 
+\index{posix\_serial@{posix\_serial}!read\_serial\_uc@{read\_serial\_uc}}
+\index{read\_serial\_uc@{read\_serial\_uc}!posix\_serial@{posix\_serial}}
+\doxysubsubsection{\texorpdfstring{read\_serial\_uc()}{read\_serial\_uc()}}
+{\footnotesize\ttfamily unsigned char $\ast$ posix\+\_\+serial\+::read\+\_\+serial\+\_\+uc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Reads available data from open serial port. 
+
+\begin{DoxyReturn}{Returns}
+Returns nullptr if nothing was read, or the data read from serial port if read was successful (and data was available).
+\end{DoxyReturn}
+CRITICAL NOTE\+: delete MUST be called when done with the value returned. If this is not done, a memory leak will be created. To avoid this issue, use read\+\_\+serial\+\_\+s 
+
+Definition at line \mbox{\hyperlink{posix__serial_8cpp_source_l00199}{199}} of file \mbox{\hyperlink{posix__serial_8cpp_source}{posix\+\_\+serial.\+cpp}}.
+
+\mbox{\Hypertarget{classposix__serial_a050aed63ae5e4d14b22310822ebb6d5d}\label{classposix__serial_a050aed63ae5e4d14b22310822ebb6d5d}} 
+\index{posix\_serial@{posix\_serial}!write\_serial\_s@{write\_serial\_s}}
+\index{write\_serial\_s@{write\_serial\_s}!posix\_serial@{posix\_serial}}
+\doxysubsubsection{\texorpdfstring{write\_serial\_s()}{write\_serial\_s()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} posix\+\_\+serial\+::write\+\_\+serial\+\_\+s (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{data }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Writes string to open serial port. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & String argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Number of bytes transferred across open serial port 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{posix__serial_8cpp_source_l00235}{235}} of file \mbox{\hyperlink{posix__serial_8cpp_source}{posix\+\_\+serial.\+cpp}}.
+
+\mbox{\Hypertarget{classposix__serial_a1c7f93960332f1b62085eeb7494871a2}\label{classposix__serial_a1c7f93960332f1b62085eeb7494871a2}} 
+\index{posix\_serial@{posix\_serial}!write\_serial\_uc@{write\_serial\_uc}}
+\index{write\_serial\_uc@{write\_serial\_uc}!posix\_serial@{posix\_serial}}
+\doxysubsubsection{\texorpdfstring{write\_serial\_uc()}{write\_serial\_uc()}}
+{\footnotesize\ttfamily ssize\+\_\+t posix\+\_\+serial\+::write\+\_\+serial\+\_\+uc (\begin{DoxyParamCaption}\item[{unsigned char $\ast$}]{data,  }\item[{int}]{size }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Takes argument for a pointer to an unsigned char and transmits it across the open serial port. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Unsigned char $\ast$ containing bytes to be written \\
+\hline
+{\em size} & Size of data being transmitted \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns -\/1 if write failed, or the number of bytes written if call succeeded 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{posix__serial_8cpp_source_l00169}{169}} of file \mbox{\hyperlink{posix__serial_8cpp_source}{posix\+\_\+serial.\+cpp}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classposix__serial_afcaa42d3f41159383a84691146782679}\label{classposix__serial_afcaa42d3f41159383a84691146782679}} 
+\index{posix\_serial@{posix\_serial}!cache@{cache}}
+\index{cache@{cache}!posix\_serial@{posix\_serial}}
+\doxysubsubsection{\texorpdfstring{cache}{cache}}
+{\footnotesize\ttfamily std\+::stringstream posix\+\_\+serial\+::cache\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{posix__serial_8h_source_l00026}{26}} of file \mbox{\hyperlink{posix__serial_8h_source}{posix\+\_\+serial.\+h}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/ti/\mbox{\hyperlink{posix__serial_8h}{posix\+\_\+serial.\+h}}\item 
+src/ti/\mbox{\hyperlink{posix__serial_8cpp}{posix\+\_\+serial.\+cpp}}\end{DoxyCompactItemize}

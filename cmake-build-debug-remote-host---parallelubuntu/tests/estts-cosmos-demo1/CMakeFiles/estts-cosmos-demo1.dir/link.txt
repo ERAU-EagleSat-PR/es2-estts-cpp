@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/estts-cosmos-demo1.dir/src/main.cpp.o  -o estts-cosmos-demo1  ../../src/libestts.a ../../lib/spdlog/libspdlogd.a -lpthread /usr/lib/aarch64-linux-gnu/libboost_system.so.1.71.0 

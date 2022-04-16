@@ -1,0 +1,110 @@
+\hypertarget{helper_8cpp}{}\doxysection{src/utils/helper.cpp File Reference}
+\label{helper_8cpp}\index{src/utils/helper.cpp@{src/utils/helper.cpp}}
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$dirent.\+h$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$condition\+\_\+variable$>$}\newline
+{\ttfamily \#include $<$random$>$}\newline
+{\ttfamily \#include $<$utility$>$}\newline
+{\ttfamily \#include \char`\"{}helper.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{helper_8cpp_aa7d5d059ddd12b2db2e3526208ceda7a}{ascii\+\_\+to\+\_\+hex}} (const std\+::string \&in)
+\item 
+std\+::string \mbox{\hyperlink{helper_8cpp_a5a3ac476d1cc28f778bdbd954f0bd090}{hex\+\_\+to\+\_\+ascii}} (const std\+::string \&hex)
+\item 
+std\+::string \mbox{\hyperlink{helper_8cpp_a5ff6db2c2701923812f81ad11ac4f292}{generate\+\_\+serial\+\_\+number}} ()
+\begin{DoxyCompactList}\small\item\em Creates 16-\/character serial number using C++ random library. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{helper_8cpp_ab8ed5a5c0f44d644e0d787e3bd7e98e6}{find\+\_\+removable\+\_\+storage}} ()
+\item 
+void \mbox{\hyperlink{helper_8cpp_ae6b0bef88432f1293395cedddb95acd9}{print\+\_\+write\+\_\+trace\+\_\+msg}} (unsigned char $\ast$message\+\_\+uc, size\+\_\+t bytes, const std\+::string \&endpoint)
+\item 
+void \mbox{\hyperlink{helper_8cpp_a0545ffe03934dde15d00c1c8311959ab}{print\+\_\+read\+\_\+trace\+\_\+msg}} (unsigned char $\ast$message\+\_\+uc, size\+\_\+t bytes, const std\+::string \&endpoint)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{helper_8cpp_aa7d5d059ddd12b2db2e3526208ceda7a}\label{helper_8cpp_aa7d5d059ddd12b2db2e3526208ceda7a}} 
+\index{helper.cpp@{helper.cpp}!ascii\_to\_hex@{ascii\_to\_hex}}
+\index{ascii\_to\_hex@{ascii\_to\_hex}!helper.cpp@{helper.cpp}}
+\doxysubsubsection{\texorpdfstring{ascii\_to\_hex()}{ascii\_to\_hex()}}
+{\footnotesize\ttfamily std\+::string ascii\+\_\+to\+\_\+hex (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{in }\end{DoxyParamCaption})}
+
+Convert ASCII string to HEX string. Be careful when using this function.. 
+\begin{DoxyParams}{Parameters}
+{\em in} & ASCII string for conversion \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+HEX string characters 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{helper_8cpp_source_l00013}{13}} of file \mbox{\hyperlink{helper_8cpp_source}{helper.\+cpp}}.
+
+\mbox{\Hypertarget{helper_8cpp_ab8ed5a5c0f44d644e0d787e3bd7e98e6}\label{helper_8cpp_ab8ed5a5c0f44d644e0d787e3bd7e98e6}} 
+\index{helper.cpp@{helper.cpp}!find\_removable\_storage@{find\_removable\_storage}}
+\index{find\_removable\_storage@{find\_removable\_storage}!helper.cpp@{helper.cpp}}
+\doxysubsubsection{\texorpdfstring{find\_removable\_storage()}{find\_removable\_storage()}}
+{\footnotesize\ttfamily std\+::string find\+\_\+removable\+\_\+storage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{helper_8cpp_source_l00062}{62}} of file \mbox{\hyperlink{helper_8cpp_source}{helper.\+cpp}}.
+
+\mbox{\Hypertarget{helper_8cpp_a5ff6db2c2701923812f81ad11ac4f292}\label{helper_8cpp_a5ff6db2c2701923812f81ad11ac4f292}} 
+\index{helper.cpp@{helper.cpp}!generate\_serial\_number@{generate\_serial\_number}}
+\index{generate\_serial\_number@{generate\_serial\_number}!helper.cpp@{helper.cpp}}
+\doxysubsubsection{\texorpdfstring{generate\_serial\_number()}{generate\_serial\_number()}}
+{\footnotesize\ttfamily std\+::string generate\+\_\+serial\+\_\+number (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Creates 16-\/character serial number using C++ random library. 
+
+\begin{DoxyReturn}{Returns}
+16-\/character serial number 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{helper_8cpp_source_l00043}{43}} of file \mbox{\hyperlink{helper_8cpp_source}{helper.\+cpp}}.
+
+\mbox{\Hypertarget{helper_8cpp_a5a3ac476d1cc28f778bdbd954f0bd090}\label{helper_8cpp_a5a3ac476d1cc28f778bdbd954f0bd090}} 
+\index{helper.cpp@{helper.cpp}!hex\_to\_ascii@{hex\_to\_ascii}}
+\index{hex\_to\_ascii@{hex\_to\_ascii}!helper.cpp@{helper.cpp}}
+\doxysubsubsection{\texorpdfstring{hex\_to\_ascii()}{hex\_to\_ascii()}}
+{\footnotesize\ttfamily std\+::string hex\+\_\+to\+\_\+ascii (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{hex }\end{DoxyParamCaption})}
+
+Convert HEX string to ASCII string. Borrowed from \href{https://www.geeksforgeeks.org/convert-hexadecimal-value-string-ascii-value-string/}{\texttt{ https\+://www.\+geeksforgeeks.\+org/convert-\/hexadecimal-\/value-\/string-\/ascii-\/value-\/string/}} 
+\begin{DoxyParams}{Parameters}
+{\em hex} & HEX string characters for conversion \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ASCII string 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{helper_8cpp_source_l00021}{21}} of file \mbox{\hyperlink{helper_8cpp_source}{helper.\+cpp}}.
+
+\mbox{\Hypertarget{helper_8cpp_a0545ffe03934dde15d00c1c8311959ab}\label{helper_8cpp_a0545ffe03934dde15d00c1c8311959ab}} 
+\index{helper.cpp@{helper.cpp}!print\_read\_trace\_msg@{print\_read\_trace\_msg}}
+\index{print\_read\_trace\_msg@{print\_read\_trace\_msg}!helper.cpp@{helper.cpp}}
+\doxysubsubsection{\texorpdfstring{print\_read\_trace\_msg()}{print\_read\_trace\_msg()}}
+{\footnotesize\ttfamily void print\+\_\+read\+\_\+trace\+\_\+msg (\begin{DoxyParamCaption}\item[{unsigned char $\ast$}]{message\+\_\+uc,  }\item[{size\+\_\+t}]{bytes,  }\item[{const std\+::string \&}]{endpoint }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{helper_8cpp_source_l00106}{106}} of file \mbox{\hyperlink{helper_8cpp_source}{helper.\+cpp}}.
+
+\mbox{\Hypertarget{helper_8cpp_ae6b0bef88432f1293395cedddb95acd9}\label{helper_8cpp_ae6b0bef88432f1293395cedddb95acd9}} 
+\index{helper.cpp@{helper.cpp}!print\_write\_trace\_msg@{print\_write\_trace\_msg}}
+\index{print\_write\_trace\_msg@{print\_write\_trace\_msg}!helper.cpp@{helper.cpp}}
+\doxysubsubsection{\texorpdfstring{print\_write\_trace\_msg()}{print\_write\_trace\_msg()}}
+{\footnotesize\ttfamily void print\+\_\+write\+\_\+trace\+\_\+msg (\begin{DoxyParamCaption}\item[{unsigned char $\ast$}]{message\+\_\+uc,  }\item[{size\+\_\+t}]{bytes,  }\item[{const std\+::string \&}]{endpoint }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{helper_8cpp_source_l00099}{99}} of file \mbox{\hyperlink{helper_8cpp_source}{helper.\+cpp}}.
+

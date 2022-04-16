@@ -1,0 +1,155 @@
+\hypertarget{socket__handler_8cpp_source}{}\doxysection{socket\+\_\+handler.\+cpp}
+\label{socket__handler_8cpp_source}\index{src/ti/socket\_handler.cpp@{src/ti/socket\_handler.cpp}}
+\mbox{\hyperlink{socket__handler_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00001}00001 \textcolor{comment}{/* Copyright © EagleSat II -\/ Embry Riddle Aeronautical University -\/ All rights reserved -\/ 2022 */}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00002}00002 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00003}00003 \textcolor{comment}{// Created by Hayden Roszell on 1/3/22.}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00005}00005 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00006}00006 \textcolor{preprocessor}{\#include <sstream>}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00007}00007 \textcolor{preprocessor}{\#include <chrono>}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00008}00008 \textcolor{preprocessor}{\#include <thread>}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00009}00009 \textcolor{preprocessor}{\#include <fcntl.h>}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00010}00010 \textcolor{preprocessor}{\#include <sys/ioctl.h>}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00011}00011 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{socket__handler_8h}{socket\_handler.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00012}00012 \textcolor{preprocessor}{\#include <arpa/inet.h>}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00013}00013 \textcolor{preprocessor}{\#include <unistd.h>}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00014}00014 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{helper_8h}{helper.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00024}\mbox{\hyperlink{classsocket__handler_a1f24b9efbfc73d3bc4dfd0f13f01ccc0}{00024}} \mbox{\hyperlink{classsocket__handler_a1f24b9efbfc73d3bc4dfd0f13f01ccc0}{socket\_handler::socket\_handler}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *address, \textcolor{keywordtype}{int} port) \{}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00025}00025     \mbox{\hyperlink{classsocket__handler_a110ff9b93efb11333fb1c98558a35bd6}{sock}} = -\/1;}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00026}00026     serv\_addr = \{0\};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00027}00027     this-\/>port = \mbox{\hyperlink{classsocket__handler_a370ee21bc48d632b7fbb3a477a8c9c9a}{port}};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00028}00028     this-\/>address = address;}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00029}00029     std::stringstream temp;}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00030}00030     temp << address << \textcolor{stringliteral}{"{}:"{}} << \mbox{\hyperlink{classsocket__handler_a370ee21bc48d632b7fbb3a477a8c9c9a}{port}};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00031}00031     this-\/>endpoint = temp.str();}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00033}00033     sync\_buf = \textcolor{keyword}{new} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}[\mbox{\hyperlink{namespaceestts_1_1ti__socket_a93edf07d590b8975ea6340440a25ebe2}{estts::ti\_socket::TI\_SOCKET\_BUF\_SZ}}];}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00034}00034 \}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00036}00036 \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} socket\_handler::open\_socket() \{}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00037}00037     \textcolor{comment}{// Creating socket file descriptor}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00038}00038     \textcolor{keywordflow}{if} ((\mbox{\hyperlink{classsocket__handler_a110ff9b93efb11333fb1c98558a35bd6}{sock}} = socket(AF\_INET, SOCK\_STREAM, 0)) < 0) \{}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00039}00039         spdlog::error(\textcolor{stringliteral}{"{}Error \{\} from socket(): \{\}"{}}, errno, strerror(errno));}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00040}00040         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}{estts::ES\_UNSUCCESSFUL}};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00041}00041     \}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00042}00042     \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00043}00043 \}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00050}00050 \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} socket\_handler::configure\_socket() \{}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00051}00051     serv\_addr.sin\_family = AF\_INET;}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00052}00052     serv\_addr.sin\_port = htons(\mbox{\hyperlink{classsocket__handler_a370ee21bc48d632b7fbb3a477a8c9c9a}{port}});}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00054}00054     \textcolor{comment}{// Convert IPv4 and IPv6 addresses from text to binary form}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00055}00055     \textcolor{keywordflow}{if} (inet\_pton(AF\_INET, address, \&serv\_addr.sin\_addr) <= 0) \{}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00056}00056         spdlog::error(\textcolor{stringliteral}{"{}Invalid address / Address not supported"{}});}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00057}00057         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}{estts::ES\_UNSUCCESSFUL}};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00058}00058     \}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00059}00059 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00060}00060     SPDLOG\_DEBUG(\textcolor{stringliteral}{"{}Attempting to connect to socket at address \{\}:\{\}"{}}, address, \mbox{\hyperlink{classsocket__handler_a370ee21bc48d632b7fbb3a477a8c9c9a}{port}});}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00062}00062     \textcolor{keywordflow}{if} (connect(\mbox{\hyperlink{classsocket__handler_a110ff9b93efb11333fb1c98558a35bd6}{sock}}, (\textcolor{keyword}{struct} sockaddr *) \&serv\_addr, \textcolor{keyword}{sizeof}(serv\_addr)) < 0) \{}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00063}00063         spdlog::error(\textcolor{stringliteral}{"{}Error \{\} from connect(): \{\}"{}}, errno, strerror(errno));}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00064}00064         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}{estts::ES\_UNSUCCESSFUL}};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00065}00065     \}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00066}00066     \textcolor{keywordtype}{int} flags = fcntl(\mbox{\hyperlink{classsocket__handler_a110ff9b93efb11333fb1c98558a35bd6}{sock}}, F\_GETFL, 0);}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00067}00067     \textcolor{keywordflow}{if} (0 != fcntl(\mbox{\hyperlink{classsocket__handler_a110ff9b93efb11333fb1c98558a35bd6}{sock}}, F\_SETFL, flags \& \string~O\_NONBLOCK))}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00068}00068         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}{estts::ES\_UNSUCCESSFUL}};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00069}00069     SPDLOG\_TRACE(\textcolor{stringliteral}{"{}Connection succeeded."{}});}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00071}00071     \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00072}00072 \}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00073}00073 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00081}\mbox{\hyperlink{classsocket__handler_ab2fa4fc1e3a3e60748a2294af085a79a}{00081}} ssize\_t \mbox{\hyperlink{classsocket__handler_ab2fa4fc1e3a3e60748a2294af085a79a}{socket\_handler::write\_socket\_uc}}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *data, \textcolor{keywordtype}{int} size)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00082}00082     \textcolor{comment}{// If serial port isn't open, error out}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00083}00083     \textcolor{keywordflow}{if} (\mbox{\hyperlink{classsocket__handler_a110ff9b93efb11333fb1c98558a35bd6}{sock}} < 0) \{}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00084}00084         \textcolor{keywordflow}{return} -\/1;}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00085}00085     \}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00086}00086     ssize\_t written = send(\mbox{\hyperlink{classsocket__handler_a110ff9b93efb11333fb1c98558a35bd6}{sock}}, data, size, 0);}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00087}00087     \textcolor{keywordflow}{if} (written < 1) \{}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00088}00088         \textcolor{keywordflow}{return} -\/1;}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00089}00089     \}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00090}00090 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00091}00091     \mbox{\hyperlink{helper_8cpp_ae6b0bef88432f1293395cedddb95acd9}{print\_write\_trace\_msg}}(data, written, endpoint);}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00093}00093     \textcolor{keywordflow}{return} written;}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00094}00094 \}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00095}00095 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00104}\mbox{\hyperlink{classsocket__handler_ac925e7df3af4516decfff5387c8aa854}{00104}} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *\mbox{\hyperlink{classsocket__handler_ac925e7df3af4516decfff5387c8aa854}{socket\_handler::read\_socket\_uc}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00105}00105     \textcolor{comment}{// If socket isn't open, error out}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00106}00106     \textcolor{keywordflow}{if} (\mbox{\hyperlink{classsocket__handler_a110ff9b93efb11333fb1c98558a35bd6}{sock}} < 0) \{}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00107}00107         \textcolor{keywordflow}{return} \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00108}00108     \}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00109}00109     \textcolor{comment}{// Allocate heap space for receive buffer}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00110}00110     \textcolor{comment}{// auto buf = new unsigned char[estts::ti\_socket::TI\_SOCKET\_BUF\_SZ];}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00111}00111 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00112}00112     \textcolor{comment}{// Use read system call to read data in sock to buf}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00113}00113     \textcolor{keyword}{auto} n = read(\mbox{\hyperlink{classsocket__handler_a110ff9b93efb11333fb1c98558a35bd6}{sock}}, sync\_buf, \mbox{\hyperlink{namespaceestts_1_1ti__socket_a93edf07d590b8975ea6340440a25ebe2}{estts::ti\_socket::TI\_SOCKET\_BUF\_SZ}});}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00114}00114     \textcolor{keywordflow}{if} (n < 1) \{}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00115}00115         \textcolor{comment}{// Can't receive a negative number of bytes ;)}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00116}00116         \textcolor{keywordflow}{return} \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00117}00117     \}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00118}00118 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00119}00119     \mbox{\hyperlink{helper_8cpp_a0545ffe03934dde15d00c1c8311959ab}{print\_read\_trace\_msg}}(sync\_buf, n, endpoint);}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00120}00120 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00121}00121     \textcolor{comment}{// Add null terminator at the end of transmission for easier processing by parent class(s)}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00122}00122     sync\_buf[n] = \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00123}00123     \textcolor{keywordflow}{return} sync\_buf;}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00124}00124 \}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00125}00125 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00131}\mbox{\hyperlink{classsocket__handler_a415ab8887b09cc4334c5191b0975e1eb}{00131}} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classsocket__handler_a415ab8887b09cc4334c5191b0975e1eb}{socket\_handler::write\_socket\_s}}(\textcolor{keyword}{const} std::string \&data)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00132}00132     \textcolor{comment}{// If serial port isn't open, error out}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00133}00133     \textcolor{keywordflow}{if} (\mbox{\hyperlink{classsocket__handler_a110ff9b93efb11333fb1c98558a35bd6}{sock}} < 0) \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00134}00134     \textcolor{comment}{// Cast string to const unsigned char *, then cast away const to pass}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00135}00135     \textcolor{comment}{// to method that writes unsigned char}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00136}00136     \textcolor{keyword}{auto} csc\_data = \textcolor{keyword}{const\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *\textcolor{keyword}{>}(\textcolor{keyword}{reinterpret\_cast<}\textcolor{keyword}{const }\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *\textcolor{keyword}{>}(data.c\_str()));}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00137}00137     \textcolor{keywordflow}{if} (this-\/>\mbox{\hyperlink{classsocket__handler_ab2fa4fc1e3a3e60748a2294af085a79a}{write\_socket\_uc}}(csc\_data, (\textcolor{keywordtype}{int}) data.length()) < 0) \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}{estts::ES\_UNSUCCESSFUL}};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00138}00138     \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00139}00139 \}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00140}00140 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00145}\mbox{\hyperlink{classsocket__handler_a258a5da9a77812c27032f18bd64779fe}{00145}} std::string \mbox{\hyperlink{classsocket__handler_a258a5da9a77812c27032f18bd64779fe}{socket\_handler::read\_socket\_s}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00146}00146     \textcolor{comment}{// If serial port isn't open, error out}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00147}00147     \textcolor{keywordflow}{if} (\mbox{\hyperlink{classsocket__handler_a110ff9b93efb11333fb1c98558a35bd6}{sock}} < 0) \{}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00148}00148         \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00149}00149     \}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00150}00150     \textcolor{comment}{// Read serial data}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00151}00151     \textcolor{keyword}{auto} read = this-\/>\mbox{\hyperlink{classsocket__handler_ac925e7df3af4516decfff5387c8aa854}{read\_socket\_uc}}();}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00152}00152     \textcolor{keywordflow}{if} (read == \textcolor{keyword}{nullptr}) \{}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00153}00153         \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00154}00154     \}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00155}00155     \textcolor{comment}{// Type cast unsigned char (auto) to a char *}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00156}00156     \textcolor{comment}{// Then call std::string constructor}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00157}00157     std::string string\_read(\textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{char} \textcolor{keyword}{const }*\textcolor{keyword}{>}(read));}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00158}00158 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00159}00159     \textcolor{keywordflow}{return} string\_read;}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00160}00160 \}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00161}00161 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00162}\mbox{\hyperlink{classsocket__handler_a306c5dc82f80b4608463505ee2128414}{00162}} \textcolor{keywordtype}{int} \mbox{\hyperlink{classsocket__handler_a306c5dc82f80b4608463505ee2128414}{socket\_handler::check\_sock\_bytes\_avail}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00163}00163     \textcolor{keywordtype}{int} count;}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00164}00164     ioctl(\mbox{\hyperlink{classsocket__handler_a110ff9b93efb11333fb1c98558a35bd6}{sock}}, FIONREAD, \&count);}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00165}00165     \textcolor{keywordflow}{return} count;}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00166}00166 \}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00167}00167 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00168}\mbox{\hyperlink{classsocket__handler_a39c17355f576d2a67839b73b0c47f86f}{00168}} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classsocket__handler_a39c17355f576d2a67839b73b0c47f86f}{socket\_handler::init\_socket\_handle}}() \{}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00169}00169     SPDLOG\_DEBUG(\textcolor{stringliteral}{"{}Opening socket at \{\}:\{\}"{}}, address, \mbox{\hyperlink{classsocket__handler_a370ee21bc48d632b7fbb3a477a8c9c9a}{port}});}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00170}00170     \textcolor{keywordflow}{if} (\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}} != open\_socket()) \{}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00171}00171         spdlog::error(\textcolor{stringliteral}{"{}Failed to open socket."{}});}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00172}00172         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00173}00173     \}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00174}00174     \textcolor{keywordflow}{if} (\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}} != configure\_socket()) \{}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00175}00175         spdlog::error(\textcolor{stringliteral}{"{}Failed to configure socket."{}});}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00176}00176         SPDLOG\_WARN(\textcolor{stringliteral}{"{}Is the ESTTS server running? See documentation for more."{}});}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00177}00177         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00178}00178     \}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00179}00179     SPDLOG\_DEBUG(\textcolor{stringliteral}{"{}Socket configuration complete."{}});}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00180}00180     \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00181}00181 \}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00182}00182 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00183}\mbox{\hyperlink{classsocket__handler_a20630b4741794656f4214ab8e7b3e066}{00183}} \mbox{\hyperlink{classsocket__handler_a20630b4741794656f4214ab8e7b3e066}{socket\_handler::\string~socket\_handler}}() \{}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00184}00184     \textcolor{keywordflow}{if} (sync\_buf) \textcolor{keyword}{delete} sync\_buf;}
+\DoxyCodeLine{\Hypertarget{socket__handler_8cpp_source_l00185}00185 \}}
+
+\end{DoxyCode}

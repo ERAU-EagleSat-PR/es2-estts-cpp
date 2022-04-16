@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/tmp/tmp.UzEyVTKWLL/tests/serial-test/src/main.cpp
+unistd.h
+-
+sstream
+-
+dirent.h
+-
+cstring
+-
+vector
+-
+iostream
+-
+

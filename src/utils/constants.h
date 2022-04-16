@@ -1,6 +1,4 @@
-//
-// Created by Hayden Roszell on 10/31/21.
-//
+/* Copyright © EagleSat II - Embry Riddle Aeronautical University - All rights reserved - 2022 */
 
 #ifndef ESTTS_CONSTANTS_H
 #define ESTTS_CONSTANTS_H
@@ -12,9 +10,34 @@
 
 #define MAX_SERIAL_READ 256
 namespace estts {
+    const char REMOVABLE_STORAGE_NAME[] = "EagleSat";
+
     const int ESTTS_MAX_RETRIES = 2;
     const int ESTTS_RETRY_WAIT_SEC = 1;
     const int ESTTS_AWAIT_RESPONSE_PERIOD_SEC = 5;
+    const int ESTTS_SATELLITE_CONNECTION_TIMEOUT_MIN = 90;
+    const int ESTTS_CHECK_SATELLITE_INRANGE_INTERVAL_SEC = 30;
+    const int ESTTS_REQUEST_SESSION_TIMEOUT_SECONDS = 300;
+
+    namespace cosmos {
+        const char COSMOS_SERVER_ADDR[] = "172.30.95.164"; // 172.30.95.164 172.19.35.160
+        const int COSMOS_PRIMARY_CMD_TELEM_PORT = 65432;
+        const int COSMOS_GROUNDSTATION_CMD_TELEM_PORT = 8046;
+        const int COSMOS_SATELLITE_TXVR_CMD_TELEM_PORT = 55927;
+    }
+
+    namespace ti_serial {
+        const char TI_SERIAL_ADDRESS[] = "/dev/cu.usbserial-A10JVB3P";
+    }
+
+    namespace ti_socket {
+        const int MAX_RETRIES = 2;
+        const int WAIT_TIME_SEC = 2;
+        const int TI_SOCKET_BUF_SZ = 1024;
+        const char TI_SOCKET_ADDRESS[] = "127.0.0.1";
+        const int TI_SOCKET_PORT = 65548;
+    }
+
     /* AX.25 Related constants */
     namespace ax25 {
         const char AX25_FLAG[] = "7E"; // Flag is constant
@@ -69,55 +92,18 @@ namespace estts {
         const int MAX_COMPLETED_CACHE = 20; // Maximum number of completed commands to remember
     }
 
-    namespace es2_commands {
-        namespace acs {
-            const int ACS_GET_GPS_LAT = 01;
-            const int ACS_GET_GPS_LONG = 02;
-            const int ACS_GET_POS = 03;
-        }
-        namespace eps {
-            const int EPS_GET_HEALTH = 01;
-            const int EPS_GET_COMMAND_43 = 43;
-            const int EPS_GET_VOLTAGE = 1;
-            const int EPS_GET_BATTERY_CURRENT = 2;
-        }
-        namespace mde {
-            const int MDE_GET_STATUS = 01;
-        }
-        namespace crp {
-            const int CRP_GET_DATA = 01;
-        }
-        namespace obc {
-            const int OBC_GET_HEALTH = 01;
-        }
-        namespace method {
-            const int ES_READ = 0;
-            const int ES_WRITE = 1;
-        }
-    }
-
-    namespace es2_telemetry {
-        namespace eps {
-            struct vitals {
-                double battery_voltage;
-                double brownouts;
-                double charge_time_mins;
-            };
-            struct eps_voltage {
-                double battery_voltage;
-            };
-            struct eps_current {
-                double battery_current;
-            };
-        }
-    }
-
     namespace endurosat {
+        const int PIPE_DURATION_SEC = 10;
         const int MAX_RETRIES = 2;
         const int WAIT_TIME_SEC = 2;
         const int ES_BAUD = 115200;
         const int MAX_ES_TXVR_TEMP = 50;
-        class esttc {
+        enum PIPE_State {
+            PIPE_OFF = 0,
+            PIPE_WAITING = 1,
+            PIPE_ON = 2
+        };
+        class esttc_const {
         public:
             const uint8_t NUM_OF_RETRIES = 5;
             const char *HEADER = "ES+";
@@ -173,51 +159,18 @@ namespace estts {
         };
     }
 
-    namespace ti_serial {
-        const char TI_SERIAL_ADDRESS[] = "/dev/cu.";
-    }
-    
-    namespace ti_socket {
-        const int MAX_RETRIES = 2;
-        const int WAIT_TIME_SEC = 2;
-        const int TI_SOCKET_BUF_SZ = 1024;
-        const char TI_SOCKET_ADDRESS[] = "127.0.0.1";
-        const int TI_SOCKET_PORT = 8080;
-    }
-
-    typedef struct command_object {
-        int address{};
-        int timeStamp{}; // deprecated
-        int sequence{};
-        int commandID{};
-        int method{};
-        const char *data{};
-    } command_object;
-
-    typedef struct telemetry_object {
-        int address{};
-        int timeStamp{}; // deprecated
-        int sequence{};
-        int commandID{};
-        int response_code{};
-        const char *data{};
-    } telemetry_object;
-
     typedef struct dispatched_command {
-        command_object * command;
-        std::vector<telemetry_object *> telem;
+        std::string frame;
         Status response_code;
         std::string serial_number;
-        std::function<estts::Status(std::vector<estts::telemetry_object *>)> callback;
+        std::function<estts::Status(std::string)> str_callback;
     } dispatched_command;
 
     typedef struct waiting_command {
-        command_object * command;
+        std::string frame;
         std::string serial_number;
-        std::function<estts::Status(std::vector<estts::telemetry_object *>)> callback;
+        std::function<estts::Status(std::string)> str_callback;
     } waiting_command;
-
-    typedef std::function<std::string(estts::command_object *, std::function<estts::Status(std::vector<estts::telemetry_object *>)>)> dispatch_fct;
 }
 
 #endif //ESTTS_CONSTANTS_H

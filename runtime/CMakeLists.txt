@@ -11,5 +11,17 @@ target_include_directories(
         ${estts_include_directories}
 )
 
-# Link GSTTS library to build
 target_link_libraries(estts-runtime PUBLIC estts)
+
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    message(STATUS "${CMAKE_BUILD_TYPE} build type detected, setting __DEV__")
+    target_compile_definitions(
+            estts
+            PUBLIC
+            __DEV__
+    )
+    target_compile_options(
+            estts
+            PRIVATE
+    )
+endif ()
