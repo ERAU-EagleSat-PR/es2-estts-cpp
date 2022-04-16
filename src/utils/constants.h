@@ -10,7 +10,7 @@
 
 #define MAX_SERIAL_READ 256
 namespace estts {
-    const char REMOVABLE_STORAGE_NAME[] = "Samsung_T5";
+    const char REMOVABLE_STORAGE_NAME[] = "EagleSat";
 
     const int ESTTS_MAX_RETRIES = 2;
     const int ESTTS_RETRY_WAIT_SEC = 1;
@@ -92,105 +92,6 @@ namespace estts {
         const int MAX_COMPLETED_CACHE = 20; // Maximum number of completed commands to remember
     }
 
-    namespace es2_commands {
-        namespace acs {
-            const int ACS_GET_GPS_LAT = 01;
-            const int ACS_GET_GPS_LONG = 02;
-            const int ACS_GET_POS = 03;
-            const int ACS_DEP_MAG_BOOM = 07;
-            const int ACS_ENABLE = 10;
-            const int ACS_POWER = 11;
-            const int ACS_SET_CTRL_MODE = 13;
-            const int ACS_SET_EST_MODE = 14;
-            const int ACS_SET_MAG_MNT = 33;
-            const int ACS_SET_MAG_MNT_MTRX = 34;
-            const int ACS_SET_INERTIA = 41;
-            const int ACS_SAVE_CONFIG = 63;
-            const int ACS_SET_ATT_ANG = 146;
-            const int ACS_SET_ANG_RATE = 147;
-            const int ACS_GET_MAGNET = 151;
-            const int ACS_RATE_SENSE_RATE = 155;
-            const int ACS_SET_MAGNETORQUER = 157;
-            const int ACS_GET_MAGNETO = 170;
-            const int ACS_GET_CC_CURRENT = 172;
-            const int ACS_EST_ANG_RATES_FINE = 201;
-        }
-        namespace eps {
-            const int EPS_GET_HEALTH = 01;
-            const int EPS_GET_COMMAND_43 = 43;
-            const int EPS_GET_BATTERY_VOLTAGE = 1;
-            const int EPS_GET_BATTERY_CURRENT = 2;
-            const int EPS_GET_5VBUS_CURRENT = 15;
-            const int EPS_GET_3VBUS_CURRENT = 14;
-            const int EPS_GET_TEMP_SENSOR5 = 38;
-            const int EPS_GET_TEMP_SENSOR6 = 39;
-            const int EPS_GET_TEMP_SENSOR7 = 40;
-            const int EPS_GET_BATTERY_TEMP_SENSOR1 = 19;
-            const int EPS_GET_BATTERY_TEMP_SENSOR2 = 20;
-            const int EPS_GET_BATTERY_TEMP_SENSOR3 = 21;
-            const int EPS_GET_BATTERY_TEMP_SENSOR4 = 22;
-
-        }
-        namespace mde {
-            const int MDE_GET_STATUS = 01;
-        }
-        namespace crp {
-            const int CRP_GET_DATA = 01;
-        }
-        namespace obc {
-            const int OBC_GET_HEALTH = 01;
-        }
-        namespace method {
-            const int ES_READ = 0;
-            const int ES_WRITE = 1;
-        }
-    }
-
-    namespace es2_telemetry {
-        namespace eps {
-            struct vitals {
-                double battery_voltage;
-                double brownouts;
-                double charge_time_mins;
-            };
-            struct eps_voltage {
-                double battery_voltage;
-            };
-            struct eps_current {
-                double battery_current;
-            };
-            struct eps_5Vbus_current {
-                double bus_current;
-            };
-            struct eps_3Vbus_current {
-                double bus_current;
-            };
-            struct eps_externalTemp_sensor5{
-                double external_temperature;
-            };
-            struct eps_externalTemp_sensor6{
-                double external_temperature;
-            };
-            struct eps_externalTemp_sensor7{
-                double external_temperature;
-            };
-            struct eps_batteryTemp_sensor1{
-                double battery_temperature;
-            };
-            struct eps_batteryTemp_sensor2{
-                double battery_temperature;
-            };
-            struct eps_batteryTemp_sensor3{
-                double battery_temperature;
-            };
-            struct eps_batteryTemp_sensor4{
-                double battery_temperature;
-            };
-        }
-        namespace acs {
-        }
-    }
-
     namespace endurosat {
         const int PIPE_DURATION_SEC = 10;
         const int MAX_RETRIES = 2;
@@ -258,44 +159,18 @@ namespace estts {
         };
     }
 
-    typedef struct command_object {
-        int address{};
-        int timeStamp{}; // deprecated
-        int sequence{};
-        int commandID{};
-        int method{};
-        const char *data{};
-    } command_object;
-
-    typedef struct telemetry_object {
-        int address{};
-        int timeStamp{}; // deprecated
-        int sequence{};
-        int commandID{};
-        int response_code{};
-        const char *data{};
-    } telemetry_object;
-
     typedef struct dispatched_command {
         std::string frame;
-        command_object * command;
-        std::vector<telemetry_object *> telem_obj;
-        std::string telem_str;
         Status response_code;
         std::string serial_number;
-        std::function<estts::Status(std::vector<estts::telemetry_object *>)> obj_callback;
         std::function<estts::Status(std::string)> str_callback;
     } dispatched_command;
 
     typedef struct waiting_command {
         std::string frame;
-        command_object * command; // deprecated
         std::string serial_number;
-        std::function<estts::Status(std::vector<estts::telemetry_object *>)> obj_callback; // deprecated
         std::function<estts::Status(std::string)> str_callback;
     } waiting_command;
-
-    typedef std::function<std::string(estts::command_object *, std::function<estts::Status(std::vector<estts::telemetry_object *>)>)> dispatch_fct;
 }
 
 #endif //ESTTS_CONSTANTS_H

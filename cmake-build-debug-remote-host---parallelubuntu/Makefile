@@ -175,6 +175,19 @@ serial-test/fast:
 	$(MAKE) -f tests/serial-test/CMakeFiles/serial-test.dir/build.make tests/serial-test/CMakeFiles/serial-test.dir/build
 .PHONY : serial-test/fast
 
+#=============================================================================
+# Target rules for targets named estts-groundstation-testing
+
+# Build rule for target.
+estts-groundstation-testing: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 estts-groundstation-testing
+.PHONY : estts-groundstation-testing
+
+# fast build rule for target.
+estts-groundstation-testing/fast:
+	$(MAKE) -f tests/estts-groundstation-testing/CMakeFiles/estts-groundstation-testing.dir/build.make tests/estts-groundstation-testing/CMakeFiles/estts-groundstation-testing.dir/build
+.PHONY : estts-groundstation-testing/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -188,6 +201,7 @@ help:
 	@echo "... spdlog"
 	@echo "... estts-cosmos-demo1"
 	@echo "... serial-test"
+	@echo "... estts-groundstation-testing"
 .PHONY : help
 
 

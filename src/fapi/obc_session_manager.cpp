@@ -10,24 +10,6 @@ using namespace estts;
 
 // https://stackoverflow.com/questions/15752659/thread-pooling-in-c11
 
-std::string obc_session_manager::schedule_command(command_object * command, std::function<Status(std::vector<telemetry_object *>)> decomp_callback) {
-    if (ti == nullptr) {
-        SPDLOG_ERROR("Transmission interface not initialized. Was init_session_manager() called?");
-    }
-
-    auto new_command = new waiting_command;
-    new_command->command = command;
-    new_command->serial_number = generate_serial_number();
-    new_command->obj_callback = std::move(decomp_callback);
-    new_command->str_callback = nullptr;
-    new_command->frame = nullptr;
-
-    waiting.push_back(new_command);
-
-    SPDLOG_DEBUG("Scheduled new command with serial number {}", new_command->serial_number);
-    return new_command->serial_number;
-}
-
 std::string obc_session_manager::schedule_command(std::string command,
                                               const std::function<estts::Status(std::string)>& callback) {
     if (ti == nullptr) {
@@ -37,8 +19,6 @@ std::string obc_session_manager::schedule_command(std::string command,
     new_command->frame = std::move(command);
     new_command->serial_number = generate_serial_number();
     new_command->str_callback = callback;
-    new_command->command = nullptr;
-    new_command->obj_callback = nullptr;
 
     waiting.push_back(new_command);
 

@@ -21,21 +21,6 @@ private:
 
     transmission_interface *ti;
 
-    /**
-     * @brief Maps dispatched command objects to their associatd telemetry response. Matched telemetry responses
-     * are collected and then passed to the obj_callback function stored inside the associated dispatch object.
-     * @param telem Vector of pointers to telemetry_objects.
-     * @return ES_OK if all callbacks were successful, and ES_UNSUCCESSFUL if no match was made.
-     */
-    estts::Status map_telemetry_to_dispatched(const std::vector<estts::telemetry_object *> &telem);
-
-    /**
-     * Primary execution handler that sends a command as a string packed inside a waiting command object. This function
-     * completes the full execution including calling the associated callback found inside the waiting command object.
-     * @param command Pointer to an estts::waiting_command object.
-     * @return ES_OK if command was executed properly.
-     */
-    estts::Status execute_str(estts::waiting_command *command);
 protected:
     std::vector<estts::dispatched_command *> dispatched;
 

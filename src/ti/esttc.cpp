@@ -685,7 +685,7 @@ estts::Status esttc::read_radio_trans_prop_config(const string &prop_group, cons
         if (response.length() >= (3 + (data_size * 2))) {
             data = response.substr(3, (data_size * 2));
         } else {
-            return_status == estts::ES_BAD_OPTION;
+            return_status = estts::ES_BAD_OPTION;
         }
     }
 

@@ -70,19 +70,6 @@ public:
     std::string schedule_command(std::string command, const std::function<estts::Status(std::string)>& callback);
 
     /**
-     * @brief Function that takes argument to a vector of command objects and a obj_callback function expecting a pointer to a
-     * telemetry object as argument. It's implied that this function should handle whatever telemetry is returned by the
-     * dispatch process. This function creates a waiting_command object and stores a serial number, the obj_callback function,
-     * and the command frames (as command_objects) expected to dispatch during the next satellite pass.
-     * @param command Vector of command_object pointers to schedule for dispatching.
-     * @param decomp_callback Callback pointer to a function that returns a Status and takes argument for a vector of
-     * telemetry_objects. It's implied that this obj_callback function knows how to decode a vector of telemetry frames.
-     * @return Returns a unique string serial number for later retrieval of the command status.
-     */
-    std::string schedule_command(estts::command_object * command,
-                                 std::function<estts::Status(std::vector<estts::telemetry_object *>)> decomp_callback);
-
-    /**
      * @brief Uses std::thread::join() to await thread completion. If commands continue
      * to be added to queue, this function will block indefinitely.
      */

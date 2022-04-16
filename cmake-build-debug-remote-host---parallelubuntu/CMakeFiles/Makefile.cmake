@@ -21,6 +21,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "../runtime/CMakeLists.txt"
   "../src/CMakeLists.txt"
   "../tests/estts-cosmos-demo1/CMakeLists.txt"
+  "../tests/estts-groundstation-testing/CMakeLists.txt"
   "../tests/serial-test/CMakeLists.txt"
   "/usr/lib/aarch64-linux-gnu/cmake/Boost-1.71.0/BoostConfig.cmake"
   "/usr/lib/aarch64-linux-gnu/cmake/Boost-1.71.0/BoostConfigVersion.cmake"
@@ -154,6 +155,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "lib/json/CMakeFiles/CMakeDirectoryInformation.cmake"
   "tests/estts-cosmos-demo1/CMakeFiles/CMakeDirectoryInformation.cmake"
   "tests/serial-test/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "tests/estts-groundstation-testing/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
@@ -163,4 +165,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "lib/spdlog/CMakeFiles/spdlog.dir/DependInfo.cmake"
   "tests/estts-cosmos-demo1/CMakeFiles/estts-cosmos-demo1.dir/DependInfo.cmake"
   "tests/serial-test/CMakeFiles/serial-test.dir/DependInfo.cmake"
+  "tests/estts-groundstation-testing/CMakeFiles/estts-groundstation-testing.dir/DependInfo.cmake"
   )

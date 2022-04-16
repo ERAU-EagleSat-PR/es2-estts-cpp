@@ -45,6 +45,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/lib/json/cmake_install.cmake")
   include("/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/estts-cosmos-demo1/cmake_install.cmake")
   include("/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/serial-test/cmake_install.cmake")
+  include("/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/estts-groundstation-testing/cmake_install.cmake")
 
 endif()
 
