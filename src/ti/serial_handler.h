@@ -37,9 +37,9 @@ protected:
 
     unsigned char *read_serial_uc();
 
-    estts::Status write_serial_s(const std::string &data);
 
-    std::string read_serial_s();
+
+
 
     unsigned char *read_serial_uc(int bytes);
 
@@ -55,6 +55,10 @@ protected:
 
 public:
     void read_serial_async(const std::function<estts::Status(char *, size_t)>& cb);
+
+    estts::Status write_serial_s(const std::string &data);
+
+    std::string read_serial_s();
 };
 
 #endif //ESTTS_SERIAL_HANDLER_H

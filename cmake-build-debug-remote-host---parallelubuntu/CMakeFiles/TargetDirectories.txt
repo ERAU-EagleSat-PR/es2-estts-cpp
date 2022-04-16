@@ -17,3 +17,6 @@
 /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/serial-test/CMakeFiles/rebuild_cache.dir
 /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/serial-test/CMakeFiles/edit_cache.dir
 /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/serial-test/CMakeFiles/serial-test.dir
+/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/estts-groundstation-testing/CMakeFiles/rebuild_cache.dir
+/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/estts-groundstation-testing/CMakeFiles/edit_cache.dir
+/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/estts-groundstation-testing/CMakeFiles/estts-groundstation-testing.dir

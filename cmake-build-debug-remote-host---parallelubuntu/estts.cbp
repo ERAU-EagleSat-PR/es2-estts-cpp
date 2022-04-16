@@ -5,7 +5,7 @@
 		<Option title="estts"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="gcc"/>
-		<Option virtualFolders="CMake Files\;CMake Files\src\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\usr\;CMake Files\..\..\usr\lib\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\Boost-1.71.0\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\boost_headers-1.71.0\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\boost_system-1.71.0\;CMake Files\runtime\;CMake Files\lib\;CMake Files\lib\spdlog\;CMake Files\lib\spdlog\cmake\;CMake Files\lib\json\;CMake Files\lib\json\cmake\;CMake Files\tests\;CMake Files\tests\estts-cosmos-demo1\;CMake Files\tests\serial-test\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\src\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\usr\;CMake Files\..\..\usr\lib\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\Boost-1.71.0\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\boost_headers-1.71.0\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\boost_system-1.71.0\;CMake Files\runtime\;CMake Files\lib\;CMake Files\lib\spdlog\;CMake Files\lib\spdlog\cmake\;CMake Files\lib\json\;CMake Files\lib\json\cmake\;CMake Files\tests\;CMake Files\tests\estts-cosmos-demo1\;CMake Files\tests\serial-test\;CMake Files\tests\estts-groundstation-testing\;"/>
 		<Build>
 			<Target title="all">
 				<Option working_dir="/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu"/>
@@ -357,6 +357,78 @@
 					<CompileFile command="/usr/bin/make -j2 -f &quot;/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/serial-test/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j2 -f &quot;/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/serial-test/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j2 -f &quot;/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/serial-test/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="estts-groundstation-testing">
+				<Option output="/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/estts-groundstation-testing/estts-groundstation-testing" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/estts-groundstation-testing"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-D__DEV__"/>
+					<Add option="-DSPDLOG_COMPILED_LIB"/>
+					<Add option="-DJSON_USE_IMPLICIT_CONVERSIONS=1"/>
+					<Add option="-DJSON_DIAGNOSTICS=0"/>
+					<Add option="-DBOOST_SYSTEM_DYN_LINK"/>
+					<Add option="-DBOOST_ALL_NO_LIB"/>
+					<Add directory="/tmp/tmp.UzEyVTKWLL/src"/>
+					<Add directory="/tmp/tmp.UzEyVTKWLL/src/fapi"/>
+					<Add directory="/tmp/tmp.UzEyVTKWLL/src/fapi/command_handler"/>
+					<Add directory="/tmp/tmp.UzEyVTKWLL/src/tnc_emulator"/>
+					<Add directory="/tmp/tmp.UzEyVTKWLL/src/ti"/>
+					<Add directory="/tmp/tmp.UzEyVTKWLL/src/utils"/>
+					<Add directory="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include"/>
+					<Add directory="/tmp/tmp.UzEyVTKWLL/lib/json/single_include"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/aarch64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/aarch64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j2 -f &quot;/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/estts-groundstation-testing/Makefile&quot;  VERBOSE=1 estts-groundstation-testing"/>
+					<CompileFile command="/usr/bin/make -j2 -f &quot;/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/estts-groundstation-testing/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j2 -f &quot;/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/estts-groundstation-testing/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j2 -f &quot;/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/estts-groundstation-testing/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="estts-groundstation-testing/fast">
+				<Option output="/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/estts-groundstation-testing/estts-groundstation-testing" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/estts-groundstation-testing"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-D__DEV__"/>
+					<Add option="-DSPDLOG_COMPILED_LIB"/>
+					<Add option="-DJSON_USE_IMPLICIT_CONVERSIONS=1"/>
+					<Add option="-DJSON_DIAGNOSTICS=0"/>
+					<Add option="-DBOOST_SYSTEM_DYN_LINK"/>
+					<Add option="-DBOOST_ALL_NO_LIB"/>
+					<Add directory="/tmp/tmp.UzEyVTKWLL/src"/>
+					<Add directory="/tmp/tmp.UzEyVTKWLL/src/fapi"/>
+					<Add directory="/tmp/tmp.UzEyVTKWLL/src/fapi/command_handler"/>
+					<Add directory="/tmp/tmp.UzEyVTKWLL/src/tnc_emulator"/>
+					<Add directory="/tmp/tmp.UzEyVTKWLL/src/ti"/>
+					<Add directory="/tmp/tmp.UzEyVTKWLL/src/utils"/>
+					<Add directory="/tmp/tmp.UzEyVTKWLL/lib/spdlog/include"/>
+					<Add directory="/tmp/tmp.UzEyVTKWLL/lib/json/single_include"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/aarch64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/aarch64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j2 -f &quot;/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/estts-groundstation-testing/Makefile&quot;  VERBOSE=1 estts-groundstation-testing/fast"/>
+					<CompileFile command="/usr/bin/make -j2 -f &quot;/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/estts-groundstation-testing/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j2 -f &quot;/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/estts-groundstation-testing/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j2 -f &quot;/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/estts-groundstation-testing/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
@@ -750,6 +822,9 @@
 		<Unit filename="/tmp/tmp.UzEyVTKWLL/tests/estts-cosmos-demo1/src/main.cpp">
 			<Option target="estts-cosmos-demo1"/>
 		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/tests/estts-groundstation-testing/src/main.cpp">
+			<Option target="estts-groundstation-testing"/>
+		</Unit>
 		<Unit filename="/tmp/tmp.UzEyVTKWLL/tests/serial-test/src/main.cpp">
 			<Option target="serial-test"/>
 		</Unit>
@@ -815,6 +890,9 @@
 		</Unit>
 		<Unit filename="/tmp/tmp.UzEyVTKWLL/tests/serial-test/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\tests\serial-test\"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.UzEyVTKWLL/tests/estts-groundstation-testing/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\tests\estts-groundstation-testing\"/>
 		</Unit>
 	</Project>
 </CodeBlocks_project_file>

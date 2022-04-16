@@ -14,8 +14,6 @@ std::string groundstation_cmdtelem_manager::schedule_command(std::string command
     new_command->frame = std::move(command);
     new_command->serial_number = generate_serial_number();
     new_command->str_callback = callback;
-    new_command->command = nullptr;
-    new_command->obj_callback = nullptr;
 
     waiting.push_back(new_command);
 
