@@ -16,7 +16,7 @@ using std::string;
  * @param s hexstring to be converted
  * @return int from string
  */
-static int ti_esttc::hexToInt(string &s) {
+int ti_esttc::hexToInt(const string &s) {
     int result;
     stringstream ss;
     ss << std::hex << s;
@@ -29,10 +29,10 @@ static int ti_esttc::hexToInt(string &s) {
  * @param int int to be converted
  * @return hex string of int
  */
-static string ti_esttc::intToHex(int n) {
+string ti_esttc::intToHex(int n) {
     stringstream ss;
     ss << std::hex << n;
-    string result = sstream.str();
+    string result = ss.str();
     return result;
 }
 /**
@@ -73,7 +73,7 @@ estts::Status ti_esttc::write_scw(uint16_t scw_command) {
     string response;
 
     // Temp Solution
-    if (scw_command > stopper)
+    if (scw_command > estts::endurosat::esttc::scw_stopper)
         return estts::ES_BAD_OPTION;
 
     string command_body = esttc_symbols->scw_body[scw_command];
@@ -125,53 +125,6 @@ estts::Status ti_esttc::read_scw(string &RSSI, string &dvc_addr, string &rst_ctr
 /**
  * @brief Writes (configures) the radio frequency of the Endurosat UHF Transceiver module.
  * @param frac Fractional part of the radio PLL synthesizer in HEX format (default = "")
- * @param div Integer divider of the radio PLL synthesizer in HEX format (default = "")
- * @return estts::Status indication success/failure of ESTTC command transmission
- */
-estts::Status ti_esttc:: ti_esttc::write_radio_freq_config(const string& frac, const string& div) {
-    estts::Status return_status = estts::ES_UNSUCCESSFUL;
-    string response;
-    string command_body;
-
-    command_body += frac;
-    command_body += div;
-
-    return_status = build_esttc_command(
-            esttc_symbols->METHOD_WRITE,
-            esttc_symbols->CMD_RADIO_FREQ_CONFIG,
-            response,
-            command_body);
-
-    return return_status;
-}
-
-/**
- * @brief Get the radio frequency and the last RSSI (Received signal strength indication) of the UHF Transceiver module
- * @param RSSI  Received Signal Strength Indicator
- * @param frac Fractional part of the radio PLL synthesizer in HEX format
- * @param div Integer divider of the radio PLL synthesizer in HEX format
- * @return estts::Status indication success/failure of ESTTC command transmission
- */
-estts::Status ti_esttc::read_radio_freq(string &RSSI, string &frac, string &div) {
-    estts::Status return_status = estts::ES_UNSUCCESSFUL;
-    string response;
-
-    return_status = build_esttc_command(
-            esttc_symbols->METHOD_READ,
-            esttc_symbols->CMD_RADIO_FREQ_CONFIG,
-            response);
-
-    if (return_status == estts::ES_SUCCESS) {
-        RSSI = response.substr(3, 2);
-        frac = response.substr(5, 6);
-        div = response.substr(11, 2);
-    }
-
-    return return_status;
-}
-/**
- * @brief Writes (configures) the radio frequency of the Endurosat UHF Transceiver module.
- * @param frac Fractional part of the radio PLL synthesizer in HEX format LEAST SIGNIFICANT BYTE FIRST
  * @param div Integer divider of the radio PLL synthesizer in HEX format (default = "")
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
@@ -348,13 +301,13 @@ estts::Status ti_esttc::read_pipe_mode_timeout(std::string &RSSI, std::string &t
 estts::Status ti_esttc::write_pipe_mode_timeout(const string& time_period) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
-    string command_body;
-    if time_period.size() != 2 {
+    string command_body = "";
+    if (time_period.size() != 2) {
         // time period should be two chars
         return estts::ES_UNSUCCESSFUL;
     }
 
-    command_body << "000000" << time_period;
+    command_body += "000000" + time_period;
 
 
     return_status = build_esttc_command(
@@ -461,7 +414,7 @@ estts::Status ti_esttc::write_beacon_time_period(const string& time_period) {
         return estts::ES_UNSUCCESSFUL;
     }
 
-    command_body << "0000" << time_period;
+    command_body += "0000" + time_period;
 
     return_status = build_esttc_command(
             esttc_symbols->METHOD_WRITE,
@@ -620,8 +573,8 @@ estts::Status ti_esttc::read_radio_crc16(string &mode) {
 estts::Status ti_esttc::force_beacon() {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string command_body;
-    command_body << "";
-
+    command_body = "";
+    string response;
     return_status = build_esttc_command(
             esttc_symbols->METHOD_WRITE,
             esttc_symbols->CMD_AUDIO_BCN_P_TRANS,
@@ -689,7 +642,7 @@ estts::Status ti_esttc::read_config_ax25_decode(string &config_bit) {
 
 * @return estts::Status indication success/failure of ESTTC command transmission
 */
-estts::Status ti_esttc::read_write_generic_I2C(std::string& send_mode, std::string &slave_address
+estts::Status ti_esttc::read_write_generic_I2C(std::string& send_mode, std::string &slave_address,
                                                std::string& bytes_to_read, std::string& bytes_to_write,
                                                std::string& data) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
@@ -710,7 +663,7 @@ estts::Status ti_esttc::read_write_generic_I2C(std::string& send_mode, std::stri
     if (bytes_to_read_int < 0 || bytes_to_read_int > 32) return return_status;
 
     //data should be two ascii symbols per byte
-    if (data.size() != (size_to_write_int * 2)) return return_status;
+    if (data.size() != (bytes_to_write_int * 2)) return return_status;
 
     command_body = send_mode + slave_address + bytes_to_write + data + bytes_to_read;
     return_status = build_esttc_command(
@@ -725,7 +678,7 @@ estts::Status ti_esttc::read_write_generic_I2C(std::string& send_mode, std::stri
             ; // successful write on the i2c bus, no read requested
         }
         else {
-            data = response.substr(3,2*bytes_to_read_int)
+            data = response.substr(3,2*bytes_to_read_int);
         }
     }
     if (return_status == estts::ES_UNSUCCESSFUL) {
@@ -821,12 +774,12 @@ estts::Status ti_esttc::write_uhf_antenna(const string& antenna_command) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
     string command_body = "";
-    if antenna_command.size() != 2 {
+    if (antenna_command.size() != 2 ){
         // time period should be two chars
         return estts::ES_UNSUCCESSFUL;
     }
 
-    command_body << antenna_command;
+    command_body = antenna_command;
 
 
     return_status = build_esttc_command(
@@ -909,16 +862,16 @@ estts::Status ti_esttc::read_dest_call_sign(std::string &call_sign) {
  * @param call_sign six ascii chars representing the call sign
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::write_uhf_antenna(const string& call_sign) {
+estts::Status ti_esttc::write_dest_call_sign(const string& call_sign) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
     string command_body = "";
-    if antenna_command.size() != 2 {
+    if (call_sign.size() != 2) {
         // time period should be two chars
         return estts::ES_UNSUCCESSFUL;
     }
 
-    command_body << call_sign;
+    command_body = call_sign;
 
 
     return_status = build_esttc_command(
@@ -977,11 +930,11 @@ estts::Status ti_esttc::read_src_call_sign(string &call_sign) {
 // 10.23 - READ SOFTWARE VERSION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 /**
- * @brief reads the call sign of the Endurosat UHF Transceiver module
+ * @brief reads the software version of the Endurosat UHF Transceiver module
  * @param version six ascii chars representing the call sign
  * @return estts::Status indication success/failure of ESTTC command transmission
  */
-estts::Status ti_esttc::read_dest_call_sign(std::string &version) {
+estts::Status ti_esttc::read_software_version(std::string &version) {
     estts::Status return_status = estts::ES_UNSUCCESSFUL;
     string response;
 
@@ -992,7 +945,7 @@ estts::Status ti_esttc::read_dest_call_sign(std::string &version) {
             response);
 
     if (return_status == estts::ES_SUCCESS) {
-        version = response.substr(3,3)
+        version = response.substr(3,3);
     }
 
     return return_status;
@@ -1041,7 +994,7 @@ estts::Status ti_esttc::read_beacon_content(std::string &content) {
     if (return_status == estts::ES_SUCCESS) {
         string ax25_len = response.substr(3,2);
         int ax25_len_int = hexToInt(ax25_len);
-        content = response.substr(5, ax25_len_int)
+        content = response.substr(5, ax25_len_int);
     }
 
     return return_status;
@@ -1065,7 +1018,7 @@ estts::Status ti_esttc::write_beacon_content(const string content) {
 
 
 
-    command_body << content_len << content;
+    command_body = content_len  + content;
 
 
     return_status = build_esttc_command(
@@ -1124,7 +1077,7 @@ estts::Status ti_esttc::read_fram(std::string &data, string &mem_add) {
             mem_add);
 
     if (return_status == estts::ES_SUCCESS) {
-        data = response.substr(3, 16)
+        data = response.substr(3, 16);
     }
 
     return return_status;
@@ -1142,9 +1095,9 @@ estts::Status ti_esttc::write_fram(const string &mem_add, string &data) {
     string response;
 
     string command_body = "";
-    command_body << mem_add << data;
+    command_body = mem_add + data;
 
-    int content_len_int = content.size();
+    int content_len_int = data.size();
     if (mem_add.size() != 8)
         return estts::ES_BAD_OPTION;
     if (data.size() != 16)
@@ -1219,11 +1172,11 @@ estts::Status ti_esttc::read_radio_trans_prop_config(const string &prop_group, c
     command_body += bytes;
     command_body += offset;
 
-    return_status = build_esttc_command(
-            esttc_symbols->METHOD_READ,
-            esttc_symbols->CMD_RADIO_TRANS_PROP_CONFIG,
-            response,
-            command_body);
+//    return_status = build_esttc_command(
+//            esttc_symbols->METHOD_READ,
+//            esttc_symbols->CMD_RADIO_TRANS_PROP_CONFIG,
+//            response,
+//            command_body);
 
     // Convert hex string to decimal integer
     hexToDec << std::hex << bytes;
@@ -1278,7 +1231,7 @@ estts::Status ti_esttc::write_secure_mode(const string &key) {
     string command_body = "";
     if (key.size() != 8)
         return estts::ES_BAD_OPTION;
-    command_body << key;
+    command_body = key;
 
 
     return_status = build_esttc_command(
