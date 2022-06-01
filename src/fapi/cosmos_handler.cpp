@@ -3,44 +3,78 @@
 // Created by Hayden Roszell on 2/24/22.
 //
 
+#include <chrono>
+#include <thread>
 #include <iostream>
 #include <unistd.h>
 #include "cosmos_handler.h"
 
+using namespace std::this_thread; // sleep_for, sleep_until
+using namespace std::chrono; // nanoseconds, system_clock, seconds
+using namespace estts;
+using namespace estts::endurosat;
+
+std::function<Status(std::string)> get_primary_command_callback_lambda(const std::string& command, socket_handler * sock);
+std::function<Status(std::string)> get_primary_telemetry_callback_lambda(socket_handler * sock);
+std::function<Status(std::string)> get_obc_session_transmit_func(groundstation_manager * gm);
+std::function<std::string()> get_obc_session_receive_func(groundstation_manager * gm);
+std::function<Status()> get_obc_session_start_session_func(groundstation_manager * gm);
+std::function<Status()> get_obc_session_end_session_func(groundstation_manager * gm);
+
 cosmos_handler::cosmos_handler() {
-    ti = new transmission_interface();
-    this->sock = new socket_handler(estts::cosmos::COSMOS_SERVER_ADDR, estts::cosmos::COSMOS_PRIMARY_CMD_TELEM_PORT);
-    obc_session = nullptr;
+    gm = new groundstation_manager();
+    this->sock = new socket_handler(cosmos::COSMOS_SERVER_ADDR, cosmos::COSMOS_PRIMARY_CMD_TELEM_PORT);
+    this->telem_sock = new socket_handler(cosmos::COSMOS_SERVER_ADDR, cosmos::COSMOS_PRIMARY_AX25_TELEM_PORT);
 }
 
-[[noreturn]] estts::Status cosmos_handler::primary_cosmos_worker() {
+[[noreturn]] Status cosmos_handler::primary_cosmos_worker() {
+    auto config = new session_config;
+    config->receive_func = get_obc_session_receive_func(gm);
+    config->end_session_func = get_obc_session_end_session_func(gm);
+    config->start_session_func = get_obc_session_start_session_func(gm);
+    config->transmit_func = get_obc_session_transmit_func(gm);
+    config->priority = 1;
+    config->satellite_range_required_for_execution = true;
+    config->endpoint = EAGLESAT2_OBC;
+    auto command_handle = gm->generate_session_manager(config);
+
     std::string temp_string;
     for (;;) {
         temp_string = sock->read_socket_s();
         if (!temp_string.empty()) {
-            auto sn = obc_session->schedule_command(temp_string, get_generic_command_callback_lambda(temp_string, sock));
+            command_handle->schedule_command(temp_string, get_primary_command_callback_lambda(temp_string, sock));
         }
     }
 }
 
-estts::Status cosmos_handler::cosmos_init() {
-    if (sock->init_socket_handle() != estts::ES_OK)
-        return estts::ES_UNSUCCESSFUL;
-    obc_session = new obc_session_manager(ti, get_generic_telemetry_callback_lambda(sock));
+Status cosmos_handler::cosmos_init() {
+    if (sock->init_socket_handle() != ES_OK)
+        return ES_UNSUCCESSFUL;
+    if (telem_sock->init_socket_handle() != ES_OK)
+        return ES_UNSUCCESSFUL;
+
+    gm->groundstation_manager_init();
 
     cosmos_worker = std::thread(&cosmos_handler::primary_cosmos_worker, this);
     SPDLOG_TRACE("Created primary COSMOS worker thread with ID {}", std::hash<std::thread::id>{}(cosmos_worker.get_id()));
 
-    //this->cosmos_satellite_txvr_init();
-    this->cosmos_groundstation_init(ti);
+    this->cosmos_satellite_txvr_init(gm);
+    this->cosmos_groundstation_init(gm);
 
-    return estts::ES_OK;
+    return ES_OK;
 }
 
-std::function<estts::Status(std::string)> cosmos_handler::get_generic_command_callback_lambda(const std::string& command, socket_handler * sock) {
-    return [command, sock] (const std::string& telem) -> estts::Status {
+/**
+ * Function that returns a function pointer that takes argument for a command received by COSMOS and the local socket
+ * handler for dealing with any responses. This function is passed as the command callback to the schedule_command function
+ * @param command String command passed by COSMOS
+ * @param sock Pointer to socket handler used to handle the command response.
+ * @return Function pointer with form std::function<Status(std::string)>
+ */
+std::function<Status(std::string)> get_primary_command_callback_lambda(const std::string& command, socket_handler * sock) {
+    return [command, sock] (const std::string& telem) -> Status {
         if (telem.empty() || sock == nullptr) {
-            return estts::ES_UNINITIALIZED;
+            return ES_UNINITIALIZED;
         }
         std::stringstream temp;
         for (char i : command) {
@@ -49,14 +83,20 @@ std::function<estts::Status(std::string)> cosmos_handler::get_generic_command_ca
         }
         spdlog::info("COSMOS Command Callback Lambda --> Sent {} and got back: {}", temp.str(), telem);
         sock->write_socket_s(telem);
-        return estts::ES_OK;
+        return ES_OK;
     };
 }
 
-std::function<estts::Status(std::string)> cosmos_handler::get_generic_telemetry_callback_lambda(socket_handler * sock) {
-    return [sock] (const std::string& telem) -> estts::Status {
+/**
+ * Function that returns a function pointer that takes argument for the local socket
+ * handler for dealing with telemetry received by ESTTS.
+ * @param sock Pointer to socket handler used to handle the telemetry response.
+ * @return Function pointer with form std::function<Status(std::string)>
+ */
+std::function<Status(std::string)> get_primary_telemetry_callback_lambda(socket_handler * sock) {
+    return [sock] (const std::string& telem) -> Status {
         if (telem.empty() || sock == nullptr) {
-            return estts::ES_UNINITIALIZED;
+            return ES_UNINITIALIZED;
         }
         std::stringstream temp;
         for (char i : telem) {
@@ -65,6 +105,99 @@ std::function<estts::Status(std::string)> cosmos_handler::get_generic_telemetry_
         }
         spdlog::info("COSMOS Telemetry Callback Lambda --> Found: {}", temp.str());
         sock->write_socket_s(telem);
-        return estts::ES_OK;
+        return ES_OK;
+    };
+}
+
+std::function<Status(std::string)> get_obc_session_transmit_func(groundstation_manager * gm) {
+    return [gm] (std::string value) -> Status {
+        int retries = 0;
+        // Route
+        if (value.rfind("ES+", 0) == 0) {
+            value.append("\r");
+        }
+
+        // Try to transmit frame
+        while (gm->transmit(value) != ES_OK) {
+            spdlog::error("Failed to transmit frame. Waiting {} seconds", ESTTS_RETRY_WAIT_SEC);
+            sleep_until(system_clock::now() + seconds(ESTTS_RETRY_WAIT_SEC));
+            retries++;
+            if (retries > MAX_RETRIES) return ES_UNSUCCESSFUL;
+            spdlog::info("Retrying transmit ({}/{})", retries, ESTTS_MAX_RETRIES);
+        }
+
+        return ES_OK;
+    };
+}
+
+std::function<std::string()> get_obc_session_receive_func(groundstation_manager * gm) {
+    return [gm] () -> std::string {
+        return gm->receive();
+    };
+}
+
+std::function<Status()> get_obc_session_start_session_func(groundstation_manager * gm) {
+    return [gm] () -> Status {
+
+        std::string pipe_en = "ES+W22003323\r";
+        int retries = 0;
+        std::stringstream buf;
+
+        // Clear FIFO buffer
+        gm->flush_transmission_interface();
+
+        // Enable PIPE has built-in retries. Don't cascade retries, if this function failed
+        // something is pretty messed up.
+        if (ES_OK != gm->enable_pipe()) {
+            return ES_UNSUCCESSFUL;
+        }
+
+        // Sanity check - make sure PIPE is enabled
+        if (PIPE_ON != gm->get_pipe_state()) {
+            spdlog::error("enable_pipe() succeeded, but trace variable is not set to PIPE_ON");
+            return ES_SERVER_ERROR;
+        }
+
+        // Clear FIFO buffer
+        gm->flush_transmission_interface();
+
+        // Now, try to enable PIPE on the satellite.
+        while (true) {
+            if (retries > MAX_RETRIES) {
+                spdlog::error("Failed to enable PIPE on satellite transceiver. ({}/{} retries)", retries, MAX_RETRIES);
+                return ES_UNSUCCESSFUL;
+            }
+            gm->write_serial_s(pipe_en);
+            sleep_until(system_clock::now() + milliseconds (100));
+            buf << gm->internal_receive();
+            if (buf.str().find("OK+3323\r") != std::string::npos) {
+                spdlog::trace("PIPE is probably enabled on the satellite");
+                break;
+            }
+            retries++;
+            spdlog::error("Failed to enable PIPE on satellite. Waiting {} seconds (retry {}/{})", WAIT_TIME_SEC, retries, MAX_RETRIES);
+            sleep_until(system_clock::now() + seconds(WAIT_TIME_SEC));
+            // Once again don't clear buf, maybe confirmation got lost in the weeds.
+        }
+
+        sleep_until(system_clock::now() + seconds(2));
+
+        // At this point, there is already a thread maintaining the PIPE state.
+        // Exit at this point.
+
+        // Clear FIFO buffer
+        gm->flush_transmission_interface();
+
+        return ES_OK;
+    };
+}
+
+std::function<Status()> get_obc_session_end_session_func(groundstation_manager * gm) {
+    return [gm] () -> Status {
+        auto status = gm->disable_pipe();
+        if (status != ES_OK)
+            return status;
+        sleep_until(system_clock::now() + seconds(1));
+        return ES_OK;
     };
 }

@@ -13,6 +13,8 @@
 
 class socket_handler {
 private:
+    int failures;
+
     unsigned char * sync_buf;
 
     const char *address;
@@ -24,6 +26,8 @@ private:
     estts::Status open_socket();
 
     estts::Status configure_socket();
+
+    estts::Status handle_failure();
 
 protected:
 
@@ -37,13 +41,13 @@ public:
 
     ~socket_handler();
 
-    std::string read_socket_s() const;
+    std::string read_socket_s();
 
-    unsigned char * read_socket_uc() const;
+    unsigned char * read_socket_uc();
 
-    estts::Status write_socket_s(const std::string &data) const;
+    estts::Status write_socket_s(const std::string &data);
 
-    ssize_t write_socket_uc(unsigned char *data, int size) const;
+    ssize_t write_socket_uc(unsigned char *data, int size);
 
     estts::Status init_socket_handle();
 };

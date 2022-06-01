@@ -27,8 +27,8 @@ std::string generate_serial_number();
 
 std::string find_removable_storage();
 
-void print_write_trace_msg(unsigned char *message_uc, size_t bytes, const std::string& endpoint);
+std::string get_write_trace_msg(unsigned char *message_uc, size_t bytes, const std::string& endpoint);
 
-void print_read_trace_msg(unsigned char *message_uc, size_t bytes, const std::string& endpoint);
+std::string get_read_trace_msg(unsigned char *message_uc, size_t bytes, const std::string& endpoint);
 
 #endif //ESTTS_HELPER_H

@@ -96,22 +96,9 @@ src/CMakeFiles/estts.dir/fapi/command_handler.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/estts.dir/fapi/command_handler.cpp.s"
 	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/tmp.UzEyVTKWLL/src/fapi/command_handler.cpp -o CMakeFiles/estts.dir/fapi/command_handler.cpp.s
 
-src/CMakeFiles/estts.dir/fapi/obc_session_manager.cpp.o: src/CMakeFiles/estts.dir/flags.make
-src/CMakeFiles/estts.dir/fapi/obc_session_manager.cpp.o: ../src/fapi/obc_session_manager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/CMakeFiles/estts.dir/fapi/obc_session_manager.cpp.o"
-	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/estts.dir/fapi/obc_session_manager.cpp.o -c /tmp/tmp.UzEyVTKWLL/src/fapi/obc_session_manager.cpp
-
-src/CMakeFiles/estts.dir/fapi/obc_session_manager.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/estts.dir/fapi/obc_session_manager.cpp.i"
-	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/tmp.UzEyVTKWLL/src/fapi/obc_session_manager.cpp > CMakeFiles/estts.dir/fapi/obc_session_manager.cpp.i
-
-src/CMakeFiles/estts.dir/fapi/obc_session_manager.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/estts.dir/fapi/obc_session_manager.cpp.s"
-	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/tmp.UzEyVTKWLL/src/fapi/obc_session_manager.cpp -o CMakeFiles/estts.dir/fapi/obc_session_manager.cpp.s
-
 src/CMakeFiles/estts.dir/fapi/cosmos_handler.cpp.o: src/CMakeFiles/estts.dir/flags.make
 src/CMakeFiles/estts.dir/fapi/cosmos_handler.cpp.o: ../src/fapi/cosmos_handler.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/CMakeFiles/estts.dir/fapi/cosmos_handler.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/CMakeFiles/estts.dir/fapi/cosmos_handler.cpp.o"
 	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/estts.dir/fapi/cosmos_handler.cpp.o -c /tmp/tmp.UzEyVTKWLL/src/fapi/cosmos_handler.cpp
 
 src/CMakeFiles/estts.dir/fapi/cosmos_handler.cpp.i: cmake_force
@@ -124,7 +111,7 @@ src/CMakeFiles/estts.dir/fapi/cosmos_handler.cpp.s: cmake_force
 
 src/CMakeFiles/estts.dir/fapi/cosmos_groundstation_handler.cpp.o: src/CMakeFiles/estts.dir/flags.make
 src/CMakeFiles/estts.dir/fapi/cosmos_groundstation_handler.cpp.o: ../src/fapi/cosmos_groundstation_handler.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object src/CMakeFiles/estts.dir/fapi/cosmos_groundstation_handler.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/CMakeFiles/estts.dir/fapi/cosmos_groundstation_handler.cpp.o"
 	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/estts.dir/fapi/cosmos_groundstation_handler.cpp.o -c /tmp/tmp.UzEyVTKWLL/src/fapi/cosmos_groundstation_handler.cpp
 
 src/CMakeFiles/estts.dir/fapi/cosmos_groundstation_handler.cpp.i: cmake_force
@@ -137,7 +124,7 @@ src/CMakeFiles/estts.dir/fapi/cosmos_groundstation_handler.cpp.s: cmake_force
 
 src/CMakeFiles/estts.dir/fapi/cosmos_satellite_txvr_handler.cpp.o: src/CMakeFiles/estts.dir/flags.make
 src/CMakeFiles/estts.dir/fapi/cosmos_satellite_txvr_handler.cpp.o: ../src/fapi/cosmos_satellite_txvr_handler.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object src/CMakeFiles/estts.dir/fapi/cosmos_satellite_txvr_handler.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object src/CMakeFiles/estts.dir/fapi/cosmos_satellite_txvr_handler.cpp.o"
 	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/estts.dir/fapi/cosmos_satellite_txvr_handler.cpp.o -c /tmp/tmp.UzEyVTKWLL/src/fapi/cosmos_satellite_txvr_handler.cpp
 
 src/CMakeFiles/estts.dir/fapi/cosmos_satellite_txvr_handler.cpp.i: cmake_force
@@ -148,35 +135,22 @@ src/CMakeFiles/estts.dir/fapi/cosmos_satellite_txvr_handler.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/estts.dir/fapi/cosmos_satellite_txvr_handler.cpp.s"
 	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/tmp.UzEyVTKWLL/src/fapi/cosmos_satellite_txvr_handler.cpp -o CMakeFiles/estts.dir/fapi/cosmos_satellite_txvr_handler.cpp.s
 
-src/CMakeFiles/estts.dir/fapi/satellite_txvr_cmdtelem_manager.cpp.o: src/CMakeFiles/estts.dir/flags.make
-src/CMakeFiles/estts.dir/fapi/satellite_txvr_cmdtelem_manager.cpp.o: ../src/fapi/satellite_txvr_cmdtelem_manager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object src/CMakeFiles/estts.dir/fapi/satellite_txvr_cmdtelem_manager.cpp.o"
-	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/estts.dir/fapi/satellite_txvr_cmdtelem_manager.cpp.o -c /tmp/tmp.UzEyVTKWLL/src/fapi/satellite_txvr_cmdtelem_manager.cpp
+src/CMakeFiles/estts.dir/fapi/groundstation_manager.cpp.o: src/CMakeFiles/estts.dir/flags.make
+src/CMakeFiles/estts.dir/fapi/groundstation_manager.cpp.o: ../src/fapi/groundstation_manager.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object src/CMakeFiles/estts.dir/fapi/groundstation_manager.cpp.o"
+	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/estts.dir/fapi/groundstation_manager.cpp.o -c /tmp/tmp.UzEyVTKWLL/src/fapi/groundstation_manager.cpp
 
-src/CMakeFiles/estts.dir/fapi/satellite_txvr_cmdtelem_manager.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/estts.dir/fapi/satellite_txvr_cmdtelem_manager.cpp.i"
-	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/tmp.UzEyVTKWLL/src/fapi/satellite_txvr_cmdtelem_manager.cpp > CMakeFiles/estts.dir/fapi/satellite_txvr_cmdtelem_manager.cpp.i
+src/CMakeFiles/estts.dir/fapi/groundstation_manager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/estts.dir/fapi/groundstation_manager.cpp.i"
+	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/tmp.UzEyVTKWLL/src/fapi/groundstation_manager.cpp > CMakeFiles/estts.dir/fapi/groundstation_manager.cpp.i
 
-src/CMakeFiles/estts.dir/fapi/satellite_txvr_cmdtelem_manager.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/estts.dir/fapi/satellite_txvr_cmdtelem_manager.cpp.s"
-	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/tmp.UzEyVTKWLL/src/fapi/satellite_txvr_cmdtelem_manager.cpp -o CMakeFiles/estts.dir/fapi/satellite_txvr_cmdtelem_manager.cpp.s
-
-src/CMakeFiles/estts.dir/fapi/groundstation_cmdtelem_manager.cpp.o: src/CMakeFiles/estts.dir/flags.make
-src/CMakeFiles/estts.dir/fapi/groundstation_cmdtelem_manager.cpp.o: ../src/fapi/groundstation_cmdtelem_manager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object src/CMakeFiles/estts.dir/fapi/groundstation_cmdtelem_manager.cpp.o"
-	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/estts.dir/fapi/groundstation_cmdtelem_manager.cpp.o -c /tmp/tmp.UzEyVTKWLL/src/fapi/groundstation_cmdtelem_manager.cpp
-
-src/CMakeFiles/estts.dir/fapi/groundstation_cmdtelem_manager.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/estts.dir/fapi/groundstation_cmdtelem_manager.cpp.i"
-	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/tmp.UzEyVTKWLL/src/fapi/groundstation_cmdtelem_manager.cpp > CMakeFiles/estts.dir/fapi/groundstation_cmdtelem_manager.cpp.i
-
-src/CMakeFiles/estts.dir/fapi/groundstation_cmdtelem_manager.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/estts.dir/fapi/groundstation_cmdtelem_manager.cpp.s"
-	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/tmp.UzEyVTKWLL/src/fapi/groundstation_cmdtelem_manager.cpp -o CMakeFiles/estts.dir/fapi/groundstation_cmdtelem_manager.cpp.s
+src/CMakeFiles/estts.dir/fapi/groundstation_manager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/estts.dir/fapi/groundstation_manager.cpp.s"
+	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/tmp.UzEyVTKWLL/src/fapi/groundstation_manager.cpp -o CMakeFiles/estts.dir/fapi/groundstation_manager.cpp.s
 
 src/CMakeFiles/estts.dir/ti/esttc.cpp.o: src/CMakeFiles/estts.dir/flags.make
 src/CMakeFiles/estts.dir/ti/esttc.cpp.o: ../src/ti/esttc.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object src/CMakeFiles/estts.dir/ti/esttc.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object src/CMakeFiles/estts.dir/ti/esttc.cpp.o"
 	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/estts.dir/ti/esttc.cpp.o -c /tmp/tmp.UzEyVTKWLL/src/ti/esttc.cpp
 
 src/CMakeFiles/estts.dir/ti/esttc.cpp.i: cmake_force
@@ -189,7 +163,7 @@ src/CMakeFiles/estts.dir/ti/esttc.cpp.s: cmake_force
 
 src/CMakeFiles/estts.dir/ti/serial_handler.cpp.o: src/CMakeFiles/estts.dir/flags.make
 src/CMakeFiles/estts.dir/ti/serial_handler.cpp.o: ../src/ti/serial_handler.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object src/CMakeFiles/estts.dir/ti/serial_handler.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object src/CMakeFiles/estts.dir/ti/serial_handler.cpp.o"
 	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/estts.dir/ti/serial_handler.cpp.o -c /tmp/tmp.UzEyVTKWLL/src/ti/serial_handler.cpp
 
 src/CMakeFiles/estts.dir/ti/serial_handler.cpp.i: cmake_force
@@ -202,7 +176,7 @@ src/CMakeFiles/estts.dir/ti/serial_handler.cpp.s: cmake_force
 
 src/CMakeFiles/estts.dir/ti/socket_handler.cpp.o: src/CMakeFiles/estts.dir/flags.make
 src/CMakeFiles/estts.dir/ti/socket_handler.cpp.o: ../src/ti/socket_handler.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object src/CMakeFiles/estts.dir/ti/socket_handler.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object src/CMakeFiles/estts.dir/ti/socket_handler.cpp.o"
 	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/estts.dir/ti/socket_handler.cpp.o -c /tmp/tmp.UzEyVTKWLL/src/ti/socket_handler.cpp
 
 src/CMakeFiles/estts.dir/ti/socket_handler.cpp.i: cmake_force
@@ -215,7 +189,7 @@ src/CMakeFiles/estts.dir/ti/socket_handler.cpp.s: cmake_force
 
 src/CMakeFiles/estts.dir/ti/transmission_interface.cpp.o: src/CMakeFiles/estts.dir/flags.make
 src/CMakeFiles/estts.dir/ti/transmission_interface.cpp.o: ../src/ti/transmission_interface.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object src/CMakeFiles/estts.dir/ti/transmission_interface.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object src/CMakeFiles/estts.dir/ti/transmission_interface.cpp.o"
 	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/estts.dir/ti/transmission_interface.cpp.o -c /tmp/tmp.UzEyVTKWLL/src/ti/transmission_interface.cpp
 
 src/CMakeFiles/estts.dir/ti/transmission_interface.cpp.i: cmake_force
@@ -231,12 +205,10 @@ estts_OBJECTS = \
 "CMakeFiles/estts.dir/utils/bin_converter.cpp.o" \
 "CMakeFiles/estts.dir/utils/helper.cpp.o" \
 "CMakeFiles/estts.dir/fapi/command_handler.cpp.o" \
-"CMakeFiles/estts.dir/fapi/obc_session_manager.cpp.o" \
 "CMakeFiles/estts.dir/fapi/cosmos_handler.cpp.o" \
 "CMakeFiles/estts.dir/fapi/cosmos_groundstation_handler.cpp.o" \
 "CMakeFiles/estts.dir/fapi/cosmos_satellite_txvr_handler.cpp.o" \
-"CMakeFiles/estts.dir/fapi/satellite_txvr_cmdtelem_manager.cpp.o" \
-"CMakeFiles/estts.dir/fapi/groundstation_cmdtelem_manager.cpp.o" \
+"CMakeFiles/estts.dir/fapi/groundstation_manager.cpp.o" \
 "CMakeFiles/estts.dir/ti/esttc.cpp.o" \
 "CMakeFiles/estts.dir/ti/serial_handler.cpp.o" \
 "CMakeFiles/estts.dir/ti/socket_handler.cpp.o" \
@@ -248,19 +220,17 @@ estts_EXTERNAL_OBJECTS =
 src/libestts.a: src/CMakeFiles/estts.dir/utils/bin_converter.cpp.o
 src/libestts.a: src/CMakeFiles/estts.dir/utils/helper.cpp.o
 src/libestts.a: src/CMakeFiles/estts.dir/fapi/command_handler.cpp.o
-src/libestts.a: src/CMakeFiles/estts.dir/fapi/obc_session_manager.cpp.o
 src/libestts.a: src/CMakeFiles/estts.dir/fapi/cosmos_handler.cpp.o
 src/libestts.a: src/CMakeFiles/estts.dir/fapi/cosmos_groundstation_handler.cpp.o
 src/libestts.a: src/CMakeFiles/estts.dir/fapi/cosmos_satellite_txvr_handler.cpp.o
-src/libestts.a: src/CMakeFiles/estts.dir/fapi/satellite_txvr_cmdtelem_manager.cpp.o
-src/libestts.a: src/CMakeFiles/estts.dir/fapi/groundstation_cmdtelem_manager.cpp.o
+src/libestts.a: src/CMakeFiles/estts.dir/fapi/groundstation_manager.cpp.o
 src/libestts.a: src/CMakeFiles/estts.dir/ti/esttc.cpp.o
 src/libestts.a: src/CMakeFiles/estts.dir/ti/serial_handler.cpp.o
 src/libestts.a: src/CMakeFiles/estts.dir/ti/socket_handler.cpp.o
 src/libestts.a: src/CMakeFiles/estts.dir/ti/transmission_interface.cpp.o
 src/libestts.a: src/CMakeFiles/estts.dir/build.make
 src/libestts.a: src/CMakeFiles/estts.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking CXX static library libestts.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX static library libestts.a"
 	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/src && $(CMAKE_COMMAND) -P CMakeFiles/estts.dir/cmake_clean_target.cmake
 	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/estts.dir/link.txt --verbose=$(VERBOSE)
 

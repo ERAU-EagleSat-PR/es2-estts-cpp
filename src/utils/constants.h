@@ -14,16 +14,18 @@ namespace estts {
 
     const int ESTTS_MAX_RETRIES = 2;
     const int ESTTS_RETRY_WAIT_SEC = 1;
-    const int ESTTS_AWAIT_RESPONSE_PERIOD_SEC = 5;
+    const int ESTTS_AWAIT_RESPONSE_PERIOD_SEC = 120;
+    const int ESTTS_SATELLITE_RANGE_CHECK_PERIOD_SEC = 30;
     const int ESTTS_SATELLITE_CONNECTION_TIMEOUT_MIN = 90;
     const int ESTTS_CHECK_SATELLITE_INRANGE_INTERVAL_SEC = 30;
     const int ESTTS_REQUEST_SESSION_TIMEOUT_SECONDS = 300;
 
     namespace cosmos {
-        const char COSMOS_SERVER_ADDR[] = "172.30.95.164"; // 172.30.95.164 172.19.35.160
+        const char COSMOS_SERVER_ADDR[] = "172.19.35.150"; // 172.30.95.164 172.19.35.160
         const int COSMOS_PRIMARY_CMD_TELEM_PORT = 65432;
         const int COSMOS_GROUNDSTATION_CMD_TELEM_PORT = 8046;
         const int COSMOS_SATELLITE_TXVR_CMD_TELEM_PORT = 55927;
+        const int COSMOS_PRIMARY_AX25_TELEM_PORT = 55482;
     }
 
     namespace ti_serial {
@@ -171,6 +173,22 @@ namespace estts {
         std::string serial_number;
         std::function<estts::Status(std::string)> str_callback;
     } waiting_command;
+
+    enum SessionEndpoint {
+        EAGLESAT2_OBC,
+        EAGLESAT2_TRANSCEIVER,
+        GROUND_STATION,
+    };
+
+    typedef struct {
+        bool satellite_range_required_for_execution;
+        int priority;
+        SessionEndpoint endpoint;
+        std::function<estts::Status(std::string)> transmit_func;
+        std::function<std::string()> receive_func;
+        std::function<estts::Status()> start_session_func;
+        std::function<estts::Status()> end_session_func;
+    } session_config;
 }
 
 #endif //ESTTS_CONSTANTS_H

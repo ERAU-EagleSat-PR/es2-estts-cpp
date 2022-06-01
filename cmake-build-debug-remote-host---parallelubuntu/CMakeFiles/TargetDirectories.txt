@@ -11,12 +11,6 @@
 /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/lib/spdlog/CMakeFiles/spdlog.dir
 /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/lib/json/CMakeFiles/edit_cache.dir
 /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/lib/json/CMakeFiles/rebuild_cache.dir
-/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/estts-cosmos-demo1/CMakeFiles/rebuild_cache.dir
-/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/estts-cosmos-demo1/CMakeFiles/edit_cache.dir
-/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/estts-cosmos-demo1/CMakeFiles/estts-cosmos-demo1.dir
 /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/serial-test/CMakeFiles/rebuild_cache.dir
 /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/serial-test/CMakeFiles/edit_cache.dir
 /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/serial-test/CMakeFiles/serial-test.dir
-/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/estts-groundstation-testing/CMakeFiles/rebuild_cache.dir
-/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/estts-groundstation-testing/CMakeFiles/edit_cache.dir
-/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/tests/estts-groundstation-testing/CMakeFiles/estts-groundstation-testing.dir

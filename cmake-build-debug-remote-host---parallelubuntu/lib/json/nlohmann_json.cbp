@@ -5,7 +5,7 @@
 		<Option title="nlohmann_json"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="gcc"/>
-		<Option virtualFolders="CMake Files\;CMake Files\src\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\usr\;CMake Files\..\..\usr\lib\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\Boost-1.71.0\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\boost_headers-1.71.0\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\boost_system-1.71.0\;CMake Files\runtime\;CMake Files\lib\;CMake Files\lib\spdlog\;CMake Files\lib\spdlog\cmake\;CMake Files\lib\json\;CMake Files\lib\json\cmake\;CMake Files\tests\;CMake Files\tests\estts-cosmos-demo1\;CMake Files\tests\serial-test\;CMake Files\tests\estts-groundstation-testing\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\src\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\usr\;CMake Files\..\..\usr\lib\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\Boost-1.71.0\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\boost_headers-1.71.0\;CMake Files\..\..\usr\lib\aarch64-linux-gnu\cmake\boost_system-1.71.0\;CMake Files\runtime\;CMake Files\lib\;CMake Files\lib\spdlog\;CMake Files\lib\spdlog\cmake\;CMake Files\lib\json\;CMake Files\lib\json\cmake\;CMake Files\tests\;CMake Files\tests\serial-test\;"/>
 		<Build>
 			<Target title="all">
 				<Option working_dir="/tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu/lib/json"/>
@@ -75,14 +75,8 @@
 		<Unit filename="/tmp/tmp.UzEyVTKWLL/lib/json/cmake/pkg-config.pc.in">
 			<Option virtualFolder="CMake Files\lib\json\cmake\"/>
 		</Unit>
-		<Unit filename="/tmp/tmp.UzEyVTKWLL/tests/estts-cosmos-demo1/CMakeLists.txt">
-			<Option virtualFolder="CMake Files\tests\estts-cosmos-demo1\"/>
-		</Unit>
 		<Unit filename="/tmp/tmp.UzEyVTKWLL/tests/serial-test/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\tests\serial-test\"/>
-		</Unit>
-		<Unit filename="/tmp/tmp.UzEyVTKWLL/tests/estts-groundstation-testing/CMakeLists.txt">
-			<Option virtualFolder="CMake Files\tests\estts-groundstation-testing\"/>
 		</Unit>
 	</Project>
 </CodeBlocks_project_file>

@@ -16,6 +16,8 @@
 
 using namespace boost::asio;
 using namespace estts;
+using namespace std::this_thread; // sleep_for, sleep_until
+using namespace std::chrono; // nanoseconds, system_clock, seconds
 
 /**
 * @brief Base constructor that initializes port and baud, opens specified port
@@ -30,6 +32,7 @@ serial_handler::serial_handler() : io(), serial(io) {
         throw std::runtime_error("Couldn't find serial device to attach to.");
 #endif
     this->baud = 115200;
+    failures = 0;
 
     sync_buf = new unsigned char[MAX_SERIAL_READ];
 
@@ -93,6 +96,17 @@ estts::Status serial_handler::initialize_serial_port() {
     return estts::ES_OK;
 }
 
+estts::Status serial_handler::handle_failure() {
+    failures++;
+    if (failures > 5) {
+        SPDLOG_ERROR("Serial handler failure. Re-initializing serial device at address {}", port);
+        initialize_serial_port();
+        failures = 0;
+    }
+    sleep_until(system_clock::now() + seconds(1));
+    return ES_OK;
+}
+
 /**
  * @brief Takes argument for a pointer to an unsigned char
  * and transmits it across the open serial port.
@@ -111,10 +125,10 @@ size_t serial_handler::write_serial_uc(unsigned char *data, int size) {
     written = write(serial, buffer(data,size), error);
     if (error) {
         SPDLOG_ERROR("Failed to write to serial port - {}", error.message());
-        if (error == boost::asio::error::eof)
-            initialize_serial_port();
+        handle_failure();
+        return -1;
     }
-    print_write_trace_msg(data, written, port);
+    SPDLOG_TRACE("{}", get_write_trace_msg(data, written, port));
 
     return written;
 }
@@ -140,11 +154,11 @@ unsigned char *serial_handler::read_serial_uc() {
     n = serial.read_some(buffer(sync_buf, MAX_SERIAL_READ), error);
     if (error) {
         SPDLOG_ERROR("Failed to read from serial port - {}", error.message());
-        if (error == boost::asio::error::eof)
-            initialize_serial_port();
+        handle_failure();
+        return nullptr;
     }
 
-    print_read_trace_msg(sync_buf, n, port);
+    SPDLOG_TRACE("{}",get_read_trace_msg(sync_buf, n, port));
 
     sync_buf[n] = '\0';
     cache << sync_buf;
@@ -205,10 +219,11 @@ void serial_handler::clear_serial_fifo(const std::function<estts::Status(std::st
 }
 
 int serial_handler::check_serial_bytes_avail() {
-    int value = 0;
+    int value = -1;
     if (0 != ioctl(serial.lowest_layer().native_handle(), FIONREAD, &value)) {
         SPDLOG_ERROR("Failed to get bytes available - {}",
                      boost::system::error_code(errno, boost::asio::error::get_system_category()).message());
+        handle_failure();
     }
     return value;
 }
@@ -249,13 +264,12 @@ unsigned char *serial_handler::read_serial_uc(int bytes) {
     auto n = read(serial, buffer(sync_buf, bytes), error);
     if (error) {
         SPDLOG_ERROR("Failed to read from serial port - {}", error.message());
-        if (error == boost::asio::error::eof)
-            initialize_serial_port();
+        handle_failure();
     }
     // Add null terminator at the end of transmission for easier processing by parent class(s)
     sync_buf[n] = '\0';
 
-    print_read_trace_msg(sync_buf, n, port);
+    SPDLOG_TRACE("{}",get_read_trace_msg(sync_buf, n, port));
 
     cache << sync_buf;
     return sync_buf;

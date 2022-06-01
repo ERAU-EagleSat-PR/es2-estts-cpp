@@ -569,10 +569,10 @@ functional
 -
 vector
 -
-transmission_interface.h
-../src/fapi/transmission_interface.h
 constants.h
 ../src/fapi/constants.h
+groundstation_manager.h
+../src/fapi/groundstation_manager.h
 
 ../src/fapi/cosmos_groundstation_handler.h
 thread
@@ -583,8 +583,8 @@ socket_handler.h
 ../src/fapi/socket_handler.h
 groundstation_cmdtelem_manager.h
 ../src/fapi/groundstation_cmdtelem_manager.h
-transmission_interface.h
-../src/fapi/transmission_interface.h
+groundstation_manager.h
+../src/fapi/groundstation_manager.h
 
 ../src/fapi/cosmos_handler.h
 thread
@@ -599,6 +599,8 @@ socket_handler.h
 ../src/fapi/socket_handler.h
 obc_session_manager.h
 ../src/fapi/obc_session_manager.h
+groundstation_manager.h
+../src/fapi/groundstation_manager.h
 
 ../src/fapi/cosmos_satellite_txvr_handler.h
 thread
@@ -623,10 +625,14 @@ vector
 -
 queue
 -
-transmission_interface.h
-../src/fapi/transmission_interface.h
 constants.h
 ../src/fapi/constants.h
+groundstation_manager.h
+../src/fapi/groundstation_manager.h
+
+../src/fapi/groundstation_manager.h
+transmission_interface.h
+../src/fapi/transmission_interface.h
 
 ../src/fapi/obc_session_manager.h
 functional
@@ -659,10 +665,10 @@ vector
 -
 queue
 -
-transmission_interface.h
-../src/fapi/transmission_interface.h
 constants.h
 ../src/fapi/constants.h
+command_handler.h
+../src/fapi/command_handler.h
 
 ../src/ti/esttc.h
 serial_handler.h

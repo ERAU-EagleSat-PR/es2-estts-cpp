@@ -8,15 +8,10 @@ set(
         utils/bin_converter.cpp
         utils/helper.cpp
         fapi/command_handler.cpp
-        fapi/obc_session_manager.cpp
         fapi/cosmos_handler.cpp
         fapi/cosmos_groundstation_handler.cpp
         fapi/cosmos_satellite_txvr_handler.cpp
-        fapi/satellite_txvr_cmdtelem_manager.cpp
-        fapi/groundstation_cmdtelem_manager.cpp
-        #tnc_emulator/ax25_ui_frame_constructor.cpp
-        #tnc_emulator/ax25_ui_frame_destructor.cpp
-        #tnc_emulator/info_field.cpp
+        fapi/groundstation_manager.cpp
         ti/esttc.cpp
         ti/serial_handler.cpp
         ti/socket_handler.cpp

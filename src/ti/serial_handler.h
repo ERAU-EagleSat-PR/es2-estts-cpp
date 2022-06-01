@@ -13,11 +13,14 @@
 
 class serial_handler {
 private:
+    int failures;
     boost::asio::io_service io;
     boost::asio::serial_port serial;
     std::string port;
     int baud, restarts;
     unsigned char * sync_buf;
+
+    estts::Status handle_failure();
 
     estts::Status find_serial_port();
 protected:

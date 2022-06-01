@@ -1,4 +1,41 @@
-CMake executable not found: /usr/bin/cmake Configure Disable profile
-
-Cannot get compiler information:
-	Unable to create a temporary file
+/usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /tmp/tmp.UzEyVTKWLL
+-- The C compiler identification is GNU 9.4.0
+-- The CXX compiler identification is GNU 9.4.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- #### Build Configuration ####
+-- TI_DEV_MODE: OFF
+-- ESTTS_COMMAND_STREAM_MODE: 
+-- CMAKE_SYSTEM_NAME: Linux
+-- ESTTS_BOOST_SERIAL: 
+-- #### End Build Configuration ####
+-- Found Boost: /usr/lib/aarch64-linux-gnu/cmake/Boost-1.71.0/BoostConfig.cmake (found suitable version "1.71.0", minimum required is "1.67.0") found components: system 
+-- Boost version: 1.71.0
+-- Using Boost libraries: Boost::system
+-- Boost include directories: /usr/include
+-- Debug build type detected, setting __DEV__
+-- Build spdlog: 1.9.2
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Build type: Debug
+-- Using the single-header code from /tmp/tmp.UzEyVTKWLL/lib/json/single_include/
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu
