@@ -13,21 +13,9 @@
 
 class transmission_interface : virtual public esttc, virtual public socket_handler {
 private:
-    std::vector<std::function<void()>> dispatch_functions;
-
-    std::vector<std::thread> dispatch_threadpool;
-
     std::function<estts::Status(std::string)> primary_telem_cb;
 
-    std::mutex mtx;
-
     std::thread pipe_keeper;
-
-    std::thread inrange_checker;
-
-    estts::endurosat::PIPE_State pipe_mode;
-
-    bool dispatch_threadpool_active;
 
     /**
      * Function designed to run on its own thread that sends a single character through the UART to the transceiver
@@ -36,32 +24,34 @@ private:
      */
     void maintain_pipe();
 
+    estts::endurosat::PIPE_State pipe_mode;
+
+    bool session_active;
+
+protected:
+
+    std::mutex mtx;
+
+public:
+
     /**
-     * Waits up to ESTTS_SATELLITE_CONNECTION_TIMEOUT_MIN seconds for satellite
-     * to come within range of ground station. Detects in range by asking transceiver
-     * @return
-     */
-    [[noreturn]] void detect_satellite_in_range();
-
-    void start_dispatch_threads();
-
-    void end_dispatch_threads();
-
-    /**
-     * Internal receive that should ONLY be used if you know exactly what is calling this funciton.
+     * Internal receive that should ONLY be used if you know exactly what is calling this function.
      * Operates the same as normal receive but doesn't lock the mutex. Be HIGHLY cautious using this function.
-     * @return
+     * @return string
      */
     std::string internal_receive();
 
-public:
-    bool obc_session_active;
+    /**
+     * Function that sets a telemetry callback used by the request new session function, which
+     * clears the serial FIFO register before requesting a session. This ensures that whatever is receiving telemetry
+     * gets all available telemetry.
+     * @param cb Telemetry callback with form std::function<estts::Status(std::string)>
+     */
+    void set_telem_callback(const std::function<estts::Status(std::string)>& cb) { primary_telem_cb = cb;}
 
-    bool satellite_in_range;
+    estts::endurosat::PIPE_State get_pipe_state() { return pipe_mode; }
 
-    bool gstxvr_session_active;
-
-    void register_dispatch_function(const std::function<void()>& fct);
+    void set_session_status(bool status);
 
     /**
      * Default constructor that initializes each class inherited by transmission_interface, and ensures that the mutex
@@ -73,14 +63,6 @@ public:
      * Default destructor that ensures a safe exit of transmission_interface
      */
     ~transmission_interface();
-
-    /**
-     * Function that sets a telemetry callback used by the request new session function, which
-     * clears the serial FIFO register before requesting a session. This ensures that whatever is receiving telemetry
-     * gets all available telemetry.
-     * @param cb Telemetry callback with form std::function<estts::Status(std::string)>
-     */
-    void set_telem_callback(const std::function<estts::Status(std::string)>& cb) { primary_telem_cb = cb;}
 
     /**
      * Uses EnduroSat transceiver to transmit const unsigned char * value. Function warns if a session is not currently active.
@@ -121,30 +103,6 @@ public:
     unsigned char * receive_uc();
 
     /**
-     * Function that requests a new session with the OBC on the satellite. This function enables PIPE on the ground txvr
-     * and on the satellite txvr, and creates a new thread to keep the session as long as obc_session_active is true.
-     * @return ES_OK if a session is active
-     */
-    estts::Status request_obc_session();
-
-    estts::Status request_gstxvr_session();
-
-    estts::Status end_gstxvr_session();
-
-    /**
-     * Function that returns the status of obc_session_active
-     * @return bool
-     */
-    bool check_session_active() const { return obc_session_active; };
-
-    /**
-     * Function that waits for PIPE to exit, thereby ending the communication session with the satellite.
-     * @param end_frame Deprecated
-     * @return ES_OK if session ends successfully
-     */
-    estts::Status end_obc_session(const std::string& end_frame);
-
-    /**
      * Function that returns the data available on the underlying interface.
      * @return bool
      */
@@ -167,6 +125,8 @@ public:
     estts::Status enable_pipe();
 
     estts::Status disable_pipe();
+
+    void flush_transmission_interface();
 };
 
 

@@ -9,8 +9,8 @@
 #include <deque>
 #include <functional>
 #include <vector>
-#include "transmission_interface.h"
 #include "constants.h"
+#include "groundstation_manager.h"
 
 class command_handler {
 private:
@@ -19,7 +19,7 @@ private:
         estts::Status response_code;
     } completed;
 
-    transmission_interface *ti;
+    groundstation_manager * gm;
 
 protected:
     std::vector<estts::dispatched_command *> dispatched;
@@ -37,7 +37,7 @@ protected:
      * @param ti Transmission interface object
      * @return
      */
-    estts::Status init_command_handler(transmission_interface *ti);
+    estts::Status init_command_handler(groundstation_manager * gm);
 
     ~command_handler();
 

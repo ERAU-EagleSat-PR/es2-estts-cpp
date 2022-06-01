@@ -9,27 +9,34 @@
 #include <vector>
 #include <sstream>
 
+#include "groundstation_manager.h"
 #include "command_handler.h"
 
 using namespace std::this_thread; // sleep_for, sleep_until
 using namespace std::chrono; // nanoseconds, system_clock, seconds
 
 command_handler::command_handler() {
-    this->ti = nullptr;
+    this->gm = nullptr;
 }
 
 estts::Status command_handler::execute(estts::waiting_command *command) {
-    if (ti == nullptr) {
+    if (gm == nullptr) {
         SPDLOG_ERROR("Transmission interface not initialized. Was init_command_handler() called?");
         return estts::ES_UNINITIALIZED;
     }
 
     try {
         SPDLOG_INFO("Sending command");
-        bool retry = true;
         int retries = 0;
+        auto value = command->frame;
+
+        // Route
+        if (value.rfind("ES+", 0) == 0) {
+            value.append("\r");
+        }
+
         // Try to transmit frame
-        while (ti->transmit(command->frame) != estts::ES_OK) {
+        while (gm->transmit(value) != estts::ES_OK) {
             spdlog::error("Failed to transmit frame. Waiting {} seconds", estts::ESTTS_RETRY_WAIT_SEC);
             sleep_until(system_clock::now() + seconds(estts::ESTTS_RETRY_WAIT_SEC));
             retries++;
@@ -47,7 +54,7 @@ estts::Status command_handler::execute(estts::waiting_command *command) {
 
     SPDLOG_INFO("Waiting for a response from EagleSat II");
     sleep_until(system_clock::now() + milliseconds (100));
-    auto telem = ti->receive();
+    auto telem = gm->receive();
     if (telem.empty())
         return estts::ES_UNSUCCESSFUL;
     SPDLOG_DEBUG("Got response from EagleSat II");
@@ -68,7 +75,7 @@ estts::Status command_handler::execute(estts::waiting_command *command) {
 
 command_handler::~command_handler() = default;
 
-estts::Status command_handler::init_command_handler(transmission_interface *ti) {
-    this->ti = ti;
+estts::Status command_handler::init_command_handler(groundstation_manager * gm) {
+    this->gm = gm;
     return estts::ES_OK;
 }

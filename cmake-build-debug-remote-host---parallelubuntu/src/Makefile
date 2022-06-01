@@ -233,86 +233,32 @@ fapi/cosmos_satellite_txvr_handler.cpp.s:
 	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu && $(MAKE) -f src/CMakeFiles/estts.dir/build.make src/CMakeFiles/estts.dir/fapi/cosmos_satellite_txvr_handler.cpp.s
 .PHONY : fapi/cosmos_satellite_txvr_handler.cpp.s
 
-fapi/groundstation_cmdtelem_manager.o: fapi/groundstation_cmdtelem_manager.cpp.o
+fapi/groundstation_manager.o: fapi/groundstation_manager.cpp.o
 
-.PHONY : fapi/groundstation_cmdtelem_manager.o
-
-# target to build an object file
-fapi/groundstation_cmdtelem_manager.cpp.o:
-	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu && $(MAKE) -f src/CMakeFiles/estts.dir/build.make src/CMakeFiles/estts.dir/fapi/groundstation_cmdtelem_manager.cpp.o
-.PHONY : fapi/groundstation_cmdtelem_manager.cpp.o
-
-fapi/groundstation_cmdtelem_manager.i: fapi/groundstation_cmdtelem_manager.cpp.i
-
-.PHONY : fapi/groundstation_cmdtelem_manager.i
-
-# target to preprocess a source file
-fapi/groundstation_cmdtelem_manager.cpp.i:
-	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu && $(MAKE) -f src/CMakeFiles/estts.dir/build.make src/CMakeFiles/estts.dir/fapi/groundstation_cmdtelem_manager.cpp.i
-.PHONY : fapi/groundstation_cmdtelem_manager.cpp.i
-
-fapi/groundstation_cmdtelem_manager.s: fapi/groundstation_cmdtelem_manager.cpp.s
-
-.PHONY : fapi/groundstation_cmdtelem_manager.s
-
-# target to generate assembly for a file
-fapi/groundstation_cmdtelem_manager.cpp.s:
-	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu && $(MAKE) -f src/CMakeFiles/estts.dir/build.make src/CMakeFiles/estts.dir/fapi/groundstation_cmdtelem_manager.cpp.s
-.PHONY : fapi/groundstation_cmdtelem_manager.cpp.s
-
-fapi/obc_session_manager.o: fapi/obc_session_manager.cpp.o
-
-.PHONY : fapi/obc_session_manager.o
+.PHONY : fapi/groundstation_manager.o
 
 # target to build an object file
-fapi/obc_session_manager.cpp.o:
-	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu && $(MAKE) -f src/CMakeFiles/estts.dir/build.make src/CMakeFiles/estts.dir/fapi/obc_session_manager.cpp.o
-.PHONY : fapi/obc_session_manager.cpp.o
+fapi/groundstation_manager.cpp.o:
+	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu && $(MAKE) -f src/CMakeFiles/estts.dir/build.make src/CMakeFiles/estts.dir/fapi/groundstation_manager.cpp.o
+.PHONY : fapi/groundstation_manager.cpp.o
 
-fapi/obc_session_manager.i: fapi/obc_session_manager.cpp.i
+fapi/groundstation_manager.i: fapi/groundstation_manager.cpp.i
 
-.PHONY : fapi/obc_session_manager.i
-
-# target to preprocess a source file
-fapi/obc_session_manager.cpp.i:
-	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu && $(MAKE) -f src/CMakeFiles/estts.dir/build.make src/CMakeFiles/estts.dir/fapi/obc_session_manager.cpp.i
-.PHONY : fapi/obc_session_manager.cpp.i
-
-fapi/obc_session_manager.s: fapi/obc_session_manager.cpp.s
-
-.PHONY : fapi/obc_session_manager.s
-
-# target to generate assembly for a file
-fapi/obc_session_manager.cpp.s:
-	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu && $(MAKE) -f src/CMakeFiles/estts.dir/build.make src/CMakeFiles/estts.dir/fapi/obc_session_manager.cpp.s
-.PHONY : fapi/obc_session_manager.cpp.s
-
-fapi/satellite_txvr_cmdtelem_manager.o: fapi/satellite_txvr_cmdtelem_manager.cpp.o
-
-.PHONY : fapi/satellite_txvr_cmdtelem_manager.o
-
-# target to build an object file
-fapi/satellite_txvr_cmdtelem_manager.cpp.o:
-	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu && $(MAKE) -f src/CMakeFiles/estts.dir/build.make src/CMakeFiles/estts.dir/fapi/satellite_txvr_cmdtelem_manager.cpp.o
-.PHONY : fapi/satellite_txvr_cmdtelem_manager.cpp.o
-
-fapi/satellite_txvr_cmdtelem_manager.i: fapi/satellite_txvr_cmdtelem_manager.cpp.i
-
-.PHONY : fapi/satellite_txvr_cmdtelem_manager.i
+.PHONY : fapi/groundstation_manager.i
 
 # target to preprocess a source file
-fapi/satellite_txvr_cmdtelem_manager.cpp.i:
-	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu && $(MAKE) -f src/CMakeFiles/estts.dir/build.make src/CMakeFiles/estts.dir/fapi/satellite_txvr_cmdtelem_manager.cpp.i
-.PHONY : fapi/satellite_txvr_cmdtelem_manager.cpp.i
+fapi/groundstation_manager.cpp.i:
+	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu && $(MAKE) -f src/CMakeFiles/estts.dir/build.make src/CMakeFiles/estts.dir/fapi/groundstation_manager.cpp.i
+.PHONY : fapi/groundstation_manager.cpp.i
 
-fapi/satellite_txvr_cmdtelem_manager.s: fapi/satellite_txvr_cmdtelem_manager.cpp.s
+fapi/groundstation_manager.s: fapi/groundstation_manager.cpp.s
 
-.PHONY : fapi/satellite_txvr_cmdtelem_manager.s
+.PHONY : fapi/groundstation_manager.s
 
 # target to generate assembly for a file
-fapi/satellite_txvr_cmdtelem_manager.cpp.s:
-	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu && $(MAKE) -f src/CMakeFiles/estts.dir/build.make src/CMakeFiles/estts.dir/fapi/satellite_txvr_cmdtelem_manager.cpp.s
-.PHONY : fapi/satellite_txvr_cmdtelem_manager.cpp.s
+fapi/groundstation_manager.cpp.s:
+	cd /tmp/tmp.UzEyVTKWLL/cmake-build-debug-remote-host---parallelubuntu && $(MAKE) -f src/CMakeFiles/estts.dir/build.make src/CMakeFiles/estts.dir/fapi/groundstation_manager.cpp.s
+.PHONY : fapi/groundstation_manager.cpp.s
 
 ti/esttc.o: ti/esttc.cpp.o
 
@@ -497,15 +443,9 @@ help:
 	@echo "... fapi/cosmos_satellite_txvr_handler.o"
 	@echo "... fapi/cosmos_satellite_txvr_handler.i"
 	@echo "... fapi/cosmos_satellite_txvr_handler.s"
-	@echo "... fapi/groundstation_cmdtelem_manager.o"
-	@echo "... fapi/groundstation_cmdtelem_manager.i"
-	@echo "... fapi/groundstation_cmdtelem_manager.s"
-	@echo "... fapi/obc_session_manager.o"
-	@echo "... fapi/obc_session_manager.i"
-	@echo "... fapi/obc_session_manager.s"
-	@echo "... fapi/satellite_txvr_cmdtelem_manager.o"
-	@echo "... fapi/satellite_txvr_cmdtelem_manager.i"
-	@echo "... fapi/satellite_txvr_cmdtelem_manager.s"
+	@echo "... fapi/groundstation_manager.o"
+	@echo "... fapi/groundstation_manager.i"
+	@echo "... fapi/groundstation_manager.s"
 	@echo "... ti/esttc.o"
 	@echo "... ti/esttc.i"
 	@echo "... ti/esttc.s"

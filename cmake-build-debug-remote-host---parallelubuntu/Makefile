@@ -150,19 +150,6 @@ spdlog/fast:
 .PHONY : spdlog/fast
 
 #=============================================================================
-# Target rules for targets named estts-cosmos-demo1
-
-# Build rule for target.
-estts-cosmos-demo1: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 estts-cosmos-demo1
-.PHONY : estts-cosmos-demo1
-
-# fast build rule for target.
-estts-cosmos-demo1/fast:
-	$(MAKE) -f tests/estts-cosmos-demo1/CMakeFiles/estts-cosmos-demo1.dir/build.make tests/estts-cosmos-demo1/CMakeFiles/estts-cosmos-demo1.dir/build
-.PHONY : estts-cosmos-demo1/fast
-
-#=============================================================================
 # Target rules for targets named serial-test
 
 # Build rule for target.
@@ -175,19 +162,6 @@ serial-test/fast:
 	$(MAKE) -f tests/serial-test/CMakeFiles/serial-test.dir/build.make tests/serial-test/CMakeFiles/serial-test.dir/build
 .PHONY : serial-test/fast
 
-#=============================================================================
-# Target rules for targets named estts-groundstation-testing
-
-# Build rule for target.
-estts-groundstation-testing: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 estts-groundstation-testing
-.PHONY : estts-groundstation-testing
-
-# fast build rule for target.
-estts-groundstation-testing/fast:
-	$(MAKE) -f tests/estts-groundstation-testing/CMakeFiles/estts-groundstation-testing.dir/build.make tests/estts-groundstation-testing/CMakeFiles/estts-groundstation-testing.dir/build
-.PHONY : estts-groundstation-testing/fast
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -199,9 +173,7 @@ help:
 	@echo "... estts"
 	@echo "... estts-runtime"
 	@echo "... spdlog"
-	@echo "... estts-cosmos-demo1"
 	@echo "... serial-test"
-	@echo "... estts-groundstation-testing"
 .PHONY : help
 
 

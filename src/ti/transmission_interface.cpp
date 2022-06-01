@@ -16,13 +16,7 @@ using namespace estts::endurosat;
 transmission_interface::transmission_interface() : socket_handler(ti_socket::TI_SOCKET_ADDRESS,
                                                                                         ti_socket::TI_SOCKET_PORT) {
     primary_telem_cb = nullptr;
-    obc_session_active = false;
     pipe_mode = PIPE_OFF;
-    satellite_in_range = false;
-    dispatch_threadpool_active = false;
-
-    inrange_checker = std::thread(&transmission_interface::detect_satellite_in_range, this);
-    SPDLOG_TRACE("Created thread to detect if the satellite is in range with ID {}", std::hash<std::thread::id>{}(pipe_keeper.get_id()));
 
     mtx.unlock();
 }
@@ -32,7 +26,7 @@ Status transmission_interface::transmit(const std::string &value) {
     using namespace std::chrono; // nanoseconds, system_clock, seconds
     if (value.empty())
         return ES_MEMORY_ERROR;
-    if (!obc_session_active)
+    if (!session_active)
         SPDLOG_WARN("Communication session not active, message may not get to satellite.");
     mtx.lock();
     if (primary_telem_cb)
@@ -114,7 +108,7 @@ Status transmission_interface::transmit(const unsigned char *value, int length) 
     if (length <= 0)
         return ES_MEMORY_ERROR;
     int retries = 0;
-    if (!obc_session_active)
+    if (!session_active)
         SPDLOG_WARN("Communication session not active, message may not get to satellite.");
     mtx.lock();
 #ifndef __TI_DEV_MODE__
@@ -199,6 +193,9 @@ Status transmission_interface::gs_transmit(const std::string &value) {
 Status transmission_interface::enable_pipe() {
     std::string pipe_en = "ES+W22003323\r";
     std::stringstream buf;
+    if (pipe_mode != PIPE_OFF) {
+        return estts::ES_UNSUCCESSFUL;
+    }
     pipe_mode = PIPE_OFF;
 
     for (int retries = 0; retries < endurosat::MAX_RETRIES; retries++) {
@@ -280,187 +277,14 @@ void transmission_interface::maintain_pipe() {
     }
 }
 
-Status transmission_interface::request_obc_session() {
-    mtx.lock();
+void transmission_interface::set_session_status(bool status) {
+    this->session_active = status;
+}
 
-    // Wait up to ESTTS_SATELLITE_CONNECTION_TIMEOUT_MIN minutes for the satellite to come in range.
-    // Check every 1 minute
-    auto wait = 0;
-    while (!satellite_in_range) {
-        if (wait > ESTTS_SATELLITE_CONNECTION_TIMEOUT_MIN) {
-            SPDLOG_INFO("Satellite not detected within {} minutes.");
-            mtx.unlock();
-            return estts::ES_UNSUCCESSFUL;
-        }
-        sleep_until(system_clock::now() + minutes(1));
-        wait++;
-    }
-
-    SPDLOG_INFO("Requesting new session");
-    std::string pipe_en = "ES+W22003323\r";
-    int retries = 0;
-    std::stringstream buf;
-
+void transmission_interface::flush_transmission_interface() {
     if (primary_telem_cb)
         clear_serial_fifo(primary_telem_cb);
     else
         clear_serial_fifo();
-
-    // Enable PIPE has built-in retries. Don't cascade retries, if this function failed
-    // something is pretty messed up.
-    if (ES_OK != enable_pipe()) {
-        mtx.unlock();
-        return ES_UNSUCCESSFUL;
-    }
-
-    // Sanity check - make sure PIPE is enabled
-    if (PIPE_ON != pipe_mode) {
-        SPDLOG_ERROR("enable_pipe() succeeded, but trace variable is not set to PIPE_ON");
-        mtx.unlock();
-        return ES_SERVER_ERROR;
-    }
-
-    // Clear FIFO buffer
-    if (primary_telem_cb)
-        clear_serial_fifo(primary_telem_cb);
-    else
-        clear_serial_fifo();
-
-    // Now, try to enable PIPE on the satellite.
-    while (true) {
-        if (retries > endurosat::MAX_RETRIES) {
-            SPDLOG_ERROR("Failed to enable PIPE on satellite transceiver. ({}/{} retries)", retries, endurosat::MAX_RETRIES);
-            mtx.unlock();
-            return ES_UNSUCCESSFUL;
-        }
-        write_serial_s(pipe_en);
-        sleep_until(system_clock::now() + milliseconds (100));
-        buf << internal_receive();
-        if (buf.str().find("OK+3323\r") != std::string::npos) {
-            SPDLOG_TRACE("PIPE is probably enabled on the satellite");
-            obc_session_active = true;
-            break;
-        }
-        retries++;
-        SPDLOG_ERROR("Failed to enable PIPE on satellite. Waiting {} seconds (retry {}/{})", endurosat::WAIT_TIME_SEC, retries, endurosat::MAX_RETRIES);
-        sleep_until(system_clock::now() + seconds(endurosat::WAIT_TIME_SEC));
-        // Once again don't clear buf, maybe confirmation got lost in the weeds.
-    }
-
-    sleep_until(system_clock::now() + seconds(2));
-
-    // At this point, there is already a thread maintaining the PIPE state.
-    // Exit at this point.
-
-    SPDLOG_INFO("Session active");
-
-    if (primary_telem_cb)
-        clear_serial_fifo(primary_telem_cb);
-    else
-        clear_serial_fifo();
-
-    mtx.unlock();
-    return ES_OK;
 }
 
-Status transmission_interface::end_obc_session(const std::string &end_frame) {
-    mtx.lock();
-    SPDLOG_INFO("Ending session");
-
-    int retries = endurosat::PIPE_DURATION_SEC * 2;
-    disable_pipe();
-    sleep_until(system_clock::now() + seconds(1));
-
-    SPDLOG_INFO("Successfully ended session");
-    obc_session_active = false;
-    mtx.unlock();
-    return ES_OK;
-}
-
-void transmission_interface::detect_satellite_in_range() {
-    std::string get_scw = "ES+R2200\r";
-    std::string enable_bcn = "ES+W22003340\r";
-
-    for (;;) {
-        if (!obc_session_active && pipe_mode == PIPE_OFF && !gstxvr_session_active) {
-            SPDLOG_TRACE("detect_satellite_in_range - locking mutex");
-            mtx.lock();
-            if (ES_OK == enable_pipe()) {
-                // Try to read some data from the satellite transceiver 3 times
-                std::stringstream buf;
-                for (int i = 0; i < 3; i++) {
-                    write_serial_s(get_scw);
-                    sleep_until(system_clock::now() + milliseconds (500));
-                    if (check_data_available())
-                        buf << read_serial_s();
-                    if (buf.str().find("OK+") != std::string::npos) {
-                        satellite_in_range = true;
-                        start_dispatch_threads();
-                        break;
-                    } else {
-                        satellite_in_range = false;
-                        end_dispatch_threads();
-                    }
-                    sleep_until(system_clock::now() + seconds (ESTTS_RETRY_WAIT_SEC));
-                }
-                if (satellite_in_range)
-                    SPDLOG_INFO("Satellite in range.");
-                else
-                    SPDLOG_INFO("Satellite not in range");
-            }
-            disable_pipe();
-            SPDLOG_TRACE("detect_satellite_in_range - unlocking mutex");
-            mtx.unlock();
-            sleep_until(system_clock::now() + seconds (ESTTS_CHECK_SATELLITE_INRANGE_INTERVAL_SEC));
-        } else
-            sleep_until(system_clock::now() + seconds (ESTTS_RETRY_WAIT_SEC));
-    }
-}
-
-void transmission_interface::register_dispatch_function(const std::function<void()>& fct) {
-    dispatch_functions.push_back(fct);
-}
-
-void transmission_interface::start_dispatch_threads() {
-
-    if (!dispatch_threadpool_active) {
-        for (auto& i : dispatch_functions) {
-            std::thread t(i);
-            SPDLOG_TRACE("Created dispatch worker thread with ID {}", std::hash<std::thread::id>{}(t.get_id()));
-            dispatch_threadpool.push_back(std::move(t));
-        }
-        dispatch_threadpool_active = true;
-    }
-}
-
-void transmission_interface::end_dispatch_threads() {
-    if (dispatch_threadpool_active) {
-        for (auto &i : dispatch_threadpool) {
-            if (i.joinable())
-                i.join();
-        }
-        dispatch_threadpool_active = false;
-    }
-}
-
-estts::Status transmission_interface::request_gstxvr_session() {
-    mtx.lock();
-    int retries = 0;
-    while (obc_session_active || pipe_mode != PIPE_OFF) {
-        sleep_until(system_clock::now() + milliseconds (500));
-        if (retries > ESTTS_REQUEST_SESSION_TIMEOUT_SECONDS * 2) {
-            SPDLOG_WARN("Failed to request ground station transceiver session - timed out");
-            return ES_UNSUCCESSFUL;
-        }
-    }
-    gstxvr_session_active = true;
-    mtx.unlock();
-    return ES_OK;
-}
-
-estts::Status transmission_interface::end_gstxvr_session() {
-    mtx.lock();
-    gstxvr_session_active = false;
-    mtx.unlock();
-    return ES_OK;
-}

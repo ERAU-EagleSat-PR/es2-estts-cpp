@@ -61,6 +61,7 @@ runtime/CMakeFiles/estts-runtime.dir/src/main.cpp.o
  ../src/fapi/cosmos_handler.h
  ../src/fapi/cosmos_satellite_txvr_handler.h
  ../src/fapi/groundstation_cmdtelem_manager.h
+ ../src/fapi/groundstation_manager.h
  ../src/fapi/obc_session_manager.h
  ../src/fapi/satellite_txvr_cmdtelem_manager.h
  ../src/ti/esttc.h

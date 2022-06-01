@@ -13,6 +13,9 @@
 #include <unistd.h>
 #include "helper.h"
 
+using namespace std::this_thread; // sleep_for, sleep_until
+using namespace std::chrono; // nanoseconds, system_clock, seconds
+
 
 /**
  * @brief Base constructor that initializes address and port, opens specified port
@@ -29,12 +32,16 @@ socket_handler::socket_handler(const char *address, int port) {
     std::stringstream temp;
     temp << address << ":" << port;
     this->endpoint = temp.str();
+    failures = 0;
 
     sync_buf = new unsigned char[estts::ti_socket::TI_SOCKET_BUF_SZ];
 }
 
 estts::Status socket_handler::open_socket() {
     // Creating socket file descriptor
+    if (sock > 0) {
+        close(sock);
+    }
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         spdlog::error("Error {} from socket(): {}", errno, strerror(errno));
         return estts::ES_UNSUCCESSFUL;
@@ -71,6 +78,17 @@ estts::Status socket_handler::configure_socket() {
     return estts::ES_OK;
 }
 
+estts::Status socket_handler::handle_failure() {
+    failures++;
+    if (failures > 5) {
+        SPDLOG_ERROR("Socket handler failure. Re-initializing socket at address {}:{}", address, port);
+        init_socket_handle();
+        failures = 0;
+    }
+    sleep_until(system_clock::now() + seconds(1));
+    return estts::ES_OK;
+}
+
 /**
  * @brief Takes argument for a pointer to an unsigned char
  * and transmits it across the open socket.
@@ -78,17 +96,18 @@ estts::Status socket_handler::configure_socket() {
  * @param size Size of data being transmitted
  * @return Returns -1 if write failed, or the number of bytes written if call succeeded
  */
-ssize_t socket_handler::write_socket_uc(unsigned char *data, int size) const {
+ssize_t socket_handler::write_socket_uc(unsigned char *data, int size) {
     // If serial port isn't open, error out
     if (sock < 0) {
         return -1;
     }
     ssize_t written = send(sock, data, size, 0);
     if (written < 1) {
+        handle_failure();
         return -1;
     }
 
-    print_write_trace_msg(data, written, endpoint);
+    SPDLOG_TRACE("{}",get_write_trace_msg(data, written, endpoint));
 
     return written;
 }
@@ -101,7 +120,7 @@ ssize_t socket_handler::write_socket_uc(unsigned char *data, int size) const {
  * CRITICAL NOTE: delete MUST be called when done with the value returned. If this
  * is not done, a memory leak will be created. To avoid this issue, use read_socket_s
  */
-unsigned char *socket_handler::read_socket_uc() const {
+unsigned char *socket_handler::read_socket_uc() {
     // If socket isn't open, error out
     if (sock < 0) {
         return nullptr;
@@ -113,10 +132,11 @@ unsigned char *socket_handler::read_socket_uc() const {
     auto n = read(sock, sync_buf, estts::ti_socket::TI_SOCKET_BUF_SZ);
     if (n < 1) {
         // Can't receive a negative number of bytes ;)
+        handle_failure();
         return nullptr;
     }
 
-    print_read_trace_msg(sync_buf, n, endpoint);
+    SPDLOG_TRACE("{}",get_read_trace_msg(sync_buf, n, endpoint));
 
     // Add null terminator at the end of transmission for easier processing by parent class(s)
     sync_buf[n] = '\0';
@@ -128,7 +148,7 @@ unsigned char *socket_handler::read_socket_uc() const {
  * @param data String argument
  * @return Number of bytes transferred across open socket
  */
-estts::Status socket_handler::write_socket_s(const std::string &data) const {
+estts::Status socket_handler::write_socket_s(const std::string &data) {
     // If serial port isn't open, error out
     if (sock < 0) return estts::ES_UNINITIALIZED;
     // Cast string to const unsigned char *, then cast away const to pass
@@ -142,7 +162,7 @@ estts::Status socket_handler::write_socket_s(const std::string &data) const {
  * @brief Reads available data from socket and returns data as string
  * @return Returns translated string of received data
  */
-std::string socket_handler::read_socket_s() const {
+std::string socket_handler::read_socket_s() {
     // If serial port isn't open, error out
     if (sock < 0) {
         return "";
@@ -173,7 +193,7 @@ estts::Status socket_handler::init_socket_handle() {
     }
     if (estts::ES_OK != configure_socket()) {
         spdlog::error("Failed to configure socket.");
-        SPDLOG_WARN("Is the ESTTS server running? See documentation for more.");
+        SPDLOG_WARN("Is COSMOS running?");
         return estts::ES_UNINITIALIZED;
     }
     SPDLOG_DEBUG("Socket configuration complete.");
