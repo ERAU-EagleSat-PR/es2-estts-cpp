@@ -18,7 +18,8 @@ std::function<Status()> get_groundstation_session_start_session_func();
 std::function<Status()> get_groundstation_session_end_session_func();
 
 cosmos_groundstation_handler::cosmos_groundstation_handler() {
-   sock = new socket_handler(estts::cosmos::COSMOS_SERVER_ADDR, estts::cosmos::COSMOS_GROUNDSTATION_CMD_TELEM_PORT);
+    gm = nullptr;
+    sock = new socket_handler(estts::cosmos::COSMOS_SERVER_ADDR, estts::cosmos::COSMOS_GROUNDSTATION_CMD_TELEM_PORT);
 }
 
 void cosmos_groundstation_handler::groundstation_cosmos_worker() {
@@ -27,10 +28,12 @@ void cosmos_groundstation_handler::groundstation_cosmos_worker() {
     config->end_session_func = get_groundstation_session_end_session_func();
     config->start_session_func = get_groundstation_session_start_session_func();
     config->transmit_func = get_groundstation_session_transmit_func(gm);
-    config->priority = 3;
+    config->priority = 1;
     config->satellite_range_required_for_execution = false;
     config->endpoint = GROUND_STATION;
     auto command_handle = gm->generate_session_manager(config);
+    if (command_handle == nullptr)
+        throw std::runtime_error("Primary COSMOS worker failed to request a session manager.");
 
     std::string command;
     for (;;) {
@@ -44,6 +47,9 @@ void cosmos_groundstation_handler::groundstation_cosmos_worker() {
 estts::Status cosmos_groundstation_handler::cosmos_groundstation_init(groundstation_manager * temp_gm) {
     sock->init_socket_handle();
     this->gm = temp_gm;
+
+    gm->set_groundstation_telemetry_callback(get_groundstation_telemetry_callback_lambda(sock));
+
     cosmos_worker = std::thread(&cosmos_groundstation_handler::groundstation_cosmos_worker, this);
     SPDLOG_TRACE("Created groundstation COSMOS worker thread with ID {}", std::hash<std::thread::id>{}(cosmos_worker.get_id()));
 

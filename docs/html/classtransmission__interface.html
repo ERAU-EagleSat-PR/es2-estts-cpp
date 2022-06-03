@@ -113,7 +113,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a2d2a2721b23f525b3b476fb2327d53f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4e3acd1179aecbc893282a88df1b6c2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtransmission__interface.html#ad4e3acd1179aecbc893282a88df1b6c2">~transmission_interface</a> ()</td></tr>
 <tr class="separator:ad4e3acd1179aecbc893282a88df1b6c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a240ed1e78890767f2e7a2e68fcb285de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtransmission__interface.html#a240ed1e78890767f2e7a2e68fcb285de">set_telem_callback</a> (const std::function&lt; <a class="el" href="namespaceestts.html#a4d1093fd217ec6fa562591a253b35c19">estts::Status</a>(std::string)&gt; &amp;cb)</td></tr>
+<tr class="memitem:a240ed1e78890767f2e7a2e68fcb285de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtransmission__interface.html#a240ed1e78890767f2e7a2e68fcb285de">set_connectionless_telem_callback</a> (const std::function&lt; <a class="el" href="namespaceestts.html#a4d1093fd217ec6fa562591a253b35c19">estts::Status</a>(std::string)&gt; &amp;cb)</td></tr>
 <tr class="separator:a240ed1e78890767f2e7a2e68fcb285de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd3531828b03ac77784e239a1305ce33"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceestts.html#a4d1093fd217ec6fa562591a253b35c19">estts::Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtransmission__interface.html#abd3531828b03ac77784e239a1305ce33">transmit</a> (const std::string &amp;value)</td></tr>
 <tr class="separator:abd3531828b03ac77784e239a1305ce33"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -135,7 +135,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a7661df78e8696c694e22d70dc348b396"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f5fbd64c440f4f2bd79893826288b43"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceestts.html#a4d1093fd217ec6fa562591a253b35c19">estts::Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtransmission__interface.html#a2f5fbd64c440f4f2bd79893826288b43">end_obc_session</a> (const std::string &amp;end_frame)</td></tr>
 <tr class="separator:a2f5fbd64c440f4f2bd79893826288b43"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f9ae91d4dedc1c02dd03665013e75e4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtransmission__interface.html#a2f9ae91d4dedc1c02dd03665013e75e4">check_data_available</a> ()</td></tr>
+<tr class="memitem:a2f9ae91d4dedc1c02dd03665013e75e4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtransmission__interface.html#a2f9ae91d4dedc1c02dd03665013e75e4">data_available</a> ()</td></tr>
 <tr class="separator:a2f9ae91d4dedc1c02dd03665013e75e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d524ad4b05c07cbdab71560657f087b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceestts.html#a4d1093fd217ec6fa562591a253b35c19">estts::Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtransmission__interface.html#a4d524ad4b05c07cbdab71560657f087b">gs_transmit</a> (const std::string &amp;value)</td></tr>
 <tr class="separator:a4d524ad4b05c07cbdab71560657f087b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -375,13 +375,13 @@ Additional Inherited Members</h2></td></tr>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a2f9ae91d4dedc1c02dd03665013e75e4" name="a2f9ae91d4dedc1c02dd03665013e75e4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f9ae91d4dedc1c02dd03665013e75e4">&#9670;&nbsp;</a></span>check_data_available()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f9ae91d4dedc1c02dd03665013e75e4">&#9670;&nbsp;</a></span>data_available()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool transmission_interface::check_data_available </td>
+          <td class="memname">bool transmission_interface::data_available </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -656,7 +656,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <a id="a240ed1e78890767f2e7a2e68fcb285de" name="a240ed1e78890767f2e7a2e68fcb285de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a240ed1e78890767f2e7a2e68fcb285de">&#9670;&nbsp;</a></span>set_telem_callback()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a240ed1e78890767f2e7a2e68fcb285de">&#9670;&nbsp;</a></span>set_connectionless_telem_callback()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -665,7 +665,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void transmission_interface::set_telem_callback </td>
+          <td class="memname">void transmission_interface::set_connectionless_telem_callback </td>
           <td>(</td>
           <td class="paramtype">const std::function&lt; <a class="el" href="namespaceestts.html#a4d1093fd217ec6fa562591a253b35c19">estts::Status</a>(std::string)&gt; &amp;&#160;</td>
           <td class="paramname"><em>cb</em></td><td>)</td>

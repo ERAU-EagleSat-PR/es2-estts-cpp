@@ -15,7 +15,7 @@ using namespace estts::endurosat;
 
 transmission_interface::transmission_interface() : socket_handler(ti_socket::TI_SOCKET_ADDRESS,
                                                                                         ti_socket::TI_SOCKET_PORT) {
-    primary_telem_cb = nullptr;
+    connectionless_telem_cb = nullptr;
     pipe_mode = PIPE_OFF;
 
     mtx.unlock();
@@ -29,8 +29,8 @@ Status transmission_interface::transmit(const std::string &value) {
     if (!session_active)
         SPDLOG_WARN("Communication session not active, message may not get to satellite.");
     mtx.lock();
-    if (primary_telem_cb)
-        clear_serial_fifo(primary_telem_cb);
+    if (connectionless_telem_cb)
+        clear_serial_fifo(connectionless_telem_cb);
     else
         clear_serial_fifo();
 #ifndef __TI_DEV_MODE__
@@ -72,7 +72,6 @@ std::string transmission_interface::internal_receive() {
         sleep_until(system_clock::now() + milliseconds (100));
     }
     if (bytes_avail <= 0) {
-        mtx.unlock();
         return "";
     }
     auto buf = this->read_serial_s(bytes_avail);
@@ -89,7 +88,7 @@ transmission_interface::~transmission_interface() {
     mtx.unlock();
 }
 
-bool transmission_interface::check_data_available() {
+bool transmission_interface::data_available() {
 #ifdef __TI_DEV_MODE__
     if (check_sock_bytes_avail() > 0)
         return true;
@@ -196,10 +195,12 @@ Status transmission_interface::enable_pipe() {
     if (pipe_mode != PIPE_OFF) {
         return estts::ES_UNSUCCESSFUL;
     }
+    mtx.lock();
     pipe_mode = PIPE_OFF;
 
     for (int retries = 0; retries < endurosat::MAX_RETRIES; retries++) {
         if (retries > endurosat::MAX_RETRIES) {
+            mtx.unlock();
             return ES_UNSUCCESSFUL;
         }
         SPDLOG_TRACE("Attempting to enable PIPE on ground station");
@@ -208,7 +209,7 @@ Status transmission_interface::enable_pipe() {
 
         // Try to get data 3 times
         for (int i = 0; i < 3; i++) {
-            if (check_data_available()) {
+            if (data_available()) {
                 buf << read_serial_s();
                 if (buf.str().find("OK+3323\r") != std::string::npos && buf.str().find("+PIPE\r") != std::string::npos) {
                     pipe_mode = PIPE_ON;
@@ -223,13 +224,14 @@ Status transmission_interface::enable_pipe() {
 
     if (pipe_mode != PIPE_ON) {
         SPDLOG_ERROR("Failed to enable PIPE on ground station transceiver.");
+        mtx.unlock();
         return ES_UNSUCCESSFUL;
     }
 
     pipe_keeper = std::thread(&transmission_interface::maintain_pipe, this);
     SPDLOG_TRACE("Created maintain PIPE thread with ID {}", std::hash<std::thread::id>{}(pipe_keeper.get_id()));
     SPDLOG_DEBUG("PIPE is active.");
-
+    mtx.unlock();
     return ES_OK;
 }
 
@@ -282,8 +284,8 @@ void transmission_interface::set_session_status(bool status) {
 }
 
 void transmission_interface::flush_transmission_interface() {
-    if (primary_telem_cb)
-        clear_serial_fifo(primary_telem_cb);
+    if (connectionless_telem_cb)
+        clear_serial_fifo(connectionless_telem_cb);
     else
         clear_serial_fifo();
 }

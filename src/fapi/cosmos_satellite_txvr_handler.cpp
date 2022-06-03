@@ -39,6 +39,8 @@ void cosmos_satellite_txvr_handler::satellite_txvr_cosmos_worker() {
     config->satellite_range_required_for_execution = true;
     config->endpoint = EAGLESAT2_TRANSCEIVER;
     auto command_handle = gm->generate_session_manager(config);
+    if (command_handle == nullptr)
+        throw std::runtime_error("Primary COSMOS worker failed to request a session manager.");
 
     std::string command;
     for (;;) {
@@ -113,12 +115,30 @@ std::function<Status()> get_satellite_txvr_session_start_session_func(groundstat
 
         // Sanity check - make sure PIPE is enabled
         if (PIPE_ON != gm->get_pipe_state()) {
-            SPDLOG_ERROR("enable_pipe() succeeded, but trace variable is not set to PIPE_ON");
+            spdlog::error("enable_pipe() succeeded, but trace variable is not set to PIPE_ON");
             return ES_SERVER_ERROR;
         }
+
+        gm->set_session_status(true);
+
         return ES_OK;
     };
 }
 std::function<Status()> get_satellite_txvr_session_end_session_func(groundstation_manager * gm) {
+    return [gm] () -> Status {
+        // Disable PIPE has built-in retries. Don't cascade retries, if this function failed
+        // something is pretty messed up.
+        if (ES_OK != gm->disable_pipe()) {
+            return ES_UNSUCCESSFUL;
+        }
+        // Sanity check - make sure PIPE is enabled
+        if (PIPE_OFF != gm->get_pipe_state()) {
+            spdlog::error("enable_pipe() succeeded, but trace variable is not set to PIPE_ON");
+            return ES_SERVER_ERROR;
+        }
 
+        gm->set_session_status(false);
+
+        return ES_OK;
+    };
 }

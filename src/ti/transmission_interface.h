@@ -13,7 +13,7 @@
 
 class transmission_interface : virtual public esttc, virtual public socket_handler {
 private:
-    std::function<estts::Status(std::string)> primary_telem_cb;
+    std::function<estts::Status(std::string)> connectionless_telem_cb;
 
     std::thread pipe_keeper;
 
@@ -28,8 +28,9 @@ private:
 
     bool session_active;
 
-protected:
-
+    // This mutex is a blunt force method of ensuring that only one thing is using
+    // the transmission interface at a time. Ideally, higher layer code should be written
+    // to prevent the mutex from preventing any communication.
     std::mutex mtx;
 
 public:
@@ -47,7 +48,7 @@ public:
      * gets all available telemetry.
      * @param cb Telemetry callback with form std::function<estts::Status(std::string)>
      */
-    void set_telem_callback(const std::function<estts::Status(std::string)>& cb) { primary_telem_cb = cb;}
+    void set_connectionless_telem_callback(const std::function<estts::Status(std::string)>& cb) { connectionless_telem_cb = cb;}
 
     estts::endurosat::PIPE_State get_pipe_state() { return pipe_mode; }
 
@@ -106,7 +107,7 @@ public:
      * Function that returns the data available on the underlying interface.
      * @return bool
      */
-    bool check_data_available();
+    bool data_available();
 
     /**
      * Uses EnduroSat transceiver to transmit string Value.

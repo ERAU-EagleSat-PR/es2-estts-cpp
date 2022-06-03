@@ -15,7 +15,8 @@ namespace estts {
     const int ESTTS_MAX_RETRIES = 2;
     const int ESTTS_RETRY_WAIT_SEC = 1;
     const int ESTTS_AWAIT_RESPONSE_PERIOD_SEC = 120;
-    const int ESTTS_SATELLITE_RANGE_CHECK_PERIOD_SEC = 30;
+    const int ESTTS_MAX_SATELLITE_RANGE_CHECK_INTERVAL_SEC = 60;
+    const int ESTTS_MIN_SATELLITE_RANGE_CHECK_INTERVAL_SEC = 10;
     const int ESTTS_SATELLITE_CONNECTION_TIMEOUT_MIN = 90;
     const int ESTTS_CHECK_SATELLITE_INRANGE_INTERVAL_SEC = 30;
     const int ESTTS_REQUEST_SESSION_TIMEOUT_SECONDS = 300;
@@ -175,9 +176,9 @@ namespace estts {
     } waiting_command;
 
     enum SessionEndpoint {
-        EAGLESAT2_OBC,
-        EAGLESAT2_TRANSCEIVER,
-        GROUND_STATION,
+        EAGLESAT2_OBC = 1,
+        EAGLESAT2_TRANSCEIVER = 2,
+        GROUND_STATION = 3,
     };
 
     typedef struct {

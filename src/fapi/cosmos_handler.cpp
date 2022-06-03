@@ -27,26 +27,6 @@ cosmos_handler::cosmos_handler() {
     this->telem_sock = new socket_handler(cosmos::COSMOS_SERVER_ADDR, cosmos::COSMOS_PRIMARY_AX25_TELEM_PORT);
 }
 
-[[noreturn]] Status cosmos_handler::primary_cosmos_worker() {
-    auto config = new session_config;
-    config->receive_func = get_obc_session_receive_func(gm);
-    config->end_session_func = get_obc_session_end_session_func(gm);
-    config->start_session_func = get_obc_session_start_session_func(gm);
-    config->transmit_func = get_obc_session_transmit_func(gm);
-    config->priority = 1;
-    config->satellite_range_required_for_execution = true;
-    config->endpoint = EAGLESAT2_OBC;
-    auto command_handle = gm->generate_session_manager(config);
-
-    std::string temp_string;
-    for (;;) {
-        temp_string = sock->read_socket_s();
-        if (!temp_string.empty()) {
-            command_handle->schedule_command(temp_string, get_primary_command_callback_lambda(temp_string, sock));
-        }
-    }
-}
-
 Status cosmos_handler::cosmos_init() {
     if (sock->init_socket_handle() != ES_OK)
         return ES_UNSUCCESSFUL;
@@ -55,6 +35,8 @@ Status cosmos_handler::cosmos_init() {
 
     gm->groundstation_manager_init();
 
+    gm->set_connectionless_telem_callback(get_primary_telemetry_callback_lambda(sock));
+
     cosmos_worker = std::thread(&cosmos_handler::primary_cosmos_worker, this);
     SPDLOG_TRACE("Created primary COSMOS worker thread with ID {}", std::hash<std::thread::id>{}(cosmos_worker.get_id()));
 
@@ -62,6 +44,28 @@ Status cosmos_handler::cosmos_init() {
     this->cosmos_groundstation_init(gm);
 
     return ES_OK;
+}
+
+[[noreturn]] Status cosmos_handler::primary_cosmos_worker() {
+    auto config = new session_config;
+    config->receive_func = get_obc_session_receive_func(gm);
+    config->end_session_func = get_obc_session_end_session_func(gm);
+    config->start_session_func = get_obc_session_start_session_func(gm);
+    config->transmit_func = get_obc_session_transmit_func(gm);
+    config->priority = 3;
+    config->satellite_range_required_for_execution = true;
+    config->endpoint = EAGLESAT2_OBC;
+    auto command_handle = gm->generate_session_manager(config);
+    if (command_handle == nullptr)
+        throw std::runtime_error("Primary COSMOS worker failed to request a session manager.");
+
+    std::string temp_string;
+    for (;;) {
+        temp_string = sock->read_socket_s();
+        if (!temp_string.empty()) {
+            command_handle->schedule_command(temp_string, get_primary_command_callback_lambda(temp_string, sock));
+        }
+    }
 }
 
 /**
@@ -77,12 +81,8 @@ std::function<Status(std::string)> get_primary_command_callback_lambda(const std
             return ES_UNINITIALIZED;
         }
         std::stringstream temp;
-        for (char i : command) {
-            if (i != '\r')
-                temp << i;
-        }
-        spdlog::info("COSMOS Command Callback Lambda --> Sent {} and got back: {}", temp.str(), telem);
-        sock->write_socket_s(telem);
+        temp << command << telem;
+        sock->write_socket_s(temp.str());
         return ES_OK;
     };
 }
@@ -98,12 +98,6 @@ std::function<Status(std::string)> get_primary_telemetry_callback_lambda(socket_
         if (telem.empty() || sock == nullptr) {
             return ES_UNINITIALIZED;
         }
-        std::stringstream temp;
-        for (char i : telem) {
-            if (i != '\r')
-                temp << i;
-        }
-        spdlog::info("COSMOS Telemetry Callback Lambda --> Found: {}", temp.str());
         sock->write_socket_s(telem);
         return ES_OK;
     };
@@ -183,10 +177,11 @@ std::function<Status()> get_obc_session_start_session_func(groundstation_manager
         sleep_until(system_clock::now() + seconds(2));
 
         // At this point, there is already a thread maintaining the PIPE state.
-        // Exit at this point.
 
         // Clear FIFO buffer
         gm->flush_transmission_interface();
+
+        gm->set_session_status(true);
 
         return ES_OK;
     };
@@ -198,6 +193,7 @@ std::function<Status()> get_obc_session_end_session_func(groundstation_manager *
         if (status != ES_OK)
             return status;
         sleep_until(system_clock::now() + seconds(1));
+        gm->set_session_status(false);
         return ES_OK;
     };
 }
