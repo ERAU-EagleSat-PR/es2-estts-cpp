@@ -10,9 +10,19 @@
 
 class cosmos_groundstation_handler {
 private:
+    /**
+     * Socket interface used for communicating with the COSMOS ground station target.
+     */
     socket_handler * sock;
+
+    /**
+     * Worker thread that schedules commands coming from COSMOS.
+     */
     std::thread cosmos_worker;
 
+    /**
+     * Ground station manager object configured by the primary COSMOS handler.
+     */
     groundstation_manager * gm;
 
     /**

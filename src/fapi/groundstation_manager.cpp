@@ -47,12 +47,12 @@ void groundstation_manager::detect_satellite_in_range() {
         if (satellite_in_range) {
             SPDLOG_DEBUG("Satellite in range.");
             if (groundstation_telemetry_callback)
-                groundstation_telemetry_callback("GS+W6901true\r");
+                groundstation_telemetry_callback("ES+W69011\r");
         }
         else {
             SPDLOG_DEBUG("Satellite not in range");
             if (groundstation_telemetry_callback)
-                groundstation_telemetry_callback("GS+W6901fals\r");
+                groundstation_telemetry_callback("ES+W69010\r");
         }
     }
     disable_pipe();
@@ -187,10 +187,10 @@ void groundstation_manager::manage() {
             }
         }
 
-        if (!currently_executing && primary_telem_cb) {
+        if (!currently_executing && groundstation_telemetry_callback) {
             auto telem = nonblock_receive();
             if (!telem.empty())
-                primary_telem_cb(telem);
+                groundstation_telemetry_callback(telem);
         }
 
         // If the time since the satellite's range was last checked is greater than ESTTS_MAX_SATELLITE_RANGE_CHECK_INTERVAL_SEC,

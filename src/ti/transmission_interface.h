@@ -13,9 +13,33 @@
 
 class transmission_interface : virtual public esttc, virtual public socket_handler {
 private:
+    /**
+     * Function pointer used by flush_transmission_interface() if configured to save data that comes through the serial
+     * port with no destination.
+     */
     std::function<estts::Status(std::string)> connectionless_telem_cb;
 
+    /**
+     * Local thread object that the transmission interfaces uses to maintain an active PIPE on the configured transceiver.
+     */
     std::thread pipe_keeper;
+
+    /**
+     * Local variable that tracks the PIPE state of the transceiver. Value has three possible states configured by PIPE_State.
+     */
+    estts::endurosat::PIPE_State pipe_mode;
+
+    /**
+     * Local variable that tracks if a higher class has an active session using the transmission interface.
+     */
+    bool session_active;
+
+    /**
+     * This mutex is a blunt force method of ensuring that only one thing is using
+     * the transmission interface at a time. Ideally, higher layer code should be written
+     * to prevent the mutex from preventing any communication.
+     */
+    std::mutex mtx;
 
     /**
      * Function designed to run on its own thread that sends a single character through the UART to the transceiver
@@ -23,15 +47,6 @@ private:
      * is false, and checks every 100 milliseconds to reduce latency.
      */
     void maintain_pipe();
-
-    estts::endurosat::PIPE_State pipe_mode;
-
-    bool session_active;
-
-    // This mutex is a blunt force method of ensuring that only one thing is using
-    // the transmission interface at a time. Ideally, higher layer code should be written
-    // to prevent the mutex from preventing any communication.
-    std::mutex mtx;
 
 public:
 
@@ -50,8 +65,16 @@ public:
      */
     void set_connectionless_telem_callback(const std::function<estts::Status(std::string)>& cb) { connectionless_telem_cb = cb;}
 
+    /**
+     * Getter function that returns the current pipe mode.
+     * @return estts::endurosat::PIPE_State pipe_mode
+     */
     estts::endurosat::PIPE_State get_pipe_state() { return pipe_mode; }
 
+    /**
+     * Setter used to inform the transmission interface of an active session in a higher level.
+     * @param ES_OK if successful.
+     */
     void set_session_status(bool status);
 
     /**
@@ -80,7 +103,7 @@ public:
      * should be created if another communication medium is required.
      * @param value
      * @param length
-     * @return
+     * @return Status
      */
     estts::Status transmit(const unsigned char *value, int length);
 
@@ -118,15 +141,25 @@ public:
      */
     estts::Status gs_transmit(const std::string &value);
 
-    /*
-     * CRITICAL NOTE - The function calling enable_pipe OR disable_pipe MUST take the mutex.
-     * These functions execute REGARDLESS of the mutex state.
+    /**
+     * Function that enables PIPE mode on the ground station transceiver, and creates a PIPE maintainer thread that
+     * forces it to stay on until disable_pipe() is called. CRITICAL NOTE: disable_pipe() MUST be called to close PIPE mode.
+     * Otherwise, it will stay on forever.
+     * @return ES_OK if successful.
      */
-
     estts::Status enable_pipe();
 
+    /**
+     * Function that disables PIPE mode on the ground station transceiver by informing the maintainer thread to stop
+     * maintaining, and waits for it to exit before returning.
+     * @return ES_OK if successful.
+     */
     estts::Status disable_pipe();
 
+    /**
+     * Function that uses the underlying interface to flush the serial FIFO queue. If connectionless_telem_cb is configured,
+     * flushed data will be passed by invoking this function.
+     */
     void flush_transmission_interface();
 };
 

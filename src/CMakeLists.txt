@@ -5,9 +5,7 @@
 
 set(
         estts-src
-        utils/bin_converter.cpp
         utils/helper.cpp
-        fapi/command_handler.cpp
         fapi/cosmos_handler.cpp
         fapi/cosmos_groundstation_handler.cpp
         fapi/cosmos_satellite_txvr_handler.cpp

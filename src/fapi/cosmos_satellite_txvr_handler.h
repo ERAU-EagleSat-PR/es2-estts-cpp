@@ -8,10 +8,19 @@
 #include "socket_handler.h"
 
 class cosmos_satellite_txvr_handler {
+    /**
+     * Ground station manager object configured by the primary COSMOS handler.
+     */
     groundstation_manager * gm;
 
+    /**
+     * Primary socket interface used for communicating with the COSMOS satellite transceiver target.
+     */
     socket_handler * sock;
 
+    /**
+     * Worker thread that schedules commands coming from COSMOS.
+     */
     std::thread cosmos_worker;
 
     /**

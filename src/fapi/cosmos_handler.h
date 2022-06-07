@@ -21,12 +21,24 @@
  */
 class cosmos_handler : virtual public cosmos_groundstation_handler, virtual public cosmos_satellite_txvr_handler {
 private:
+    /**
+     * Primary ground station manager object used for all ground station use.
+     */
     groundstation_manager * gm;
 
+    /**
+     * Primary socket interface used for communicating with the COSMOS ground station target.
+     */
     socket_handler * sock;
 
+    /**
+     * Telemetry socket interface used to handle connectionless telemetry received from lower layers.
+     */
     socket_handler * telem_sock;
 
+    /**
+     * Worker thread that receives incoming commands and schedules them.
+     */
     std::thread cosmos_worker;
 
     /**
