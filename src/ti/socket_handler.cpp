@@ -136,12 +136,41 @@ unsigned char *socket_handler::read_socket_uc() {
         return nullptr;
     }
 
+    // COSMOS is really bad at prepending zeros... hacky workaround because this isn't worth my time
+    for (int i = 0; i < n; i++)
+        if (sync_buf[i] == '\0' || sync_buf[i] == '`')
+            sync_buf[i] = '0';
+
+    sync_buf[n] = '\0';
+
     SPDLOG_TRACE("{}",get_read_trace_msg(sync_buf, n, endpoint));
 
     // Add null terminator at the end of transmission for easier processing by parent class(s)
     sync_buf[n] = '\0';
     return sync_buf;
 }
+
+void pad_zeros(unsigned char * buf, ssize_t size) {
+    int start_index = 0;
+    int end_index = 0;
+    bool inversion_required = false;
+    // First, record the last non-null index
+    for (int i = 0; i < size; i++) {
+        if (buf[i] == '\0' && !inversion_required) {
+            start_index = i;
+            inversion_required = true;
+        }
+        if (buf[i] != '\0' && inversion_required) {
+            end_index = i;
+            for (int j = start_index; j <= end_index; j++) {
+                buf[(end_index) - j] = buf[j];
+            }
+            inversion_required = false;
+        }
+    }
+}
+
+
 
 /**
  * @brief Writes string to open socket

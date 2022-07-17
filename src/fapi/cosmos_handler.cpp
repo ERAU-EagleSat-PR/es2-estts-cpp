@@ -81,10 +81,17 @@ std::function<Status(std::string)> get_primary_command_callback_lambda(const std
             return ES_UNINITIALIZED;
         }
         std::stringstream temp;
-        temp << command << telem;
+        temp << trim_command_arguments(command) << telem;
         sock->write_socket_s(temp.str());
         return ES_OK;
     };
+}
+
+std::string trim_command_arguments(std::string command) {
+    // ESTTC protocol uses commands of length ES+R1100
+    auto temp = command;
+    temp.resize(8);
+    return temp;
 }
 
 /**

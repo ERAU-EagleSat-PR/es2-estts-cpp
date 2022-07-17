@@ -47,12 +47,12 @@ void groundstation_manager::detect_satellite_in_range() {
         if (satellite_in_range) {
             SPDLOG_DEBUG("Satellite in range.");
             if (groundstation_telemetry_callback)
-                groundstation_telemetry_callback("ES+W69011\r");
+                groundstation_telemetry_callback("ES+W69011");
         }
         else {
             SPDLOG_DEBUG("Satellite not in range");
             if (groundstation_telemetry_callback)
-                groundstation_telemetry_callback("ES+W69010\r");
+                groundstation_telemetry_callback("ES+W69010");
         }
     }
     disable_pipe();
@@ -391,6 +391,7 @@ estts::Status groundstation_manager::session_manager::request_session() {
 
 void groundstation_manager::session_manager::dispatch() {
     Status status;
+    auto timestamp = high_resolution_clock::now();
     for (;;) {
         if (ES_OK != gm->validate_session_approval(this->endpoint)) {
             SPDLOG_WARN("Communication session not approved. Exiting.");
@@ -440,9 +441,14 @@ void groundstation_manager::session_manager::dispatch() {
                     SPDLOG_WARN("Command callback failed. Continuing anyway.");
                 }
             gm->notify_session_active(endpoint);
+
+            timestamp = high_resolution_clock::now();
         } else {
-            SPDLOG_INFO("Waiting command queue is empty.");
-            session_active = false;
+            auto duration = duration_cast<seconds>(high_resolution_clock::now() - timestamp).count();
+            if (duration > 5)
+                session_active = false;
+            else
+                sleep_until(system_clock::now() + milliseconds (100));
         }
 
         if (!session_active) {

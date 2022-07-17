@@ -266,6 +266,11 @@ unsigned char *serial_handler::read_serial_uc(int bytes) {
         SPDLOG_ERROR("Failed to read from serial port - {}", error.message());
         handle_failure();
     }
+
+    for (int i = 0; i < n; i++)
+        if (sync_buf[i] == '\0')
+            sync_buf[i] = ' ';
+
     // Add null terminator at the end of transmission for easier processing by parent class(s)
     sync_buf[n] = '\0';
 

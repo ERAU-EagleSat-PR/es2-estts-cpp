@@ -13,6 +13,8 @@
 #include "socket_handler.h"
 #include "groundstation_manager.h"
 
+std::string trim_command_arguments(std::string command);
+
 /**
  * The primary COSMOS handler is in charge of communication between COSMOS and the OBC.
  * When the primary COSMOS handler receives a command from COSMOS, the logic that it
