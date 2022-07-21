@@ -72,6 +72,7 @@ std::string transmission_interface::internal_receive() {
         sleep_until(system_clock::now() + milliseconds (100));
     }
     if (bytes_avail <= 0) {
+        SPDLOG_WARN("Receive timeout - {} seconds elapsed with no response", ESTTS_AWAIT_RESPONSE_PERIOD_SEC);
         return "";
     }
     auto buf = this->read_serial_s(bytes_avail);

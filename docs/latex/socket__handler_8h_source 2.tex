@@ -1,0 +1,58 @@
+\hypertarget{socket__handler_8h_source}{}\doxysection{socket\+\_\+handler.\+h}
+\label{socket__handler_8h_source}\index{src/ti/socket\_handler.h@{src/ti/socket\_handler.h}}
+\mbox{\hyperlink{socket__handler_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00001}00001 \textcolor{comment}{/* Copyright © EagleSat II -\/ Embry Riddle Aeronautical University -\/ All rights reserved -\/ 2022 */}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00002}00002 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00003}00003 \textcolor{comment}{// Created by Hayden Roszell on 1/3/22.}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00005}00005 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00006}00006 \textcolor{preprocessor}{\#ifndef ESTTS\_SOCKET\_HANDLER\_H}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00007}00007 \textcolor{preprocessor}{\#define ESTTS\_SOCKET\_HANDLER\_H}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00008}00008 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00009}00009 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00010}00010 \textcolor{preprocessor}{\#include <sys/socket.h>}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00011}00011 \textcolor{preprocessor}{\#include <netinet/in.h>}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00012}00012 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{constants_8h}{constants.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00013}00013 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00014}\mbox{\hyperlink{classsocket__handler}{00014}} \textcolor{keyword}{class }\mbox{\hyperlink{classsocket__handler}{socket\_handler}} \{}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00015}00015 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00016}00016     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} * sync\_buf;}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00017}00017 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00018}00018     \textcolor{keyword}{const} \textcolor{keywordtype}{char} *address;}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00019}00019 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00020}00020     std::string endpoint;}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00021}00021 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00022}00022     \textcolor{keyword}{struct }sockaddr\_in serv\_addr;}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00023}00023 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00024}00024     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} open\_socket();}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00025}00025 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00026}00026     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} configure\_socket();}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00028}00028 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00030}00030     \textcolor{keywordtype}{int} \mbox{\hyperlink{classsocket__handler_a306c5dc82f80b4608463505ee2128414}{check\_sock\_bytes\_avail}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00032}00032 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00034}\mbox{\hyperlink{classsocket__handler_a370ee21bc48d632b7fbb3a477a8c9c9a}{00034}}     \textcolor{keywordtype}{int} \mbox{\hyperlink{classsocket__handler_a110ff9b93efb11333fb1c98558a35bd6}{sock}}, \mbox{\hyperlink{classsocket__handler_a370ee21bc48d632b7fbb3a477a8c9c9a}{port}};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00036}00036     \mbox{\hyperlink{classsocket__handler_a1f24b9efbfc73d3bc4dfd0f13f01ccc0}{socket\_handler}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *address, \textcolor{keywordtype}{int} \mbox{\hyperlink{classsocket__handler_a370ee21bc48d632b7fbb3a477a8c9c9a}{port}});}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00038}00038     \mbox{\hyperlink{classsocket__handler_a20630b4741794656f4214ab8e7b3e066}{\string~socket\_handler}}();}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00040}00040     std::string \mbox{\hyperlink{classsocket__handler_a258a5da9a77812c27032f18bd64779fe}{read\_socket\_s}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00042}00042     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} * \mbox{\hyperlink{classsocket__handler_ac925e7df3af4516decfff5387c8aa854}{read\_socket\_uc}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00043}00043 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00044}00044     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classsocket__handler_a415ab8887b09cc4334c5191b0975e1eb}{write\_socket\_s}}(\textcolor{keyword}{const} std::string \&data) \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00046}00046     ssize\_t \mbox{\hyperlink{classsocket__handler_ab2fa4fc1e3a3e60748a2294af085a79a}{write\_socket\_uc}}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *data, \textcolor{keywordtype}{int} size) \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00048}00048     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classsocket__handler_a39c17355f576d2a67839b73b0c47f86f}{init\_socket\_handle}}();}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00049}00049 \};}
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00051}00051 }
+\DoxyCodeLine{\Hypertarget{socket__handler_8h_source_l00052}00052 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//ESTTS\_SOCKET\_HANDLER\_H}}
+
+\end{DoxyCode}

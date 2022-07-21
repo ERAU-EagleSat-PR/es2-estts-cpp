@@ -1,0 +1,608 @@
+\@ifundefined {etoctocstyle}{\let \etoc@startlocaltoc \@gobble \let \etoc@settocdepth \@gobble \let \etoc@depthtag \@gobble \let \etoc@setlocaltop \@gobble }{}
+\contentsline {chapter}{\numberline {1}Namespace Index}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Namespace List}{1}{section.1.1}%
+\contentsline {chapter}{\numberline {2}Hierarchical Index}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Class Hierarchy}{3}{section.2.1}%
+\contentsline {chapter}{\numberline {3}Class Index}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Class List}{5}{section.3.1}%
+\contentsline {chapter}{\numberline {4}File Index}{7}{chapter.4}%
+\contentsline {section}{\numberline {4.1}File List}{7}{section.4.1}%
+\contentsline {chapter}{\numberline {5}Namespace Documentation}{9}{chapter.5}%
+\contentsline {section}{\numberline {5.1}estts Namespace Reference}{9}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Typedef Documentation}{10}{subsection.5.1.1}%
+\contentsline {subsubsection}{\numberline {5.1.1.1}command\_object}{10}{subsubsection.5.1.1.1}%
+\contentsline {subsubsection}{\numberline {5.1.1.2}dispatch\_fct}{10}{subsubsection.5.1.1.2}%
+\contentsline {subsubsection}{\numberline {5.1.1.3}dispatched\_command}{10}{subsubsection.5.1.1.3}%
+\contentsline {subsubsection}{\numberline {5.1.1.4}telemetry\_object}{10}{subsubsection.5.1.1.4}%
+\contentsline {subsubsection}{\numberline {5.1.1.5}waiting\_command}{11}{subsubsection.5.1.1.5}%
+\contentsline {subsection}{\numberline {5.1.2}Enumeration Type Documentation}{11}{subsection.5.1.2}%
+\contentsline {subsubsection}{\numberline {5.1.2.1}Status}{11}{subsubsection.5.1.2.1}%
+\contentsline {subsection}{\numberline {5.1.3}Variable Documentation}{11}{subsection.5.1.3}%
+\contentsline {subsubsection}{\numberline {5.1.3.1}ESTTS\_AWAIT\_RESPONSE\_PERIOD\_SEC}{11}{subsubsection.5.1.3.1}%
+\contentsline {subsubsection}{\numberline {5.1.3.2}ESTTS\_CHECK\_SATELLITE\_INRANGE\_INTERVAL\_SEC}{11}{subsubsection.5.1.3.2}%
+\contentsline {subsubsection}{\numberline {5.1.3.3}ESTTS\_MAX\_RETRIES}{12}{subsubsection.5.1.3.3}%
+\contentsline {subsubsection}{\numberline {5.1.3.4}ESTTS\_REQUEST\_SESSION\_TIMEOUT\_SECONDS}{12}{subsubsection.5.1.3.4}%
+\contentsline {subsubsection}{\numberline {5.1.3.5}ESTTS\_RETRY\_WAIT\_SEC}{12}{subsubsection.5.1.3.5}%
+\contentsline {subsubsection}{\numberline {5.1.3.6}ESTTS\_SATELLITE\_CONNECTION\_TIMEOUT\_MIN}{12}{subsubsection.5.1.3.6}%
+\contentsline {subsubsection}{\numberline {5.1.3.7}REMOVABLE\_STORAGE\_NAME}{12}{subsubsection.5.1.3.7}%
+\contentsline {section}{\numberline {5.2}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::ax25 Namespace Reference}{12}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Variable Documentation}{13}{subsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.1.1}AX25\_CONTROL}{13}{subsubsection.5.2.1.1}%
+\contentsline {subsubsection}{\numberline {5.2.1.2}AX25\_DESTINATION\_ADDRESS}{13}{subsubsection.5.2.1.2}%
+\contentsline {subsubsection}{\numberline {5.2.1.3}AX25\_FLAG}{13}{subsubsection.5.2.1.3}%
+\contentsline {subsubsection}{\numberline {5.2.1.4}AX25\_PID}{13}{subsubsection.5.2.1.4}%
+\contentsline {subsubsection}{\numberline {5.2.1.5}AX25\_SOURCE\_ADDRESS}{13}{subsubsection.5.2.1.5}%
+\contentsline {subsubsection}{\numberline {5.2.1.6}AX25\_SSID0}{14}{subsubsection.5.2.1.6}%
+\contentsline {subsubsection}{\numberline {5.2.1.7}AX25\_SSID1}{14}{subsubsection.5.2.1.7}%
+\contentsline {subsubsection}{\numberline {5.2.1.8}END\_SESSION\_FRAME}{14}{subsubsection.5.2.1.8}%
+\contentsline {subsubsection}{\numberline {5.2.1.9}NEW\_SESSION\_FRAME}{14}{subsubsection.5.2.1.9}%
+\contentsline {section}{\numberline {5.3}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::cosmos Namespace Reference}{14}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Variable Documentation}{14}{subsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.1.1}COSMOS\_GROUNDSTATION\_CMD\_TELEM\_PORT}{15}{subsubsection.5.3.1.1}%
+\contentsline {subsubsection}{\numberline {5.3.1.2}COSMOS\_PRIMARY\_CMD\_TELEM\_PORT}{15}{subsubsection.5.3.1.2}%
+\contentsline {subsubsection}{\numberline {5.3.1.3}COSMOS\_SATELLITE\_TXVR\_CMD\_TELEM\_PORT}{15}{subsubsection.5.3.1.3}%
+\contentsline {subsubsection}{\numberline {5.3.1.4}COSMOS\_SERVER\_ADDR}{15}{subsubsection.5.3.1.4}%
+\contentsline {section}{\numberline {5.4}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::dispatcher Namespace Reference}{15}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Variable Documentation}{15}{subsection.5.4.1}%
+\contentsline {subsubsection}{\numberline {5.4.1.1}MAX\_COMPLETED\_CACHE}{15}{subsubsection.5.4.1.1}%
+\contentsline {section}{\numberline {5.5}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::endurosat Namespace Reference}{16}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}Enumeration Type Documentation}{16}{subsection.5.5.1}%
+\contentsline {subsubsection}{\numberline {5.5.1.1}PIPE\_State}{16}{subsubsection.5.5.1.1}%
+\contentsline {subsection}{\numberline {5.5.2}Variable Documentation}{16}{subsection.5.5.2}%
+\contentsline {subsubsection}{\numberline {5.5.2.1}ES\_BAUD}{16}{subsubsection.5.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.5.2.2}MAX\_ES\_TXVR\_TEMP}{17}{subsubsection.5.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.5.2.3}MAX\_RETRIES}{17}{subsubsection.5.5.2.3}%
+\contentsline {subsubsection}{\numberline {5.5.2.4}PIPE\_DURATION\_SEC}{17}{subsubsection.5.5.2.4}%
+\contentsline {subsubsection}{\numberline {5.5.2.5}WAIT\_TIME\_SEC}{17}{subsubsection.5.5.2.5}%
+\contentsline {section}{\numberline {5.6}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::es2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}commands Namespace Reference}{17}{section.5.6}%
+\contentsline {section}{\numberline {5.7}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::es2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}commands\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::acs Namespace Reference}{18}{section.5.7}%
+\contentsline {subsection}{\numberline {5.7.1}Variable Documentation}{18}{subsection.5.7.1}%
+\contentsline {subsubsection}{\numberline {5.7.1.1}ACS\_DEP\_MAG\_BOOM}{18}{subsubsection.5.7.1.1}%
+\contentsline {subsubsection}{\numberline {5.7.1.2}ACS\_ENABLE}{18}{subsubsection.5.7.1.2}%
+\contentsline {subsubsection}{\numberline {5.7.1.3}ACS\_EST\_ANG\_RATES\_FINE}{18}{subsubsection.5.7.1.3}%
+\contentsline {subsubsection}{\numberline {5.7.1.4}ACS\_GET\_CC\_CURRENT}{19}{subsubsection.5.7.1.4}%
+\contentsline {subsubsection}{\numberline {5.7.1.5}ACS\_GET\_GPS\_LAT}{19}{subsubsection.5.7.1.5}%
+\contentsline {subsubsection}{\numberline {5.7.1.6}ACS\_GET\_GPS\_LONG}{19}{subsubsection.5.7.1.6}%
+\contentsline {subsubsection}{\numberline {5.7.1.7}ACS\_GET\_MAGNET}{19}{subsubsection.5.7.1.7}%
+\contentsline {subsubsection}{\numberline {5.7.1.8}ACS\_GET\_MAGNETO}{19}{subsubsection.5.7.1.8}%
+\contentsline {subsubsection}{\numberline {5.7.1.9}ACS\_GET\_POS}{19}{subsubsection.5.7.1.9}%
+\contentsline {subsubsection}{\numberline {5.7.1.10}ACS\_POWER}{20}{subsubsection.5.7.1.10}%
+\contentsline {subsubsection}{\numberline {5.7.1.11}ACS\_RATE\_SENSE\_RATE}{20}{subsubsection.5.7.1.11}%
+\contentsline {subsubsection}{\numberline {5.7.1.12}ACS\_SAVE\_CONFIG}{20}{subsubsection.5.7.1.12}%
+\contentsline {subsubsection}{\numberline {5.7.1.13}ACS\_SET\_ANG\_RATE}{20}{subsubsection.5.7.1.13}%
+\contentsline {subsubsection}{\numberline {5.7.1.14}ACS\_SET\_ATT\_ANG}{20}{subsubsection.5.7.1.14}%
+\contentsline {subsubsection}{\numberline {5.7.1.15}ACS\_SET\_CTRL\_MODE}{20}{subsubsection.5.7.1.15}%
+\contentsline {subsubsection}{\numberline {5.7.1.16}ACS\_SET\_EST\_MODE}{21}{subsubsection.5.7.1.16}%
+\contentsline {subsubsection}{\numberline {5.7.1.17}ACS\_SET\_INERTIA}{21}{subsubsection.5.7.1.17}%
+\contentsline {subsubsection}{\numberline {5.7.1.18}ACS\_SET\_MAG\_MNT}{21}{subsubsection.5.7.1.18}%
+\contentsline {subsubsection}{\numberline {5.7.1.19}ACS\_SET\_MAG\_MNT\_MTRX}{21}{subsubsection.5.7.1.19}%
+\contentsline {subsubsection}{\numberline {5.7.1.20}ACS\_SET\_MAGNETORQUER}{21}{subsubsection.5.7.1.20}%
+\contentsline {section}{\numberline {5.8}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::es2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}commands\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::crp Namespace Reference}{21}{section.5.8}%
+\contentsline {subsection}{\numberline {5.8.1}Variable Documentation}{21}{subsection.5.8.1}%
+\contentsline {subsubsection}{\numberline {5.8.1.1}CRP\_GET\_DATA}{22}{subsubsection.5.8.1.1}%
+\contentsline {section}{\numberline {5.9}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::es2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}commands\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps Namespace Reference}{22}{section.5.9}%
+\contentsline {subsection}{\numberline {5.9.1}Variable Documentation}{22}{subsection.5.9.1}%
+\contentsline {subsubsection}{\numberline {5.9.1.1}EPS\_GET\_3VBUS\_CURRENT}{22}{subsubsection.5.9.1.1}%
+\contentsline {subsubsection}{\numberline {5.9.1.2}EPS\_GET\_5VBUS\_CURRENT}{22}{subsubsection.5.9.1.2}%
+\contentsline {subsubsection}{\numberline {5.9.1.3}EPS\_GET\_BATTERY\_CURRENT}{23}{subsubsection.5.9.1.3}%
+\contentsline {subsubsection}{\numberline {5.9.1.4}EPS\_GET\_BATTERY\_TEMP\_SENSOR1}{23}{subsubsection.5.9.1.4}%
+\contentsline {subsubsection}{\numberline {5.9.1.5}EPS\_GET\_BATTERY\_TEMP\_SENSOR2}{23}{subsubsection.5.9.1.5}%
+\contentsline {subsubsection}{\numberline {5.9.1.6}EPS\_GET\_BATTERY\_TEMP\_SENSOR3}{23}{subsubsection.5.9.1.6}%
+\contentsline {subsubsection}{\numberline {5.9.1.7}EPS\_GET\_BATTERY\_TEMP\_SENSOR4}{23}{subsubsection.5.9.1.7}%
+\contentsline {subsubsection}{\numberline {5.9.1.8}EPS\_GET\_BATTERY\_VOLTAGE}{23}{subsubsection.5.9.1.8}%
+\contentsline {subsubsection}{\numberline {5.9.1.9}EPS\_GET\_COMMAND\_43}{24}{subsubsection.5.9.1.9}%
+\contentsline {subsubsection}{\numberline {5.9.1.10}EPS\_GET\_HEALTH}{24}{subsubsection.5.9.1.10}%
+\contentsline {subsubsection}{\numberline {5.9.1.11}EPS\_GET\_TEMP\_SENSOR5}{24}{subsubsection.5.9.1.11}%
+\contentsline {subsubsection}{\numberline {5.9.1.12}EPS\_GET\_TEMP\_SENSOR6}{24}{subsubsection.5.9.1.12}%
+\contentsline {subsubsection}{\numberline {5.9.1.13}EPS\_GET\_TEMP\_SENSOR7}{24}{subsubsection.5.9.1.13}%
+\contentsline {section}{\numberline {5.10}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::es2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}commands\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::mde Namespace Reference}{24}{section.5.10}%
+\contentsline {subsection}{\numberline {5.10.1}Variable Documentation}{24}{subsection.5.10.1}%
+\contentsline {subsubsection}{\numberline {5.10.1.1}MDE\_GET\_STATUS}{25}{subsubsection.5.10.1.1}%
+\contentsline {section}{\numberline {5.11}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::es2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}commands\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::method Namespace Reference}{25}{section.5.11}%
+\contentsline {subsection}{\numberline {5.11.1}Variable Documentation}{25}{subsection.5.11.1}%
+\contentsline {subsubsection}{\numberline {5.11.1.1}ES\_READ}{25}{subsubsection.5.11.1.1}%
+\contentsline {subsubsection}{\numberline {5.11.1.2}ES\_WRITE}{25}{subsubsection.5.11.1.2}%
+\contentsline {section}{\numberline {5.12}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::es2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}commands\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::obc Namespace Reference}{25}{section.5.12}%
+\contentsline {subsection}{\numberline {5.12.1}Variable Documentation}{25}{subsection.5.12.1}%
+\contentsline {subsubsection}{\numberline {5.12.1.1}OBC\_GET\_HEALTH}{26}{subsubsection.5.12.1.1}%
+\contentsline {section}{\numberline {5.13}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::es2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}endpoint Namespace Reference}{26}{section.5.13}%
+\contentsline {subsection}{\numberline {5.13.1}Variable Documentation}{26}{subsection.5.13.1}%
+\contentsline {subsubsection}{\numberline {5.13.1.1}ES\_ACS}{26}{subsubsection.5.13.1.1}%
+\contentsline {subsubsection}{\numberline {5.13.1.2}ES\_CRP}{26}{subsubsection.5.13.1.2}%
+\contentsline {subsubsection}{\numberline {5.13.1.3}ES\_EPS}{26}{subsubsection.5.13.1.3}%
+\contentsline {subsubsection}{\numberline {5.13.1.4}ES\_MDE}{27}{subsubsection.5.13.1.4}%
+\contentsline {subsubsection}{\numberline {5.13.1.5}ES\_OBC}{27}{subsubsection.5.13.1.5}%
+\contentsline {subsubsection}{\numberline {5.13.1.6}ES\_OFFLINE\_LOG}{27}{subsubsection.5.13.1.6}%
+\contentsline {subsubsection}{\numberline {5.13.1.7}ES\_TELEMETRY}{27}{subsubsection.5.13.1.7}%
+\contentsline {section}{\numberline {5.14}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::es2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}telemetry Namespace Reference}{27}{section.5.14}%
+\contentsline {section}{\numberline {5.15}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::es2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}telemetry\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::acs Namespace Reference}{27}{section.5.15}%
+\contentsline {section}{\numberline {5.16}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::es2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}telemetry\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps Namespace Reference}{27}{section.5.16}%
+\contentsline {section}{\numberline {5.17}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}response\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}code Namespace Reference}{28}{section.5.17}%
+\contentsline {subsection}{\numberline {5.17.1}Variable Documentation}{28}{subsection.5.17.1}%
+\contentsline {subsubsection}{\numberline {5.17.1.1}OBC\_FAILURE}{28}{subsubsection.5.17.1.1}%
+\contentsline {subsubsection}{\numberline {5.17.1.2}SUCCESS}{28}{subsubsection.5.17.1.2}%
+\contentsline {subsubsection}{\numberline {5.17.1.3}UNRECOGNIZED\_REQUEST}{28}{subsubsection.5.17.1.3}%
+\contentsline {section}{\numberline {5.18}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::telem\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler Namespace Reference}{28}{section.5.18}%
+\contentsline {subsection}{\numberline {5.18.1}Variable Documentation}{28}{subsection.5.18.1}%
+\contentsline {subsubsection}{\numberline {5.18.1.1}TELEM\_HANDLER\_STATE\_FILE}{29}{subsubsection.5.18.1.1}%
+\contentsline {section}{\numberline {5.19}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::ti\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}serial Namespace Reference}{29}{section.5.19}%
+\contentsline {subsection}{\numberline {5.19.1}Variable Documentation}{29}{subsection.5.19.1}%
+\contentsline {subsubsection}{\numberline {5.19.1.1}TI\_SERIAL\_ADDRESS}{29}{subsubsection.5.19.1.1}%
+\contentsline {section}{\numberline {5.20}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::ti\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}socket Namespace Reference}{29}{section.5.20}%
+\contentsline {subsection}{\numberline {5.20.1}Variable Documentation}{29}{subsection.5.20.1}%
+\contentsline {subsubsection}{\numberline {5.20.1.1}MAX\_RETRIES}{29}{subsubsection.5.20.1.1}%
+\contentsline {subsubsection}{\numberline {5.20.1.2}TI\_SOCKET\_ADDRESS}{30}{subsubsection.5.20.1.2}%
+\contentsline {subsubsection}{\numberline {5.20.1.3}TI\_SOCKET\_BUF\_SZ}{30}{subsubsection.5.20.1.3}%
+\contentsline {subsubsection}{\numberline {5.20.1.4}TI\_SOCKET\_PORT}{30}{subsubsection.5.20.1.4}%
+\contentsline {subsubsection}{\numberline {5.20.1.5}WAIT\_TIME\_SEC}{30}{subsubsection.5.20.1.5}%
+\contentsline {chapter}{\numberline {6}Class Documentation}{31}{chapter.6}%
+\contentsline {section}{\numberline {6.1}acs\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command Class Reference}{31}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Detailed Description}{31}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}Member Function Documentation}{31}{subsection.6.1.2}%
+\contentsline {subsubsection}{\numberline {6.1.2.1}deploy\_magnetometer\_boom()}{31}{subsubsection.6.1.2.1}%
+\contentsline {subsubsection}{\numberline {6.1.2.2}enable\_acs()}{32}{subsubsection.6.1.2.2}%
+\contentsline {subsubsection}{\numberline {6.1.2.3}get\_current\_position()}{32}{subsubsection.6.1.2.3}%
+\contentsline {subsubsection}{\numberline {6.1.2.4}power\_acs()}{32}{subsubsection.6.1.2.4}%
+\contentsline {subsubsection}{\numberline {6.1.2.5}set\_ctrl\_mode()}{32}{subsubsection.6.1.2.5}%
+\contentsline {subsubsection}{\numberline {6.1.2.6}set\_est\_mode()}{32}{subsubsection.6.1.2.6}%
+\contentsline {section}{\numberline {6.2}ax25\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ui\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}frame\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}constructor Class Reference}{33}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Detailed Description}{33}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Constructor \& Destructor Documentation}{33}{subsection.6.2.2}%
+\contentsline {subsubsection}{\numberline {6.2.2.1}ax25\_ui\_frame\_constructor()}{33}{subsubsection.6.2.2.1}%
+\contentsline {subsection}{\numberline {6.2.3}Member Function Documentation}{33}{subsection.6.2.3}%
+\contentsline {subsubsection}{\numberline {6.2.3.1}construct\_ax25()}{34}{subsubsection.6.2.3.1}%
+\contentsline {subsubsection}{\numberline {6.2.3.2}encode\_ax25\_frame()}{34}{subsubsection.6.2.3.2}%
+\contentsline {section}{\numberline {6.3}ax25\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ui\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}frame\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}destructor Class Reference}{34}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Detailed Description}{35}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Constructor \& Destructor Documentation}{35}{subsection.6.3.2}%
+\contentsline {subsubsection}{\numberline {6.3.2.1}ax25\_ui\_frame\_destructor()}{35}{subsubsection.6.3.2.1}%
+\contentsline {subsection}{\numberline {6.3.3}Member Function Documentation}{35}{subsection.6.3.3}%
+\contentsline {subsubsection}{\numberline {6.3.3.1}destruct\_ax25()}{35}{subsubsection.6.3.3.1}%
+\contentsline {section}{\numberline {6.4}bin\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}converter Class Reference}{35}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}Detailed Description}{36}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}Member Function Documentation}{36}{subsection.6.4.2}%
+\contentsline {subsubsection}{\numberline {6.4.2.1}toBinary()\hspace {0.1cm}{\footnotesize \ttfamily [1/4]}}{36}{subsubsection.6.4.2.1}%
+\contentsline {subsubsection}{\numberline {6.4.2.2}toBinary()\hspace {0.1cm}{\footnotesize \ttfamily [2/4]}}{36}{subsubsection.6.4.2.2}%
+\contentsline {subsubsection}{\numberline {6.4.2.3}toBinary()\hspace {0.1cm}{\footnotesize \ttfamily [3/4]}}{36}{subsubsection.6.4.2.3}%
+\contentsline {subsubsection}{\numberline {6.4.2.4}toBinary()\hspace {0.1cm}{\footnotesize \ttfamily [4/4]}}{37}{subsubsection.6.4.2.4}%
+\contentsline {section}{\numberline {6.5}command\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler Class Reference}{37}{section.6.5}%
+\contentsline {subsection}{\numberline {6.5.1}Detailed Description}{38}{subsection.6.5.1}%
+\contentsline {subsection}{\numberline {6.5.2}Constructor \& Destructor Documentation}{38}{subsection.6.5.2}%
+\contentsline {subsubsection}{\numberline {6.5.2.1}command\_handler()}{38}{subsubsection.6.5.2.1}%
+\contentsline {subsubsection}{\numberline {6.5.2.2}$\sim $command\_handler()}{38}{subsubsection.6.5.2.2}%
+\contentsline {subsection}{\numberline {6.5.3}Member Function Documentation}{38}{subsection.6.5.3}%
+\contentsline {subsubsection}{\numberline {6.5.3.1}execute()}{38}{subsubsection.6.5.3.1}%
+\contentsline {subsubsection}{\numberline {6.5.3.2}init\_command\_handler()}{39}{subsubsection.6.5.3.2}%
+\contentsline {subsection}{\numberline {6.5.4}Member Data Documentation}{39}{subsection.6.5.4}%
+\contentsline {subsubsection}{\numberline {6.5.4.1}completed\_cache}{39}{subsubsection.6.5.4.1}%
+\contentsline {subsubsection}{\numberline {6.5.4.2}dispatched}{39}{subsubsection.6.5.4.2}%
+\contentsline {section}{\numberline {6.6}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::command\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}object Struct Reference}{39}{section.6.6}%
+\contentsline {subsection}{\numberline {6.6.1}Detailed Description}{40}{subsection.6.6.1}%
+\contentsline {subsection}{\numberline {6.6.2}Member Data Documentation}{40}{subsection.6.6.2}%
+\contentsline {subsubsection}{\numberline {6.6.2.1}address}{40}{subsubsection.6.6.2.1}%
+\contentsline {subsubsection}{\numberline {6.6.2.2}commandID}{40}{subsubsection.6.6.2.2}%
+\contentsline {subsubsection}{\numberline {6.6.2.3}data}{40}{subsubsection.6.6.2.3}%
+\contentsline {subsubsection}{\numberline {6.6.2.4}method}{40}{subsubsection.6.6.2.4}%
+\contentsline {subsubsection}{\numberline {6.6.2.5}sequence}{41}{subsubsection.6.6.2.5}%
+\contentsline {subsubsection}{\numberline {6.6.2.6}timeStamp}{41}{subsubsection.6.6.2.6}%
+\contentsline {section}{\numberline {6.7}cosmos\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}groundstation\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler Class Reference}{41}{section.6.7}%
+\contentsline {subsection}{\numberline {6.7.1}Detailed Description}{41}{subsection.6.7.1}%
+\contentsline {subsection}{\numberline {6.7.2}Constructor \& Destructor Documentation}{41}{subsection.6.7.2}%
+\contentsline {subsubsection}{\numberline {6.7.2.1}cosmos\_groundstation\_handler()}{42}{subsubsection.6.7.2.1}%
+\contentsline {subsection}{\numberline {6.7.3}Member Function Documentation}{42}{subsection.6.7.3}%
+\contentsline {subsubsection}{\numberline {6.7.3.1}cosmos\_groundstation\_init()}{42}{subsubsection.6.7.3.1}%
+\contentsline {section}{\numberline {6.8}cosmos\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler Class Reference}{42}{section.6.8}%
+\contentsline {subsection}{\numberline {6.8.1}Detailed Description}{43}{subsection.6.8.1}%
+\contentsline {subsection}{\numberline {6.8.2}Constructor \& Destructor Documentation}{43}{subsection.6.8.2}%
+\contentsline {subsubsection}{\numberline {6.8.2.1}cosmos\_handler()}{43}{subsubsection.6.8.2.1}%
+\contentsline {subsection}{\numberline {6.8.3}Member Function Documentation}{43}{subsection.6.8.3}%
+\contentsline {subsubsection}{\numberline {6.8.3.1}cosmos\_init()}{43}{subsubsection.6.8.3.1}%
+\contentsline {subsubsection}{\numberline {6.8.3.2}initialize\_cosmos\_daemon()}{43}{subsubsection.6.8.3.2}%
+\contentsline {section}{\numberline {6.9}cosmos\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}satellite\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}txvr\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler Class Reference}{44}{section.6.9}%
+\contentsline {subsection}{\numberline {6.9.1}Detailed Description}{44}{subsection.6.9.1}%
+\contentsline {subsection}{\numberline {6.9.2}Constructor \& Destructor Documentation}{44}{subsection.6.9.2}%
+\contentsline {subsubsection}{\numberline {6.9.2.1}cosmos\_satellite\_txvr\_handler()}{44}{subsubsection.6.9.2.1}%
+\contentsline {subsection}{\numberline {6.9.3}Member Function Documentation}{44}{subsection.6.9.3}%
+\contentsline {subsubsection}{\numberline {6.9.3.1}cosmos\_satellite\_txvr\_init()}{44}{subsubsection.6.9.3.1}%
+\contentsline {section}{\numberline {6.10}crp\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command Class Reference}{45}{section.6.10}%
+\contentsline {subsection}{\numberline {6.10.1}Detailed Description}{45}{subsection.6.10.1}%
+\contentsline {section}{\numberline {6.11}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::dispatched\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command Struct Reference}{45}{section.6.11}%
+\contentsline {subsection}{\numberline {6.11.1}Detailed Description}{45}{subsection.6.11.1}%
+\contentsline {subsection}{\numberline {6.11.2}Member Data Documentation}{45}{subsection.6.11.2}%
+\contentsline {subsubsection}{\numberline {6.11.2.1}command}{45}{subsubsection.6.11.2.1}%
+\contentsline {subsubsection}{\numberline {6.11.2.2}frame}{46}{subsubsection.6.11.2.2}%
+\contentsline {subsubsection}{\numberline {6.11.2.3}obj\_callback}{46}{subsubsection.6.11.2.3}%
+\contentsline {subsubsection}{\numberline {6.11.2.4}response\_code}{46}{subsubsection.6.11.2.4}%
+\contentsline {subsubsection}{\numberline {6.11.2.5}serial\_number}{46}{subsubsection.6.11.2.5}%
+\contentsline {subsubsection}{\numberline {6.11.2.6}str\_callback}{46}{subsubsection.6.11.2.6}%
+\contentsline {subsubsection}{\numberline {6.11.2.7}telem\_obj}{46}{subsubsection.6.11.2.7}%
+\contentsline {subsubsection}{\numberline {6.11.2.8}telem\_str}{47}{subsubsection.6.11.2.8}%
+\contentsline {section}{\numberline {6.12}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::es2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}telemetry\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}3\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Vbus\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}current Struct Reference}{47}{section.6.12}%
+\contentsline {subsection}{\numberline {6.12.1}Detailed Description}{47}{subsection.6.12.1}%
+\contentsline {subsection}{\numberline {6.12.2}Member Data Documentation}{47}{subsection.6.12.2}%
+\contentsline {subsubsection}{\numberline {6.12.2.1}bus\_current}{47}{subsubsection.6.12.2.1}%
+\contentsline {section}{\numberline {6.13}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::es2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}telemetry\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}5\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Vbus\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}current Struct Reference}{47}{section.6.13}%
+\contentsline {subsection}{\numberline {6.13.1}Detailed Description}{48}{subsection.6.13.1}%
+\contentsline {subsection}{\numberline {6.13.2}Member Data Documentation}{48}{subsection.6.13.2}%
+\contentsline {subsubsection}{\numberline {6.13.2.1}bus\_current}{48}{subsubsection.6.13.2.1}%
+\contentsline {section}{\numberline {6.14}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::es2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}telemetry\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}battery\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Temp\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}sensor1 Struct Reference}{48}{section.6.14}%
+\contentsline {subsection}{\numberline {6.14.1}Detailed Description}{48}{subsection.6.14.1}%
+\contentsline {subsection}{\numberline {6.14.2}Member Data Documentation}{48}{subsection.6.14.2}%
+\contentsline {subsubsection}{\numberline {6.14.2.1}battery\_temperature}{48}{subsubsection.6.14.2.1}%
+\contentsline {section}{\numberline {6.15}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::es2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}telemetry\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}battery\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Temp\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}sensor2 Struct Reference}{49}{section.6.15}%
+\contentsline {subsection}{\numberline {6.15.1}Detailed Description}{49}{subsection.6.15.1}%
+\contentsline {subsection}{\numberline {6.15.2}Member Data Documentation}{49}{subsection.6.15.2}%
+\contentsline {subsubsection}{\numberline {6.15.2.1}battery\_temperature}{49}{subsubsection.6.15.2.1}%
+\contentsline {section}{\numberline {6.16}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::es2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}telemetry\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}battery\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Temp\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}sensor3 Struct Reference}{49}{section.6.16}%
+\contentsline {subsection}{\numberline {6.16.1}Detailed Description}{49}{subsection.6.16.1}%
+\contentsline {subsection}{\numberline {6.16.2}Member Data Documentation}{50}{subsection.6.16.2}%
+\contentsline {subsubsection}{\numberline {6.16.2.1}battery\_temperature}{50}{subsubsection.6.16.2.1}%
+\contentsline {section}{\numberline {6.17}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::es2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}telemetry\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}battery\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Temp\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}sensor4 Struct Reference}{50}{section.6.17}%
+\contentsline {subsection}{\numberline {6.17.1}Detailed Description}{50}{subsection.6.17.1}%
+\contentsline {subsection}{\numberline {6.17.2}Member Data Documentation}{50}{subsection.6.17.2}%
+\contentsline {subsubsection}{\numberline {6.17.2.1}battery\_temperature}{50}{subsubsection.6.17.2.1}%
+\contentsline {section}{\numberline {6.18}eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command Class Reference}{51}{section.6.18}%
+\contentsline {subsection}{\numberline {6.18.1}Detailed Description}{51}{subsection.6.18.1}%
+\contentsline {subsection}{\numberline {6.18.2}Constructor \& Destructor Documentation}{51}{subsection.6.18.2}%
+\contentsline {subsubsection}{\numberline {6.18.2.1}eps\_command()}{51}{subsubsection.6.18.2.1}%
+\contentsline {subsection}{\numberline {6.18.3}Member Function Documentation}{51}{subsection.6.18.3}%
+\contentsline {subsubsection}{\numberline {6.18.3.1}get\_eps\_3Vbus\_current()}{51}{subsubsection.6.18.3.1}%
+\contentsline {subsubsection}{\numberline {6.18.3.2}get\_eps\_5Vbus\_current()}{52}{subsubsection.6.18.3.2}%
+\contentsline {subsubsection}{\numberline {6.18.3.3}get\_eps\_battery\_temp\_sensor1()}{52}{subsubsection.6.18.3.3}%
+\contentsline {subsubsection}{\numberline {6.18.3.4}get\_eps\_battery\_temp\_sensor2()}{52}{subsubsection.6.18.3.4}%
+\contentsline {subsubsection}{\numberline {6.18.3.5}get\_eps\_battery\_temp\_sensor3()}{52}{subsubsection.6.18.3.5}%
+\contentsline {subsubsection}{\numberline {6.18.3.6}get\_eps\_battery\_temp\_sensor4()}{52}{subsubsection.6.18.3.6}%
+\contentsline {subsubsection}{\numberline {6.18.3.7}get\_eps\_batteryCurrent()}{52}{subsubsection.6.18.3.7}%
+\contentsline {subsubsection}{\numberline {6.18.3.8}get\_eps\_batteryVoltage()}{53}{subsubsection.6.18.3.8}%
+\contentsline {subsubsection}{\numberline {6.18.3.9}get\_eps\_temp\_sensor5()}{53}{subsubsection.6.18.3.9}%
+\contentsline {subsubsection}{\numberline {6.18.3.10}get\_eps\_temp\_sensor6()}{53}{subsubsection.6.18.3.10}%
+\contentsline {subsubsection}{\numberline {6.18.3.11}get\_eps\_temp\_sensor7()}{53}{subsubsection.6.18.3.11}%
+\contentsline {subsubsection}{\numberline {6.18.3.12}get\_eps\_vitals()}{53}{subsubsection.6.18.3.12}%
+\contentsline {section}{\numberline {6.19}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::es2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}telemetry\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}current Struct Reference}{54}{section.6.19}%
+\contentsline {subsection}{\numberline {6.19.1}Detailed Description}{54}{subsection.6.19.1}%
+\contentsline {subsection}{\numberline {6.19.2}Member Data Documentation}{54}{subsection.6.19.2}%
+\contentsline {subsubsection}{\numberline {6.19.2.1}battery\_current}{54}{subsubsection.6.19.2.1}%
+\contentsline {section}{\numberline {6.20}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::es2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}telemetry\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}external\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Temp\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}sensor5 Struct Reference}{54}{section.6.20}%
+\contentsline {subsection}{\numberline {6.20.1}Detailed Description}{54}{subsection.6.20.1}%
+\contentsline {subsection}{\numberline {6.20.2}Member Data Documentation}{54}{subsection.6.20.2}%
+\contentsline {subsubsection}{\numberline {6.20.2.1}external\_temperature}{55}{subsubsection.6.20.2.1}%
+\contentsline {section}{\numberline {6.21}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::es2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}telemetry\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}external\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Temp\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}sensor6 Struct Reference}{55}{section.6.21}%
+\contentsline {subsection}{\numberline {6.21.1}Detailed Description}{55}{subsection.6.21.1}%
+\contentsline {subsection}{\numberline {6.21.2}Member Data Documentation}{55}{subsection.6.21.2}%
+\contentsline {subsubsection}{\numberline {6.21.2.1}external\_temperature}{55}{subsubsection.6.21.2.1}%
+\contentsline {section}{\numberline {6.22}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::es2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}telemetry\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}external\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Temp\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}sensor7 Struct Reference}{55}{section.6.22}%
+\contentsline {subsection}{\numberline {6.22.1}Detailed Description}{56}{subsection.6.22.1}%
+\contentsline {subsection}{\numberline {6.22.2}Member Data Documentation}{56}{subsection.6.22.2}%
+\contentsline {subsubsection}{\numberline {6.22.2.1}external\_temperature}{56}{subsubsection.6.22.2.1}%
+\contentsline {section}{\numberline {6.23}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::es2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}telemetry\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}voltage Struct Reference}{56}{section.6.23}%
+\contentsline {subsection}{\numberline {6.23.1}Detailed Description}{56}{subsection.6.23.1}%
+\contentsline {subsection}{\numberline {6.23.2}Member Data Documentation}{56}{subsection.6.23.2}%
+\contentsline {subsubsection}{\numberline {6.23.2.1}battery\_voltage}{57}{subsubsection.6.23.2.1}%
+\contentsline {section}{\numberline {6.24}esttc Class Reference}{57}{section.6.24}%
+\contentsline {subsection}{\numberline {6.24.1}Detailed Description}{58}{subsection.6.24.1}%
+\contentsline {subsection}{\numberline {6.24.2}Constructor \& Destructor Documentation}{59}{subsection.6.24.2}%
+\contentsline {subsubsection}{\numberline {6.24.2.1}esttc()}{59}{subsubsection.6.24.2.1}%
+\contentsline {subsubsection}{\numberline {6.24.2.2}$\sim $esttc()}{59}{subsubsection.6.24.2.2}%
+\contentsline {subsection}{\numberline {6.24.3}Member Function Documentation}{59}{subsection.6.24.3}%
+\contentsline {subsubsection}{\numberline {6.24.3.1}calculate\_crc32()}{59}{subsubsection.6.24.3.1}%
+\contentsline {subsubsection}{\numberline {6.24.3.2}default\_mode()}{60}{subsubsection.6.24.3.2}%
+\contentsline {subsubsection}{\numberline {6.24.3.3}read\_ant\_release\_config()}{60}{subsubsection.6.24.3.3}%
+\contentsline {subsubsection}{\numberline {6.24.3.4}read\_bcn\_trans\_period()}{60}{subsubsection.6.24.3.4}%
+\contentsline {subsubsection}{\numberline {6.24.3.5}read\_config\_ax25\_decode()}{61}{subsubsection.6.24.3.5}%
+\contentsline {subsubsection}{\numberline {6.24.3.6}read\_dvc\_payload\_size()}{61}{subsubsection.6.24.3.6}%
+\contentsline {subsubsection}{\numberline {6.24.3.7}read\_i2c\_resist\_config()}{61}{subsubsection.6.24.3.7}%
+\contentsline {subsubsection}{\numberline {6.24.3.8}read\_low\_pwr\_mode()}{62}{subsubsection.6.24.3.8}%
+\contentsline {subsubsection}{\numberline {6.24.3.9}read\_radio\_crc16()}{62}{subsubsection.6.24.3.9}%
+\contentsline {subsubsection}{\numberline {6.24.3.10}read\_radio\_freq()}{63}{subsubsection.6.24.3.10}%
+\contentsline {subsubsection}{\numberline {6.24.3.11}read\_radio\_trans\_prop\_config()}{63}{subsubsection.6.24.3.11}%
+\contentsline {subsubsection}{\numberline {6.24.3.12}read\_scw()}{64}{subsubsection.6.24.3.12}%
+\contentsline {subsubsection}{\numberline {6.24.3.13}read\_src\_call\_sign()}{64}{subsubsection.6.24.3.13}%
+\contentsline {subsubsection}{\numberline {6.24.3.14}read\_trans\_pckts()}{64}{subsubsection.6.24.3.14}%
+\contentsline {subsubsection}{\numberline {6.24.3.15}read\_trans\_pckts\_crc()}{65}{subsubsection.6.24.3.15}%
+\contentsline {subsubsection}{\numberline {6.24.3.16}read\_uptime()}{65}{subsubsection.6.24.3.16}%
+\contentsline {subsubsection}{\numberline {6.24.3.17}update\_firmware()}{66}{subsubsection.6.24.3.17}%
+\contentsline {subsubsection}{\numberline {6.24.3.18}update\_firmware\_sequence()}{66}{subsubsection.6.24.3.18}%
+\contentsline {subsubsection}{\numberline {6.24.3.19}write\_ant\_release\_config()}{67}{subsubsection.6.24.3.19}%
+\contentsline {subsubsection}{\numberline {6.24.3.20}write\_bcn\_trans\_period()}{68}{subsubsection.6.24.3.20}%
+\contentsline {subsubsection}{\numberline {6.24.3.21}write\_config\_ax25\_decode()}{68}{subsubsection.6.24.3.21}%
+\contentsline {subsubsection}{\numberline {6.24.3.22}write\_dvc\_addr\_config()}{69}{subsubsection.6.24.3.22}%
+\contentsline {subsubsection}{\numberline {6.24.3.23}write\_i2c\_resist\_config()}{69}{subsubsection.6.24.3.23}%
+\contentsline {subsubsection}{\numberline {6.24.3.24}write\_low\_pwr\_mode()}{69}{subsubsection.6.24.3.24}%
+\contentsline {subsubsection}{\numberline {6.24.3.25}write\_radio\_crc16()}{70}{subsubsection.6.24.3.25}%
+\contentsline {subsubsection}{\numberline {6.24.3.26}write\_radio\_freq\_config()}{70}{subsubsection.6.24.3.26}%
+\contentsline {subsubsection}{\numberline {6.24.3.27}write\_radio\_trans\_prop\_config()}{70}{subsubsection.6.24.3.27}%
+\contentsline {subsubsection}{\numberline {6.24.3.28}write\_res\_default\_vals()}{71}{subsubsection.6.24.3.28}%
+\contentsline {subsubsection}{\numberline {6.24.3.29}write\_scw()}{71}{subsubsection.6.24.3.29}%
+\contentsline {subsubsection}{\numberline {6.24.3.30}write\_src\_call\_sign()}{71}{subsubsection.6.24.3.30}%
+\contentsline {section}{\numberline {6.25}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::endurosat\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::esttc\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}const Class Reference}{72}{section.6.25}%
+\contentsline {subsection}{\numberline {6.25.1}Detailed Description}{73}{subsection.6.25.1}%
+\contentsline {subsection}{\numberline {6.25.2}Member Enumeration Documentation}{73}{subsection.6.25.2}%
+\contentsline {subsubsection}{\numberline {6.25.2.1}SCW\_Commands}{73}{subsubsection.6.25.2.1}%
+\contentsline {subsection}{\numberline {6.25.3}Member Data Documentation}{73}{subsection.6.25.3}%
+\contentsline {subsubsection}{\numberline {6.25.3.1}ADDRESS}{73}{subsubsection.6.25.3.1}%
+\contentsline {subsubsection}{\numberline {6.25.3.2}BLANK}{73}{subsubsection.6.25.3.2}%
+\contentsline {subsubsection}{\numberline {6.25.3.3}CMD\_ANT\_READ\_WRITE}{73}{subsubsection.6.25.3.3}%
+\contentsline {subsubsection}{\numberline {6.25.3.4}CMD\_ANT\_RELEASE\_CONFIG}{74}{subsubsection.6.25.3.4}%
+\contentsline {subsubsection}{\numberline {6.25.3.5}CMD\_AUDIO\_BCN\_P\_TRANS}{74}{subsubsection.6.25.3.5}%
+\contentsline {subsubsection}{\numberline {6.25.3.6}CMD\_AUTO\_AX25\_DECODE}{74}{subsubsection.6.25.3.6}%
+\contentsline {subsubsection}{\numberline {6.25.3.7}CMD\_BCN\_MSG\_CONFIG}{74}{subsubsection.6.25.3.7}%
+\contentsline {subsubsection}{\numberline {6.25.3.8}CMD\_BCN\_MSG\_TRANS\_CONFIG}{74}{subsubsection.6.25.3.8}%
+\contentsline {subsubsection}{\numberline {6.25.3.9}CMD\_DEST\_CALL\_SIGN}{74}{subsubsection.6.25.3.9}%
+\contentsline {subsubsection}{\numberline {6.25.3.10}CMD\_DVC\_ADDR\_CONFIG}{75}{subsubsection.6.25.3.10}%
+\contentsline {subsubsection}{\numberline {6.25.3.11}CMD\_ENABLE\_DISABLE\_RADIO\_CRC}{75}{subsubsection.6.25.3.11}%
+\contentsline {subsubsection}{\numberline {6.25.3.12}CMD\_FORCE\_BCN\_CMD}{75}{subsubsection.6.25.3.12}%
+\contentsline {subsubsection}{\numberline {6.25.3.13}CMD\_FRAM\_MEM\_READ\_WRITE}{75}{subsubsection.6.25.3.13}%
+\contentsline {subsubsection}{\numberline {6.25.3.14}CMD\_FRMWR\_UPDATE}{75}{subsubsection.6.25.3.14}%
+\contentsline {subsubsection}{\numberline {6.25.3.15}CMD\_I2C\_RESIST\_CONFIG}{75}{subsubsection.6.25.3.15}%
+\contentsline {subsubsection}{\numberline {6.25.3.16}CMD\_LOW\_PWR\_MODE}{76}{subsubsection.6.25.3.16}%
+\contentsline {subsubsection}{\numberline {6.25.3.17}CMD\_PIPE\_MODE\_TMOUT\_CONFIG}{76}{subsubsection.6.25.3.17}%
+\contentsline {subsubsection}{\numberline {6.25.3.18}CMD\_RADIO\_FREQ\_CONFIG}{76}{subsubsection.6.25.3.18}%
+\contentsline {subsubsection}{\numberline {6.25.3.19}CMD\_RADIO\_TRANS\_PROP\_CONFIG}{76}{subsubsection.6.25.3.19}%
+\contentsline {subsubsection}{\numberline {6.25.3.20}CMD\_READ\_DVC\_PAYLOAD}{76}{subsubsection.6.25.3.20}%
+\contentsline {subsubsection}{\numberline {6.25.3.21}CMD\_READ\_RECEIV\_PCKTS}{76}{subsubsection.6.25.3.21}%
+\contentsline {subsubsection}{\numberline {6.25.3.22}CMD\_READ\_SFTWR\_VER}{77}{subsubsection.6.25.3.22}%
+\contentsline {subsubsection}{\numberline {6.25.3.23}CMD\_READ\_TRANS\_PCKTS}{77}{subsubsection.6.25.3.23}%
+\contentsline {subsubsection}{\numberline {6.25.3.24}CMD\_READ\_TRANS\_PCKTS\_CRC}{77}{subsubsection.6.25.3.24}%
+\contentsline {subsubsection}{\numberline {6.25.3.25}CMD\_READ\_UPTIME}{77}{subsubsection.6.25.3.25}%
+\contentsline {subsubsection}{\numberline {6.25.3.26}CMD\_READ\_WRITE\_I2C}{77}{subsubsection.6.25.3.26}%
+\contentsline {subsubsection}{\numberline {6.25.3.27}CMD\_RESTORE}{77}{subsubsection.6.25.3.27}%
+\contentsline {subsubsection}{\numberline {6.25.3.28}CMD\_SCW}{78}{subsubsection.6.25.3.28}%
+\contentsline {subsubsection}{\numberline {6.25.3.29}CMD\_SECURE\_MODE}{78}{subsubsection.6.25.3.29}%
+\contentsline {subsubsection}{\numberline {6.25.3.30}CMD\_SRC\_CALL\_SIGN}{78}{subsubsection.6.25.3.30}%
+\contentsline {subsubsection}{\numberline {6.25.3.31}CMD\_TEMP\_VAL}{78}{subsubsection.6.25.3.31}%
+\contentsline {subsubsection}{\numberline {6.25.3.32}CMD\_TERM\_RESIST\_CONFIG}{78}{subsubsection.6.25.3.32}%
+\contentsline {subsubsection}{\numberline {6.25.3.33}DOWNLINK\_XOR}{78}{subsubsection.6.25.3.33}%
+\contentsline {subsubsection}{\numberline {6.25.3.34}END}{79}{subsubsection.6.25.3.34}%
+\contentsline {subsubsection}{\numberline {6.25.3.35}HEADER}{79}{subsubsection.6.25.3.35}%
+\contentsline {subsubsection}{\numberline {6.25.3.36}METHOD\_FIRMWARE\_UPDATE}{79}{subsubsection.6.25.3.36}%
+\contentsline {subsubsection}{\numberline {6.25.3.37}METHOD\_READ}{79}{subsubsection.6.25.3.37}%
+\contentsline {subsubsection}{\numberline {6.25.3.38}METHOD\_WRITE}{79}{subsubsection.6.25.3.38}%
+\contentsline {subsubsection}{\numberline {6.25.3.39}NUM\_OF\_RETRIES}{79}{subsubsection.6.25.3.39}%
+\contentsline {subsubsection}{\numberline {6.25.3.40}scw\_body}{80}{subsubsection.6.25.3.40}%
+\contentsline {subsubsection}{\numberline {6.25.3.41}UPLINK\_XOR}{80}{subsubsection.6.25.3.41}%
+\contentsline {section}{\numberline {6.26}groundstation\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cmdtelem\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager Class Reference}{80}{section.6.26}%
+\contentsline {subsection}{\numberline {6.26.1}Detailed Description}{80}{subsection.6.26.1}%
+\contentsline {subsection}{\numberline {6.26.2}Constructor \& Destructor Documentation}{80}{subsection.6.26.2}%
+\contentsline {subsubsection}{\numberline {6.26.2.1}groundstation\_cmdtelem\_manager()}{81}{subsubsection.6.26.2.1}%
+\contentsline {subsection}{\numberline {6.26.3}Member Function Documentation}{81}{subsection.6.26.3}%
+\contentsline {subsubsection}{\numberline {6.26.3.1}schedule\_command()}{81}{subsubsection.6.26.3.1}%
+\contentsline {section}{\numberline {6.27}info\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}field Class Reference}{81}{section.6.27}%
+\contentsline {subsection}{\numberline {6.27.1}Detailed Description}{82}{subsection.6.27.1}%
+\contentsline {subsection}{\numberline {6.27.2}Constructor \& Destructor Documentation}{82}{subsection.6.27.2}%
+\contentsline {subsubsection}{\numberline {6.27.2.1}info\_field()\hspace {0.1cm}{\footnotesize \ttfamily [1/2]}}{82}{subsubsection.6.27.2.1}%
+\contentsline {subsubsection}{\numberline {6.27.2.2}info\_field()\hspace {0.1cm}{\footnotesize \ttfamily [2/2]}}{82}{subsubsection.6.27.2.2}%
+\contentsline {subsection}{\numberline {6.27.3}Member Function Documentation}{82}{subsection.6.27.3}%
+\contentsline {subsubsection}{\numberline {6.27.3.1}build\_info\_field()}{82}{subsubsection.6.27.3.1}%
+\contentsline {subsubsection}{\numberline {6.27.3.2}build\_telemetry\_object()}{83}{subsubsection.6.27.3.2}%
+\contentsline {subsection}{\numberline {6.27.4}Member Data Documentation}{83}{subsection.6.27.4}%
+\contentsline {subsubsection}{\numberline {6.27.4.1}command}{83}{subsubsection.6.27.4.1}%
+\contentsline {section}{\numberline {6.28}mde\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command Class Reference}{83}{section.6.28}%
+\contentsline {subsection}{\numberline {6.28.1}Detailed Description}{83}{subsection.6.28.1}%
+\contentsline {section}{\numberline {6.29}obc\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command Class Reference}{83}{section.6.29}%
+\contentsline {subsection}{\numberline {6.29.1}Detailed Description}{83}{subsection.6.29.1}%
+\contentsline {section}{\numberline {6.30}obc\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}session\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager Class Reference}{84}{section.6.30}%
+\contentsline {subsection}{\numberline {6.30.1}Detailed Description}{84}{subsection.6.30.1}%
+\contentsline {subsection}{\numberline {6.30.2}Constructor \& Destructor Documentation}{84}{subsection.6.30.2}%
+\contentsline {subsubsection}{\numberline {6.30.2.1}obc\_session\_manager()\hspace {0.1cm}{\footnotesize \ttfamily [1/2]}}{84}{subsubsection.6.30.2.1}%
+\contentsline {subsubsection}{\numberline {6.30.2.2}obc\_session\_manager()\hspace {0.1cm}{\footnotesize \ttfamily [2/2]}}{85}{subsubsection.6.30.2.2}%
+\contentsline {subsubsection}{\numberline {6.30.2.3}$\sim $obc\_session\_manager()}{85}{subsubsection.6.30.2.3}%
+\contentsline {subsection}{\numberline {6.30.3}Member Function Documentation}{85}{subsection.6.30.3}%
+\contentsline {subsubsection}{\numberline {6.30.3.1}await\_completion()}{85}{subsubsection.6.30.3.1}%
+\contentsline {subsubsection}{\numberline {6.30.3.2}schedule\_command()\hspace {0.1cm}{\footnotesize \ttfamily [1/2]}}{85}{subsubsection.6.30.3.2}%
+\contentsline {subsubsection}{\numberline {6.30.3.3}schedule\_command()\hspace {0.1cm}{\footnotesize \ttfamily [2/2]}}{86}{subsubsection.6.30.3.3}%
+\contentsline {section}{\numberline {6.31}posix\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}serial Class Reference}{86}{section.6.31}%
+\contentsline {subsection}{\numberline {6.31.1}Detailed Description}{87}{subsection.6.31.1}%
+\contentsline {subsection}{\numberline {6.31.2}Constructor \& Destructor Documentation}{87}{subsection.6.31.2}%
+\contentsline {subsubsection}{\numberline {6.31.2.1}posix\_serial()}{87}{subsubsection.6.31.2.1}%
+\contentsline {subsubsection}{\numberline {6.31.2.2}$\sim $posix\_serial()}{88}{subsubsection.6.31.2.2}%
+\contentsline {subsection}{\numberline {6.31.3}Member Function Documentation}{88}{subsection.6.31.3}%
+\contentsline {subsubsection}{\numberline {6.31.3.1}check\_serial\_bytes\_avail()}{88}{subsubsection.6.31.3.1}%
+\contentsline {subsubsection}{\numberline {6.31.3.2}clear\_serial\_fifo()}{88}{subsubsection.6.31.3.2}%
+\contentsline {subsubsection}{\numberline {6.31.3.3}read\_serial\_s()}{88}{subsubsection.6.31.3.3}%
+\contentsline {subsubsection}{\numberline {6.31.3.4}read\_serial\_uc()}{88}{subsubsection.6.31.3.4}%
+\contentsline {subsubsection}{\numberline {6.31.3.5}write\_serial\_s()}{88}{subsubsection.6.31.3.5}%
+\contentsline {subsubsection}{\numberline {6.31.3.6}write\_serial\_uc()}{89}{subsubsection.6.31.3.6}%
+\contentsline {subsection}{\numberline {6.31.4}Member Data Documentation}{89}{subsection.6.31.4}%
+\contentsline {subsubsection}{\numberline {6.31.4.1}cache}{89}{subsubsection.6.31.4.1}%
+\contentsline {section}{\numberline {6.32}satellite\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}txvr\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cmdtelem\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager Class Reference}{90}{section.6.32}%
+\contentsline {subsection}{\numberline {6.32.1}Detailed Description}{90}{subsection.6.32.1}%
+\contentsline {subsection}{\numberline {6.32.2}Constructor \& Destructor Documentation}{90}{subsection.6.32.2}%
+\contentsline {subsubsection}{\numberline {6.32.2.1}satellite\_txvr\_cmdtelem\_manager()}{90}{subsubsection.6.32.2.1}%
+\contentsline {subsection}{\numberline {6.32.3}Member Function Documentation}{90}{subsection.6.32.3}%
+\contentsline {subsubsection}{\numberline {6.32.3.1}schedule\_command()}{90}{subsubsection.6.32.3.1}%
+\contentsline {section}{\numberline {6.33}serial\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler Class Reference}{91}{section.6.33}%
+\contentsline {subsection}{\numberline {6.33.1}Detailed Description}{92}{subsection.6.33.1}%
+\contentsline {subsection}{\numberline {6.33.2}Constructor \& Destructor Documentation}{92}{subsection.6.33.2}%
+\contentsline {subsubsection}{\numberline {6.33.2.1}serial\_handler()}{92}{subsubsection.6.33.2.1}%
+\contentsline {subsubsection}{\numberline {6.33.2.2}$\sim $serial\_handler()}{92}{subsubsection.6.33.2.2}%
+\contentsline {subsection}{\numberline {6.33.3}Member Function Documentation}{92}{subsection.6.33.3}%
+\contentsline {subsubsection}{\numberline {6.33.3.1}check\_serial\_bytes\_avail()}{92}{subsubsection.6.33.3.1}%
+\contentsline {subsubsection}{\numberline {6.33.3.2}clear\_serial\_fifo()\hspace {0.1cm}{\footnotesize \ttfamily [1/2]}}{93}{subsubsection.6.33.3.2}%
+\contentsline {subsubsection}{\numberline {6.33.3.3}clear\_serial\_fifo()\hspace {0.1cm}{\footnotesize \ttfamily [2/2]}}{93}{subsubsection.6.33.3.3}%
+\contentsline {subsubsection}{\numberline {6.33.3.4}get\_generic\_async\_read\_lambda()}{93}{subsubsection.6.33.3.4}%
+\contentsline {subsubsection}{\numberline {6.33.3.5}initialize\_serial\_port()}{93}{subsubsection.6.33.3.5}%
+\contentsline {subsubsection}{\numberline {6.33.3.6}read\_serial\_async()}{93}{subsubsection.6.33.3.6}%
+\contentsline {subsubsection}{\numberline {6.33.3.7}read\_serial\_s()\hspace {0.1cm}{\footnotesize \ttfamily [1/2]}}{94}{subsubsection.6.33.3.7}%
+\contentsline {subsubsection}{\numberline {6.33.3.8}read\_serial\_s()\hspace {0.1cm}{\footnotesize \ttfamily [2/2]}}{94}{subsubsection.6.33.3.8}%
+\contentsline {subsubsection}{\numberline {6.33.3.9}read\_serial\_uc()\hspace {0.1cm}{\footnotesize \ttfamily [1/2]}}{94}{subsubsection.6.33.3.9}%
+\contentsline {subsubsection}{\numberline {6.33.3.10}read\_serial\_uc()\hspace {0.1cm}{\footnotesize \ttfamily [2/2]}}{94}{subsubsection.6.33.3.10}%
+\contentsline {subsubsection}{\numberline {6.33.3.11}write\_serial\_s()}{94}{subsubsection.6.33.3.11}%
+\contentsline {subsubsection}{\numberline {6.33.3.12}write\_serial\_uc()}{95}{subsubsection.6.33.3.12}%
+\contentsline {subsection}{\numberline {6.33.4}Member Data Documentation}{95}{subsection.6.33.4}%
+\contentsline {subsubsection}{\numberline {6.33.4.1}async\_buf}{95}{subsubsection.6.33.4.1}%
+\contentsline {subsubsection}{\numberline {6.33.4.2}cache}{96}{subsubsection.6.33.4.2}%
+\contentsline {section}{\numberline {6.34}socket\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler Class Reference}{96}{section.6.34}%
+\contentsline {subsection}{\numberline {6.34.1}Detailed Description}{97}{subsection.6.34.1}%
+\contentsline {subsection}{\numberline {6.34.2}Constructor \& Destructor Documentation}{97}{subsection.6.34.2}%
+\contentsline {subsubsection}{\numberline {6.34.2.1}socket\_handler()}{97}{subsubsection.6.34.2.1}%
+\contentsline {subsubsection}{\numberline {6.34.2.2}$\sim $socket\_handler()}{97}{subsubsection.6.34.2.2}%
+\contentsline {subsection}{\numberline {6.34.3}Member Function Documentation}{97}{subsection.6.34.3}%
+\contentsline {subsubsection}{\numberline {6.34.3.1}check\_sock\_bytes\_avail()}{97}{subsubsection.6.34.3.1}%
+\contentsline {subsubsection}{\numberline {6.34.3.2}init\_socket\_handle()}{98}{subsubsection.6.34.3.2}%
+\contentsline {subsubsection}{\numberline {6.34.3.3}read\_socket\_s()}{98}{subsubsection.6.34.3.3}%
+\contentsline {subsubsection}{\numberline {6.34.3.4}read\_socket\_uc()}{98}{subsubsection.6.34.3.4}%
+\contentsline {subsubsection}{\numberline {6.34.3.5}write\_socket\_s()}{98}{subsubsection.6.34.3.5}%
+\contentsline {subsubsection}{\numberline {6.34.3.6}write\_socket\_uc()}{99}{subsubsection.6.34.3.6}%
+\contentsline {subsection}{\numberline {6.34.4}Member Data Documentation}{99}{subsection.6.34.4}%
+\contentsline {subsubsection}{\numberline {6.34.4.1}port}{99}{subsubsection.6.34.4.1}%
+\contentsline {subsubsection}{\numberline {6.34.4.2}sock}{99}{subsubsection.6.34.4.2}%
+\contentsline {section}{\numberline {6.35}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::telemetry\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}object Struct Reference}{100}{section.6.35}%
+\contentsline {subsection}{\numberline {6.35.1}Detailed Description}{100}{subsection.6.35.1}%
+\contentsline {subsection}{\numberline {6.35.2}Member Data Documentation}{100}{subsection.6.35.2}%
+\contentsline {subsubsection}{\numberline {6.35.2.1}address}{100}{subsubsection.6.35.2.1}%
+\contentsline {subsubsection}{\numberline {6.35.2.2}commandID}{100}{subsubsection.6.35.2.2}%
+\contentsline {subsubsection}{\numberline {6.35.2.3}data}{100}{subsubsection.6.35.2.3}%
+\contentsline {subsubsection}{\numberline {6.35.2.4}response\_code}{101}{subsubsection.6.35.2.4}%
+\contentsline {subsubsection}{\numberline {6.35.2.5}sequence}{101}{subsubsection.6.35.2.5}%
+\contentsline {subsubsection}{\numberline {6.35.2.6}timeStamp}{101}{subsubsection.6.35.2.6}%
+\contentsline {section}{\numberline {6.36}transmission\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}interface Class Reference}{101}{section.6.36}%
+\contentsline {subsection}{\numberline {6.36.1}Detailed Description}{102}{subsection.6.36.1}%
+\contentsline {subsection}{\numberline {6.36.2}Constructor \& Destructor Documentation}{102}{subsection.6.36.2}%
+\contentsline {subsubsection}{\numberline {6.36.2.1}transmission\_interface()}{102}{subsubsection.6.36.2.1}%
+\contentsline {subsubsection}{\numberline {6.36.2.2}$\sim $transmission\_interface()}{103}{subsubsection.6.36.2.2}%
+\contentsline {subsection}{\numberline {6.36.3}Member Function Documentation}{103}{subsection.6.36.3}%
+\contentsline {subsubsection}{\numberline {6.36.3.1}check\_data\_available()}{103}{subsubsection.6.36.3.1}%
+\contentsline {subsubsection}{\numberline {6.36.3.2}check\_session\_active()}{103}{subsubsection.6.36.3.2}%
+\contentsline {subsubsection}{\numberline {6.36.3.3}disable\_pipe()}{103}{subsubsection.6.36.3.3}%
+\contentsline {subsubsection}{\numberline {6.36.3.4}enable\_pipe()}{104}{subsubsection.6.36.3.4}%
+\contentsline {subsubsection}{\numberline {6.36.3.5}end\_gstxvr\_session()}{104}{subsubsection.6.36.3.5}%
+\contentsline {subsubsection}{\numberline {6.36.3.6}end\_obc\_session()}{104}{subsubsection.6.36.3.6}%
+\contentsline {subsubsection}{\numberline {6.36.3.7}gs\_transmit()}{104}{subsubsection.6.36.3.7}%
+\contentsline {subsubsection}{\numberline {6.36.3.8}nonblock\_receive()}{105}{subsubsection.6.36.3.8}%
+\contentsline {subsubsection}{\numberline {6.36.3.9}receive()}{105}{subsubsection.6.36.3.9}%
+\contentsline {subsubsection}{\numberline {6.36.3.10}receive\_uc()}{105}{subsubsection.6.36.3.10}%
+\contentsline {subsubsection}{\numberline {6.36.3.11}register\_dispatch\_function()}{106}{subsubsection.6.36.3.11}%
+\contentsline {subsubsection}{\numberline {6.36.3.12}request\_gstxvr\_session()}{106}{subsubsection.6.36.3.12}%
+\contentsline {subsubsection}{\numberline {6.36.3.13}request\_obc\_session()}{106}{subsubsection.6.36.3.13}%
+\contentsline {subsubsection}{\numberline {6.36.3.14}set\_telem\_callback()}{106}{subsubsection.6.36.3.14}%
+\contentsline {subsubsection}{\numberline {6.36.3.15}transmit()\hspace {0.1cm}{\footnotesize \ttfamily [1/2]}}{107}{subsubsection.6.36.3.15}%
+\contentsline {subsubsection}{\numberline {6.36.3.16}transmit()\hspace {0.1cm}{\footnotesize \ttfamily [2/2]}}{107}{subsubsection.6.36.3.16}%
+\contentsline {subsection}{\numberline {6.36.4}Member Data Documentation}{107}{subsection.6.36.4}%
+\contentsline {subsubsection}{\numberline {6.36.4.1}gstxvr\_session\_active}{107}{subsubsection.6.36.4.1}%
+\contentsline {subsubsection}{\numberline {6.36.4.2}obc\_session\_active}{108}{subsubsection.6.36.4.2}%
+\contentsline {subsubsection}{\numberline {6.36.4.3}satellite\_in\_range}{108}{subsubsection.6.36.4.3}%
+\contentsline {section}{\numberline {6.37}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::es2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}telemetry\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::vitals Struct Reference}{108}{section.6.37}%
+\contentsline {subsection}{\numberline {6.37.1}Detailed Description}{108}{subsection.6.37.1}%
+\contentsline {subsection}{\numberline {6.37.2}Member Data Documentation}{108}{subsection.6.37.2}%
+\contentsline {subsubsection}{\numberline {6.37.2.1}battery\_voltage}{108}{subsubsection.6.37.2.1}%
+\contentsline {subsubsection}{\numberline {6.37.2.2}brownouts}{109}{subsubsection.6.37.2.2}%
+\contentsline {subsubsection}{\numberline {6.37.2.3}charge\_time\_mins}{109}{subsubsection.6.37.2.3}%
+\contentsline {section}{\numberline {6.38}estts\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::waiting\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command Struct Reference}{109}{section.6.38}%
+\contentsline {subsection}{\numberline {6.38.1}Detailed Description}{109}{subsection.6.38.1}%
+\contentsline {subsection}{\numberline {6.38.2}Member Data Documentation}{109}{subsection.6.38.2}%
+\contentsline {subsubsection}{\numberline {6.38.2.1}command}{109}{subsubsection.6.38.2.1}%
+\contentsline {subsubsection}{\numberline {6.38.2.2}frame}{110}{subsubsection.6.38.2.2}%
+\contentsline {subsubsection}{\numberline {6.38.2.3}obj\_callback}{110}{subsubsection.6.38.2.3}%
+\contentsline {subsubsection}{\numberline {6.38.2.4}serial\_number}{110}{subsubsection.6.38.2.4}%
+\contentsline {subsubsection}{\numberline {6.38.2.5}str\_callback}{110}{subsubsection.6.38.2.5}%
+\contentsline {chapter}{\numberline {7}File Documentation}{111}{chapter.7}%
+\contentsline {section}{\numberline {7.1}src/fapi/command\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.cpp File Reference}{111}{section.7.1}%
+\contentsline {subsection}{\numberline {7.1.1}Function Documentation}{111}{subsection.7.1.1}%
+\contentsline {subsubsection}{\numberline {7.1.1.1}validate\_response\_code()}{111}{subsubsection.7.1.1.1}%
+\contentsline {section}{\numberline {7.2}command\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{112}{section.7.2}%
+\contentsline {section}{\numberline {7.3}src/fapi/command\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.h File Reference}{113}{section.7.3}%
+\contentsline {section}{\numberline {7.4}command\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{114}{section.7.4}%
+\contentsline {section}{\numberline {7.5}src/fapi/command\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler/acs\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command.cpp File Reference}{114}{section.7.5}%
+\contentsline {section}{\numberline {7.6}acs\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{115}{section.7.6}%
+\contentsline {section}{\numberline {7.7}src/fapi/command\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler/acs\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command.h File Reference}{116}{section.7.7}%
+\contentsline {section}{\numberline {7.8}acs\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{116}{section.7.8}%
+\contentsline {section}{\numberline {7.9}src/fapi/command\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler/crp\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command.cpp File Reference}{117}{section.7.9}%
+\contentsline {section}{\numberline {7.10}crp\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{117}{section.7.10}%
+\contentsline {section}{\numberline {7.11}src/fapi/command\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler/crp\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command.h File Reference}{117}{section.7.11}%
+\contentsline {section}{\numberline {7.12}crp\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{117}{section.7.12}%
+\contentsline {section}{\numberline {7.13}src/fapi/command\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler/eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command.cpp File Reference}{117}{section.7.13}%
+\contentsline {section}{\numberline {7.14}eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{118}{section.7.14}%
+\contentsline {section}{\numberline {7.15}src/fapi/command\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler/eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command.h File Reference}{123}{section.7.15}%
+\contentsline {section}{\numberline {7.16}eps\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{123}{section.7.16}%
+\contentsline {section}{\numberline {7.17}src/fapi/command\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler/mde\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command.cpp File Reference}{123}{section.7.17}%
+\contentsline {section}{\numberline {7.18}mde\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{124}{section.7.18}%
+\contentsline {section}{\numberline {7.19}src/fapi/command\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler/mde\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command.h File Reference}{124}{section.7.19}%
+\contentsline {section}{\numberline {7.20}mde\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{124}{section.7.20}%
+\contentsline {section}{\numberline {7.21}src/fapi/command\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler/obc\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command.cpp File Reference}{124}{section.7.21}%
+\contentsline {section}{\numberline {7.22}obc\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{124}{section.7.22}%
+\contentsline {section}{\numberline {7.23}src/fapi/command\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler/obc\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command.h File Reference}{124}{section.7.23}%
+\contentsline {section}{\numberline {7.24}obc\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{125}{section.7.24}%
+\contentsline {section}{\numberline {7.25}src/fapi/cosmos\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}groundstation\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.cpp File Reference}{125}{section.7.25}%
+\contentsline {section}{\numberline {7.26}cosmos\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}groundstation\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{125}{section.7.26}%
+\contentsline {section}{\numberline {7.27}src/fapi/cosmos\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}groundstation\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.h File Reference}{126}{section.7.27}%
+\contentsline {section}{\numberline {7.28}cosmos\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}groundstation\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{126}{section.7.28}%
+\contentsline {section}{\numberline {7.29}src/fapi/cosmos\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.cpp File Reference}{127}{section.7.29}%
+\contentsline {section}{\numberline {7.30}cosmos\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{127}{section.7.30}%
+\contentsline {section}{\numberline {7.31}src/fapi/cosmos\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.h File Reference}{128}{section.7.31}%
+\contentsline {section}{\numberline {7.32}cosmos\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{128}{section.7.32}%
+\contentsline {section}{\numberline {7.33}src/fapi/cosmos\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}satellite\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}txvr\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.cpp File Reference}{129}{section.7.33}%
+\contentsline {section}{\numberline {7.34}cosmos\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}satellite\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}txvr\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{129}{section.7.34}%
+\contentsline {section}{\numberline {7.35}src/fapi/cosmos\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}satellite\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}txvr\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.h File Reference}{129}{section.7.35}%
+\contentsline {section}{\numberline {7.36}cosmos\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}satellite\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}txvr\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{130}{section.7.36}%
+\contentsline {section}{\numberline {7.37}src/fapi/groundstation\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cmdtelem\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager.cpp File Reference}{130}{section.7.37}%
+\contentsline {section}{\numberline {7.38}groundstation\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cmdtelem\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{130}{section.7.38}%
+\contentsline {section}{\numberline {7.39}src/fapi/groundstation\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cmdtelem\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager.h File Reference}{131}{section.7.39}%
+\contentsline {section}{\numberline {7.40}groundstation\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cmdtelem\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{131}{section.7.40}%
+\contentsline {section}{\numberline {7.41}src/fapi/obc\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}session\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager.cpp File Reference}{132}{section.7.41}%
+\contentsline {section}{\numberline {7.42}obc\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}session\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{132}{section.7.42}%
+\contentsline {section}{\numberline {7.43}src/fapi/obc\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}session\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager.h File Reference}{134}{section.7.43}%
+\contentsline {section}{\numberline {7.44}obc\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}session\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{134}{section.7.44}%
+\contentsline {section}{\numberline {7.45}src/fapi/satellite\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}txvr\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cmdtelem\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager.cpp File Reference}{135}{section.7.45}%
+\contentsline {section}{\numberline {7.46}satellite\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}txvr\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cmdtelem\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{135}{section.7.46}%
+\contentsline {section}{\numberline {7.47}src/fapi/satellite\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}txvr\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cmdtelem\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager.h File Reference}{136}{section.7.47}%
+\contentsline {section}{\numberline {7.48}satellite\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}txvr\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cmdtelem\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{136}{section.7.48}%
+\contentsline {section}{\numberline {7.49}src/ti/esttc.cpp File Reference}{137}{section.7.49}%
+\contentsline {section}{\numberline {7.50}esttc.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{137}{section.7.50}%
+\contentsline {section}{\numberline {7.51}src/ti/esttc.h File Reference}{145}{section.7.51}%
+\contentsline {section}{\numberline {7.52}esttc.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{145}{section.7.52}%
+\contentsline {section}{\numberline {7.53}src/ti/posix\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}serial.cpp File Reference}{146}{section.7.53}%
+\contentsline {section}{\numberline {7.54}posix\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}serial.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{146}{section.7.54}%
+\contentsline {section}{\numberline {7.55}src/ti/posix\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}serial.h File Reference}{149}{section.7.55}%
+\contentsline {section}{\numberline {7.56}posix\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}serial.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{150}{section.7.56}%
+\contentsline {section}{\numberline {7.57}src/ti/serial\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.cpp File Reference}{150}{section.7.57}%
+\contentsline {section}{\numberline {7.58}serial\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{150}{section.7.58}%
+\contentsline {section}{\numberline {7.59}src/ti/serial\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.h File Reference}{154}{section.7.59}%
+\contentsline {section}{\numberline {7.60}serial\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{154}{section.7.60}%
+\contentsline {section}{\numberline {7.61}src/ti/socket\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.cpp File Reference}{155}{section.7.61}%
+\contentsline {section}{\numberline {7.62}socket\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{155}{section.7.62}%
+\contentsline {section}{\numberline {7.63}src/ti/socket\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.h File Reference}{157}{section.7.63}%
+\contentsline {section}{\numberline {7.64}socket\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handler.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{157}{section.7.64}%
+\contentsline {section}{\numberline {7.65}src/ti/transmission\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}interface.cpp File Reference}{158}{section.7.65}%
+\contentsline {section}{\numberline {7.66}transmission\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}interface.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{158}{section.7.66}%
+\contentsline {section}{\numberline {7.67}src/ti/transmission\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}interface.h File Reference}{164}{section.7.67}%
+\contentsline {section}{\numberline {7.68}transmission\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}interface.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{164}{section.7.68}%
+\contentsline {section}{\numberline {7.69}src/tnc\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}emulator/ax25\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ui\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}frame\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}constructor.cpp File Reference}{165}{section.7.69}%
+\contentsline {section}{\numberline {7.70}ax25\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ui\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}frame\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}constructor.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{165}{section.7.70}%
+\contentsline {section}{\numberline {7.71}src/tnc\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}emulator/ax25\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ui\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}frame\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}constructor.h File Reference}{167}{section.7.71}%
+\contentsline {section}{\numberline {7.72}ax25\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ui\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}frame\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}constructor.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{167}{section.7.72}%
+\contentsline {section}{\numberline {7.73}src/tnc\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}emulator/ax25\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ui\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}frame\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}destructor.cpp File Reference}{168}{section.7.73}%
+\contentsline {section}{\numberline {7.74}ax25\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ui\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}frame\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}destructor.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{168}{section.7.74}%
+\contentsline {section}{\numberline {7.75}src/tnc\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}emulator/ax25\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ui\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}frame\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}destructor.h File Reference}{170}{section.7.75}%
+\contentsline {section}{\numberline {7.76}ax25\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ui\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}frame\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}destructor.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{170}{section.7.76}%
+\contentsline {section}{\numberline {7.77}src/tnc\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}emulator/info\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}field.cpp File Reference}{171}{section.7.77}%
+\contentsline {section}{\numberline {7.78}info\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}field.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{171}{section.7.78}%
+\contentsline {section}{\numberline {7.79}src/tnc\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}emulator/info\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}field.h File Reference}{172}{section.7.79}%
+\contentsline {section}{\numberline {7.80}info\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}field.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{173}{section.7.80}%
+\contentsline {section}{\numberline {7.81}src/utils/bin\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}converter.cpp File Reference}{173}{section.7.81}%
+\contentsline {section}{\numberline {7.82}bin\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}converter.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{173}{section.7.82}%
+\contentsline {section}{\numberline {7.83}src/utils/bin\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}converter.h File Reference}{174}{section.7.83}%
+\contentsline {section}{\numberline {7.84}bin\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}converter.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{174}{section.7.84}%
+\contentsline {section}{\numberline {7.85}src/utils/constants.h File Reference}{175}{section.7.85}%
+\contentsline {subsection}{\numberline {7.85.1}Macro Definition Documentation}{178}{subsection.7.85.1}%
+\contentsline {subsubsection}{\numberline {7.85.1.1}MAX\_SERIAL\_READ}{178}{subsubsection.7.85.1.1}%
+\contentsline {subsubsection}{\numberline {7.85.1.2}SPDLOG\_ACTIVE\_LEVEL}{179}{subsubsection.7.85.1.2}%
+\contentsline {section}{\numberline {7.86}constants.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{179}{section.7.86}%
+\contentsline {section}{\numberline {7.87}src/utils/helper.cpp File Reference}{182}{section.7.87}%
+\contentsline {subsection}{\numberline {7.87.1}Function Documentation}{183}{subsection.7.87.1}%
+\contentsline {subsubsection}{\numberline {7.87.1.1}ascii\_to\_hex()}{183}{subsubsection.7.87.1.1}%
+\contentsline {subsubsection}{\numberline {7.87.1.2}find\_removable\_storage()}{183}{subsubsection.7.87.1.2}%
+\contentsline {subsubsection}{\numberline {7.87.1.3}generate\_serial\_number()}{183}{subsubsection.7.87.1.3}%
+\contentsline {subsubsection}{\numberline {7.87.1.4}hex\_to\_ascii()}{184}{subsubsection.7.87.1.4}%
+\contentsline {subsubsection}{\numberline {7.87.1.5}print\_read\_trace\_msg()}{184}{subsubsection.7.87.1.5}%
+\contentsline {subsubsection}{\numberline {7.87.1.6}print\_write\_trace\_msg()}{184}{subsubsection.7.87.1.6}%
+\contentsline {section}{\numberline {7.88}helper.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{184}{section.7.88}%
+\contentsline {section}{\numberline {7.89}src/utils/helper.h File Reference}{186}{section.7.89}%
+\contentsline {subsection}{\numberline {7.89.1}Function Documentation}{186}{subsection.7.89.1}%
+\contentsline {subsubsection}{\numberline {7.89.1.1}ascii\_to\_hex()}{186}{subsubsection.7.89.1.1}%
+\contentsline {subsubsection}{\numberline {7.89.1.2}find\_removable\_storage()}{187}{subsubsection.7.89.1.2}%
+\contentsline {subsubsection}{\numberline {7.89.1.3}generate\_serial\_number()}{187}{subsubsection.7.89.1.3}%
+\contentsline {subsubsection}{\numberline {7.89.1.4}hex\_to\_ascii()}{187}{subsubsection.7.89.1.4}%
+\contentsline {subsubsection}{\numberline {7.89.1.5}print\_read\_trace\_msg()}{187}{subsubsection.7.89.1.5}%
+\contentsline {subsubsection}{\numberline {7.89.1.6}print\_write\_trace\_msg()}{188}{subsubsection.7.89.1.6}%
+\contentsline {section}{\numberline {7.90}helper.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{188}{section.7.90}%
+\contentsline {chapter}{Index}{189}{section*.119}%

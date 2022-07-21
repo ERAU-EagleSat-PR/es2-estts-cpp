@@ -1,0 +1,37 @@
+\hypertarget{satellite__txvr__cmdtelem__manager_8h_source}{}\doxysection{satellite\+\_\+txvr\+\_\+cmdtelem\+\_\+manager.\+h}
+\label{satellite__txvr__cmdtelem__manager_8h_source}\index{src/fapi/satellite\_txvr\_cmdtelem\_manager.h@{src/fapi/satellite\_txvr\_cmdtelem\_manager.h}}
+\mbox{\hyperlink{satellite__txvr__cmdtelem__manager_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00001}00001 \textcolor{comment}{/* Copyright © EagleSat II -\/ Embry Riddle Aeronautical University -\/ All rights reserved -\/ 2022 */}}
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00002}00002 }
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00003}00003 \textcolor{preprocessor}{\#ifndef ESTTS\_SATELLITE\_TXVR\_CMDTELEM\_MANAGER\_H}}
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00004}00004 \textcolor{preprocessor}{\#define ESTTS\_SATELLITE\_TXVR\_CMDTELEM\_MANAGER\_H}}
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00005}00005 }
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00006}00006 \textcolor{preprocessor}{\#include <functional>}}
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00007}00007 \textcolor{preprocessor}{\#include <mutex>}}
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00008}00008 \textcolor{preprocessor}{\#include <thread>}}
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00009}00009 \textcolor{preprocessor}{\#include <utility>}}
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00010}00010 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00011}00011 \textcolor{preprocessor}{\#include <queue>}}
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00012}00012 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{transmission__interface_8h}{transmission\_interface.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00013}00013 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{constants_8h}{constants.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00015}\mbox{\hyperlink{classsatellite__txvr__cmdtelem__manager}{00015}} \textcolor{keyword}{class }\mbox{\hyperlink{classsatellite__txvr__cmdtelem__manager}{satellite\_txvr\_cmdtelem\_manager}} \{}
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00016}00016 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00017}00017     \mbox{\hyperlink{classtransmission__interface}{transmission\_interface}} *ti;}
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00018}00018     std::thread cmdtelem\_worker;}
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00019}00019     std::deque<estts::waiting\_command *> waiting;}
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00020}00020     std::function<\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}}(std::string)> telem\_callback = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00021}00021 }
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00025}00025     [[noreturn]] \textcolor{keywordtype}{void} dispatch();}
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00027}00027 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00032}00032     \mbox{\hyperlink{classsatellite__txvr__cmdtelem__manager_af972729ae6c47628692f01aca2dc7d07}{satellite\_txvr\_cmdtelem\_manager}}(\mbox{\hyperlink{classtransmission__interface}{transmission\_interface}} * ti, std::function<\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}}(std::string)> telem\_callback);}
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00043}00043     std::string \mbox{\hyperlink{classsatellite__txvr__cmdtelem__manager_a383bf659d63dee62ff1c5df09341515c}{schedule\_command}}(std::string command, \textcolor{keyword}{const} std::function<\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}}(std::string)>\& callback);}
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00044}00044 \};}
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00046}00046 }
+\DoxyCodeLine{\Hypertarget{satellite__txvr__cmdtelem__manager_8h_source_l00047}00047 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//ESTTS\_SATELLITE\_TXVR\_CMDTELEM\_MANAGER\_H}}
+
+\end{DoxyCode}

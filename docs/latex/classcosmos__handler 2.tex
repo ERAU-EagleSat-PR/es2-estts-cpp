@@ -1,0 +1,73 @@
+\hypertarget{classcosmos__handler}{}\doxysection{cosmos\+\_\+handler Class Reference}
+\label{classcosmos__handler}\index{cosmos\_handler@{cosmos\_handler}}
+
+
+{\ttfamily \#include $<$cosmos\+\_\+handler.\+h$>$}
+
+Inheritance diagram for cosmos\+\_\+handler\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classcosmos__handler}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcosmos__handler_a2577548efb4a0cbc5dab4993f601340c}{cosmos\+\_\+handler}} ()
+\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classcosmos__handler_a8378bcbfe966a6b9c24c1d1d2bdc485a}{cosmos\+\_\+init}} ()
+\item 
+void \mbox{\hyperlink{classcosmos__handler_a0108e12cc24475821e2a515a297439d4}{initialize\+\_\+cosmos\+\_\+daemon}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The primary COSMOS handler is in charge of communication between COSMOS and the OBC. When the primary COSMOS handler receives a command from COSMOS, the logic that it uses inside ESTTS handles bi-\/directional communication between the ground station and the satellite. The primary COSMOS handler also manages the COSMOS groundstation and satellite transceiver handlers. 
+
+Definition at line \mbox{\hyperlink{cosmos__handler_8h_source_l00022}{22}} of file \mbox{\hyperlink{cosmos__handler_8h_source}{cosmos\+\_\+handler.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcosmos__handler_a2577548efb4a0cbc5dab4993f601340c}\label{classcosmos__handler_a2577548efb4a0cbc5dab4993f601340c}} 
+\index{cosmos\_handler@{cosmos\_handler}!cosmos\_handler@{cosmos\_handler}}
+\index{cosmos\_handler@{cosmos\_handler}!cosmos\_handler@{cosmos\_handler}}
+\doxysubsubsection{\texorpdfstring{cosmos\_handler()}{cosmos\_handler()}}
+{\footnotesize\ttfamily cosmos\+\_\+handler\+::cosmos\+\_\+handler (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Default constructor that initializes socket. 
+
+Definition at line \mbox{\hyperlink{cosmos__handler_8cpp_source_l00010}{10}} of file \mbox{\hyperlink{cosmos__handler_8cpp_source}{cosmos\+\_\+handler.\+cpp}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcosmos__handler_a8378bcbfe966a6b9c24c1d1d2bdc485a}\label{classcosmos__handler_a8378bcbfe966a6b9c24c1d1d2bdc485a}} 
+\index{cosmos\_handler@{cosmos\_handler}!cosmos\_init@{cosmos\_init}}
+\index{cosmos\_init@{cosmos\_init}!cosmos\_handler@{cosmos\_handler}}
+\doxysubsubsection{\texorpdfstring{cosmos\_init()}{cosmos\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} cosmos\+\_\+handler\+::cosmos\+\_\+init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Function that initializes ESTTS to work with COSMOS. This includes defining the telemetry callback and creating the COSMOS worker thread \begin{DoxyReturn}{Returns}
+ES\+\_\+\+OK if successful, anything else if not 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{cosmos__handler_8cpp_source_l00026}{26}} of file \mbox{\hyperlink{cosmos__handler_8cpp_source}{cosmos\+\_\+handler.\+cpp}}.
+
+\mbox{\Hypertarget{classcosmos__handler_a0108e12cc24475821e2a515a297439d4}\label{classcosmos__handler_a0108e12cc24475821e2a515a297439d4}} 
+\index{cosmos\_handler@{cosmos\_handler}!initialize\_cosmos\_daemon@{initialize\_cosmos\_daemon}}
+\index{initialize\_cosmos\_daemon@{initialize\_cosmos\_daemon}!cosmos\_handler@{cosmos\_handler}}
+\doxysubsubsection{\texorpdfstring{initialize\_cosmos\_daemon()}{initialize\_cosmos\_daemon()}}
+{\footnotesize\ttfamily void cosmos\+\_\+handler\+::initialize\+\_\+cosmos\+\_\+daemon (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Joins the primary\+\_\+cosmos\+\_\+worker worker thread, which doesn\textquotesingle{}t exit unless something catastrophic occurs. This function is used to initialize the ESTTS runtime, as it never returns. 
+
+Definition at line \mbox{\hyperlink{cosmos__handler_8h_source_l00071}{71}} of file \mbox{\hyperlink{cosmos__handler_8h_source}{cosmos\+\_\+handler.\+h}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/fapi/\mbox{\hyperlink{cosmos__handler_8h}{cosmos\+\_\+handler.\+h}}\item 
+src/fapi/\mbox{\hyperlink{cosmos__handler_8cpp}{cosmos\+\_\+handler.\+cpp}}\end{DoxyCompactItemize}

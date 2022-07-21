@@ -414,23 +414,32 @@ void groundstation_manager::session_manager::dispatch() {
             SPDLOG_INFO("Session active.");
 
             auto command = waiting.front();
-            status = transmit_func(command->frame);
-            if (status != ES_OK) {
-                SPDLOG_ERROR("Failed to transmit command with serial number {}", command->serial_number);
-                gm->notify_session_executor_exiting(endpoint);
-                return;
+
+            std::string resp;
+            for (int i = 0; i < ESTTS_MAX_RETRIES; i++) {
+                status = transmit_func(command->frame);
+                if (status != ES_OK) {
+                    SPDLOG_ERROR("Failed to transmit command with serial number {}", command->serial_number);
+                    gm->notify_session_executor_exiting(endpoint);
+                    return;
+                }
+
+                gm->notify_session_active(endpoint);
+                SPDLOG_DEBUG("Successfully transmitted command with serial number {}", command->serial_number);
+
+                SPDLOG_INFO("Waiting for a response");
+                sleep_until(system_clock::now() + milliseconds (100));
+
+                resp = receive_func();
+                if (!resp.empty()) {
+                    break;
+                }
+
+                SPDLOG_DEBUG("Retrying command with serial number {}", command->serial_number);
             }
 
-            gm->notify_session_active(endpoint);
-            SPDLOG_DEBUG("Successfully transmitted command with serial number {}", command->serial_number);
-
-            SPDLOG_INFO("Waiting for a response");
-            sleep_until(system_clock::now() + milliseconds (100));
-
-            auto resp = receive_func();
-            if (resp.empty()) {
-                SPDLOG_WARN("Response to command with serial number {} was empty. Continuing anyway.", command->serial_number);
-            }
+            if (resp.empty())
+                SPDLOG_WARN("Command with serial number {} failed to execute. Continuing anyway.", command->serial_number);
 
             waiting.pop_front();
 

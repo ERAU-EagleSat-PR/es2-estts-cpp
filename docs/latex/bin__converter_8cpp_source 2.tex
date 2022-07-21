@@ -1,0 +1,71 @@
+\hypertarget{bin__converter_8cpp_source}{}\doxysection{bin\+\_\+converter.\+cpp}
+\label{bin__converter_8cpp_source}\index{src/utils/bin\_converter.cpp@{src/utils/bin\_converter.cpp}}
+\mbox{\hyperlink{bin__converter_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00001}00001 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00002}00002 \textcolor{comment}{// Created by Cody on 12/17/2021.}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00005}00005 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00006}00006 \textcolor{preprocessor}{\#include <cstring>}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00007}00007 \textcolor{preprocessor}{\#include <sstream>}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00008}00008 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{bin__converter_8h}{bin\_converter.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00009}00009 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00010}00010 \textcolor{keyword}{using} std::cerr;}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00011}00011 \textcolor{keyword}{using} std::endl;}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00012}00012 \textcolor{keyword}{using} std::stringstream;}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00013}00013 \textcolor{keyword}{using} std::string;}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00014}00014 \textcolor{keyword}{using} std::hex;}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00021}00021 \textcolor{keywordtype}{string} \mbox{\hyperlink{classbin__converter_a76f75abef4a8088bef73984eea4fd8e8}{bin\_converter::toBinary}}(\textcolor{keyword}{const} \textcolor{keywordtype}{short} \textcolor{keywordtype}{int} size, \textcolor{keyword}{const} \textcolor{keywordtype}{string} \&hexField) \{}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00022}00022     \textcolor{keywordtype}{string} bitStream;}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00023}00023     \textcolor{keywordtype}{int} bitPadding = size -\/ ((hexField.length() -\/ 2) * 4);}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00024}00024 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00025}00025     \textcolor{comment}{/* If padding zeros are needed, prepend them to the string.}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00026}00026 \textcolor{comment}{     * Else if there is an invalid number of hex values,}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00027}00027 \textcolor{comment}{     * send an error and return zero's. */}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00028}00028     \textcolor{keywordflow}{if} (hexField.substr(0, 2) != \textcolor{stringliteral}{"{}0x"{}} || bitPadding < 0) \{}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00029}00029         cerr << \textcolor{stringliteral}{"{}Error [info\_field] -\/ Invalid hex value: "{}} << hexField << \textcolor{stringliteral}{"{}\(\backslash\)nExpected size: "{}} << size << endl;}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00030}00030 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00031}00031         \textcolor{keywordflow}{return} string(size, \textcolor{charliteral}{'0'});}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00032}00032     \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (bitPadding > 0) \{}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00033}00033         bitStream += string(bitPadding, \textcolor{charliteral}{'0'});}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00034}00034     \}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00036}00036     \textcolor{comment}{/* Convert each hex character to binary */}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00037}00037     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 2; i < hexField.length(); ++i)}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00038}00038         bitStream += hexToBinMap.find(hexField[i])-\/>second;}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00040}00040     \textcolor{keywordflow}{return} bitStream;}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00041}00041 \}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00042}00042 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00048}00048 \textcolor{keywordtype}{string} \mbox{\hyperlink{classbin__converter_a76f75abef4a8088bef73984eea4fd8e8}{bin\_converter::toBinary}}(\textcolor{keyword}{const} \textcolor{keywordtype}{string} \&hexField) \{}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00049}00049     \textcolor{keywordtype}{string} bitStream;}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00051}00051     \textcolor{comment}{/* Convert each hex character to binary */}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00052}00052     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = 2; i < hexField.length(); ++i)}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00053}00053         bitStream += hexToBinMap.find(hexField[i])-\/>second;}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00054}00054 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00055}00055     \textcolor{keywordflow}{return} bitStream;}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00056}00056 \}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00063}\mbox{\hyperlink{classbin__converter_ae73a08943eee0233cf00c84a99a053b4}{00063}} \textcolor{keywordtype}{string} \mbox{\hyperlink{classbin__converter_a76f75abef4a8088bef73984eea4fd8e8}{bin\_converter::toBinary}}(\textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} field[]) \{}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00064}00064     stringstream hexStream;}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00065}00065 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00066}00066     \textcolor{comment}{/* Convert each character in the array into a hex string and append them together */}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00067}00067     hexStream << \textcolor{stringliteral}{"{}0x"{}} << hex;}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00068}00068     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < strlen((\textcolor{keywordtype}{char} *) field); ++i)}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00069}00069         hexStream << (\textcolor{keywordtype}{int}) field[i];}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00071}00071     \textcolor{keywordflow}{return} \mbox{\hyperlink{classbin__converter_a76f75abef4a8088bef73984eea4fd8e8}{toBinary}}(hexStream.str());}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00072}00072 \}}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00073}00073 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00079}\mbox{\hyperlink{classbin__converter_ac100e36abc5457f293eaf989ed464672}{00079}} \textcolor{keywordtype}{string} \mbox{\hyperlink{classbin__converter_a76f75abef4a8088bef73984eea4fd8e8}{bin\_converter::toBinary}}(\textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} field) \{}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00080}00080     stringstream hexStream;}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00081}00081 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00082}00082     hexStream << \textcolor{stringliteral}{"{}0x"{}} << hex << (int) field;}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00083}00083 }
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00084}00084     \textcolor{keywordflow}{return} \mbox{\hyperlink{classbin__converter_a76f75abef4a8088bef73984eea4fd8e8}{toBinary}}(hexStream.str());}
+\DoxyCodeLine{\Hypertarget{bin__converter_8cpp_source_l00085}00085 \}}
+
+\end{DoxyCode}

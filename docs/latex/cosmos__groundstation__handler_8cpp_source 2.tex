@@ -1,0 +1,57 @@
+\hypertarget{cosmos__groundstation__handler_8cpp_source}{}\doxysection{cosmos\+\_\+groundstation\+\_\+handler.\+cpp}
+\label{cosmos__groundstation__handler_8cpp_source}\index{src/fapi/cosmos\_groundstation\_handler.cpp@{src/fapi/cosmos\_groundstation\_handler.cpp}}
+\mbox{\hyperlink{cosmos__groundstation__handler_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00001}00001 \textcolor{comment}{/* Copyright © EagleSat II -\/ Embry Riddle Aeronautical University -\/ All rights reserved -\/ 2022 */}}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00002}00002 }
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00003}00003 \textcolor{preprocessor}{\#include "{}sstream"{}}}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00004}00004 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{cosmos__groundstation__handler_8h}{cosmos\_groundstation\_handler.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00005}00005 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{socket__handler_8h}{socket\_handler.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00006}00006 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{constants_8h}{constants.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00008}\mbox{\hyperlink{classcosmos__groundstation__handler_ae3f81afbb6b469fa1a8538c9a6acbfe2}{00008}} \mbox{\hyperlink{classcosmos__groundstation__handler_ae3f81afbb6b469fa1a8538c9a6acbfe2}{cosmos\_groundstation\_handler::cosmos\_groundstation\_handler}}() \{}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00009}00009    sock = \textcolor{keyword}{new} \mbox{\hyperlink{classsocket__handler}{socket\_handler}}(\mbox{\hyperlink{namespaceestts_1_1cosmos_ac0b4a7695421985bacbb97c71ed868fd}{estts::cosmos::COSMOS\_SERVER\_ADDR}}, \mbox{\hyperlink{namespaceestts_1_1cosmos_a26d5e7c95011a7ea32fa4dbd1b4a01eb}{estts::cosmos::COSMOS\_GROUNDSTATION\_CMD\_TELEM\_PORT}});}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00010}00010 \}}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00011}00011 }
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00012}00012 \textcolor{keywordtype}{void} cosmos\_groundstation\_handler::groundstation\_cosmos\_worker() \{}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00013}00013     std::string command;}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00014}00014     \textcolor{keywordflow}{for} (;;) \{}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00015}00015         command = sock-\/>\mbox{\hyperlink{classsocket__handler_a258a5da9a77812c27032f18bd64779fe}{read\_socket\_s}}();}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00016}00016         \textcolor{keywordflow}{if} (not command.empty()) \{}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00017}00017             groundstation\_manager-\/>\mbox{\hyperlink{classgroundstation__cmdtelem__manager_afec6a1b07448afe77441ccb32678ab77}{schedule\_command}}(command, get\_generic\_command\_callback\_lambda(command, sock));}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00018}00018         \}}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00019}00019     \}}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00020}00020 \}}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00021}00021 }
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00022}\mbox{\hyperlink{classcosmos__groundstation__handler_ab3a1be103605aab4241f1a296d2d839d}{00022}} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classcosmos__groundstation__handler_ab3a1be103605aab4241f1a296d2d839d}{cosmos\_groundstation\_handler::cosmos\_groundstation\_init}}(\mbox{\hyperlink{classtransmission__interface}{transmission\_interface}} *ti) \{}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00023}00023     sock-\/>\mbox{\hyperlink{classsocket__handler_a39c17355f576d2a67839b73b0c47f86f}{init\_socket\_handle}}();}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00024}00024     groundstation\_manager = \textcolor{keyword}{new} \mbox{\hyperlink{classgroundstation__cmdtelem__manager}{groundstation\_cmdtelem\_manager}}(ti, get\_generic\_telemetry\_callback\_lambda(sock));}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00025}00025     cosmos\_worker = std::thread(\&cosmos\_groundstation\_handler::groundstation\_cosmos\_worker, \textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00026}00026     SPDLOG\_TRACE(\textcolor{stringliteral}{"{}Created groundstation COSMOS worker thread with ID \{\}"{}}, std::hash<std::thread::id>\{\}(cosmos\_worker.get\_id()));}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00028}00028     \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00029}00029 \}}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00030}00030 }
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00031}00031 std::function<\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}}(std::string)>}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00032}00032 cosmos\_groundstation\_handler::get\_generic\_command\_callback\_lambda(std::string command, \mbox{\hyperlink{classsocket__handler}{socket\_handler}} *sock) \{}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00033}00033     \textcolor{keywordflow}{return} [command, sock] (\textcolor{keyword}{const} std::string\& telem) -\/> \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \{}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00034}00034         \textcolor{keywordflow}{if} (telem.empty() || sock == \textcolor{keyword}{nullptr}) \{}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00035}00035             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00036}00036         \}}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00037}00037         sock-\/>\mbox{\hyperlink{classsocket__handler_a415ab8887b09cc4334c5191b0975e1eb}{write\_socket\_s}}(command);}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00038}00038         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00039}00039     \};}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00040}00040 \}}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00042}00042 std::function<\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}}(std::string)>}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00043}00043 cosmos\_groundstation\_handler::get\_generic\_telemetry\_callback\_lambda(\mbox{\hyperlink{classsocket__handler}{socket\_handler}} *sock) \{}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00044}00044     \textcolor{keywordflow}{return} [sock] (\textcolor{keyword}{const} std::string\& telem) -\/> \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \{}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00045}00045         \textcolor{keywordflow}{if} (telem.empty() || sock == \textcolor{keyword}{nullptr}) \{}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00046}00046             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a3055c9d72025c764bc0c2ae6dd01fa30}{estts::ES\_UNINITIALIZED}};}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00047}00047         \}}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00048}00048         sock-\/>\mbox{\hyperlink{classsocket__handler_a415ab8887b09cc4334c5191b0975e1eb}{write\_socket\_s}}(telem);}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00049}00049         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{estts::ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00050}00050     \};}
+\DoxyCodeLine{\Hypertarget{cosmos__groundstation__handler_8cpp_source_l00051}00051 \}}
+
+\end{DoxyCode}

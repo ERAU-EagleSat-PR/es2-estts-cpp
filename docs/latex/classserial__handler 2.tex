@@ -1,0 +1,289 @@
+\hypertarget{classserial__handler}{}\doxysection{serial\+\_\+handler Class Reference}
+\label{classserial__handler}\index{serial\_handler@{serial\_handler}}
+
+
+{\ttfamily \#include $<$serial\+\_\+handler.\+h$>$}
+
+Inheritance diagram for serial\+\_\+handler\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classserial__handler}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classserial__handler_adf8ea71d63fe9706480e17c558f54053}{read\+\_\+serial\+\_\+async}} (const std\+::function$<$ \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}}(char $\ast$, size\+\_\+t)$>$ \&cb)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classserial__handler_a68871959f62c474b929e1ac54a48d7e3}{serial\+\_\+handler}} ()
+\begin{DoxyCompactList}\small\item\em Base constructor that initializes port and baud, opens specified port as serial port, and configures it using Termios. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classserial__handler_a92b5b23a89c1948f5b965af2a9e7b9d1}{initialize\+\_\+serial\+\_\+port}} ()
+\begin{DoxyCompactList}\small\item\em Initializes serial terminal port using Termios and Boost. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classserial__handler_a254dacf340cb60af26a925f98991d622}{$\sim$serial\+\_\+handler}} ()
+\item 
+size\+\_\+t \mbox{\hyperlink{classserial__handler_a6a4d6a714fc75d69e031bfd75d3c3907}{write\+\_\+serial\+\_\+uc}} (unsigned char $\ast$data, int size)
+\begin{DoxyCompactList}\small\item\em Takes argument for a pointer to an unsigned char and transmits it across the open serial port. \end{DoxyCompactList}\item 
+unsigned char $\ast$ \mbox{\hyperlink{classserial__handler_a333442045a5b1dd87c9c68d2bcec03d7}{read\+\_\+serial\+\_\+uc}} ()
+\begin{DoxyCompactList}\small\item\em Reads available data from open serial port. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} \mbox{\hyperlink{classserial__handler_a943e36aeeb74e9b4e1ccc9eb740c24b0}{write\+\_\+serial\+\_\+s}} (const std\+::string \&data)
+\begin{DoxyCompactList}\small\item\em Writes string to open serial port. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classserial__handler_af78069b109df607d6b6bcac6520b47ab}{read\+\_\+serial\+\_\+s}} ()
+\begin{DoxyCompactList}\small\item\em Reads available data from serial port and returns data as string. \end{DoxyCompactList}\item 
+unsigned char $\ast$ \mbox{\hyperlink{classserial__handler_a19ddaedf8ee347b8e0a0d0ab9b72ba63}{read\+\_\+serial\+\_\+uc}} (int bytes)
+\item 
+std\+::string \mbox{\hyperlink{classserial__handler_a4c55df240da8f8b7d91e08f2733cffd8}{read\+\_\+serial\+\_\+s}} (int bytes)
+\item 
+std\+::function$<$ void(boost\+::system\+::error\+\_\+code, size\+\_\+t)$>$ \mbox{\hyperlink{classserial__handler_a0b5adbc2a9da9a8421567d7283e59eb2}{get\+\_\+generic\+\_\+async\+\_\+read\+\_\+lambda}} (const std\+::function$<$ \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}}(char $\ast$, size\+\_\+t)$>$ \&estts\+\_\+callback)
+\item 
+void \mbox{\hyperlink{classserial__handler_a2f8e634f9aa9bbd4f0696e23b4a93cc9}{clear\+\_\+serial\+\_\+fifo}} ()
+\item 
+void \mbox{\hyperlink{classserial__handler_a81214efa87dbdb53f8bcd427403723cc}{clear\+\_\+serial\+\_\+fifo}} (const std\+::function$<$ \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}}(std\+::string)$>$ \&cb)
+\item 
+int \mbox{\hyperlink{classserial__handler_aba0b61e3848d19dc8f221ad5502fea70}{check\+\_\+serial\+\_\+bytes\+\_\+avail}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::stringstream \mbox{\hyperlink{classserial__handler_aa7d13713149cd5742762e2bbb5b67d7e}{cache}}
+\item 
+char \mbox{\hyperlink{classserial__handler_a0ee5f89f35fcac6b5f655e3fb20f1efa}{async\+\_\+buf}} \mbox{[}\mbox{\hyperlink{constants_8h_a096e513d29e84ca228cf341ea28b59b2}{MAX\+\_\+\+SERIAL\+\_\+\+READ}}\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{serial__handler_8h_source_l00014}{14}} of file \mbox{\hyperlink{serial__handler_8h_source}{serial\+\_\+handler.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classserial__handler_a68871959f62c474b929e1ac54a48d7e3}\label{classserial__handler_a68871959f62c474b929e1ac54a48d7e3}} 
+\index{serial\_handler@{serial\_handler}!serial\_handler@{serial\_handler}}
+\index{serial\_handler@{serial\_handler}!serial\_handler@{serial\_handler}}
+\doxysubsubsection{\texorpdfstring{serial\_handler()}{serial\_handler()}}
+{\footnotesize\ttfamily serial\+\_\+handler\+::serial\+\_\+handler (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Base constructor that initializes port and baud, opens specified port as serial port, and configures it using Termios. 
+
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{serial__handler_8cpp_source_l00025}{25}} of file \mbox{\hyperlink{serial__handler_8cpp_source}{serial\+\_\+handler.\+cpp}}.
+
+\mbox{\Hypertarget{classserial__handler_a254dacf340cb60af26a925f98991d622}\label{classserial__handler_a254dacf340cb60af26a925f98991d622}} 
+\index{serial\_handler@{serial\_handler}!````~serial\_handler@{$\sim$serial\_handler}}
+\index{````~serial\_handler@{$\sim$serial\_handler}!serial\_handler@{serial\_handler}}
+\doxysubsubsection{\texorpdfstring{$\sim$serial\_handler()}{~serial\_handler()}}
+{\footnotesize\ttfamily serial\+\_\+handler\+::$\sim$serial\+\_\+handler (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{serial__handler_8cpp_source_l00191}{191}} of file \mbox{\hyperlink{serial__handler_8cpp_source}{serial\+\_\+handler.\+cpp}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classserial__handler_aba0b61e3848d19dc8f221ad5502fea70}\label{classserial__handler_aba0b61e3848d19dc8f221ad5502fea70}} 
+\index{serial\_handler@{serial\_handler}!check\_serial\_bytes\_avail@{check\_serial\_bytes\_avail}}
+\index{check\_serial\_bytes\_avail@{check\_serial\_bytes\_avail}!serial\_handler@{serial\_handler}}
+\doxysubsubsection{\texorpdfstring{check\_serial\_bytes\_avail()}{check\_serial\_bytes\_avail()}}
+{\footnotesize\ttfamily int serial\+\_\+handler\+::check\+\_\+serial\+\_\+bytes\+\_\+avail (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{serial__handler_8cpp_source_l00207}{207}} of file \mbox{\hyperlink{serial__handler_8cpp_source}{serial\+\_\+handler.\+cpp}}.
+
+\mbox{\Hypertarget{classserial__handler_a2f8e634f9aa9bbd4f0696e23b4a93cc9}\label{classserial__handler_a2f8e634f9aa9bbd4f0696e23b4a93cc9}} 
+\index{serial\_handler@{serial\_handler}!clear\_serial\_fifo@{clear\_serial\_fifo}}
+\index{clear\_serial\_fifo@{clear\_serial\_fifo}!serial\_handler@{serial\_handler}}
+\doxysubsubsection{\texorpdfstring{clear\_serial\_fifo()}{clear\_serial\_fifo()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void serial\+\_\+handler\+::clear\+\_\+serial\+\_\+fifo (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{serial__handler_8cpp_source_l00195}{195}} of file \mbox{\hyperlink{serial__handler_8cpp_source}{serial\+\_\+handler.\+cpp}}.
+
+\mbox{\Hypertarget{classserial__handler_a81214efa87dbdb53f8bcd427403723cc}\label{classserial__handler_a81214efa87dbdb53f8bcd427403723cc}} 
+\index{serial\_handler@{serial\_handler}!clear\_serial\_fifo@{clear\_serial\_fifo}}
+\index{clear\_serial\_fifo@{clear\_serial\_fifo}!serial\_handler@{serial\_handler}}
+\doxysubsubsection{\texorpdfstring{clear\_serial\_fifo()}{clear\_serial\_fifo()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void serial\+\_\+handler\+::clear\+\_\+serial\+\_\+fifo (\begin{DoxyParamCaption}\item[{const std\+::function$<$ \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}}(std\+::string)$>$ \&}]{cb }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{serial__handler_8cpp_source_l00201}{201}} of file \mbox{\hyperlink{serial__handler_8cpp_source}{serial\+\_\+handler.\+cpp}}.
+
+\mbox{\Hypertarget{classserial__handler_a0b5adbc2a9da9a8421567d7283e59eb2}\label{classserial__handler_a0b5adbc2a9da9a8421567d7283e59eb2}} 
+\index{serial\_handler@{serial\_handler}!get\_generic\_async\_read\_lambda@{get\_generic\_async\_read\_lambda}}
+\index{get\_generic\_async\_read\_lambda@{get\_generic\_async\_read\_lambda}!serial\_handler@{serial\_handler}}
+\doxysubsubsection{\texorpdfstring{get\_generic\_async\_read\_lambda()}{get\_generic\_async\_read\_lambda()}}
+{\footnotesize\ttfamily std\+::function$<$ void(boost\+::system\+::error\+\_\+code, size\+\_\+t)$>$ serial\+\_\+handler\+::get\+\_\+generic\+\_\+async\+\_\+read\+\_\+lambda (\begin{DoxyParamCaption}\item[{const std\+::function$<$ \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}}(char $\ast$, size\+\_\+t)$>$ \&}]{estts\+\_\+callback }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{serial__handler_8cpp_source_l00220}{220}} of file \mbox{\hyperlink{serial__handler_8cpp_source}{serial\+\_\+handler.\+cpp}}.
+
+\mbox{\Hypertarget{classserial__handler_a92b5b23a89c1948f5b965af2a9e7b9d1}\label{classserial__handler_a92b5b23a89c1948f5b965af2a9e7b9d1}} 
+\index{serial\_handler@{serial\_handler}!initialize\_serial\_port@{initialize\_serial\_port}}
+\index{initialize\_serial\_port@{initialize\_serial\_port}!serial\_handler@{serial\_handler}}
+\doxysubsubsection{\texorpdfstring{initialize\_serial\_port()}{initialize\_serial\_port()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} serial\+\_\+handler\+::initialize\+\_\+serial\+\_\+port (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Initializes serial terminal port using Termios and Boost. 
+
+\begin{DoxyReturn}{Returns}
+\#\+ES\+\_\+\+OK if port configures successfully, or \#\+ES\+\_\+\+UNSUCCESSFUL if not 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{serial__handler_8cpp_source_l00048}{48}} of file \mbox{\hyperlink{serial__handler_8cpp_source}{serial\+\_\+handler.\+cpp}}.
+
+\mbox{\Hypertarget{classserial__handler_adf8ea71d63fe9706480e17c558f54053}\label{classserial__handler_adf8ea71d63fe9706480e17c558f54053}} 
+\index{serial\_handler@{serial\_handler}!read\_serial\_async@{read\_serial\_async}}
+\index{read\_serial\_async@{read\_serial\_async}!serial\_handler@{serial\_handler}}
+\doxysubsubsection{\texorpdfstring{read\_serial\_async()}{read\_serial\_async()}}
+{\footnotesize\ttfamily void serial\+\_\+handler\+::read\+\_\+serial\+\_\+async (\begin{DoxyParamCaption}\item[{const std\+::function$<$ \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}}(char $\ast$, size\+\_\+t)$>$ \&}]{cb }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{serial__handler_8cpp_source_l00216}{216}} of file \mbox{\hyperlink{serial__handler_8cpp_source}{serial\+\_\+handler.\+cpp}}.
+
+\mbox{\Hypertarget{classserial__handler_af78069b109df607d6b6bcac6520b47ab}\label{classserial__handler_af78069b109df607d6b6bcac6520b47ab}} 
+\index{serial\_handler@{serial\_handler}!read\_serial\_s@{read\_serial\_s}}
+\index{read\_serial\_s@{read\_serial\_s}!serial\_handler@{serial\_handler}}
+\doxysubsubsection{\texorpdfstring{read\_serial\_s()}{read\_serial\_s()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily std\+::string serial\+\_\+handler\+::read\+\_\+serial\+\_\+s (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Reads available data from serial port and returns data as string. 
+
+\begin{DoxyReturn}{Returns}
+Returns translated string of received data 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{serial__handler_8cpp_source_l00175}{175}} of file \mbox{\hyperlink{serial__handler_8cpp_source}{serial\+\_\+handler.\+cpp}}.
+
+\mbox{\Hypertarget{classserial__handler_a4c55df240da8f8b7d91e08f2733cffd8}\label{classserial__handler_a4c55df240da8f8b7d91e08f2733cffd8}} 
+\index{serial\_handler@{serial\_handler}!read\_serial\_s@{read\_serial\_s}}
+\index{read\_serial\_s@{read\_serial\_s}!serial\_handler@{serial\_handler}}
+\doxysubsubsection{\texorpdfstring{read\_serial\_s()}{read\_serial\_s()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily std\+::string serial\+\_\+handler\+::read\+\_\+serial\+\_\+s (\begin{DoxyParamCaption}\item[{int}]{bytes }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{serial__handler_8cpp_source_l00264}{264}} of file \mbox{\hyperlink{serial__handler_8cpp_source}{serial\+\_\+handler.\+cpp}}.
+
+\mbox{\Hypertarget{classserial__handler_a333442045a5b1dd87c9c68d2bcec03d7}\label{classserial__handler_a333442045a5b1dd87c9c68d2bcec03d7}} 
+\index{serial\_handler@{serial\_handler}!read\_serial\_uc@{read\_serial\_uc}}
+\index{read\_serial\_uc@{read\_serial\_uc}!serial\_handler@{serial\_handler}}
+\doxysubsubsection{\texorpdfstring{read\_serial\_uc()}{read\_serial\_uc()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily unsigned char $\ast$ serial\+\_\+handler\+::read\+\_\+serial\+\_\+uc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Reads available data from open serial port. 
+
+\begin{DoxyReturn}{Returns}
+Returns nullptr if nothing was read, or the data read from serial port if read was successful (and data was available).
+\end{DoxyReturn}
+CRITICAL NOTE\+: delete MUST be called when done with the value returned. If this is not done, a memory leak will be created. To avoid this issue, use read\+\_\+serial\+\_\+s 
+
+Definition at line \mbox{\hyperlink{serial__handler_8cpp_source_l00130}{130}} of file \mbox{\hyperlink{serial__handler_8cpp_source}{serial\+\_\+handler.\+cpp}}.
+
+\mbox{\Hypertarget{classserial__handler_a19ddaedf8ee347b8e0a0d0ab9b72ba63}\label{classserial__handler_a19ddaedf8ee347b8e0a0d0ab9b72ba63}} 
+\index{serial\_handler@{serial\_handler}!read\_serial\_uc@{read\_serial\_uc}}
+\index{read\_serial\_uc@{read\_serial\_uc}!serial\_handler@{serial\_handler}}
+\doxysubsubsection{\texorpdfstring{read\_serial\_uc()}{read\_serial\_uc()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily unsigned char $\ast$ serial\+\_\+handler\+::read\+\_\+serial\+\_\+uc (\begin{DoxyParamCaption}\item[{int}]{bytes }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{serial__handler_8cpp_source_l00238}{238}} of file \mbox{\hyperlink{serial__handler_8cpp_source}{serial\+\_\+handler.\+cpp}}.
+
+\mbox{\Hypertarget{classserial__handler_a943e36aeeb74e9b4e1ccc9eb740c24b0}\label{classserial__handler_a943e36aeeb74e9b4e1ccc9eb740c24b0}} 
+\index{serial\_handler@{serial\_handler}!write\_serial\_s@{write\_serial\_s}}
+\index{write\_serial\_s@{write\_serial\_s}!serial\_handler@{serial\_handler}}
+\doxysubsubsection{\texorpdfstring{write\_serial\_s()}{write\_serial\_s()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts\+::\+Status}} serial\+\_\+handler\+::write\+\_\+serial\+\_\+s (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Writes string to open serial port. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & String argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Number of bytes transferred across open serial port 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{serial__handler_8cpp_source_l00159}{159}} of file \mbox{\hyperlink{serial__handler_8cpp_source}{serial\+\_\+handler.\+cpp}}.
+
+\mbox{\Hypertarget{classserial__handler_a6a4d6a714fc75d69e031bfd75d3c3907}\label{classserial__handler_a6a4d6a714fc75d69e031bfd75d3c3907}} 
+\index{serial\_handler@{serial\_handler}!write\_serial\_uc@{write\_serial\_uc}}
+\index{write\_serial\_uc@{write\_serial\_uc}!serial\_handler@{serial\_handler}}
+\doxysubsubsection{\texorpdfstring{write\_serial\_uc()}{write\_serial\_uc()}}
+{\footnotesize\ttfamily size\+\_\+t serial\+\_\+handler\+::write\+\_\+serial\+\_\+uc (\begin{DoxyParamCaption}\item[{unsigned char $\ast$}]{data,  }\item[{int}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Takes argument for a pointer to an unsigned char and transmits it across the open serial port. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Unsigned char $\ast$ containing bytes to be written \\
+\hline
+{\em size} & Size of data being transmitted \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns -\/1 if write failed, or the number of bytes written if call succeeded 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{serial__handler_8cpp_source_l00103}{103}} of file \mbox{\hyperlink{serial__handler_8cpp_source}{serial\+\_\+handler.\+cpp}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classserial__handler_a0ee5f89f35fcac6b5f655e3fb20f1efa}\label{classserial__handler_a0ee5f89f35fcac6b5f655e3fb20f1efa}} 
+\index{serial\_handler@{serial\_handler}!async\_buf@{async\_buf}}
+\index{async\_buf@{async\_buf}!serial\_handler@{serial\_handler}}
+\doxysubsubsection{\texorpdfstring{async\_buf}{async\_buf}}
+{\footnotesize\ttfamily char serial\+\_\+handler\+::async\+\_\+buf\mbox{[}\mbox{\hyperlink{constants_8h_a096e513d29e84ca228cf341ea28b59b2}{MAX\+\_\+\+SERIAL\+\_\+\+READ}}\mbox{]}\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{serial__handler_8h_source_l00028}{28}} of file \mbox{\hyperlink{serial__handler_8h_source}{serial\+\_\+handler.\+h}}.
+
+\mbox{\Hypertarget{classserial__handler_aa7d13713149cd5742762e2bbb5b67d7e}\label{classserial__handler_aa7d13713149cd5742762e2bbb5b67d7e}} 
+\index{serial\_handler@{serial\_handler}!cache@{cache}}
+\index{cache@{cache}!serial\_handler@{serial\_handler}}
+\doxysubsubsection{\texorpdfstring{cache}{cache}}
+{\footnotesize\ttfamily std\+::stringstream serial\+\_\+handler\+::cache\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{serial__handler_8h_source_l00026}{26}} of file \mbox{\hyperlink{serial__handler_8h_source}{serial\+\_\+handler.\+h}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/ti/\mbox{\hyperlink{serial__handler_8h}{serial\+\_\+handler.\+h}}\item 
+src/ti/\mbox{\hyperlink{serial__handler_8cpp}{serial\+\_\+handler.\+cpp}}\end{DoxyCompactItemize}

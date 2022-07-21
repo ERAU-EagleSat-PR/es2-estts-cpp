@@ -1,0 +1,468 @@
+\hypertarget{transmission__interface_8cpp_source}{}\doxysection{transmission\+\_\+interface.\+cpp}
+\label{transmission__interface_8cpp_source}\index{src/ti/transmission\_interface.cpp@{src/ti/transmission\_interface.cpp}}
+\mbox{\hyperlink{transmission__interface_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00001}00001 \textcolor{comment}{/* Copyright © EagleSat II -\/ Embry Riddle Aeronautical University -\/ All rights reserved -\/ 2022 */}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00002}00002 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00003}00003 \textcolor{comment}{// Created by Hayden Roszell on 12/21/21.}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00005}00005 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00006}00006 \textcolor{preprocessor}{\#include <chrono>}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00007}00007 \textcolor{preprocessor}{\#include <thread>}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00008}00008 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00009}00009 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{transmission__interface_8h}{transmission\_interface.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00010}00010 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00011}00011 \textcolor{keyword}{using namespace }std::this\_thread; \textcolor{comment}{// sleep\_for, sleep\_until}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00012}00012 \textcolor{keyword}{using namespace }std::chrono; \textcolor{comment}{// nanoseconds, system\_clock, seconds}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00013}00013 \textcolor{keyword}{using namespace }\mbox{\hyperlink{namespaceestts}{estts}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00014}00014 \textcolor{keyword}{using namespace }\mbox{\hyperlink{namespaceestts_1_1endurosat}{estts::endurosat}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00016}\mbox{\hyperlink{classtransmission__interface_a2d2a2721b23f525b3b476fb2327d53f8}{00016}} \mbox{\hyperlink{classtransmission__interface_a2d2a2721b23f525b3b476fb2327d53f8}{transmission\_interface::transmission\_interface}}() : \mbox{\hyperlink{classsocket__handler}{socket\_handler}}(ti\_socket::\mbox{\hyperlink{namespaceestts_1_1ti__socket_a87405055a4153fc8dfc1c3e2083116cd}{TI\_SOCKET\_ADDRESS}},}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00017}00017                                                                                         ti\_socket::\mbox{\hyperlink{namespaceestts_1_1ti__socket_ad189c0437968912f4d6e142600101c25}{TI\_SOCKET\_PORT}}) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00018}00018     primary\_telem\_cb = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00019}00019     \mbox{\hyperlink{classtransmission__interface_a78aad522999539ba17879d069f85e5e8}{obc\_session\_active}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00020}00020     pipe\_mode = \mbox{\hyperlink{namespaceestts_1_1endurosat_a52f79648af19824db1a45013ca1bedfea4c121c8592d99d811ef5cb6e06f60c69}{PIPE\_OFF}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00021}00021     \mbox{\hyperlink{classtransmission__interface_a91a6ef6752aed796f742c42229c1902a}{satellite\_in\_range}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00022}00022     dispatch\_threadpool\_active = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00023}00023 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00024}00024     inrange\_checker = std::thread(\&transmission\_interface::detect\_satellite\_in\_range, \textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00025}00025     SPDLOG\_TRACE(\textcolor{stringliteral}{"{}Created thread to detect if the satellite is in range with ID \{\}"{}}, std::hash<std::thread::id>\{\}(pipe\_keeper.get\_id()));}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00027}00027     mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00028}00028 \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00030}\mbox{\hyperlink{classtransmission__interface_abd3531828b03ac77784e239a1305ce33}{00030}} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{Status}} \mbox{\hyperlink{classtransmission__interface_abd3531828b03ac77784e239a1305ce33}{transmission\_interface::transmit}}(\textcolor{keyword}{const} std::string \&value) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00031}00031     \textcolor{keyword}{using namespace }std::this\_thread; \textcolor{comment}{// sleep\_for, sleep\_until}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00032}00032     \textcolor{keyword}{using namespace }std::chrono; \textcolor{comment}{// nanoseconds, system\_clock, seconds}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00033}00033     \textcolor{keywordflow}{if} (value.empty())}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00034}00034         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a2236cf6c2b6b039c4cf21d113663b04d}{ES\_MEMORY\_ERROR}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00035}00035     \textcolor{keywordflow}{if} (!\mbox{\hyperlink{classtransmission__interface_a78aad522999539ba17879d069f85e5e8}{obc\_session\_active}})}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00036}00036         SPDLOG\_WARN(\textcolor{stringliteral}{"{}Communication session not active, message may not get to satellite."{}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00037}00037     mtx.lock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00038}00038     \textcolor{keywordflow}{if} (primary\_telem\_cb)}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00039}00039         \mbox{\hyperlink{classserial__handler_a2f8e634f9aa9bbd4f0696e23b4a93cc9}{clear\_serial\_fifo}}(primary\_telem\_cb);}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00040}00040     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00041}00041         \mbox{\hyperlink{classserial__handler_a2f8e634f9aa9bbd4f0696e23b4a93cc9}{clear\_serial\_fifo}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00042}00042 \textcolor{preprocessor}{\#ifndef \_\_TI\_DEV\_MODE\_\_}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00043}00043     \mbox{\hyperlink{classserial__handler_a2f8e634f9aa9bbd4f0696e23b4a93cc9}{clear\_serial\_fifo}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00044}00044     \textcolor{keywordflow}{if} (this-\/>\mbox{\hyperlink{classserial__handler_a943e36aeeb74e9b4e1ccc9eb740c24b0}{write\_serial\_s}}(value) != \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{ES\_OK}}) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00045}00045         SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Failed to transmit."{}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00046}00046         mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00047}00047         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}{ES\_UNSUCCESSFUL}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00048}00048     \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00049}00049 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00050}00050     mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00051}00051     \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00052}00052 \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00054}\mbox{\hyperlink{classtransmission__interface_aec2a512e3525ce9a55ff911a098ba8f5}{00054}} std::string \mbox{\hyperlink{classtransmission__interface_aec2a512e3525ce9a55ff911a098ba8f5}{transmission\_interface::receive}}() \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00055}00055     mtx.lock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00056}00056 \textcolor{preprocessor}{\#ifndef \_\_TI\_DEV\_MODE\_\_}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00057}00057     \textcolor{keyword}{auto} buf = internal\_receive();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00058}00058     mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00059}00059     \textcolor{keywordflow}{return} buf;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00060}00060 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00061}00061     std::string received;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00062}00062     \textcolor{keywordflow}{do} \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00064}00064     \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00065}00065     \textcolor{keywordflow}{while} ((received = this-\/>\mbox{\hyperlink{classsocket__handler_a258a5da9a77812c27032f18bd64779fe}{read\_socket\_s}}()).empty());}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00066}00066     mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00067}00067     \textcolor{keywordflow}{return} received;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00068}00068 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00069}00069 \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00071}00071 std::string transmission\_interface::internal\_receive() \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00072}00072     \textcolor{keywordtype}{int} bytes\_avail;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00073}00073     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} seconds\_elapsed = 0; seconds\_elapsed < \mbox{\hyperlink{namespaceestts_a94e814150766181b243fa076e7af509b}{ESTTS\_AWAIT\_RESPONSE\_PERIOD\_SEC}} * 50; seconds\_elapsed++) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00074}00074         bytes\_avail = \mbox{\hyperlink{classserial__handler_aba0b61e3848d19dc8f221ad5502fea70}{check\_serial\_bytes\_avail}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00075}00075         \textcolor{keywordflow}{if} (bytes\_avail > 0) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00076}00076             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00077}00077         \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00078}00078         sleep\_until(system\_clock::now() + milliseconds (100));}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00079}00079     \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00080}00080     \textcolor{keywordflow}{if} (bytes\_avail <= 0) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00081}00081         mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00082}00082         \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00083}00083     \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00084}00084     \textcolor{keyword}{auto} buf = this-\/>\mbox{\hyperlink{classserial__handler_af78069b109df607d6b6bcac6520b47ab}{read\_serial\_s}}(bytes\_avail);}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00085}00085     \textcolor{keywordflow}{return} buf;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00086}00086 \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00087}00087 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00088}\mbox{\hyperlink{classtransmission__interface_ad4e3acd1179aecbc893282a88df1b6c2}{00088}} \mbox{\hyperlink{classtransmission__interface_ad4e3acd1179aecbc893282a88df1b6c2}{transmission\_interface::\string~transmission\_interface}}() \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00089}00089     mtx.lock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00090}00090 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00091}00091 \textcolor{preprocessor}{\#ifdef \_\_TI\_DEV\_MODE\_\_}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00092}00092     this-\/>\mbox{\hyperlink{classsocket__handler_a415ab8887b09cc4334c5191b0975e1eb}{write\_socket\_s}}(\textcolor{stringliteral}{"{}close"{}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00093}00093 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00094}00094 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00095}00095     mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00096}00096 \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00097}00097 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00098}\mbox{\hyperlink{classtransmission__interface_a2f9ae91d4dedc1c02dd03665013e75e4}{00098}} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classtransmission__interface_a2f9ae91d4dedc1c02dd03665013e75e4}{transmission\_interface::check\_data\_available}}() \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00099}00099 \textcolor{preprocessor}{\#ifdef \_\_TI\_DEV\_MODE\_\_}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00100}00100     \textcolor{keywordflow}{if} (\mbox{\hyperlink{classsocket__handler_a306c5dc82f80b4608463505ee2128414}{check\_sock\_bytes\_avail}}() > 0)}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00101}00101         \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00102}00102     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00103}00103         \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00104}00104 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00105}00105     \textcolor{keywordflow}{if} (\mbox{\hyperlink{classserial__handler_aba0b61e3848d19dc8f221ad5502fea70}{check\_serial\_bytes\_avail}}() > 0)}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00106}00106         \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00107}00107     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00108}00108         \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00109}00109 \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00110}00110 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00111}\mbox{\hyperlink{classtransmission__interface_a884c20120bc57f0e15f1ec0961c59354}{00111}} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{Status}} \mbox{\hyperlink{classtransmission__interface_abd3531828b03ac77784e239a1305ce33}{transmission\_interface::transmit}}(\textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *value, \textcolor{keywordtype}{int} length) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00112}00112     \textcolor{keyword}{using namespace }std::this\_thread; \textcolor{comment}{// sleep\_for, sleep\_until}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00113}00113     \textcolor{keyword}{using namespace }std::chrono; \textcolor{comment}{// nanoseconds, system\_clock, seconds}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00114}00114     \textcolor{keywordflow}{if} (length <= 0)}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00115}00115         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a2236cf6c2b6b039c4cf21d113663b04d}{ES\_MEMORY\_ERROR}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00116}00116     \textcolor{keywordtype}{int} retries = 0;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00117}00117     \textcolor{keywordflow}{if} (!\mbox{\hyperlink{classtransmission__interface_a78aad522999539ba17879d069f85e5e8}{obc\_session\_active}})}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00118}00118         SPDLOG\_WARN(\textcolor{stringliteral}{"{}Communication session not active, message may not get to satellite."{}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00119}00119     mtx.lock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00120}00120 \textcolor{preprocessor}{\#ifndef \_\_TI\_DEV\_MODE\_\_}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00121}00121     retries = 0;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00122}00122     \mbox{\hyperlink{classserial__handler_a2f8e634f9aa9bbd4f0696e23b4a93cc9}{clear\_serial\_fifo}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00123}00123     \textcolor{keywordflow}{while} (this-\/>\mbox{\hyperlink{classserial__handler_a6a4d6a714fc75d69e031bfd75d3c3907}{write\_serial\_uc}}((\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *)value, length) < length) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00124}00124         spdlog::error(\textcolor{stringliteral}{"{}Failed to transmit. Waiting \{\} seconds"{}}, \mbox{\hyperlink{namespaceestts_1_1ti__socket_a24ef402a531dd5ebc20a5946114f5431}{endurosat::WAIT\_TIME\_SEC}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00125}00125         sleep\_until(system\_clock::now() + seconds(\mbox{\hyperlink{namespaceestts_1_1ti__socket_a24ef402a531dd5ebc20a5946114f5431}{endurosat::WAIT\_TIME\_SEC}}));}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00126}00126         retries++;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00127}00127         \textcolor{keywordflow}{if} (retries > \mbox{\hyperlink{namespaceestts_1_1ti__socket_a2ae9f7f95d106908439dff138c8ef39d}{endurosat::MAX\_RETRIES}}) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00128}00128             mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00129}00129             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}{ES\_UNSUCCESSFUL}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00130}00130         \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00131}00131         SPDLOG\_INFO(\textcolor{stringliteral}{"{}Retrying transmit (retry \{\}/\{\})"{}}, retries, \mbox{\hyperlink{namespaceestts_1_1ti__socket_a2ae9f7f95d106908439dff138c8ef39d}{endurosat::MAX\_RETRIES}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00132}00132     \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00133}00133 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00134}00134     SPDLOG\_DEBUG(\textcolor{stringliteral}{"{}Transmitting \{\}"{}}, value);}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00135}00135     \textcolor{keywordflow}{while} (this-\/>\mbox{\hyperlink{classsocket__handler_ab2fa4fc1e3a3e60748a2294af085a79a}{write\_socket\_uc}}((\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *)value, length) < length) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00136}00136         spdlog::error(\textcolor{stringliteral}{"{}Failed to transmit. Waiting \{\} seconds"{}}, \mbox{\hyperlink{namespaceestts_1_1ti__socket_a24ef402a531dd5ebc20a5946114f5431}{ti\_socket::WAIT\_TIME\_SEC}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00137}00137         sleep\_until(system\_clock::now() + seconds(\mbox{\hyperlink{namespaceestts_1_1ti__socket_a24ef402a531dd5ebc20a5946114f5431}{ti\_socket::WAIT\_TIME\_SEC}}));}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00138}00138         retries++;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00139}00139         \textcolor{keywordflow}{if} (retries > \mbox{\hyperlink{namespaceestts_1_1ti__socket_a2ae9f7f95d106908439dff138c8ef39d}{ti\_socket::MAX\_RETRIES}}) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00140}00140             mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00141}00141             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}{ES\_UNSUCCESSFUL}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00142}00142         \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00143}00143         SPDLOG\_INFO(\textcolor{stringliteral}{"{}Retrying transmit (retry \{\}/\{\})"{}}, retries, \mbox{\hyperlink{namespaceestts_1_1ti__socket_a2ae9f7f95d106908439dff138c8ef39d}{ti\_socket::MAX\_RETRIES}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00144}00144     \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00145}00145 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00146}00146     mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00147}00147     \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00148}00148 \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00149}00149 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00150}\mbox{\hyperlink{classtransmission__interface_addc2a2399f5e7d7849cc2570a64a6868}{00150}} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *\mbox{\hyperlink{classtransmission__interface_addc2a2399f5e7d7849cc2570a64a6868}{transmission\_interface::receive\_uc}}() \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00151}00151     mtx.lock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00152}00152 \textcolor{preprocessor}{\#ifndef \_\_TI\_DEV\_MODE\_\_}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00153}00153     \textcolor{keyword}{auto} buf = this-\/>\mbox{\hyperlink{classserial__handler_a333442045a5b1dd87c9c68d2bcec03d7}{read\_serial\_uc}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00154}00154     mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00155}00155     \textcolor{keywordflow}{return} buf;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00156}00156 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00157}00157     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} * received;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00158}00158     \textcolor{keywordflow}{do} \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00159}00159     \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00160}00160     \textcolor{keywordflow}{while} (!(received = this-\/>\mbox{\hyperlink{classsocket__handler_ac925e7df3af4516decfff5387c8aa854}{read\_socket\_uc}}()));}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00161}00161     mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00162}00162     \textcolor{keywordflow}{return} received;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00163}00163 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00164}00164 \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00165}00165 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00166}\mbox{\hyperlink{classtransmission__interface_a2e7c9b9f062986498dda02b8fcc10f90}{00166}} std::string \mbox{\hyperlink{classtransmission__interface_a2e7c9b9f062986498dda02b8fcc10f90}{transmission\_interface::nonblock\_receive}}() \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00167}00167     \textcolor{keywordflow}{if} (!mtx.try\_lock())}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00168}00168         \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00169}00169     \textcolor{keywordtype}{int} bytes;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00170}00170     sleep\_until(system\_clock::now() + milliseconds (20));}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00171}00171     \textcolor{keywordflow}{if} ((bytes = \mbox{\hyperlink{classserial__handler_aba0b61e3848d19dc8f221ad5502fea70}{check\_serial\_bytes\_avail}}()) > 0) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00172}00172         mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00173}00173         \textcolor{keywordflow}{return} this-\/>\mbox{\hyperlink{classserial__handler_af78069b109df607d6b6bcac6520b47ab}{read\_serial\_s}}(bytes);}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00174}00174     \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00175}00175     mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00176}00176     \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00177}00177 \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00178}00178 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00179}\mbox{\hyperlink{classtransmission__interface_a4d524ad4b05c07cbdab71560657f087b}{00179}} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{Status}} \mbox{\hyperlink{classtransmission__interface_a4d524ad4b05c07cbdab71560657f087b}{transmission\_interface::gs\_transmit}}(\textcolor{keyword}{const} std::string \&value) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00180}00180     \textcolor{keywordflow}{if} (value.empty())}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00181}00181         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a2236cf6c2b6b039c4cf21d113663b04d}{ES\_MEMORY\_ERROR}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00182}00182     mtx.lock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00183}00183 \textcolor{preprocessor}{\#ifndef \_\_TI\_DEV\_MODE\_\_}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00184}00184     \mbox{\hyperlink{classserial__handler_a2f8e634f9aa9bbd4f0696e23b4a93cc9}{clear\_serial\_fifo}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00185}00185     \textcolor{keywordflow}{if} (this-\/>\mbox{\hyperlink{classserial__handler_a943e36aeeb74e9b4e1ccc9eb740c24b0}{write\_serial\_s}}(value) != \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{ES\_OK}}) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00186}00186         SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Failed to transmit."{}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00187}00187         mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00188}00188         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}{ES\_UNSUCCESSFUL}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00189}00189     \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00190}00190 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00191}00191     mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00192}00192     \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00193}00193 \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00194}00194 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00199}\mbox{\hyperlink{classtransmission__interface_a8a820449dd79476726937cd227c227e3}{00199}} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{Status}} \mbox{\hyperlink{classtransmission__interface_a8a820449dd79476726937cd227c227e3}{transmission\_interface::enable\_pipe}}() \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00200}00200     std::string pipe\_en = \textcolor{stringliteral}{"{}ES+W22003323\(\backslash\)r"{}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00201}00201     std::stringstream buf;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00202}00202     pipe\_mode = \mbox{\hyperlink{namespaceestts_1_1endurosat_a52f79648af19824db1a45013ca1bedfea4c121c8592d99d811ef5cb6e06f60c69}{PIPE\_OFF}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00203}00203 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00204}00204     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} retries = 0; retries < \mbox{\hyperlink{namespaceestts_1_1ti__socket_a2ae9f7f95d106908439dff138c8ef39d}{endurosat::MAX\_RETRIES}}; retries++) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00205}00205         \textcolor{keywordflow}{if} (retries > \mbox{\hyperlink{namespaceestts_1_1ti__socket_a2ae9f7f95d106908439dff138c8ef39d}{endurosat::MAX\_RETRIES}}) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00206}00206             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}{ES\_UNSUCCESSFUL}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00207}00207         \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00208}00208         SPDLOG\_TRACE(\textcolor{stringliteral}{"{}Attempting to enable PIPE on ground station"{}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00209}00209         \mbox{\hyperlink{classserial__handler_a943e36aeeb74e9b4e1ccc9eb740c24b0}{write\_serial\_s}}(pipe\_en);}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00210}00210         sleep\_until(system\_clock::now() + milliseconds (50));}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00211}00211 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00212}00212         \textcolor{comment}{// Try to get data 3 times}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00213}00213         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 3; i++) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00214}00214             \textcolor{keywordflow}{if} (\mbox{\hyperlink{classtransmission__interface_a2f9ae91d4dedc1c02dd03665013e75e4}{check\_data\_available}}()) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00215}00215                 buf << \mbox{\hyperlink{classserial__handler_af78069b109df607d6b6bcac6520b47ab}{read\_serial\_s}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00216}00216                 \textcolor{keywordflow}{if} (buf.str().find(\textcolor{stringliteral}{"{}OK+3323\(\backslash\)r"{}}) != std::string::npos \&\& buf.str().find(\textcolor{stringliteral}{"{}+PIPE\(\backslash\)r"{}}) != std::string::npos) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00217}00217                     pipe\_mode = \mbox{\hyperlink{namespaceestts_1_1endurosat_a52f79648af19824db1a45013ca1bedfeae8b918a071c64a8a6716af4e522550f4}{PIPE\_ON}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00218}00218                     \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00219}00219                 \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00220}00220             \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00221}00221         \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00222}00222         \textcolor{keywordflow}{if} (pipe\_mode == \mbox{\hyperlink{namespaceestts_1_1endurosat_a52f79648af19824db1a45013ca1bedfeae8b918a071c64a8a6716af4e522550f4}{PIPE\_ON}})}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00223}00223             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00224}00224         SPDLOG\_WARN(\textcolor{stringliteral}{"{}PIPE enable unsuccessful. Retrying (\{\}/\{\} retries)"{}}, retries + 1, \mbox{\hyperlink{namespaceestts_1_1ti__socket_a2ae9f7f95d106908439dff138c8ef39d}{endurosat::MAX\_RETRIES}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00225}00225     \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00226}00226 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00227}00227     \textcolor{keywordflow}{if} (pipe\_mode != \mbox{\hyperlink{namespaceestts_1_1endurosat_a52f79648af19824db1a45013ca1bedfeae8b918a071c64a8a6716af4e522550f4}{PIPE\_ON}}) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00228}00228         SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Failed to enable PIPE on ground station transceiver."{}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00229}00229         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}{ES\_UNSUCCESSFUL}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00230}00230     \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00231}00231 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00232}00232     pipe\_keeper = std::thread(\&transmission\_interface::maintain\_pipe, \textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00233}00233     SPDLOG\_TRACE(\textcolor{stringliteral}{"{}Created maintain PIPE thread with ID \{\}"{}}, std::hash<std::thread::id>\{\}(pipe\_keeper.get\_id()));}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00234}00234     SPDLOG\_DEBUG(\textcolor{stringliteral}{"{}PIPE is active."{}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00235}00235 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00236}00236     \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00237}00237 \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00238}00238 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00239}\mbox{\hyperlink{classtransmission__interface_aa3ab068aa556878fa12e9a66477264f2}{00239}} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{Status}} \mbox{\hyperlink{classtransmission__interface_aa3ab068aa556878fa12e9a66477264f2}{transmission\_interface::disable\_pipe}}() \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00240}00240     SPDLOG\_DEBUG(\textcolor{stringliteral}{"{}Exiting PIPE mode"{}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00241}00241     \textcolor{keywordtype}{int} retries = \mbox{\hyperlink{namespaceestts_1_1endurosat_a93ea8288622c6ba2c1105cd66dcecf3b}{endurosat::PIPE\_DURATION\_SEC}} * 2;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00242}00242 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00243}00243     \textcolor{keywordflow}{if} (pipe\_mode != \mbox{\hyperlink{namespaceestts_1_1endurosat_a52f79648af19824db1a45013ca1bedfeae8b918a071c64a8a6716af4e522550f4}{PIPE\_ON}})}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00244}00244         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00245}00245 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00246}00246     pipe\_mode = \mbox{\hyperlink{namespaceestts_1_1endurosat_a52f79648af19824db1a45013ca1bedfea76469aa4e85fe9d60bed0c73fcb02338}{PIPE\_WAITING}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00247}00247     pipe\_keeper.join();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00248}00248     std::string resp;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00249}00249     std::stringstream buf;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00250}00250     \textcolor{keywordflow}{while} (\textcolor{keyword}{true}) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00251}00251         \textcolor{keyword}{auto} avail = this-\/>\mbox{\hyperlink{classserial__handler_aba0b61e3848d19dc8f221ad5502fea70}{check\_serial\_bytes\_avail}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00252}00252         \textcolor{keywordflow}{if} (avail > 0) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00253}00253             buf << \mbox{\hyperlink{classserial__handler_af78069b109df607d6b6bcac6520b47ab}{read\_serial\_s}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00254}00254         \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00255}00255         \textcolor{keywordflow}{if} (buf.str().find(\textcolor{stringliteral}{"{}+ESTTC"{}}) != std::string::npos) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00256}00256             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00257}00257         \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00258}00258         sleep\_until(system\_clock::now() + seconds(1));}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00259}00259         retries-\/-\/;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00260}00260         \textcolor{keywordflow}{if} (retries <= 0) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00261}00261             SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Oof PIPE didn't exit properly.."{}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00262}00262             pipe\_mode = \mbox{\hyperlink{namespaceestts_1_1endurosat_a52f79648af19824db1a45013ca1bedfea4c121c8592d99d811ef5cb6e06f60c69}{PIPE\_OFF}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00263}00263             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}{ES\_UNSUCCESSFUL}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00264}00264         \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00265}00265     \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00266}00266     SPDLOG\_TRACE(\textcolor{stringliteral}{"{}PIPE successfully exited."{}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00267}00267     pipe\_mode = \mbox{\hyperlink{namespaceestts_1_1endurosat_a52f79648af19824db1a45013ca1bedfea4c121c8592d99d811ef5cb6e06f60c69}{PIPE\_OFF}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00268}00268     \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00269}00269 \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00270}00270 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00271}00271 \textcolor{keywordtype}{void} transmission\_interface::maintain\_pipe() \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00272}00272     \textcolor{keywordtype}{int} counter = 0;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00273}00273     \textcolor{keywordflow}{while} (pipe\_mode == \mbox{\hyperlink{namespaceestts_1_1endurosat_a52f79648af19824db1a45013ca1bedfeae8b918a071c64a8a6716af4e522550f4}{PIPE\_ON}}) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00274}00274         counter++;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00275}00275         \textcolor{keywordflow}{if} ((counter / 10) > (\mbox{\hyperlink{namespaceestts_1_1endurosat_a93ea8288622c6ba2c1105cd66dcecf3b}{endurosat::PIPE\_DURATION\_SEC}} -\/ 4)) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00276}00276             this-\/>\mbox{\hyperlink{classserial__handler_a6a4d6a714fc75d69e031bfd75d3c3907}{write\_serial\_uc}}((\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *) \textcolor{stringliteral}{"{} "{}}, 1);}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00277}00277             counter = 0;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00278}00278         \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00279}00279         sleep\_until(system\_clock::now() + milliseconds (100));}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00280}00280     \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00281}00281 \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00282}00282 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00283}\mbox{\hyperlink{classtransmission__interface_a6ade78122ffd8e877c652f51e18bc8f5}{00283}} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{Status}} \mbox{\hyperlink{classtransmission__interface_a6ade78122ffd8e877c652f51e18bc8f5}{transmission\_interface::request\_obc\_session}}() \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00284}00284     mtx.lock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00285}00285 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00286}00286     \textcolor{comment}{// Wait up to ESTTS\_SATELLITE\_CONNECTION\_TIMEOUT\_MIN minutes for the satellite to come in range.}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00287}00287     \textcolor{comment}{// Check every 1 minute}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00288}00288     \textcolor{keyword}{auto} wait = 0;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00289}00289     \textcolor{keywordflow}{while} (!\mbox{\hyperlink{classtransmission__interface_a91a6ef6752aed796f742c42229c1902a}{satellite\_in\_range}}) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00290}00290         \textcolor{keywordflow}{if} (wait > \mbox{\hyperlink{namespaceestts_a33efa8c518f1662b533dc3ad0d52342a}{ESTTS\_SATELLITE\_CONNECTION\_TIMEOUT\_MIN}}) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00291}00291             SPDLOG\_INFO(\textcolor{stringliteral}{"{}Satellite not detected within \{\} minutes."{}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00292}00292             mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00293}00293             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}{estts::ES\_UNSUCCESSFUL}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00294}00294         \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00295}00295         sleep\_until(system\_clock::now() + minutes(1));}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00296}00296         wait++;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00297}00297     \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00298}00298 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00299}00299     SPDLOG\_INFO(\textcolor{stringliteral}{"{}Requesting new session"{}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00300}00300     std::string pipe\_en = \textcolor{stringliteral}{"{}ES+W22003323\(\backslash\)r"{}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00301}00301     \textcolor{keywordtype}{int} retries = 0;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00302}00302     std::stringstream buf;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00303}00303 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00304}00304     \textcolor{keywordflow}{if} (primary\_telem\_cb)}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00305}00305         \mbox{\hyperlink{classserial__handler_a2f8e634f9aa9bbd4f0696e23b4a93cc9}{clear\_serial\_fifo}}(primary\_telem\_cb);}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00306}00306     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00307}00307         \mbox{\hyperlink{classserial__handler_a2f8e634f9aa9bbd4f0696e23b4a93cc9}{clear\_serial\_fifo}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00308}00308 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00309}00309     \textcolor{comment}{// Enable PIPE has built-\/in retries. Don't cascade retries, if this function failed}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00310}00310     \textcolor{comment}{// something is pretty messed up.}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00311}00311     \textcolor{keywordflow}{if} (\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{ES\_OK}} != \mbox{\hyperlink{classtransmission__interface_a8a820449dd79476726937cd227c227e3}{enable\_pipe}}()) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00312}00312         mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00313}00313         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}{ES\_UNSUCCESSFUL}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00314}00314     \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00315}00315 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00316}00316     \textcolor{comment}{// Sanity check -\/ make sure PIPE is enabled}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00317}00317     \textcolor{keywordflow}{if} (\mbox{\hyperlink{namespaceestts_1_1endurosat_a52f79648af19824db1a45013ca1bedfeae8b918a071c64a8a6716af4e522550f4}{PIPE\_ON}} != pipe\_mode) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00318}00318         SPDLOG\_ERROR(\textcolor{stringliteral}{"{}enable\_pipe() succeeded, but trace variable is not set to PIPE\_ON"{}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00319}00319         mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00320}00320         \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ab6180644c0b6190ec64f895f8c2ee5ff}{ES\_SERVER\_ERROR}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00321}00321     \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00322}00322 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00323}00323     \textcolor{comment}{// Clear FIFO buffer}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00324}00324     \textcolor{keywordflow}{if} (primary\_telem\_cb)}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00325}00325         \mbox{\hyperlink{classserial__handler_a2f8e634f9aa9bbd4f0696e23b4a93cc9}{clear\_serial\_fifo}}(primary\_telem\_cb);}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00326}00326     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00327}00327         \mbox{\hyperlink{classserial__handler_a2f8e634f9aa9bbd4f0696e23b4a93cc9}{clear\_serial\_fifo}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00328}00328 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00329}00329     \textcolor{comment}{// Now, try to enable PIPE on the satellite.}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00330}00330     \textcolor{keywordflow}{while} (\textcolor{keyword}{true}) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00331}00331         \textcolor{keywordflow}{if} (retries > \mbox{\hyperlink{namespaceestts_1_1ti__socket_a2ae9f7f95d106908439dff138c8ef39d}{endurosat::MAX\_RETRIES}}) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00332}00332             SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Failed to enable PIPE on satellite transceiver. (\{\}/\{\} retries)"{}}, retries, \mbox{\hyperlink{namespaceestts_1_1ti__socket_a2ae9f7f95d106908439dff138c8ef39d}{endurosat::MAX\_RETRIES}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00333}00333             mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00334}00334             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}{ES\_UNSUCCESSFUL}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00335}00335         \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00336}00336         \mbox{\hyperlink{classserial__handler_a943e36aeeb74e9b4e1ccc9eb740c24b0}{write\_serial\_s}}(pipe\_en);}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00337}00337         sleep\_until(system\_clock::now() + milliseconds (100));}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00338}00338         buf << internal\_receive();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00339}00339         \textcolor{keywordflow}{if} (buf.str().find(\textcolor{stringliteral}{"{}OK+3323\(\backslash\)r"{}}) != std::string::npos) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00340}00340             SPDLOG\_TRACE(\textcolor{stringliteral}{"{}PIPE is probably enabled on the satellite"{}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00341}00341             \mbox{\hyperlink{classtransmission__interface_a78aad522999539ba17879d069f85e5e8}{obc\_session\_active}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00342}00342             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00343}00343         \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00344}00344         retries++;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00345}00345         SPDLOG\_ERROR(\textcolor{stringliteral}{"{}Failed to enable PIPE on satellite. Waiting \{\} seconds (retry \{\}/\{\})"{}}, \mbox{\hyperlink{namespaceestts_1_1ti__socket_a24ef402a531dd5ebc20a5946114f5431}{endurosat::WAIT\_TIME\_SEC}}, retries, \mbox{\hyperlink{namespaceestts_1_1ti__socket_a2ae9f7f95d106908439dff138c8ef39d}{endurosat::MAX\_RETRIES}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00346}00346         sleep\_until(system\_clock::now() + seconds(\mbox{\hyperlink{namespaceestts_1_1ti__socket_a24ef402a531dd5ebc20a5946114f5431}{endurosat::WAIT\_TIME\_SEC}}));}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00347}00347         \textcolor{comment}{// Once again don't clear buf, maybe confirmation got lost in the weeds.}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00348}00348     \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00349}00349 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00350}00350     sleep\_until(system\_clock::now() + seconds(2));}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00351}00351 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00352}00352     \textcolor{comment}{// At this point, there is already a thread maintaining the PIPE state.}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00353}00353     \textcolor{comment}{// Exit at this point.}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00354}00354 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00355}00355     SPDLOG\_INFO(\textcolor{stringliteral}{"{}Session active"{}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00356}00356 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00357}00357     \textcolor{keywordflow}{if} (primary\_telem\_cb)}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00358}00358         \mbox{\hyperlink{classserial__handler_a2f8e634f9aa9bbd4f0696e23b4a93cc9}{clear\_serial\_fifo}}(primary\_telem\_cb);}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00359}00359     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00360}00360         \mbox{\hyperlink{classserial__handler_a2f8e634f9aa9bbd4f0696e23b4a93cc9}{clear\_serial\_fifo}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00361}00361 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00362}00362     mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00363}00363     \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00364}00364 \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00365}00365 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00366}\mbox{\hyperlink{classtransmission__interface_a2f5fbd64c440f4f2bd79893826288b43}{00366}} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{Status}} \mbox{\hyperlink{classtransmission__interface_a2f5fbd64c440f4f2bd79893826288b43}{transmission\_interface::end\_obc\_session}}(\textcolor{keyword}{const} std::string \&end\_frame) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00367}00367     mtx.lock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00368}00368     SPDLOG\_INFO(\textcolor{stringliteral}{"{}Ending session"{}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00369}00369 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00370}00370     \textcolor{keywordtype}{int} retries = \mbox{\hyperlink{namespaceestts_1_1endurosat_a93ea8288622c6ba2c1105cd66dcecf3b}{endurosat::PIPE\_DURATION\_SEC}} * 2;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00371}00371     \mbox{\hyperlink{classtransmission__interface_aa3ab068aa556878fa12e9a66477264f2}{disable\_pipe}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00372}00372     sleep\_until(system\_clock::now() + seconds(1));}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00373}00373 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00374}00374     SPDLOG\_INFO(\textcolor{stringliteral}{"{}Successfully ended session"{}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00375}00375     \mbox{\hyperlink{classtransmission__interface_a78aad522999539ba17879d069f85e5e8}{obc\_session\_active}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00376}00376     mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00377}00377     \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00378}00378 \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00379}00379 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00380}00380 \textcolor{keywordtype}{void} transmission\_interface::detect\_satellite\_in\_range() \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00381}00381     std::string get\_scw = \textcolor{stringliteral}{"{}ES+R2200\(\backslash\)r"{}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00382}00382     std::string enable\_bcn = \textcolor{stringliteral}{"{}ES+W22003340\(\backslash\)r"{}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00383}00383 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00384}00384     \textcolor{keywordflow}{for} (;;) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00385}00385         \textcolor{keywordflow}{if} (!\mbox{\hyperlink{classtransmission__interface_a78aad522999539ba17879d069f85e5e8}{obc\_session\_active}} \&\& pipe\_mode == \mbox{\hyperlink{namespaceestts_1_1endurosat_a52f79648af19824db1a45013ca1bedfea4c121c8592d99d811ef5cb6e06f60c69}{PIPE\_OFF}} \&\& !\mbox{\hyperlink{classtransmission__interface_a8b89b962dc3cd6174d6510b1a638c3a9}{gstxvr\_session\_active}}) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00386}00386             SPDLOG\_TRACE(\textcolor{stringliteral}{"{}detect\_satellite\_in\_range -\/ locking mutex"{}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00387}00387             mtx.lock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00388}00388             \textcolor{keywordflow}{if} (\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{ES\_OK}} == \mbox{\hyperlink{classtransmission__interface_a8a820449dd79476726937cd227c227e3}{enable\_pipe}}()) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00389}00389                 \textcolor{comment}{// Try to read some data from the satellite transceiver 3 times}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00390}00390                 std::stringstream buf;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00391}00391                 \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 3; i++) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00392}00392                     \mbox{\hyperlink{classserial__handler_a943e36aeeb74e9b4e1ccc9eb740c24b0}{write\_serial\_s}}(get\_scw);}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00393}00393                     sleep\_until(system\_clock::now() + milliseconds (500));}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00394}00394                     \textcolor{keywordflow}{if} (\mbox{\hyperlink{classtransmission__interface_a2f9ae91d4dedc1c02dd03665013e75e4}{check\_data\_available}}())}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00395}00395                         buf << \mbox{\hyperlink{classserial__handler_af78069b109df607d6b6bcac6520b47ab}{read\_serial\_s}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00396}00396                     \textcolor{keywordflow}{if} (buf.str().find(\textcolor{stringliteral}{"{}OK+"{}}) != std::string::npos) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00397}00397                         \mbox{\hyperlink{classtransmission__interface_a91a6ef6752aed796f742c42229c1902a}{satellite\_in\_range}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00398}00398                         start\_dispatch\_threads();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00399}00399                         \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00400}00400                     \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00401}00401                         \mbox{\hyperlink{classtransmission__interface_a91a6ef6752aed796f742c42229c1902a}{satellite\_in\_range}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00402}00402                         end\_dispatch\_threads();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00403}00403                     \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00404}00404                     sleep\_until(system\_clock::now() + seconds (\mbox{\hyperlink{namespaceestts_a568f17193f73938b966fd798c4667b2f}{ESTTS\_RETRY\_WAIT\_SEC}}));}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00405}00405                 \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00406}00406                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{classtransmission__interface_a91a6ef6752aed796f742c42229c1902a}{satellite\_in\_range}})}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00407}00407                     SPDLOG\_INFO(\textcolor{stringliteral}{"{}Satellite in range."{}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00408}00408                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00409}00409                     SPDLOG\_INFO(\textcolor{stringliteral}{"{}Satellite not in range"{}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00410}00410             \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00411}00411             \mbox{\hyperlink{classtransmission__interface_aa3ab068aa556878fa12e9a66477264f2}{disable\_pipe}}();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00412}00412             SPDLOG\_TRACE(\textcolor{stringliteral}{"{}detect\_satellite\_in\_range -\/ unlocking mutex"{}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00413}00413             mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00414}00414             sleep\_until(system\_clock::now() + seconds (\mbox{\hyperlink{namespaceestts_a72d5e33f0f3a7e188b72391f476a766a}{ESTTS\_CHECK\_SATELLITE\_INRANGE\_INTERVAL\_SEC}}));}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00415}00415         \} \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00416}00416             sleep\_until(system\_clock::now() + seconds (\mbox{\hyperlink{namespaceestts_a568f17193f73938b966fd798c4667b2f}{ESTTS\_RETRY\_WAIT\_SEC}}));}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00417}00417     \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00418}00418 \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00419}00419 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00420}\mbox{\hyperlink{classtransmission__interface_af7b2eafe5b5b38ecd6762f97301fc378}{00420}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classtransmission__interface_af7b2eafe5b5b38ecd6762f97301fc378}{transmission\_interface::register\_dispatch\_function}}(\textcolor{keyword}{const} std::function<\textcolor{keywordtype}{void}()>\& fct) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00421}00421     dispatch\_functions.push\_back(fct);}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00422}00422 \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00423}00423 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00424}00424 \textcolor{keywordtype}{void} transmission\_interface::start\_dispatch\_threads() \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00425}00425 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00426}00426     \textcolor{keywordflow}{if} (!dispatch\_threadpool\_active) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00427}00427         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto}\& i : dispatch\_functions) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00428}00428             std::thread t(i);}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00429}00429             SPDLOG\_TRACE(\textcolor{stringliteral}{"{}Created dispatch worker thread with ID \{\}"{}}, std::hash<std::thread::id>\{\}(t.get\_id()));}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00430}00430             dispatch\_threadpool.push\_back(std::move(t));}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00431}00431         \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00432}00432         dispatch\_threadpool\_active = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00433}00433     \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00434}00434 \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00435}00435 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00436}00436 \textcolor{keywordtype}{void} transmission\_interface::end\_dispatch\_threads() \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00437}00437     \textcolor{keywordflow}{if} (dispatch\_threadpool\_active) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00438}00438         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \&i : dispatch\_threadpool) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00439}00439             \textcolor{keywordflow}{if} (i.joinable())}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00440}00440                 i.join();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00441}00441         \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00442}00442         dispatch\_threadpool\_active = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00443}00443     \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00444}00444 \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00445}00445 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00446}\mbox{\hyperlink{classtransmission__interface_add18ff424ac330cb196a4fb79615f95d}{00446}} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classtransmission__interface_add18ff424ac330cb196a4fb79615f95d}{transmission\_interface::request\_gstxvr\_session}}() \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00447}00447     mtx.lock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00448}00448     \textcolor{keywordtype}{int} retries = 0;}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00449}00449     \textcolor{keywordflow}{while} (\mbox{\hyperlink{classtransmission__interface_a78aad522999539ba17879d069f85e5e8}{obc\_session\_active}} || pipe\_mode != \mbox{\hyperlink{namespaceestts_1_1endurosat_a52f79648af19824db1a45013ca1bedfea4c121c8592d99d811ef5cb6e06f60c69}{PIPE\_OFF}}) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00450}00450         sleep\_until(system\_clock::now() + milliseconds (500));}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00451}00451         \textcolor{keywordflow}{if} (retries > \mbox{\hyperlink{namespaceestts_a3a3479ab029432a6a207100f474c2efa}{ESTTS\_REQUEST\_SESSION\_TIMEOUT\_SECONDS}} * 2) \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00452}00452             SPDLOG\_WARN(\textcolor{stringliteral}{"{}Failed to request ground station transceiver session -\/ timed out"{}});}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00453}00453             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19ad9e17c123bd7c5006fb1dec94b598096}{ES\_UNSUCCESSFUL}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00454}00454         \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00455}00455     \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00456}00456     \mbox{\hyperlink{classtransmission__interface_a8b89b962dc3cd6174d6510b1a638c3a9}{gstxvr\_session\_active}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00457}00457     mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00458}00458     \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00459}00459 \}}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00460}00460 }
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00461}\mbox{\hyperlink{classtransmission__interface_aa74ce8697844726379edc1afeb8bdc01}{00461}} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classtransmission__interface_aa74ce8697844726379edc1afeb8bdc01}{transmission\_interface::end\_gstxvr\_session}}() \{}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00462}00462     mtx.lock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00463}00463     \mbox{\hyperlink{classtransmission__interface_a8b89b962dc3cd6174d6510b1a638c3a9}{gstxvr\_session\_active}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00464}00464     mtx.unlock();}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00465}00465     \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19a7f25d747775c07a8a84d86ed4f148a95}{ES\_OK}};}
+\DoxyCodeLine{\Hypertarget{transmission__interface_8cpp_source_l00466}00466 \}}
+
+\end{DoxyCode}

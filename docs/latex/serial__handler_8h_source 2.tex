@@ -1,0 +1,66 @@
+\hypertarget{serial__handler_8h_source}{}\doxysection{serial\+\_\+handler.\+h}
+\label{serial__handler_8h_source}\index{src/ti/serial\_handler.h@{src/ti/serial\_handler.h}}
+\mbox{\hyperlink{serial__handler_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00001}00001 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00002}00002 \textcolor{comment}{// Created by Hayden Roszell on 12/10/21.}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00005}00005 \textcolor{preprocessor}{\#ifndef ESTTS\_SERIAL\_HANDLER\_H}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00006}00006 \textcolor{preprocessor}{\#define ESTTS\_SERIAL\_HANDLER\_H}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00008}00008 \textcolor{preprocessor}{\#include <sstream>}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00009}00009 \textcolor{preprocessor}{\#include <boost/asio.hpp>}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00010}00010 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{constants_8h}{constants.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00011}00011 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00012}00012 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{posix__serial_8h}{posix\_serial.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00013}00013 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00014}\mbox{\hyperlink{classserial__handler}{00014}} \textcolor{keyword}{class }\mbox{\hyperlink{classserial__handler}{serial\_handler}} \{}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00015}00015 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00016}00016     boost::asio::io\_service io;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00017}00017     boost::asio::serial\_port serial;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00018}00018     std::string port;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00019}00019     \textcolor{keywordtype}{int} baud, restarts;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00020}00020     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} * sync\_buf;}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00021}00021 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00022}00022     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} find\_serial\_port();}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00023}00023 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00024}00024     \textcolor{comment}{// Check here first, maybe what you're waiting for is already received..}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00025}00025     \textcolor{comment}{// Note -\/ cleared every time read is called}}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00026}\mbox{\hyperlink{classserial__handler_aa7d13713149cd5742762e2bbb5b67d7e}{00026}}     std::stringstream \mbox{\hyperlink{classserial__handler_aa7d13713149cd5742762e2bbb5b67d7e}{cache}};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00028}\mbox{\hyperlink{classserial__handler_a0ee5f89f35fcac6b5f655e3fb20f1efa}{00028}}     \textcolor{keywordtype}{char} \mbox{\hyperlink{classserial__handler_a0ee5f89f35fcac6b5f655e3fb20f1efa}{async\_buf}}[\mbox{\hyperlink{constants_8h_a096e513d29e84ca228cf341ea28b59b2}{MAX\_SERIAL\_READ}}];}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00030}00030     \mbox{\hyperlink{classserial__handler_a68871959f62c474b929e1ac54a48d7e3}{serial\_handler}}();}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00032}00032     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classserial__handler_a92b5b23a89c1948f5b965af2a9e7b9d1}{initialize\_serial\_port}}();}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00034}00034     \mbox{\hyperlink{classserial__handler_a254dacf340cb60af26a925f98991d622}{\string~serial\_handler}}();}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00036}00036     \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classserial__handler_a6a4d6a714fc75d69e031bfd75d3c3907}{write\_serial\_uc}}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *data, \textcolor{keywordtype}{int} size);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00038}00038     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *\mbox{\hyperlink{classserial__handler_a333442045a5b1dd87c9c68d2bcec03d7}{read\_serial\_uc}}();}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00040}00040     \mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}} \mbox{\hyperlink{classserial__handler_a943e36aeeb74e9b4e1ccc9eb740c24b0}{write\_serial\_s}}(\textcolor{keyword}{const} std::string \&data);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00042}00042     std::string \mbox{\hyperlink{classserial__handler_af78069b109df607d6b6bcac6520b47ab}{read\_serial\_s}}();}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00043}00043 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00044}00044     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *\mbox{\hyperlink{classserial__handler_a333442045a5b1dd87c9c68d2bcec03d7}{read\_serial\_uc}}(\textcolor{keywordtype}{int} bytes);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00046}00046     std::string \mbox{\hyperlink{classserial__handler_af78069b109df607d6b6bcac6520b47ab}{read\_serial\_s}}(\textcolor{keywordtype}{int} bytes);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00048}00048     std::function<void(boost::system::error\_code, \textcolor{keywordtype}{size\_t})> \mbox{\hyperlink{classserial__handler_a0b5adbc2a9da9a8421567d7283e59eb2}{get\_generic\_async\_read\_lambda}}(\textcolor{keyword}{const} std::function<\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}}(\textcolor{keywordtype}{char} *, \textcolor{keywordtype}{size\_t})>\& estts\_callback);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00050}00050     \textcolor{keywordtype}{void} \mbox{\hyperlink{classserial__handler_a2f8e634f9aa9bbd4f0696e23b4a93cc9}{clear\_serial\_fifo}}();}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00051}00051 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00052}00052     \textcolor{keywordtype}{void} \mbox{\hyperlink{classserial__handler_a2f8e634f9aa9bbd4f0696e23b4a93cc9}{clear\_serial\_fifo}}(\textcolor{keyword}{const} std::function<\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}}(std::string)>\& cb);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00054}00054     \textcolor{keywordtype}{int} \mbox{\hyperlink{classserial__handler_aba0b61e3848d19dc8f221ad5502fea70}{check\_serial\_bytes\_avail}}();}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00055}00055 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00056}00056 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00057}00057     \textcolor{keywordtype}{void} \mbox{\hyperlink{classserial__handler_adf8ea71d63fe9706480e17c558f54053}{read\_serial\_async}}(\textcolor{keyword}{const} std::function<\mbox{\hyperlink{namespaceestts_a4d1093fd217ec6fa562591a253b35c19}{estts::Status}}(\textcolor{keywordtype}{char} *, \textcolor{keywordtype}{size\_t})>\& cb);}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00058}00058 \};}
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00059}00059 }
+\DoxyCodeLine{\Hypertarget{serial__handler_8h_source_l00060}00060 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//ESTTS\_SERIAL\_HANDLER\_H}}
+
+\end{DoxyCode}
