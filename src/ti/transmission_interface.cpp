@@ -272,7 +272,7 @@ void transmission_interface::maintain_pipe() {
     int counter = 0; // TODO this should skip a maintain thing if a command was transmitted within the period of the last transmission
     while (pipe_mode == PIPE_ON) {
         counter++;
-        if ((counter / 10) > (endurosat::PIPE_DURATION_SEC)) {
+        if ((counter / 10) > (endurosat::PIPE_DURATION_SEC - 1)) {
             this->write_serial_uc((unsigned char *) " ", 1);
             counter = 0;
         }

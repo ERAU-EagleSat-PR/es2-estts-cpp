@@ -96,7 +96,7 @@ namespace estts {
     }
 
     namespace endurosat {
-        const int PIPE_DURATION_SEC = 2;
+        const int PIPE_DURATION_SEC = 5;
         const int MAX_RETRIES = 2;
         const int WAIT_TIME_SEC = 2;
         const int ES_BAUD = 115200;
