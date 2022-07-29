@@ -187,6 +187,8 @@ std::function<Status()> get_obc_session_start_session_func(groundstation_manager
             // Once again don't clear buf, maybe confirmation got lost in the weeds.
         }
 
+        sleep_until(system_clock::now() + milliseconds (100)); // Give it a sec i guess
+
         // At this point, there is already a thread maintaining the PIPE state.
 
         // Clear FIFO buffer
