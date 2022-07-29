@@ -32,5 +32,8 @@ add_subdirectory(src)
 add_subdirectory(runtime)
 add_subdirectory(lib/spdlog)
 add_subdirectory(lib/json)
+add_subdirectory(lib/sgp4)
 add_subdirectory(tests/serial-test)
 add_subdirectory(tests/cosmos-groundstation-range-testbed)
+
+add_subdirectory(tests/orbit-test)

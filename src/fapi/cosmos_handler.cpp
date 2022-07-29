@@ -90,7 +90,13 @@ std::function<Status(std::string)> get_primary_command_callback_lambda(const std
 std::string trim_command_arguments(std::string command) {
     // ESTTC protocol uses commands of length ES+R1100
     auto temp = command;
-    temp.resize(8);
+
+    // If the address is EPS, we want to preserve the argument.
+    // IE ES+R180001 => read battery voltage
+    if (temp[4] == '1' && temp[5] == '8')
+        temp.resize(10);
+    else
+        temp.resize(8);
     return temp;
 }
 

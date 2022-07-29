@@ -54,11 +54,6 @@ target_link_libraries(
         PUBLIC
         spdlog::spdlog
 )
-target_link_libraries(
-        estts
-        PUBLIC
-        nlohmann_json::nlohmann_json
-)
 
 message(STATUS "Boost version: ${Boost_VERSION}")
 message(STATUS "Using Boost libraries: ${Boost_LIBRARIES}")
