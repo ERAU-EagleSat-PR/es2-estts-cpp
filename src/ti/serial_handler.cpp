@@ -129,6 +129,9 @@ size_t serial_handler::write_serial_uc(unsigned char *data, int size) {
         handle_failure();
         return -1;
     }
+
+    tx_trace_timestamp = high_resolution_clock::now();
+
     SPDLOG_TRACE("{}", get_write_trace_msg(data, written, port));
 
     return written;

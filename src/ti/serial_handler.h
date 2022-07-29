@@ -30,6 +30,8 @@ protected:
 
     char async_buf[MAX_SERIAL_READ];
 
+    std::chrono::time_point<std::chrono::high_resolution_clock> tx_trace_timestamp;
+
     serial_handler();
 
     estts::Status initialize_serial_port();
@@ -39,10 +41,6 @@ protected:
     size_t write_serial_uc(unsigned char *data, int size);
 
     unsigned char *read_serial_uc();
-
-
-
-
 
     unsigned char *read_serial_uc(int bytes);
 

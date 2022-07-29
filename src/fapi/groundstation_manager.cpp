@@ -438,8 +438,10 @@ void groundstation_manager::session_manager::dispatch() {
                 SPDLOG_DEBUG("Retrying command with serial number {}", command->serial_number);
             }
 
-            if (resp.empty())
-                SPDLOG_WARN("Command with serial number {} failed to execute. Continuing anyway.", command->serial_number);
+            if (resp.empty()) {
+                SPDLOG_WARN("Command with serial number {} failed to execute. Possible session issue, voluntarily exiting.", command->serial_number);
+                session_active = false;
+            }
 
             waiting.pop_front();
 

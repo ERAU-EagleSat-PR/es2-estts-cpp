@@ -269,14 +269,15 @@ Status transmission_interface::disable_pipe() {
 }
 
 void transmission_interface::maintain_pipe() {
-    int counter = 0; // TODO this should skip a maintain thing if a command was transmitted within the period of the last transmission
+    auto duration_ms = 1000 * endurosat::PIPE_DURATION_SEC;
     while (pipe_mode == PIPE_ON) {
-        counter++;
-        if ((counter / 10) > (endurosat::PIPE_DURATION_SEC - 1)) {
+        // Only send something across interface if the time since the last packet is greater than PIPE_DURATION_SEC * 0.8
+        if (duration_cast<milliseconds>(high_resolution_clock::now() - tx_trace_timestamp).count() > duration_ms - (int)(duration_ms * 0.2)) {
             this->write_serial_uc((unsigned char *) " ", 1);
-            counter = 0;
+            sleep_until(system_clock::now() + milliseconds (50));
         }
-        sleep_until(system_clock::now() + milliseconds (100));
+
+        // Serial handler tracks the mode implicitly. Verify that desired state is still active.
     }
 }
 
