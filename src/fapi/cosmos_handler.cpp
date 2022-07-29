@@ -175,7 +175,7 @@ std::function<Status()> get_obc_session_start_session_func(groundstation_manager
                 return ES_UNSUCCESSFUL;
             }
             gm->write_serial_s(pipe_en);
-            sleep_until(system_clock::now() + milliseconds (100));
+            sleep_until(system_clock::now() + milliseconds (50));
             buf << gm->internal_receive();
             if (buf.str().find("OK+3323\r") != std::string::npos) {
                 spdlog::trace("PIPE is probably enabled on the satellite");
@@ -186,8 +186,6 @@ std::function<Status()> get_obc_session_start_session_func(groundstation_manager
             sleep_until(system_clock::now() + seconds(WAIT_TIME_SEC));
             // Once again don't clear buf, maybe confirmation got lost in the weeds.
         }
-
-        sleep_until(system_clock::now() + seconds(2));
 
         // At this point, there is already a thread maintaining the PIPE state.
 
