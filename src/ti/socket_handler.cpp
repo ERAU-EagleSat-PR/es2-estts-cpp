@@ -80,7 +80,7 @@ estts::Status socket_handler::configure_socket() {
 
 estts::Status socket_handler::handle_failure() {
     failures++;
-    if (failures > 5) {
+    if (failures > 3) {
         SPDLOG_ERROR("Socket handler failure. Re-initializing socket at address {}:{}", address, port);
         init_socket_handle();
         failures = 0;

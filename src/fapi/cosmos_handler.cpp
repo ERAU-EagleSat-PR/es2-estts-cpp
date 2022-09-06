@@ -150,18 +150,25 @@ std::function<Status()> get_obc_session_start_session_func(groundstation_manager
         int retries = 0;
         std::stringstream buf;
 
+        // COSMOS write command 02 parameter 1 = CONNECTING
+        gm->groundstation_telemetry_callback("ES+W69021");
+
         // Clear FIFO buffer
         gm->flush_transmission_interface();
 
         // Enable PIPE has built-in retries. Don't cascade retries, if this function failed
         // something is pretty messed up.
         if (ES_OK != gm->enable_pipe()) {
+            // COSMOS write command 02 parameter 0 = DISCONNECTED
+            gm->groundstation_telemetry_callback("ES+W69020");
             return ES_UNSUCCESSFUL;
         }
 
         // Sanity check - make sure PIPE is enabled
         if (PIPE_ON != gm->get_pipe_state()) {
             spdlog::error("enable_pipe() succeeded, but trace variable is not set to PIPE_ON");
+            // COSMOS write command 02 parameter 0 = DISCONNECTED
+            gm->groundstation_telemetry_callback("ES+W69020");
             return ES_SERVER_ERROR;
         }
 
@@ -172,6 +179,8 @@ std::function<Status()> get_obc_session_start_session_func(groundstation_manager
         while (true) {
             if (retries > MAX_RETRIES) {
                 spdlog::error("Failed to enable PIPE on satellite transceiver. ({}/{} retries)", retries, MAX_RETRIES);
+                // COSMOS write command 02 parameter 0 = DISCONNECTED
+                gm->groundstation_telemetry_callback("ES+W69020");
                 return ES_UNSUCCESSFUL;
             }
             gm->write_serial_s(pipe_en);
@@ -196,17 +205,25 @@ std::function<Status()> get_obc_session_start_session_func(groundstation_manager
 
         gm->set_session_status(true);
 
+        // COSMOS write command 02 parameter 3 = CONNECTED
+        gm->groundstation_telemetry_callback("ES+W69023");
+
         return ES_OK;
     };
 }
 
 std::function<Status()> get_obc_session_end_session_func(groundstation_manager * gm) {
     return [gm] () -> Status {
+        // COSMOS write command 02 parameter 2 = DISCONNECTING
+        gm->groundstation_telemetry_callback("ES+W69022");
         auto status = gm->disable_pipe();
-        if (status != ES_OK)
-            return status;
-        sleep_until(system_clock::now() + seconds(1));
-        gm->set_session_status(false);
-        return ES_OK;
+        if (status == ES_OK) {
+            sleep_until(system_clock::now() + seconds(1));
+            gm->set_session_status(false);
+        }
+
+        // COSMOS write command 02 parameter 0 = DISCONNECTED
+        gm->groundstation_telemetry_callback("ES+W69020");
+        return status;
     };
 }

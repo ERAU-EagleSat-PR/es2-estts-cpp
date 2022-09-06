@@ -99,7 +99,7 @@ estts::Status serial_handler::initialize_serial_port() {
 
 estts::Status serial_handler::handle_failure() {
     failures++;
-    if (failures > 5) {
+    if (failures > 3) {
         SPDLOG_ERROR("Serial handler failure. Re-initializing serial device at address {}", port);
         initialize_serial_port();
         failures = 0;

@@ -91,6 +91,13 @@ namespace estts {
         ES_NOTFOUND = 404
     };
 
+    enum Session {
+        ES_NOT_CONNECTED,
+        ES_CONNECTING,
+        ES_DISCONNECTING,
+        ES_CONNECTED
+    };
+
     namespace dispatcher {
         const int MAX_COMPLETED_CACHE = 20; // Maximum number of completed commands to remember
     }

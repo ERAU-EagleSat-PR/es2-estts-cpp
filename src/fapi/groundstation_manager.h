@@ -163,11 +163,6 @@ private:
     internal_session * currently_executing;
 
     /**
-     * Primary ground station telemetry callback that acts to save data found during connectionless operation.
-     */
-    std::function<estts::Status(std::string)> groundstation_telemetry_callback;
-
-    /**
      * Local thread object that executes the ground station manager method
      */
     std::thread gm_thread;
@@ -241,6 +236,11 @@ private:
     groundstation_manager::session_manager * register_session(groundstation_manager::session_manager * new_session, int priority, bool satellite_range_required_for_execution);
 
 public:
+    /**
+     * Primary ground station telemetry callback that acts to save data found during connectionless operation.
+     */
+    std::function<estts::Status(std::string)> groundstation_telemetry_callback;
+
     /**
      * Setter to set the ground station telemetry callback function.
      * @param cb Function pointer
