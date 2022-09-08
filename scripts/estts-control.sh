@@ -20,11 +20,6 @@ Install () {
 
   cp "$sourcedir/scripts/estts.service" $supportdir
 
-  if [ ! -d $builddir ]
-  then
-    mkdir $builddir
-  fi
-
   cmake -S "$sourcedir" -B $builddir
   cd $builddir || exit
   make
