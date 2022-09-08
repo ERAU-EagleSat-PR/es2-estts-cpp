@@ -1,11 +1,9 @@
 #!/bin/bash
 
 Install () {
-  echo "Install"
-
   cwd=$(pwd)
   sourcedir="$cwd/.."
-  builddir="/tmp/estts_build/"
+  builddir="/tmp/estts_build"
   installdir="/usr/bin"
   supportdir="/opt/estts"
 
@@ -13,22 +11,34 @@ Install () {
   echo "Setting build directory to $builddir"
   echo "Setting support directory to $supportdir"
 
+  ldconfig -p | grep libboost_system >/dev/null 2>&1 && {
+    echo "libboost is installed. Installing ESTTS"
+  } || {
+    echo "Boost is not installed. Installing it now"
+    apt update
+    apt upgrade -y
+    apt install libboost-all-dev -y
+  }
+
   if [ ! -d $supportdir ]
   then
+    echo "$supportdir does not exist. creating it now"
     mkdir $supportdir
   fi
 
   cp "$sourcedir/scripts/estts.service" $supportdir
 
-  cmake -S "$sourcedir" -B $builddir
+  cmake -S "$sourcedir" -B $builddir >/dev/null 2>&1
   cd $builddir || exit
-  make
+  make >/dev/null 2>&1
 
   if [ ! -d $installdir ]
   then
+    echo "$installdir does not exist. creating it now"
     mkdir $installdir
   fi
 
+  echo "Copying $builddir/runtime/estts-runtime to install directory at $installdir."
   cp "$builddir/runtime/estts-runtime" $installdir
 
   if [ -f /etc/systemd/system/estts.service ]
@@ -36,39 +46,48 @@ Install () {
     rm /etc/systemd/system/estts.service
   fi
 
+  echo "Creating symbolic link from $supportdir/estts.service to /etc/systemd/system/"
   ln -s $supportdir/estts.service /etc/systemd/system/
 
+  echo "Reloading systemd daemon and enabling ESTTS service"
   systemctl daemon-reload
-
   systemctl enable estts
-
   systemctl start estts
 }
 
 Uninstall () {
   echo "Uninstalling ESTTS"
 
+  systemctl stop estts
+
   installdir="/usr/bin"
   supportdir="/opt/estts"
 
   if [ -f /etc/systemd/system/estts.service ]
   then
+    echo "Removing symbolic link to service file"
     rm /etc/systemd/system/estts.service
   fi
 
-  if [ -d $installdir ]
+  if [ -f $installdir/estts-runtime ]
   then
-    rm -rf $installdir
+    echo "Removing runtime binary"
+    rm $installdir/estts-runtime
   fi
 
   if [ -d $supportdir ]
   then
+    echo "Removing systemd service file"
     rm -rf $supportdir
   fi
+
+  systemctl daemon-reload
+
+  echo "ESTTS is uninstalled"
 }
 
 if [ "$EUID" -ne 0 ]
-  then echo "Please run as root"
+  then echo "estts-control must be run as root"
   exit
 fi
 
