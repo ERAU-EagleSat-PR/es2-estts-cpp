@@ -18,7 +18,7 @@ Install () {
       mkdir $supportdir
    fi
 
-   cp /scripts/estts.service $supportdir
+   cp "$sourcedir"/scripts/estts.service $supportdir
 
    if [ ! -d $builddir ]
    then
