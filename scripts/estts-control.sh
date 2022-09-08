@@ -1,47 +1,75 @@
 #!/bin/bash
 
 Install () {
-   echo "Install"
+  echo "Install"
 
-   cwd=$(pwd)
-   sourcedir="$cwd/.."
-   builddir="/tmp/estts_build/"
-   installdir="/usr/bin"
-   supportdir="/opt/estts/"
+  cwd=$(pwd)
+  sourcedir="$cwd/.."
+  builddir="/tmp/estts_build/"
+  installdir="/usr/bin"
+  supportdir="/opt/estts"
 
-   echo "Setting source directory to $sourcedir"
-   echo "Setting build directory to $builddir"
-   echo "Setting support directory to $supportdir"
+  echo "Setting source directory to $sourcedir"
+  echo "Setting build directory to $builddir"
+  echo "Setting support directory to $supportdir"
 
-   if [ ! -d $supportdir ]
-   then
-      mkdir $supportdir
-   fi
+  if [ ! -d $supportdir ]
+  then
+    mkdir $supportdir
+  fi
 
-   cp /scripts/estts.service $supportdir
+  cp "$sourcedir/scripts/estts.service" $supportdir
 
-   if [ ! -d $builddir ]
-   then
-     mkdir $builddir
-   fi
+  if [ ! -d $builddir ]
+  then
+    mkdir $builddir
+  fi
 
-   cmake -S "$sourcedir" -B $builddir
-   cd $builddir || exit
-   make
+  cmake -S "$sourcedir" -B $builddir
+  cd $builddir || exit
+  make
 
-   if [ ! -d $installdir ]
-   then
-     mkdir $installdir
-   fi
+  if [ ! -d $installdir ]
+  then
+    mkdir $installdir
+  fi
 
-   cp "$builddir/runtime/estts-runtime" $installdir
+  cp "$builddir/runtime/estts-runtime" $installdir
 
-   ln -s $supportdir/estts.service /etc/systemd/system/
+  if [ -f /etc/systemd/system/estts.service ]
+  then
+    rm /etc/systemd/system/estts.service
+  fi
 
+  ln -s $supportdir/estts.service /etc/systemd/system/
+
+  systemctl daemon-reload
+
+  systemctl enable estts
+
+  systemctl start estts
 }
 
 Uninstall () {
-   echo "Uninstall"
+  echo "Uninstalling ESTTS"
+
+  installdir="/usr/bin"
+  supportdir="/opt/estts"
+
+  if [ -f /etc/systemd/system/estts.service ]
+  then
+    rm /etc/systemd/system/estts.service
+  fi
+
+  if [ -d $installdir ]
+  then
+    rm -rf $installdir
+  fi
+
+  if [ -d $supportdir ]
+  then
+    rm -rf $supportdir
+  fi
 }
 
 if [ "$EUID" -ne 0 ]
