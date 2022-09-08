@@ -19,6 +19,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        submodules: 'true'
     
     - name: Install Boost
       run: sudo apt install libboost-all-dev -y
