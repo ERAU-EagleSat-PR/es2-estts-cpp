@@ -59,6 +59,7 @@ Uninstall () {
   echo "Uninstalling ESTTS"
 
   systemctl stop estts
+  systemctl disable estts
 
   installdir="/usr/bin"
   supportdir="/opt/estts"
@@ -67,6 +68,11 @@ Uninstall () {
   then
     echo "Removing symbolic link to service file"
     rm /etc/systemd/system/estts.service
+  fi
+
+  if [ -f /usr/lib/systemd/system/estts.service ]
+  then
+    echo "Removing symbolic link to lib service file"
   fi
 
   if [ -f $installdir/estts-runtime ]
@@ -82,6 +88,7 @@ Uninstall () {
   fi
 
   systemctl daemon-reload
+  systemctl reset-failed
 
   echo "ESTTS is uninstalled"
 }
@@ -102,6 +109,3 @@ case "$1" in
   install) Install ;;
   uninstall) Uninstall ;;
 esac
-
-
-
