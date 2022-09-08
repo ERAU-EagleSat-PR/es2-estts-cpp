@@ -7,9 +7,18 @@ Install () {
    sourcedir="$cwd/.."
    builddir="/tmp/estts_build/"
    installdir="/usr/bin"
+   supportdir="/opt/estts/"
 
    echo "Setting source directory to $sourcedir"
    echo "Setting build directory to $builddir"
+   echo "Setting support directory to $supportdir"
+
+   if [ ! -d $supportdir ]
+   then
+      mkdir $supportdir
+   fi
+
+   cp /scripts/estts.service $supportdir
 
    if [ ! -d $builddir ]
    then
@@ -26,6 +35,9 @@ Install () {
    fi
 
    cp "$builddir/runtime/estts-runtime" $installdir
+
+   ln -s $supportdir/estts.service /etc/systemd/system/
+
 }
 
 Uninstall () {

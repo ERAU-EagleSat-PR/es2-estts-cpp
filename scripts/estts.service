@@ -5,6 +5,7 @@ After=network.target network-online.target
 
 [Service]
 Type=simple
+User=eaglesat
 LimitNOFILE=16384
 ExecStart=/usr/bin/estts-runtime
 ExecReload=/bin/kill -HUP $MAINPID
