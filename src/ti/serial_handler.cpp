@@ -29,8 +29,10 @@ serial_handler::serial_handler() : io(), serial(io) {
 #ifndef __ESTTS_OS_LINUX__
     this->port = estts::ti_serial::TI_SERIAL_ADDRESS;
 #else
-    if (ES_OK != find_serial_port())
-        throw std::runtime_error("Couldn't find serial device to attach to.");
+    while (find_serial_port() != ES_OK) {
+        SPDLOG_WARN("Couldn't find serial device to attach to.");
+        sleep_until(system_clock::now() + seconds(1));
+    }
 #endif
     this->baud = 115200;
     failures = 0;
@@ -40,8 +42,8 @@ serial_handler::serial_handler() : io(), serial(io) {
     SPDLOG_DEBUG("Opening serial port {} with {} baud", port, baud);
 
     if (ES_OK != initialize_serial_port()) {
-        SPDLOG_ERROR("Failed to initialize serial port {}", port);
-        throw std::runtime_error("Failed to initialize serial port.");
+        SPDLOG_WARN("Failed to initialize serial port {}", port);
+        sleep_until(system_clock::now() + seconds(1));
     }
 }
 
