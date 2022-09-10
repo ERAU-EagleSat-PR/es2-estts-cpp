@@ -6,10 +6,12 @@ Install () {
   builddir="/tmp/estts_build"
   installdir="/usr/bin"
   supportdir="/opt/estts"
+  logdir="/opt/estts/log"
 
   echo "Setting source directory to $sourcedir"
   echo "Setting build directory to $builddir"
   echo "Setting support directory to $supportdir"
+  echo "Setting log directory to $logdir"
 
   ldconfig -p | grep libboost_system >/dev/null 2>&1 && {
     echo "libboost is installed. Installing ESTTS"
@@ -24,6 +26,13 @@ Install () {
   then
     echo "$supportdir does not exist. creating it now"
     mkdir $supportdir
+  fi
+
+  if [ ! -d $logdir ]
+  then
+    echo "$logdir does not exist. creating it now"
+    mkdir $logdir
+    touch $logdir/estts_errors.log
   fi
 
   cp "$sourcedir/scripts/estts.service" $supportdir
@@ -73,6 +82,7 @@ Uninstall () {
   if [ -f /usr/lib/systemd/system/estts.service ]
   then
     echo "Removing symbolic link to lib service file"
+    rm /usr/lib/systemd/system/estts.service
   fi
 
   if [ -f $installdir/estts-runtime ]
@@ -83,7 +93,7 @@ Uninstall () {
 
   if [ -d $supportdir ]
   then
-    echo "Removing systemd service file"
+    echo "Removing estts support directory"
     rm -rf $supportdir
   fi
 
