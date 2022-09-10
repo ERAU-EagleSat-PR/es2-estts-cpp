@@ -28,10 +28,14 @@ cosmos_handler::cosmos_handler() {
 }
 
 Status cosmos_handler::cosmos_init() {
-    if (sock->init_socket_handle() != ES_OK)
-        return ES_UNSUCCESSFUL;
-    if (telem_sock->init_socket_handle() != ES_OK)
-        return ES_UNSUCCESSFUL;
+    while (sock->init_socket_handle() != ES_OK) {
+        SPDLOG_WARN("Socket handler init failed. Retry in 1 second.");
+        sleep_until(system_clock::now() + seconds(1));
+    }
+    while (telem_sock->init_socket_handle() != ES_OK) {
+        SPDLOG_WARN("Socket handler init failed. Retry in 1 second.");
+        sleep_until(system_clock::now() + seconds(1));
+    }
 
     gm->groundstation_manager_init();
 

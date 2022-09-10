@@ -45,6 +45,7 @@ void cosmos_groundstation_handler::groundstation_cosmos_worker() {
 }
 
 estts::Status cosmos_groundstation_handler::cosmos_groundstation_init(groundstation_manager * temp_gm) {
+    // todo this needs to handle failure
     sock->init_socket_handle();
     this->gm = temp_gm;
 
