@@ -405,7 +405,8 @@ void groundstation_manager::session_manager::dispatch() {
                 SPDLOG_INFO("Requesting new session with endpoint {}", gm->get_endpoint_enum_string(endpoint));
                 status = request_session();
                 if (status != ES_OK) {
-                    SPDLOG_ERROR("Failed to request session from session handler with endpoint {}", gm->get_endpoint_enum_string(this->endpoint));
+                    SPDLOG_ERROR("Failed to request session from session handler with endpoint {}",
+                                 gm->get_endpoint_enum_string(this->endpoint));
                     gm->notify_session_executor_exiting(endpoint);
                     return;
                 }
@@ -414,44 +415,57 @@ void groundstation_manager::session_manager::dispatch() {
             SPDLOG_INFO("Session active.");
 
             auto command = waiting.front();
+            bool executed = false;
 
-            std::string resp;
-            for (int i = 0; i < ESTTS_MAX_RETRIES; i++) {
-                status = transmit_func(command->frame);
-                if (status != ES_OK) {
-                    SPDLOG_ERROR("Failed to transmit command with serial number {}", command->serial_number);
-                    gm->notify_session_executor_exiting(endpoint);
-                    return;
+            if (this->modifier) {
+                if (ES_NOTFOUND != modifier->execute_command_modifier(command->frame)) {
+                    waiting.pop_front();
+                    gm->notify_session_active(endpoint);
+                    executed = true;
                 }
+            }
+
+            if (!executed) {
+                std::string resp;
+                for (int i = 0; i < ESTTS_MAX_RETRIES; i++) {
+                    status = transmit_func(command->frame);
+                    if (status != ES_OK) {
+                        SPDLOG_ERROR("Failed to transmit command with serial number {}", command->serial_number);
+                        gm->notify_session_executor_exiting(endpoint);
+                        return;
+                    }
+
+                    gm->notify_session_active(endpoint);
+                    SPDLOG_INFO("Successfully transmitted command with serial number {}", command->serial_number);
+
+                    SPDLOG_DEBUG("Waiting for a response");
+                    sleep_until(system_clock::now() + milliseconds(100));
+
+                    resp = receive_func();
+                    if (!resp.empty()) {
+                        break;
+                    }
+
+                    SPDLOG_DEBUG("Retrying command with serial number {}", command->serial_number);
+                }
+
+                if (resp.empty()) {
+                    SPDLOG_WARN(
+                            "Command with serial number {} failed to execute. Possible session issue, voluntarily exiting.",
+                            command->serial_number);
+                    session_active = false;
+                }
+
+                waiting.pop_front();
 
                 gm->notify_session_active(endpoint);
-                SPDLOG_DEBUG("Successfully transmitted command with serial number {}", command->serial_number);
 
-                SPDLOG_INFO("Waiting for a response");
-                sleep_until(system_clock::now() + milliseconds (100));
-
-                resp = receive_func();
-                if (!resp.empty()) {
-                    break;
-                }
-
-                SPDLOG_DEBUG("Retrying command with serial number {}", command->serial_number);
+                if (command->str_callback != nullptr)
+                    if (estts::ES_OK != command->str_callback(resp)) {
+                        SPDLOG_WARN("Command callback failed. Continuing anyway.");
+                    }
+                gm->notify_session_active(endpoint);
             }
-
-            if (resp.empty()) {
-                SPDLOG_WARN("Command with serial number {} failed to execute. Possible session issue, voluntarily exiting.", command->serial_number);
-                session_active = false;
-            }
-
-            waiting.pop_front();
-
-            gm->notify_session_active(endpoint);
-
-            if (command->str_callback != nullptr)
-                if (estts::ES_OK != command->str_callback(resp)) {
-                    SPDLOG_WARN("Command callback failed. Continuing anyway.");
-                }
-            gm->notify_session_active(endpoint);
 
             timestamp = high_resolution_clock::now();
         } else {
@@ -495,7 +509,6 @@ std::string groundstation_manager::session_manager::schedule_command(const std::
     SPDLOG_DEBUG("Scheduled new command with serial number {}", new_command->serial_number);
     return new_command->serial_number;
 }
-
 
 groundstation_manager::session_manager::~session_manager() {
     force_session_end();

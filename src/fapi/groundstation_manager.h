@@ -8,6 +8,7 @@
 #include <deque>
 #include <utility>
 #include "transmission_interface.h"
+#include "session_manager_modifier.h"
 
 class groundstation_manager : virtual public transmission_interface {
 public:
@@ -65,12 +66,16 @@ public:
          */
         estts::Status request_session();
 
+        session_manager_modifier * modifier;
+
     public:
         /**
          * Internal use only. Used by the ground station manager at the time of session registration.
          * @param manager
          */
         void set_groundstation_manager(groundstation_manager * manager) { this->gm = manager; }
+
+        void set_session_modifier(session_manager_modifier * modifier) { this->modifier = modifier; }
 
         /**
          * Default constructor method used by the ground station manager to create a new session object.

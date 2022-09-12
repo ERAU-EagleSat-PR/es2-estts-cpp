@@ -170,8 +170,6 @@ void pad_zeros(unsigned char * buf, ssize_t size) {
     }
 }
 
-
-
 /**
  * @brief Writes string to open socket
  * @param data String argument
@@ -217,12 +215,11 @@ int socket_handler::check_sock_bytes_avail() const {
 estts::Status socket_handler::init_socket_handle() {
     SPDLOG_DEBUG("Opening socket at {}:{}", address, port);
     if (estts::ES_OK != open_socket()) {
-        spdlog::error("Failed to open socket.");
+        SPDLOG_ERROR("Failed to open socket.");
         return estts::ES_UNINITIALIZED;
     }
     if (estts::ES_OK != configure_socket()) {
-        spdlog::error("Failed to configure socket.");
-        SPDLOG_WARN("Is COSMOS running?");
+        SPDLOG_ERROR("Failed to configure socket.");
         return estts::ES_UNINITIALIZED;
     }
     SPDLOG_DEBUG("Socket configuration complete.");

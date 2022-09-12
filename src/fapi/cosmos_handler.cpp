@@ -6,6 +6,7 @@
 #include <chrono>
 #include <thread>
 #include <iostream>
+#include <utility>
 #include <unistd.h>
 #include "cosmos_handler.h"
 
@@ -93,7 +94,7 @@ std::function<Status(std::string)> get_primary_command_callback_lambda(const std
 
 std::string trim_command_arguments(std::string command) {
     // ESTTC protocol uses commands of length ES+R1100
-    auto temp = command;
+    auto temp = std::move(command);
 
     // If the address is EPS, we want to preserve the argument.
     // IE ES+R180001 => read battery voltage

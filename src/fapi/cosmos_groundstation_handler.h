@@ -37,6 +37,12 @@ public:
      */
     cosmos_groundstation_handler();
 
+    estts::Status set_transceiver_frequency(double frequency);
+
+    groundstation_manager * get_groundstation_manager() { return gm; };
+
+    socket_handler * get_socket_handler() { return sock; }
+
     /**
      * Function that initializes ESTTS to work with COSMOS. This includes defining the telemetry callback and creating
      * the COSMOS worker thread
