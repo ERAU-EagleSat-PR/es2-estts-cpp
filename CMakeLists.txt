@@ -35,5 +35,6 @@ add_subdirectory(lib/json)
 add_subdirectory(lib/sgp4)
 add_subdirectory(tests/serial-test)
 add_subdirectory(tests/cosmos-groundstation-range-testbed)
+add_subdirectory(tests/doppler)
 
 add_subdirectory(tests/orbit-test)
