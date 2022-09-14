@@ -1,6 +1,7 @@
 /* Copyright © EagleSat II - Embry Riddle Aeronautical University - All rights reserved - 2022 */
 
 #include <sstream>
+#include <iostream>
 #include <iomanip>
 #include "cosmos_groundstation_handler.h"
 #include "socket_handler.h"
@@ -14,6 +15,8 @@ using namespace std::chrono; // nanoseconds, system_clock, seconds
 using namespace estts;
 using namespace estts::endurosat;
 
+unsigned char HexToBin(unsigned char hb, unsigned char lb);
+
 std::function<Status(std::string)> get_groundstation_command_callback_lambda(const std::string& command, socket_handler * sock);
 std::function<Status(std::string)> get_groundstation_telemetry_callback_lambda(socket_handler * sock);
 std::function<Status(std::string)> get_groundstation_session_transmit_func(groundstation_manager * gm);
@@ -22,6 +25,8 @@ std::function<Status()> get_groundstation_session_start_session_func();
 std::function<Status()> get_groundstation_session_end_session_func();
 
 std::function<estts::Status(std::string)> get_set_txvr_freq_modifier(cosmos_groundstation_handler * cgsh);
+std::function<estts::Status(std::string)> get_read_txvr_scw_modifier(cosmos_groundstation_handler * cgsh);
+std::function<estts::Status(std::string)> get_set_txvr_scw_modifier(cosmos_groundstation_handler * cgsh);
 
 cosmos_groundstation_handler::cosmos_groundstation_handler() {
     gm = nullptr;
@@ -44,6 +49,8 @@ void cosmos_groundstation_handler::groundstation_cosmos_worker() {
 
     auto modifier = new session_manager_modifier();
     modifier->insert_execution_modifier("ES+W2201", get_set_txvr_freq_modifier(this));
+    modifier->insert_execution_modifier("ES+R2200", get_read_txvr_scw_modifier(this));
+    modifier->insert_execution_modifier("ES+W2200", get_set_txvr_scw_modifier(this));
 
     command_handle->set_session_modifier(modifier);
     std::string command;
@@ -148,6 +155,128 @@ estts::Status cosmos_groundstation_handler::set_transceiver_frequency(double fre
     SPDLOG_INFO("Successfully set UHF frequency to {}Hz", frequency);
 
     return estts::ES_OK;
+}
+
+// stolen from endurosat
+unsigned char HexToBin(unsigned char hb, unsigned char lb) {
+    if (hb > '9')
+        hb += 9;
+
+    if (lb > '9')
+        lb += 9;
+
+    return (hb << 4) + (lb & 0x0f);
+}
+
+std::function<estts::Status(std::string)> get_set_txvr_scw_modifier(cosmos_groundstation_handler * cgsh) {
+    return [cgsh] (const std::string& command) -> estts::Status {
+        std::string original_command = "ES+W2200";
+        spdlog::trace("Modifier found raw packet {}", command);
+
+        std::string scw = command;
+        scw.erase(0, original_command.length());
+        auto scw_uc = const_cast<unsigned char *>(reinterpret_cast<const unsigned char *>(scw.c_str()));
+
+        auto hex = new char[2];
+        sprintf(hex, "%02X%02X", scw_uc[0], scw_uc[1]);
+
+        spdlog::trace("Encoded SCW to {}", hex);
+        std::string encoded_scw = original_command + hex;
+        spdlog::debug("Complete command modifier: {}", encoded_scw);
+
+        Status status;
+        std::string resp;
+        for (int i = 0; i < ESTTS_MAX_RETRIES; i++) {
+
+            status = get_groundstation_session_transmit_func(cgsh->get_groundstation_manager())(encoded_scw);
+            if (status != ES_OK) {
+                spdlog::error("Failed to transmit command.");
+                return status;
+            }
+
+            resp = get_groundstation_session_receive_func(cgsh->get_groundstation_manager())();
+            if (!resp.empty()) break;
+
+            spdlog::debug("Retrying set SCW command");
+        }
+
+        if (resp.empty()) {
+            spdlog::error("Failed to receive response to set SCW command.");
+            get_groundstation_command_callback_lambda(original_command, cgsh->get_socket_handler())("ERR+Failed to set SCW");
+            return ES_UNSUCCESSFUL;
+        }
+
+        if (resp.find("ERR") != std::string::npos) {
+            spdlog::error("Failed to get SCW. Got back: {}", resp);
+            get_groundstation_command_callback_lambda(original_command, cgsh->get_socket_handler())("ERR+Failed to set SCW");
+            return ES_UNSUCCESSFUL;
+        }
+
+        // Lazy, just call read SCW
+        return get_read_txvr_scw_modifier(cgsh)("ES+R2200");
+    };
+}
+
+std::function<estts::Status(std::string)> get_read_txvr_scw_modifier(cosmos_groundstation_handler * cgsh) {
+    return [cgsh] (const std::string& command) -> estts::Status {
+        std::string original_command = "ES+R2200";
+
+        Status status;
+        std::string resp;
+        for (int i = 0; i < ESTTS_MAX_RETRIES; i++) {
+
+            status = get_groundstation_session_transmit_func(cgsh->get_groundstation_manager())(original_command);
+            if (status != ES_OK) {
+                spdlog::error("Failed to transmit command.");
+                return status;
+            }
+
+            resp = get_groundstation_session_receive_func(cgsh->get_groundstation_manager())();
+            if (!resp.empty()) break;
+
+            spdlog::debug("Retrying get SCW command");
+        }
+
+        if (resp.empty()) {
+            spdlog::error("Failed to receive response to get SCW.");
+            get_groundstation_command_callback_lambda(original_command, cgsh->get_socket_handler())("ERR+Failed to get SCW");
+            return ES_UNSUCCESSFUL;
+        }
+
+        if (resp.find("ERR") != std::string::npos) {
+            spdlog::error("Failed to get SCW. Got back: {}", resp);
+            get_groundstation_command_callback_lambda(original_command, cgsh->get_socket_handler())("ERR+Failed to get SCW");
+            return ES_UNSUCCESSFUL;
+        }
+
+        std::string scw = resp.substr(9, 4);
+
+        auto scw_uc = const_cast<unsigned char *>(reinterpret_cast<const unsigned char *>(scw.c_str()));
+
+        spdlog::trace("string scw: {} uc scw: {}", scw, scw_uc);
+
+        for (int i = 0, j = 0; i < 4; i += 2, j++)
+            scw_uc[j] = HexToBin(scw_uc[i], scw_uc[i + 1]);
+        scw_uc[3] = '\0';
+
+        std::string new_scw(reinterpret_cast<char const *>(scw_uc));
+
+        std::stringstream reconstructed_scw;
+        reconstructed_scw << "OK+" << resp.substr(3, 6);
+
+        reconstructed_scw << ((scw_uc[0] >> 7) & 0x01); // Res
+        reconstructed_scw << ((scw_uc[0] >> 6) & 0x01); // HFXT
+        reconstructed_scw << ((scw_uc[0] >> 4) & 0x03); // UartBaud
+        reconstructed_scw << ((scw_uc[0] >> 3) & 0x01); // Reset
+        reconstructed_scw << ((scw_uc[0] >> 0) & 0x07); // RfMode
+        for (int i = 7; i >= 0; i--) {
+            reconstructed_scw << ((scw_uc[1] >> i) & 0x01);
+        }
+
+        spdlog::debug("Reconstructed SCW: {}", reconstructed_scw.str());
+
+        return get_groundstation_command_callback_lambda(original_command, cgsh->get_socket_handler())(reconstructed_scw.str());
+    };
 }
 
 std::function<estts::Status(std::string)> get_set_txvr_freq_modifier(cosmos_groundstation_handler * cgsh) {

@@ -217,6 +217,7 @@ Status transmission_interface::enable_pipe() {
                     break;
                 }
             }
+            sleep_until(system_clock::now() + milliseconds (50));
         }
         if (pipe_mode == PIPE_ON)
             break;
