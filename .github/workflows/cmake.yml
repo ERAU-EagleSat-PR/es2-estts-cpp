@@ -42,4 +42,4 @@ jobs:
       
     - name: Release
       #working-directory: ${{github.workspace}}/build
-      run: ls -la
+      run: ./.github/workflows/release.sh
