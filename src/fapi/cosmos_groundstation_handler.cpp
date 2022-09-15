@@ -7,6 +7,7 @@
 #include "socket_handler.h"
 #include "constants.h"
 #include "session_manager_modifier.h"
+#include "helper.h"
 
 #define TWO_TO_THE_19th 524288
 
@@ -14,8 +15,6 @@ using namespace std::this_thread; // sleep_for, sleep_until
 using namespace std::chrono; // nanoseconds, system_clock, seconds
 using namespace estts;
 using namespace estts::endurosat;
-
-unsigned char HexToBin(unsigned char hb, unsigned char lb);
 
 std::function<Status(std::string)> get_groundstation_command_callback_lambda(const std::string& command, socket_handler * sock);
 std::function<Status(std::string)> get_groundstation_telemetry_callback_lambda(socket_handler * sock);
@@ -63,7 +62,11 @@ void cosmos_groundstation_handler::groundstation_cosmos_worker() {
 }
 
 estts::Status cosmos_groundstation_handler::cosmos_groundstation_init(groundstation_manager * temp_gm) {
-    // todo this needs to handle failure
+    while (sock->init_socket_handle() != ES_OK) {
+        SPDLOG_WARN("Socket handler init failed. Retry in 1 second.");
+        sleep_until(system_clock::now() + seconds(1));
+    }
+
     sock->init_socket_handle();
     this->gm = temp_gm;
 
@@ -155,17 +158,6 @@ estts::Status cosmos_groundstation_handler::set_transceiver_frequency(double fre
     SPDLOG_INFO("Successfully set UHF frequency to {}Hz", frequency);
 
     return estts::ES_OK;
-}
-
-// stolen from endurosat
-unsigned char HexToBin(unsigned char hb, unsigned char lb) {
-    if (hb > '9')
-        hb += 9;
-
-    if (lb > '9')
-        lb += 9;
-
-    return (hb << 4) + (lb & 0x0f);
 }
 
 std::function<estts::Status(std::string)> get_set_txvr_scw_modifier(cosmos_groundstation_handler * cgsh) {

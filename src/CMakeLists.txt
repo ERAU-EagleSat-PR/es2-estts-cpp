@@ -10,6 +10,7 @@ set(
         fapi/cosmos_groundstation_handler.cpp
         fapi/cosmos_satellite_txvr_handler.cpp
         fapi/groundstation_manager.cpp
+        fapi/obc_filesystem.cpp
         ti/esttc.cpp
         ti/serial_handler.cpp
         ti/socket_handler.cpp

@@ -9,6 +9,7 @@
 #include <utility>
 #include <unistd.h>
 #include "cosmos_handler.h"
+#include "obc_filesystem.h"
 
 using namespace std::this_thread; // sleep_for, sleep_until
 using namespace std::chrono; // nanoseconds, system_clock, seconds
@@ -21,6 +22,8 @@ std::function<Status(std::string)> get_obc_session_transmit_func(groundstation_m
 std::function<std::string()> get_obc_session_receive_func(groundstation_manager * gm);
 std::function<Status()> get_obc_session_start_session_func(groundstation_manager * gm);
 std::function<Status()> get_obc_session_end_session_func(groundstation_manager * gm);
+
+std::function<estts::Status(std::string)> get_download_file_modifier(cosmos_handler * ch);
 
 cosmos_handler::cosmos_handler() {
     gm = new groundstation_manager();
@@ -42,6 +45,15 @@ Status cosmos_handler::cosmos_init() {
 
     gm->set_connectionless_telem_callback(get_primary_telemetry_callback_lambda(sock));
 
+    config = new session_config;
+    config->receive_func = get_obc_session_receive_func(gm);
+    config->end_session_func = get_obc_session_end_session_func(gm);
+    config->start_session_func = get_obc_session_start_session_func(gm);
+    config->transmit_func = get_obc_session_transmit_func(gm);
+    config->priority = 3;
+    config->satellite_range_required_for_execution = true;
+    config->endpoint = EAGLESAT2_OBC;
+
     cosmos_worker = std::thread(&cosmos_handler::primary_cosmos_worker, this);
     SPDLOG_TRACE("Created primary COSMOS worker thread with ID {}", std::hash<std::thread::id>{}(cosmos_worker.get_id()));
 
@@ -52,17 +64,14 @@ Status cosmos_handler::cosmos_init() {
 }
 
 [[noreturn]] Status cosmos_handler::primary_cosmos_worker() {
-    auto config = new session_config;
-    config->receive_func = get_obc_session_receive_func(gm);
-    config->end_session_func = get_obc_session_end_session_func(gm);
-    config->start_session_func = get_obc_session_start_session_func(gm);
-    config->transmit_func = get_obc_session_transmit_func(gm);
-    config->priority = 3;
-    config->satellite_range_required_for_execution = true;
-    config->endpoint = EAGLESAT2_OBC;
+
     auto command_handle = gm->generate_session_manager(config);
     if (command_handle == nullptr)
         throw std::runtime_error("Primary COSMOS worker failed to request a session manager.");
+
+    auto modifier = new session_manager_modifier;
+    modifier->insert_execution_modifier("ES+D1101", get_download_file_modifier(this));
+    command_handle->set_session_modifier(modifier);
 
     std::string temp_string;
     for (;;) {
@@ -71,6 +80,22 @@ Status cosmos_handler::cosmos_init() {
             command_handle->schedule_command(temp_string, get_primary_command_callback_lambda(temp_string, sock));
         }
     }
+
+    delete modifier;
+}
+
+std::function<estts::Status(std::string)> get_download_file_modifier(cosmos_handler * ch) {
+    return [ch] (const std::string& command) -> estts::Status {
+        std::string original = "ES+D1101";
+
+        std::string filename = command;
+        filename.erase(0, 8);
+
+        obc_filesystem obc(ch->get_session_config());
+        std::string data = obc.download_file(filename);
+
+        return get_primary_command_callback_lambda(original, ch->get_sh())(data);
+    };
 }
 
 /**

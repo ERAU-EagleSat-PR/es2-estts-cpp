@@ -31,4 +31,8 @@ std::string get_write_trace_msg(unsigned char *message_uc, size_t bytes, const s
 
 std::string get_read_trace_msg(unsigned char *message_uc, size_t bytes, const std::string& endpoint);
 
+unsigned char HexToBin(unsigned char hb, unsigned char lb);
+
+estts::Status validate_crc(std::string buf, std::string crc);
+
 #endif //ESTTS_HELPER_H

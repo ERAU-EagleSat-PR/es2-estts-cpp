@@ -113,3 +113,18 @@ std::string get_read_trace_msg(unsigned char *message_uc, size_t bytes, const st
     temp << "Read '" << message << "' (size=" << bytes << " bytes) from " << endpoint;
     return temp.str();
 }
+
+// stolen from endurosat
+unsigned char HexToBin(unsigned char hb, unsigned char lb) {
+    if (hb > '9')
+        hb += 9;
+
+    if (lb > '9')
+        lb += 9;
+
+    return (hb << 4) + (lb & 0x0f);
+}
+
+estts::Status validate_crc(std::string buf, std::string crc) {
+    return estts::ES_OK;
+}

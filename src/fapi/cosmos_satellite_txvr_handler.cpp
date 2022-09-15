@@ -2,6 +2,7 @@
 
 #include "groundstation_manager.h"
 #include "cosmos_satellite_txvr_handler.h"
+#include "helper.h"
 
 using namespace estts;
 using namespace estts::endurosat;
@@ -14,6 +15,9 @@ std::function<Status(std::string)> get_satellite_txvr_session_transmit_func(grou
 std::function<std::string()> get_satellite_txvr_session_receive_func(groundstation_manager * gm);
 std::function<Status()> get_satellite_txvr_session_start_session_func(groundstation_manager * gm);
 std::function<Status()> get_satellite_txvr_session_end_session_func(groundstation_manager * gm);
+
+std::function<estts::Status(std::string)> get_read_txvr_scw_modifier(cosmos_satellite_txvr_handler * csth);
+std::function<estts::Status(std::string)> get_set_txvr_scw_modifier(cosmos_satellite_txvr_handler * csth);
 
 cosmos_satellite_txvr_handler::cosmos_satellite_txvr_handler() {
     sock = new socket_handler(estts::cosmos::COSMOS_SERVER_ADDR, estts::cosmos::COSMOS_SATELLITE_TXVR_CMD_TELEM_PORT);
@@ -42,6 +46,12 @@ void cosmos_satellite_txvr_handler::satellite_txvr_cosmos_worker() {
     if (command_handle == nullptr)
         throw std::runtime_error("Primary COSMOS worker failed to request a session manager.");
 
+    auto modifier = new session_manager_modifier();
+    modifier->insert_execution_modifier("ES+R2200", get_read_txvr_scw_modifier(this));
+    modifier->insert_execution_modifier("ES+W2200", get_set_txvr_scw_modifier(this));
+
+    command_handle->set_session_modifier(modifier);
+
     std::string command;
     for (;;) {
         command = sock->read_socket_s();
@@ -49,6 +59,117 @@ void cosmos_satellite_txvr_handler::satellite_txvr_cosmos_worker() {
             command_handle->schedule_command(command, get_satellite_txvr_command_callback_lambda(command, sock));
         }
     }
+}
+
+std::function<estts::Status(std::string)> get_set_txvr_scw_modifier(cosmos_satellite_txvr_handler * csth) {
+    return [csth] (const std::string& command) -> estts::Status {
+        std::string original_command = "ES+W2200";
+        spdlog::trace("Modifier found raw packet {}", command);
+
+        std::string scw = command;
+        scw.erase(0, original_command.length());
+        auto scw_uc = const_cast<unsigned char *>(reinterpret_cast<const unsigned char *>(scw.c_str()));
+
+        auto hex = new char[2];
+        sprintf(hex, "%02X%02X", scw_uc[0], scw_uc[1]);
+
+        spdlog::trace("Encoded SCW to {}", hex);
+        std::string encoded_scw = original_command + hex;
+        spdlog::debug("Complete command modifier: {}", encoded_scw);
+
+        Status status;
+        std::string resp;
+        for (int i = 0; i < ESTTS_MAX_RETRIES; i++) {
+
+            status = get_satellite_txvr_session_transmit_func(csth->get_groundstation_manager())(encoded_scw);
+            if (status != ES_OK) {
+                spdlog::error("Failed to transmit command.");
+                return status;
+            }
+
+            resp = get_satellite_txvr_session_receive_func(csth->get_groundstation_manager())();
+            if (!resp.empty()) break;
+
+            spdlog::debug("Retrying set SCW command");
+        }
+
+        if (resp.empty()) {
+            spdlog::error("Failed to receive response to set SCW command.");
+            get_satellite_txvr_command_callback_lambda(original_command, csth->get_socket_handler())("ERR+Failed to set SCW");
+            return ES_UNSUCCESSFUL;
+        }
+
+        if (resp.find("ERR") != std::string::npos) {
+            spdlog::error("Failed to get SCW. Got back: {}", resp);
+            get_satellite_txvr_command_callback_lambda(original_command, csth->get_socket_handler())("ERR+Failed to set SCW");
+            return ES_UNSUCCESSFUL;
+        }
+
+        // Lazy, just call read SCW
+        return get_read_txvr_scw_modifier(csth)("ES+R2200");
+    };
+}
+
+std::function<estts::Status(std::string)> get_read_txvr_scw_modifier(cosmos_satellite_txvr_handler * csth) {
+    return [csth] (const std::string& command) -> estts::Status {
+        std::string original_command = "ES+R2200";
+
+        Status status;
+        std::string resp;
+        for (int i = 0; i < ESTTS_MAX_RETRIES; i++) {
+
+            status = get_satellite_txvr_session_transmit_func(csth->get_groundstation_manager())(original_command);
+            if (status != ES_OK) {
+                spdlog::error("Failed to transmit command.");
+                return status;
+            }
+
+            resp = get_satellite_txvr_session_receive_func(csth->get_groundstation_manager())();
+            if (!resp.empty()) break;
+
+            spdlog::debug("Retrying get SCW command");
+        }
+
+        if (resp.empty()) {
+            spdlog::error("Failed to receive response to get SCW.");
+            get_satellite_txvr_command_callback_lambda(original_command, csth->get_socket_handler())("ERR+Failed to get SCW");
+            return ES_UNSUCCESSFUL;
+        }
+
+        if (resp.find("ERR") != std::string::npos) {
+            spdlog::error("Failed to get SCW. Got back: {}", resp);
+            get_satellite_txvr_command_callback_lambda(original_command, csth->get_socket_handler())("ERR+Failed to get SCW");
+            return ES_UNSUCCESSFUL;
+        }
+
+        std::string scw = resp.substr(9, 4);
+
+        auto scw_uc = const_cast<unsigned char *>(reinterpret_cast<const unsigned char *>(scw.c_str()));
+
+        spdlog::trace("string scw: {} uc scw: {}", scw, scw_uc);
+
+        for (int i = 0, j = 0; i < 4; i += 2, j++)
+            scw_uc[j] = HexToBin(scw_uc[i], scw_uc[i + 1]);
+        scw_uc[3] = '\0';
+
+        std::string new_scw(reinterpret_cast<char const *>(scw_uc));
+
+        std::stringstream reconstructed_scw;
+        reconstructed_scw << "OK+" << resp.substr(3, 6);
+
+        reconstructed_scw << ((scw_uc[0] >> 7) & 0x01); // Res
+        reconstructed_scw << ((scw_uc[0] >> 6) & 0x01); // HFXT
+        reconstructed_scw << ((scw_uc[0] >> 4) & 0x03); // UartBaud
+        reconstructed_scw << ((scw_uc[0] >> 3) & 0x01); // Reset
+        reconstructed_scw << ((scw_uc[0] >> 0) & 0x07); // RfMode
+        for (int i = 7; i >= 0; i--) {
+            reconstructed_scw << ((scw_uc[1] >> i) & 0x01);
+        }
+
+        spdlog::debug("Reconstructed SCW: {}", reconstructed_scw.str());
+
+        return get_satellite_txvr_command_callback_lambda(original_command, csth->get_socket_handler())(reconstructed_scw.str());
+    };
 }
 
 /**

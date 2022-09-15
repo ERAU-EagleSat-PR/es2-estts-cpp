@@ -35,6 +35,10 @@ public:
      */
     cosmos_satellite_txvr_handler();
 
+    groundstation_manager * get_groundstation_manager() { return gm; };
+
+    socket_handler * get_socket_handler() { return sock; }
+
     /**
      * Function that initializes ESTTS to work with COSMOS. This includes defining the telemetry callback and creating
      * the COSMOS worker thread

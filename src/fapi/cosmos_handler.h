@@ -48,6 +48,8 @@ private:
      * @return none
      */
     [[noreturn]] estts::Status primary_cosmos_worker();
+
+    estts::session_config * config;
 public:
     /**
      * Default constructor that initializes socket.
@@ -66,6 +68,12 @@ public:
      * This function is used to initialize the ESTTS runtime, as it never returns.
      */
     void initialize_cosmos_daemon() { cosmos_worker.join(); }
+
+    estts::session_config * get_session_config() { return config; }
+
+    groundstation_manager * get_gm() { return gm; };
+
+    socket_handler * get_sh() { return sock; }
 };
 
 
