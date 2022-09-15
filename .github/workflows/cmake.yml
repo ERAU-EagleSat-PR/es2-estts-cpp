@@ -41,5 +41,5 @@ jobs:
       #run: ctest -C ${{env.BUILD_TYPE}}
       
     - name: Release
-      working-directory: ${{github.workspace}}/build
+      #working-directory: ${{github.workspace}}/build
       run: ls -la
