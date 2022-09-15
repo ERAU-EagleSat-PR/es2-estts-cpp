@@ -48,6 +48,8 @@ jobs:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         automatic_release_tag: "latest"
         prerelease: true
-        title: "Development Build"
+        title: "ESTTS Development Build"
         files: |
-          LICENSE
+          ./build/runtime/estts-runtime
+          ./scripts/estts-control.sh
+          ./scripts/estts.service
