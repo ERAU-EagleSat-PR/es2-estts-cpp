@@ -53,6 +53,7 @@ public:
     /**
      * Internal receive that should ONLY be used if you know exactly what is calling this function.
      * Operates the same as normal receive but doesn't lock the mutex. Be HIGHLY cautious using this function.
+     * Reads up to \r as delimiter.
      * @return string
      */
     std::string internal_receive();
@@ -92,6 +93,7 @@ public:
      * Uses EnduroSat transceiver to transmit const unsigned char * value. Function warns if a session is not currently active.
      * Note that this is designed to be used to transmit data to the satellite, not to other peripherals. Other methods
      * should be created if another communication medium is required.
+     * Reads up to \r as delimiter.
      * @param value String value to transmit.
      * @return ES_OK if transmission was successful
      */
@@ -119,12 +121,6 @@ public:
      * @return "" if no data is available, or a string if data is received.
      */
     std::string nonblock_receive();
-
-    /**
-     * Function that receives data in the unsigned char * form
-     * @return nullptr if no data is found, or an unsigned char *
-     */
-    unsigned char * receive_uc();
 
     /**
      * Function that returns the data available on the underlying interface.

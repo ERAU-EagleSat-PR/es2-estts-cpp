@@ -63,6 +63,7 @@ std::string transmission_interface::receive() {
 }
 
 std::string transmission_interface::internal_receive() {
+
     int bytes_avail;
     for (int seconds_elapsed = 0; seconds_elapsed < ESTTS_AWAIT_RESPONSE_PERIOD_SEC * 50; seconds_elapsed++) {
         bytes_avail = check_serial_bytes_avail();
@@ -75,7 +76,7 @@ std::string transmission_interface::internal_receive() {
         SPDLOG_WARN("Receive timeout - {} seconds elapsed with no response", ESTTS_AWAIT_RESPONSE_PERIOD_SEC);
         return "";
     }
-    auto buf = this->read_serial_s(bytes_avail);
+    auto buf = this->read_to_delimeter('\r');
     return buf;
 }
 
@@ -141,22 +142,6 @@ Status transmission_interface::transmit(const unsigned char *value, int length) 
     return ES_OK;
 }
 
-unsigned char *transmission_interface::receive_uc() {
-    mtx.lock();
-#ifndef __TI_DEV_MODE__
-    auto buf = this->read_serial_uc();
-    mtx.unlock();
-    return buf;
-#else
-    unsigned char * received;
-    do {
-    }
-    while (!(received = this->read_socket_uc()));
-    mtx.unlock();
-    return received;
-#endif
-}
-
 std::string transmission_interface::nonblock_receive() {
     if (!mtx.try_lock())
         return "";
@@ -200,27 +185,27 @@ Status transmission_interface::enable_pipe() {
     pipe_mode = PIPE_OFF;
 
     for (int retries = 0; retries < endurosat::MAX_RETRIES; retries++) {
-        if (retries > endurosat::MAX_RETRIES) {
-            mtx.unlock();
-            return ES_UNSUCCESSFUL;
-        }
+
         SPDLOG_TRACE("Attempting to enable PIPE on ground station");
         write_serial_s(pipe_en);
         sleep_until(system_clock::now() + milliseconds (50));
 
-        // Try to get data 3 times
+        // This for loop is redundant in like 99% of cases, but it vastly reduces the risk of double enabling
+        // PIPE on whatever device is listening.
         for (int i = 0; i < 3; i++) {
-            if (data_available()) {
-                buf << read_serial_s();
-                if (buf.str().find("OK+3323\r") != std::string::npos && buf.str().find("+PIPE\r") != std::string::npos) {
-                    pipe_mode = PIPE_ON;
-                    break;
-                }
+            buf << read_to_delimeter('\r') << read_to_delimeter('\r'); // This is looking for two delimiters, so call read twice
+            if (buf.str().find("OK+3323\r") != std::string::npos && buf.str().find("+PIPE\r") != std::string::npos) {
+                pipe_mode = PIPE_ON;
+                break;
             }
             sleep_until(system_clock::now() + milliseconds (50));
         }
-        if (pipe_mode == PIPE_ON)
+
+        if (pipe_mode == PIPE_ON) {
+            SPDLOG_INFO("PIPE is enabled on ground station transceiver");
             break;
+        }
+
         SPDLOG_WARN("PIPE enable unsuccessful. Retrying ({}/{} retries)", retries + 1, endurosat::MAX_RETRIES);
     }
 
@@ -248,18 +233,18 @@ Status transmission_interface::disable_pipe() {
     pipe_keeper.join();
     std::string resp;
     std::stringstream buf;
+
     while (true) {
-        auto avail = this->check_serial_bytes_avail();
-        if (avail > 0) {
-            buf << read_serial_s();
-        }
-        if (buf.str().find("+ESTTC") != std::string::npos) {
+        if (check_serial_bytes_avail() > 0)
+            buf << read_to_delimeter('\r');
+
+        if (buf.str().find("+ESTTC") != std::string::npos)
             break;
-        }
+
         sleep_until(system_clock::now() + seconds(1));
         retries--;
         if (retries <= 0) {
-            SPDLOG_ERROR("Oof PIPE didn't exit properly..");
+            SPDLOG_WARN("Oof PIPE didn't exit properly..");
             pipe_mode = PIPE_OFF;
             return ES_UNSUCCESSFUL;
         }

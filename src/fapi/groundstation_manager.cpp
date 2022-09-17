@@ -78,13 +78,13 @@ groundstation_manager::internal_session *groundstation_manager::get_highest_prio
 estts::Status groundstation_manager::validate_session_approval(estts::SessionEndpoint endpoint) {
     bool approved = true;
     if (get_highest_priority_session()->endpoint != endpoint) {
-        SPDLOG_WARN("Session with endpoint {} is not the highest priority. Validation failed.", get_endpoint_enum_string(endpoint));
+        SPDLOG_INFO("Session with endpoint {} is not the highest priority. Validation failed.", get_endpoint_enum_string(endpoint));
         approved = false;
     }
     for (auto i : session_list)
         if (i->endpoint == endpoint) {
             if (i->satellite_range_required_for_execution && !is_satellite_in_range()) {
-                SPDLOG_WARN("Session with endpoint {} requires that the satellite is in range. Satellite is not in range; Validation failed.", get_endpoint_enum_string(endpoint));
+                SPDLOG_INFO("Session with endpoint {} requires that the satellite is in range. Satellite is not in range; Validation failed.", get_endpoint_enum_string(endpoint));
                 approved = false;
             }
             break;
@@ -394,7 +394,7 @@ void groundstation_manager::session_manager::dispatch() {
     auto timestamp = high_resolution_clock::now();
     for (;;) {
         if (ES_OK != gm->validate_session_approval(this->endpoint)) {
-            SPDLOG_WARN("Communication session not approved. Exiting.");
+            SPDLOG_DEBUG("Communication session not approved. Exiting.");
             gm->notify_session_executor_exiting(endpoint);
             return;
         }

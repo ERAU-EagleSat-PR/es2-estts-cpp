@@ -54,14 +54,18 @@ serial_handler::serial_handler() : io(), serial(io) {
 estts::Status serial_handler::initialize_serial_port() {
     boost::system::error_code error;
 
-    if (serial.is_open())
+    if (serial.is_open()) {
+        SPDLOG_DEBUG("initialize_serial_port: serial port was open; closing before init");
+        serial.cancel();
         serial.close();
+    }
 
     serial.open(port, error);
     if (error) {
         SPDLOG_ERROR("Failed to open serial port {} - {}", port, error.message());
         return ES_UNSUCCESSFUL;
     }
+    SPDLOG_INFO("Opened serial port");
 
     struct termios tty{};
     if (tcgetattr(serial.lowest_layer().native_handle(), &tty) != 0) {
@@ -95,6 +99,8 @@ estts::Status serial_handler::initialize_serial_port() {
         SPDLOG_ERROR("Failed to configure serial port with baud {} - {}", baud, e.what());
         return ES_UNSUCCESSFUL;
     }
+
+    SPDLOG_INFO("Initialized serial port");
 
     return estts::ES_OK;
 }
@@ -234,10 +240,6 @@ int serial_handler::check_serial_bytes_avail() {
     return value;
 }
 
-void serial_handler::read_serial_async(const std::function<estts::Status(char *, size_t)>& cb) {
-    serial.async_read_some(buffer(async_buf, MAX_SERIAL_READ), get_generic_async_read_lambda(cb));
-}
-
 std::function<void(boost::system::error_code, size_t)> serial_handler::get_generic_async_read_lambda(const std::function<Status(char *, size_t)>& estts_callback) {
     return [estts_callback, this] (const boost::system::error_code& error, std::size_t bytes_transferred) {
         if (error) {
@@ -256,6 +258,64 @@ std::function<void(boost::system::error_code, size_t)> serial_handler::get_gener
     };
 }
 
+/**
+ * read_to_delimeter reads from serial port 1 byte at a time until delimiter is found. If the serial device
+ * stops sending data, the function times out and returns what it collected.
+ * @param delimiter Unsigned char delimiter that function will read to
+ * @return String containing collected data from serial device
+ */
+std::string serial_handler::read_to_delimeter(const unsigned char delimiter) {
+    if (!serial.is_open()) {
+        SPDLOG_ERROR("Serial port {} not open", port);
+        return "";
+    }
+
+    // Goal: read to delimiter, but if 500ms elapses with no delimiter, return
+    unsigned int timeout_ms = 400;
+    // Clear cache buf
+    cache.clear();
+
+    SPDLOG_DEBUG("Reading from serial port until delimiter.");
+    std::chrono::time_point<std::chrono::high_resolution_clock> last_received_timepoint = high_resolution_clock::now();
+    std::stringstream read_buf;
+
+    for (;;) {
+        if (check_serial_bytes_avail() > 0) {
+            if (internal_read_serial_uc(1) == 1) {
+                last_received_timepoint = high_resolution_clock::now();
+                read_buf << sync_buf[0];
+
+                if (sync_buf[0] == delimiter) {
+                    SPDLOG_TRACE("Delimiter found.");
+                    break;
+                }
+            }
+        }
+
+        if (duration_cast<milliseconds>(high_resolution_clock::now() - last_received_timepoint).count() > timeout_ms) {
+            SPDLOG_WARN("Delimiter not found within {} milliseconds.", timeout_ms);
+            break;
+        }
+    }
+    auto uc = const_cast<unsigned char *>(reinterpret_cast<const unsigned char *>(read_buf.str().c_str()));
+    SPDLOG_TRACE("{}",get_read_trace_msg(uc, read_buf.str().size(), port));
+
+    cache << read_buf.str();
+    return read_buf.str();
+}
+
+size_t serial_handler::internal_read_serial_uc(int bytes) {
+    boost::system::error_code error;
+    auto n = read(serial, buffer(sync_buf, bytes), error);
+    if (error) {
+        SPDLOG_ERROR("Failed to read from serial port - {}", error.message());
+        handle_failure();
+    }
+    if (n != bytes)
+        SPDLOG_WARN("read() didn't return error but failed to read 1 byte");
+    return n;
+}
+
 unsigned char *serial_handler::read_serial_uc(int bytes) {
     // Clear cache buf
     cache.clear();
@@ -266,12 +326,7 @@ unsigned char *serial_handler::read_serial_uc(int bytes) {
     }
     SPDLOG_TRACE("Reading {} bytes from {}", bytes, port);
 
-    boost::system::error_code error;
-    auto n = read(serial, buffer(sync_buf, bytes), error);
-    if (error) {
-        SPDLOG_ERROR("Failed to read from serial port - {}", error.message());
-        handle_failure();
-    }
+    auto n = internal_read_serial_uc(bytes);
 
     for (int i = 0; i < n; i++)
         if (sync_buf[i] == '\0')

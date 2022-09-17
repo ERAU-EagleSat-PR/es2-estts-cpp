@@ -243,8 +243,13 @@ std::function<estts::Status(std::string)> get_read_txvr_scw_modifier(cosmos_grou
 
         std::string scw = resp.substr(9, 4);
 
-        auto scw_uc = const_cast<unsigned char *>(reinterpret_cast<const unsigned char *>(scw.c_str()));
+        unsigned char *scw_uc;
+        if (scw.empty()) {
+            spdlog::warn("SCW is blank!");
+            return get_groundstation_command_callback_lambda(original_command, cgsh->get_socket_handler())("ERR+Failed to get SCW");
+        }
 
+        scw_uc = const_cast<unsigned char *>(reinterpret_cast<const unsigned char *>(scw.c_str()));
         spdlog::trace("string scw: {} uc scw: {}", scw, scw_uc);
 
         for (int i = 0, j = 0; i < 4; i += 2, j++)

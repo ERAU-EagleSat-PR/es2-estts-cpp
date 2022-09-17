@@ -7,6 +7,7 @@
 
 #include <sstream>
 #include <boost/asio.hpp>
+#include <future>
 #include "constants.h"
 
 #include "posix_serial.h"
@@ -23,6 +24,8 @@ private:
     estts::Status handle_failure();
 
     estts::Status find_serial_port();
+
+    size_t internal_read_serial_uc(int bytes);
 protected:
     // Check here first, maybe what you're waiting for is already received..
     // Note - cleared every time read is called
@@ -32,7 +35,7 @@ protected:
 
     std::chrono::time_point<std::chrono::high_resolution_clock> tx_trace_timestamp;
 
-    serial_handler();
+
 
     estts::Status initialize_serial_port();
 
@@ -55,11 +58,13 @@ protected:
     int check_serial_bytes_avail();
 
 public:
-    void read_serial_async(const std::function<estts::Status(char *, size_t)>& cb);
 
     estts::Status write_serial_s(const std::string &data);
 
     std::string read_serial_s();
+
+    serial_handler();
+    std::string read_to_delimeter(unsigned char delimiter);
 };
 
 #endif //ESTTS_SERIAL_HANDLER_H
