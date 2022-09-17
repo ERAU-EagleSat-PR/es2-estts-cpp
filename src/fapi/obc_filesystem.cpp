@@ -66,7 +66,7 @@ estts::Status obc_filesystem::close_file() {
 std::string obc_filesystem::read_file(unsigned int position, unsigned int size) {
     std::string read_file_cmd = "ES+D11FR";
 
-    auto buf = new char[20];
+    char buf[20];
     sprintf(buf, "%s%08X%04X", read_file_cmd.c_str(), position, size);
 
     SPDLOG_TRACE("Reading {} bytes at position {} => {}", size, position, buf);
