@@ -35,7 +35,7 @@ void groundstation_manager::detect_satellite_in_range() {
             write_serial_s(get_scw);
             sleep_until(system_clock::now() + milliseconds (500));
             if (data_available())
-                buf << read_serial_s();
+                buf << read_to_delimeter('\r');
             if (buf.str().find("OK+") != std::string::npos) {
                 satellite_in_range = true;
                 break;
@@ -426,38 +426,14 @@ void groundstation_manager::session_manager::dispatch() {
             }
 
             if (!executed) {
-                std::string resp;
-                for (int i = 0; i < ESTTS_MAX_RETRIES; i++) {
-                    status = transmit_func(command->frame);
-                    if (status != ES_OK) {
-                        SPDLOG_ERROR("Failed to transmit command with serial number {}", command->serial_number);
-                        gm->notify_session_executor_exiting(endpoint);
-                        return;
-                    }
 
-                    gm->notify_session_active(endpoint);
-                    SPDLOG_INFO("Successfully transmitted command with serial number {}", command->serial_number);
-
-                    SPDLOG_DEBUG("Waiting for a response");
-                    sleep_until(system_clock::now() + milliseconds(100));
-
-                    resp = receive_func();
-                    if (!resp.empty()) {
-                        break;
-                    }
-
-                    SPDLOG_DEBUG("Retrying command with serial number {}", command->serial_number);
-                }
-
+                auto resp = this->default_command_executor(command->frame, command->serial_number);
                 if (resp.empty()) {
-                    SPDLOG_WARN(
-                            "Command with serial number {} failed to execute. Possible session issue, voluntarily exiting.",
-                            command->serial_number);
+                    SPDLOG_WARN("Command with serial number {} failed to execute. Possible session issue, voluntarily exiting.", command->serial_number);
                     session_active = false;
                 }
 
                 waiting.pop_front();
-
                 gm->notify_session_active(endpoint);
 
                 if (command->str_callback != nullptr)
@@ -487,6 +463,39 @@ void groundstation_manager::session_manager::dispatch() {
             return;
         }
     }
+}
+
+std::string groundstation_manager::session_manager::default_command_executor(const std::string& command, std::string sn) {
+    std::string resp;
+    estts::Status status;
+    std::string sn_string;
+    if (!sn.empty())
+        sn_string = "with serial number " + sn;
+
+    for (int i = 0; i < ESTTS_MAX_RETRIES; i++) {
+        // If the command fails to transmit, the lower levels really couldn't figure the problem out. There's basically
+        // nothing we can do from this level to fix it, so exit and hope that the next initialization fixes the problem
+        status = transmit_func(command);
+        if (status != ES_OK) {
+            SPDLOG_WARN("Failed to transmit command {}", sn_string);
+            return "";
+        }
+
+        gm->notify_session_active(endpoint);
+        SPDLOG_INFO("Successfully transmitted command with serial number {}", sn);
+
+        SPDLOG_DEBUG("Waiting for a response");
+        sleep_until(system_clock::now() + milliseconds(100));
+
+        resp = receive_func();
+        if (!resp.empty()) {
+            break;
+        }
+
+        SPDLOG_DEBUG("Retrying command with serial number {}", sn);
+    }
+
+    return resp;
 }
 
 std::string groundstation_manager::session_manager::schedule_command(const std::string& command, const std::function<estts::Status(std::string)>& callback) {

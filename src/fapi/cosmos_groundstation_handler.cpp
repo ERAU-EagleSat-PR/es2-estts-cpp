@@ -26,10 +26,12 @@ std::function<Status()> get_groundstation_session_end_session_func();
 std::function<estts::Status(std::string)> get_set_txvr_freq_modifier(cosmos_groundstation_handler * cgsh);
 std::function<estts::Status(std::string)> get_read_txvr_scw_modifier(cosmos_groundstation_handler * cgsh);
 std::function<estts::Status(std::string)> get_set_txvr_scw_modifier(cosmos_groundstation_handler * cgsh);
+std::function<estts::Status(std::string)> get_set_satellite_nominal_frequency_modifier(cosmos_groundstation_handler * cgsh);
 
 cosmos_groundstation_handler::cosmos_groundstation_handler() {
     gm = nullptr;
     sock = new socket_handler(estts::cosmos::COSMOS_SERVER_ADDR, estts::cosmos::COSMOS_GROUNDSTATION_CMD_TELEM_PORT);
+    sm = nullptr;
 }
 
 void cosmos_groundstation_handler::groundstation_cosmos_worker() {
@@ -42,21 +44,16 @@ void cosmos_groundstation_handler::groundstation_cosmos_worker() {
     config->satellite_range_required_for_execution = false;
     config->endpoint = GROUND_STATION;
 
-    auto command_handle = gm->generate_session_manager(config);
-    if (command_handle == nullptr)
+    sm = gm->generate_session_manager(config);
+    if (sm == nullptr)
         throw std::runtime_error("Primary COSMOS worker failed to request a session manager.");
 
-    auto modifier = new session_manager_modifier();
-    modifier->insert_execution_modifier("ES+W2201", get_set_txvr_freq_modifier(this));
-    modifier->insert_execution_modifier("ES+R2200", get_read_txvr_scw_modifier(this));
-    modifier->insert_execution_modifier("ES+W2200", get_set_txvr_scw_modifier(this));
-
-    command_handle->set_session_modifier(modifier);
+    sm->set_session_modifier(build_session_modifier());
     std::string command;
     for (;;) {
         command = sock->read_socket_s();
         if (not command.empty()) {
-            command_handle->schedule_command(command, get_groundstation_command_callback_lambda(command, sock));
+            sm->schedule_command(command, get_groundstation_command_callback_lambda(command, sock));
         }
     }
 }
@@ -128,22 +125,7 @@ estts::Status cosmos_groundstation_handler::set_transceiver_frequency(double fre
     freq_equiv << fc_frac_little_s << fc_inte_ss.str();
 
     SPDLOG_DEBUG("Converted {}Hz to {} in accordance with SiliconLabs Si4463 PLL synth", frequency, freq_equiv.str());
-
-    Status status;
-    std::string resp;
-    for (int i = 0; i < ESTTS_MAX_RETRIES; i++) {
-
-        status = get_groundstation_session_transmit_func(gm)("ES+W2201" + freq_equiv.str()); // TODO testing is gonna require changing this here command
-        if (status != ES_OK) {
-            SPDLOG_ERROR("Failed to transmit command.");
-            return status;
-        }
-
-        resp = get_groundstation_session_receive_func(gm)();
-        if (!resp.empty()) break;
-
-        SPDLOG_DEBUG("Retrying set frequency command");
-    }
+    auto resp = sm->default_command_executor("ES+W2201" + freq_equiv.str(), "");
 
     if (resp.empty()) {
         SPDLOG_ERROR("Failed to receive response to set frequency command.");
@@ -158,6 +140,41 @@ estts::Status cosmos_groundstation_handler::set_transceiver_frequency(double fre
     SPDLOG_INFO("Successfully set UHF frequency to {}Hz", frequency);
 
     return estts::ES_OK;
+}
+
+session_manager_modifier *cosmos_groundstation_handler::build_session_modifier() {
+    auto modifier = new session_manager_modifier();
+    // Set transceiver frequency
+    modifier->insert_execution_modifier("ES+W2201", get_set_txvr_freq_modifier(this));
+    // Read status control word
+    modifier->insert_execution_modifier("ES+R2200", get_read_txvr_scw_modifier(this));
+    // Write status control word
+    modifier->insert_execution_modifier("ES+W2200", get_set_txvr_scw_modifier(this));
+    // Set nominal satellite frequency for dynamic doppler accommodation
+    modifier->insert_execution_modifier("ES+W6903", get_set_satellite_nominal_frequency_modifier(this));
+    // Read nominal satellite frequency for dynamic doppler accommodation
+    modifier->insert_execution_modifier("ES+R6903", [this] (const std::string& command) -> estts::Status {
+        std::stringstream s;
+        s << "OK+" << satellite_txvr_nominal_frequency_hz / 1000000.0;
+        return get_groundstation_command_callback_lambda("ES+W6903", this->get_socket_handler())(s.str());
+    });
+    // Set dynamic doppler mode
+    modifier->insert_execution_modifier("ES+W6904", [this] (const std::string& command) -> estts::Status {
+        std::string mode = command;
+        mode.erase(0, 8);
+        if (mode == "0") dynamic_doppler_mode = false;
+        else dynamic_doppler_mode = true;
+        return get_groundstation_command_callback_lambda("ES+W6904", this->get_socket_handler())("OK+" + mode);
+    });
+    // Get dynamic doppler mode
+    modifier->insert_execution_modifier("ES+R6904", [this] (const std::string& command) -> estts::Status {
+        std::stringstream s;
+        if (dynamic_doppler_mode) s << "OK+1";
+        else s << "OK+0";
+        return get_groundstation_command_callback_lambda("ES+W6904", this->get_socket_handler())(s.str());
+    });
+
+    return modifier;
 }
 
 std::function<estts::Status(std::string)> get_set_txvr_scw_modifier(cosmos_groundstation_handler * cgsh) {
@@ -176,21 +193,7 @@ std::function<estts::Status(std::string)> get_set_txvr_scw_modifier(cosmos_groun
         std::string encoded_scw = original_command + hex;
         spdlog::debug("Complete command modifier: {}", encoded_scw);
 
-        Status status;
-        std::string resp;
-        for (int i = 0; i < ESTTS_MAX_RETRIES; i++) {
-
-            status = get_groundstation_session_transmit_func(cgsh->get_groundstation_manager())(encoded_scw);
-            if (status != ES_OK) {
-                spdlog::error("Failed to transmit command.");
-                return status;
-            }
-
-            resp = get_groundstation_session_receive_func(cgsh->get_groundstation_manager())();
-            if (!resp.empty()) break;
-
-            spdlog::debug("Retrying set SCW command");
-        }
+        auto resp = cgsh->get_session_manager()->default_command_executor(encoded_scw, "");
 
         if (resp.empty()) {
             spdlog::error("Failed to receive response to set SCW command.");
@@ -213,21 +216,7 @@ std::function<estts::Status(std::string)> get_read_txvr_scw_modifier(cosmos_grou
     return [cgsh] (const std::string& command) -> estts::Status {
         std::string original_command = "ES+R2200";
 
-        Status status;
-        std::string resp;
-        for (int i = 0; i < ESTTS_MAX_RETRIES; i++) {
-
-            status = get_groundstation_session_transmit_func(cgsh->get_groundstation_manager())(original_command);
-            if (status != ES_OK) {
-                spdlog::error("Failed to transmit command.");
-                return status;
-            }
-
-            resp = get_groundstation_session_receive_func(cgsh->get_groundstation_manager())();
-            if (!resp.empty()) break;
-
-            spdlog::debug("Retrying get SCW command");
-        }
+        auto resp = cgsh->get_session_manager()->default_command_executor(original_command, "");
 
         if (resp.empty()) {
             spdlog::error("Failed to receive response to get SCW.");
@@ -301,6 +290,24 @@ std::function<estts::Status(std::string)> get_set_txvr_freq_modifier(cosmos_grou
         resp = get_groundstation_command_callback_lambda(original_command, cgsh->get_socket_handler())(cosmos_resp + freq);
 
         return resp;
+    };
+}
+
+std::function<estts::Status(std::string)> get_set_satellite_nominal_frequency_modifier(cosmos_groundstation_handler * cgsh) {
+    return [cgsh] (const std::string& command) -> estts::Status {
+        std::string original_command = "ES+W6903";
+        spdlog::trace("Modifier found raw packet {}", command);
+
+        std::string freq = command;
+        freq.erase(0, original_command.length());
+
+        double freq_d = 0.0;
+        try {
+            freq_d = stod(freq) * 1000000;
+        } catch (...) { spdlog::error("{} is not a frequency!"); }
+
+        cgsh->set_satellite_txvr_nominal_frequency_hz(freq_d);
+        return get_groundstation_command_callback_lambda(original_command, cgsh->get_socket_handler())("OK+" + freq);
     };
 }
 

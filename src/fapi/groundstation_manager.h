@@ -125,6 +125,8 @@ public:
          * Internal use only. Primary dispatcher that executes commands while the session is active.
          */
         void dispatch();
+
+        std::string default_command_executor(const std::string& command, std::string sn);
     };
 private:
     /**

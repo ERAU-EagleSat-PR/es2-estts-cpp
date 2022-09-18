@@ -21,6 +21,8 @@ namespace estts {
     const int ESTTS_CHECK_SATELLITE_INRANGE_INTERVAL_SEC = 30;
     const int ESTTS_REQUEST_SESSION_TIMEOUT_SECONDS = 300;
 
+    //bool DYNAMIC_DOPPLER_SHIFT_ACCOMODATION = true;
+
     namespace cosmos {
         const char COSMOS_SERVER_ADDR[] = "172.19.35.150"; // "172.19.35.150"; // 172.30.95.164 172.19.35.160
         const int COSMOS_PRIMARY_CMD_TELEM_PORT = 65432;
@@ -41,41 +43,6 @@ namespace estts {
         const int TI_SOCKET_PORT = 65548;
     }
 
-    /* AX.25 Related constants */
-    namespace ax25 {
-        const char AX25_FLAG[] = "7E"; // Flag is constant
-        const char AX25_DESTINATION_ADDRESS[] = "NABCDE"; // Max 48-bit (6-byte)
-        const char AX25_SSID0[] = "E0";
-        const char AX25_SOURCE_ADDRESS[] = "NEDCBA"; // Max 48-bit (6-byte)
-        const char AX25_SSID1[] = "E1";
-        const char AX25_CONTROL[] = "03"; // 03 = Unnumbered Information
-        const char AX25_PID[] = "F0"; // F0 = No layer 3 protocol implemented
-
-        const char NEW_SESSION_FRAME[] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
-        const char END_SESSION_FRAME[] = "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB";
-    }
-
-    namespace telem_handler {
-        const char TELEM_HANDLER_STATE_FILE[] = "es2_state.json";
-    }
-
-    namespace estts_response_code {
-        const int SUCCESS = 0;
-        const int UNRECOGNIZED_REQUEST = 1;
-        const int OBC_FAILURE = 2;
-    }
-
-    /* Endpoint names for all communication systems */
-    namespace es2_endpoint {
-        const int ES_OBC = 01;
-        const int ES_EPS = 02;
-        const int ES_ACS = 03;
-        const int ES_CRP = 05;
-        const int ES_MDE = 04;
-        const int ES_OFFLINE_LOG = 05;
-        const int ES_TELEMETRY = 06;
-    }
-
     /* Generic response code enumeration for return codes */
     enum Status {
         ES_OK = 0,
@@ -91,24 +58,11 @@ namespace estts {
         ES_NOTFOUND = 404
     };
 
-    enum Session {
-        ES_NOT_CONNECTED,
-        ES_CONNECTING,
-        ES_DISCONNECTING,
-        ES_CONNECTED
-    };
-
-    namespace dispatcher {
-        const int MAX_COMPLETED_CACHE = 20; // Maximum number of completed commands to remember
-    }
-
     namespace endurosat {
         const int PIPE_DURATION_SEC = 5;
         const int MAX_ESTTC_PACKET_SIZE = 256;
         const int MAX_RETRIES = 2;
         const int WAIT_TIME_SEC = 2;
-        const int ES_BAUD = 115200;
-        const int MAX_ES_TXVR_TEMP = 50;
         enum PIPE_State {
             PIPE_OFF = 0,
             PIPE_WAITING = 1,
@@ -169,13 +123,6 @@ namespace estts {
             };
         };
     }
-
-    typedef struct dispatched_command {
-        std::string frame;
-        Status response_code;
-        std::string serial_number;
-        std::function<estts::Status(std::string)> str_callback;
-    } dispatched_command;
 
     typedef struct waiting_command {
         std::string frame;

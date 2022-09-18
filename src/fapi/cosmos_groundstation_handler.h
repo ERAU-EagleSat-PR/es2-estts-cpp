@@ -26,11 +26,21 @@ private:
     groundstation_manager * gm;
 
     /**
+     * Session manager
+     */
+    groundstation_manager::session_manager * sm;
+
+    /**
      * Thread worker function that handles the interaction between COSMOS and the groundstation. This function doesn't return
      * @return none
      */
     [[noreturn]] void groundstation_cosmos_worker();
 
+    double satellite_txvr_nominal_frequency_hz = 435000000;
+
+    bool dynamic_doppler_mode = true;
+
+    session_manager_modifier * build_session_modifier();
 public:
     /**
      * Default constructor that initializes socket.
@@ -43,12 +53,16 @@ public:
 
     socket_handler * get_socket_handler() { return sock; }
 
+    groundstation_manager::session_manager * get_session_manager() { return sm; }
+
     /**
      * Function that initializes ESTTS to work with COSMOS. This includes defining the telemetry callback and creating
      * the COSMOS worker thread
      * @return ES_OK if successful, anything else if not
      */
     estts::Status cosmos_groundstation_init(groundstation_manager * gm);
+
+    void set_satellite_txvr_nominal_frequency_hz(double freq) { satellite_txvr_nominal_frequency_hz = freq; }
 };
 
 
