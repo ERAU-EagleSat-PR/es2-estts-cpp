@@ -41,12 +41,16 @@ private:
      */
     std::mutex mtx;
 
+    int pipe_duration_sec;
+
     /**
      * Function designed to run on its own thread that sends a single character through the UART to the transceiver
      * to keep PIPE mode active, thereby maintaining a session. This function returns when it notices that obc_session_active
      * is false, and checks every 100 milliseconds to reduce latency.
      */
     void maintain_pipe();
+
+    void refresh_constants();
 
 public:
 

@@ -17,9 +17,14 @@ transmission_interface::transmission_interface() : socket_handler(ti_socket::TI_
                                                                                         ti_socket::TI_SOCKET_PORT) {
     connectionless_telem_cb = nullptr;
     pipe_mode = PIPE_OFF;
+    pipe_duration_sec = 5;
+    session_active = false;
 
+    refresh_constants();
     mtx.unlock();
 }
+
+
 
 Status transmission_interface::transmit(const std::string &value) {
     using namespace std::this_thread; // sleep_for, sleep_until
@@ -47,6 +52,7 @@ Status transmission_interface::transmit(const std::string &value) {
 
 std::string transmission_interface::receive() {
     mtx.lock();
+    reset_sync_buf();
 #ifndef __TI_DEV_MODE__
     auto buf = internal_receive();
     mtx.unlock();
@@ -63,14 +69,13 @@ std::string transmission_interface::receive() {
 }
 
 std::string transmission_interface::internal_receive() {
-
     int bytes_avail;
-    for (int seconds_elapsed = 0; seconds_elapsed < ESTTS_AWAIT_RESPONSE_PERIOD_SEC * 50; seconds_elapsed++) {
+    for (int ms_elapsed = 0; ms_elapsed < ESTTS_AWAIT_RESPONSE_PERIOD_SEC * 20; ms_elapsed++) {
         bytes_avail = check_serial_bytes_avail();
         if (bytes_avail > 0) {
             break;
         }
-        sleep_until(system_clock::now() + milliseconds (100));
+        sleep_until(system_clock::now() + milliseconds (50));
     }
     if (bytes_avail <= 0) {
         SPDLOG_WARN("Receive timeout - {} seconds elapsed with no response", ESTTS_AWAIT_RESPONSE_PERIOD_SEC);
@@ -224,7 +229,7 @@ Status transmission_interface::enable_pipe() {
 
 Status transmission_interface::disable_pipe() {
     SPDLOG_DEBUG("Exiting PIPE mode");
-    int retries = endurosat::PIPE_DURATION_SEC * 2;
+    int retries = pipe_duration_sec * 2;
 
     if (pipe_mode != PIPE_ON)
         return ES_OK;
@@ -255,7 +260,7 @@ Status transmission_interface::disable_pipe() {
 }
 
 void transmission_interface::maintain_pipe() {
-    auto duration_ms = 1000 * endurosat::PIPE_DURATION_SEC;
+    auto duration_ms = 1000 * pipe_duration_sec;
     while (pipe_mode == PIPE_ON) {
         // Only send something across interface if the time since the last packet is greater than PIPE_DURATION_SEC * 0.8
         if (duration_cast<milliseconds>(high_resolution_clock::now() - tx_trace_timestamp).count() > duration_ms - (int)(duration_ms * 0.2)) {
@@ -278,3 +283,16 @@ void transmission_interface::flush_transmission_interface() {
         clear_serial_fifo();
 }
 
+void transmission_interface::refresh_constants() {
+    if (ES_OK == write_serial_s("ES+R2206\r")) {
+        auto resp = read_to_delimeter('\r');
+        if (resp.find("ES+")) {
+            resp.erase(0, 11);
+            try {
+                pipe_duration_sec = stoi(resp);
+            } catch (...) { SPDLOG_WARN("{} is not an integer.", resp); }
+
+            SPDLOG_INFO("Setting PIPE duration to {} seconds", pipe_duration_sec);
+        }
+    }
+}

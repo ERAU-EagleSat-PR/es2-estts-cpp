@@ -17,9 +17,6 @@ namespace estts {
     const int ESTTS_AWAIT_RESPONSE_PERIOD_SEC = 4;
     const int ESTTS_MAX_SATELLITE_RANGE_CHECK_INTERVAL_SEC = 60;
     const int ESTTS_MIN_SATELLITE_RANGE_CHECK_INTERVAL_SEC = 20;
-    const int ESTTS_SATELLITE_CONNECTION_TIMEOUT_MIN = 90;
-    const int ESTTS_CHECK_SATELLITE_INRANGE_INTERVAL_SEC = 30;
-    const int ESTTS_REQUEST_SESSION_TIMEOUT_SECONDS = 300;
 
     //bool DYNAMIC_DOPPLER_SHIFT_ACCOMODATION = true;
 
@@ -59,7 +56,6 @@ namespace estts {
     };
 
     namespace endurosat {
-        const int PIPE_DURATION_SEC = 5;
         const int MAX_ESTTC_PACKET_SIZE = 256;
         const int MAX_RETRIES = 2;
         const int WAIT_TIME_SEC = 2;

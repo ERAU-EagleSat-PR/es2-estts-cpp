@@ -156,6 +156,7 @@ double groundstation_manager::calculate_queue_count_weight(internal_session * se
 
 void groundstation_manager::manage() {
     auto last_satellite_range_check_timestamp = high_resolution_clock::now();
+    detect_satellite_in_range();
     for (;;) {
         // First, adjust all registered session priorities. Priorities are calculated as a mathematical function of
         // the duration since last executing, initial priority, and commands in queue.

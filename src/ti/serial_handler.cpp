@@ -221,13 +221,12 @@ serial_handler::~serial_handler() {
 void serial_handler::clear_serial_fifo() {
     SPDLOG_TRACE("Clearing serial FIFO buffer");
     while (check_serial_bytes_avail() > 0)
-        read_serial_s();
+        read_serial_uc(check_serial_bytes_avail());
 }
 
 void serial_handler::clear_serial_fifo(const std::function<estts::Status(std::string)> &cb) {
     SPDLOG_TRACE("Clearing serial FIFO buffer");
-    while (check_serial_bytes_avail() > 0)
-        cb(read_serial_s());
+    cb(read_serial_s(check_serial_bytes_avail()));
 }
 
 int serial_handler::check_serial_bytes_avail() {
@@ -271,36 +270,33 @@ std::string serial_handler::read_to_delimeter(const unsigned char delimiter) {
     }
 
     // Goal: read to delimiter, but if 500ms elapses with no delimiter, return
-    unsigned int timeout_ms = 400;
+
     // Clear cache buf
     cache.clear();
 
     std::chrono::time_point<std::chrono::high_resolution_clock> last_received_timepoint = high_resolution_clock::now();
     std::stringstream read_buf;
-    std::string msg;
     for (;;) {
         if (check_serial_bytes_avail() > 0) {
             if (internal_read_serial_uc(1) == 1) {
                 last_received_timepoint = high_resolution_clock::now();
                 read_buf << sync_buf[0];
 
-                if (sync_buf[0] == delimiter) {
-                    msg = "Delimiter found.";
+                if (sync_buf[0] == delimiter)
                     break;
-                }
             }
         }
 
-        if (duration_cast<milliseconds>(high_resolution_clock::now() - last_received_timepoint).count() > timeout_ms) {
-            SPDLOG_WARN("Delimiter not found within {} milliseconds.", timeout_ms);
-            msg = "Delimiter not found.";
+        if (duration_cast<milliseconds>(high_resolution_clock::now() - last_received_timepoint).count() > delimiter_timeout_ms) {
+            SPDLOG_TRACE("Delimiter not found within {} milliseconds.", delimiter_timeout_ms);
             break;
         }
     }
-    auto uc = const_cast<unsigned char *>(reinterpret_cast<const unsigned char *>(read_buf.str().c_str()));
-    SPDLOG_TRACE("{} {}", msg, get_read_trace_msg(uc, read_buf.str().size(), port));
+    if (!read_buf.str().empty()) {
+        auto uc = const_cast<unsigned char *>(reinterpret_cast<const unsigned char *>(read_buf.str().c_str()));
+        SPDLOG_TRACE("Delimiter found. {}", get_read_trace_msg(uc, read_buf.str().size(), port));
+    }
 
-    cache << read_buf.str();
     return read_buf.str();
 }
 
@@ -319,6 +315,9 @@ size_t serial_handler::internal_read_serial_uc(int bytes) {
 unsigned char *serial_handler::read_serial_uc(int bytes) {
     // Clear cache buf
     cache.clear();
+
+    if (bytes < 1)
+        return nullptr;
 
     if (!serial.is_open()) {
         SPDLOG_ERROR("Serial port {} not open", port);

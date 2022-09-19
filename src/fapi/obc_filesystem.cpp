@@ -18,7 +18,7 @@ estts::Status obc_filesystem::open_file(const std::string& filename) {
 
     if (resp.empty() || resp.find("ERR") != std::string::npos) {
         SPDLOG_WARN("Failed to open {}: {}", filename, resp);
-        status = estts::ES_UNSUCCESSFUL;
+        return estts::ES_UNSUCCESSFUL;
     }
     else {
         SPDLOG_INFO("Opened {} on the OBC", filename);
@@ -30,7 +30,6 @@ estts::Status obc_filesystem::open_file(const std::string& filename) {
 
     union conv { char c[4]; size_t l; };
 
-    char hexBuf[4];
     union conv conv{};
 
     for (int i = 0, j = 3; i < 8; i += 2, j--)
@@ -183,8 +182,8 @@ std::string obc_filesystem::download_file(const std::string& filename) {
     close_file();
 
     std::ofstream file;
-    SPDLOG_DEBUG("Opening /home/parallels/{}", filename);
-    file.open("/home/parallels/" + filename, std::ios::in | std::ios::out | std::ios::app);
+    SPDLOG_DEBUG("Opening /opt/estts/{}", filename);
+    file.open("/opt/estts/" + filename, std::ios::in | std::ios::out | std::ios::app);
     if (file.is_open()) {
         SPDLOG_TRACE("File is open");
         file << data;

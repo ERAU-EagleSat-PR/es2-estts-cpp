@@ -20,6 +20,7 @@ private:
     std::string port;
     int baud, restarts;
     unsigned char * sync_buf;
+    unsigned int delimiter_timeout_ms = 400;
 
     estts::Status handle_failure();
 
@@ -34,8 +35,6 @@ protected:
     char async_buf[MAX_SERIAL_READ];
 
     std::chrono::time_point<std::chrono::high_resolution_clock> tx_trace_timestamp;
-
-
 
     estts::Status initialize_serial_port();
 
@@ -57,14 +56,18 @@ protected:
 
     int check_serial_bytes_avail();
 
+    void reset_sync_buf() { delete sync_buf; sync_buf = new unsigned char[MAX_SERIAL_READ]; }
+
 public:
+    void set_delimiter_timeout_ms(unsigned int timeout) { delimiter_timeout_ms = timeout; }
+
+    std::string read_to_delimeter(unsigned char delimiter);
 
     estts::Status write_serial_s(const std::string &data);
 
     std::string read_serial_s();
 
     serial_handler();
-    std::string read_to_delimeter(unsigned char delimiter);
 };
 
 #endif //ESTTS_SERIAL_HANDLER_H

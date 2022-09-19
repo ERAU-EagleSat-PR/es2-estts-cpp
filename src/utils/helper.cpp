@@ -126,5 +126,6 @@ unsigned char HexToBin(unsigned char hb, unsigned char lb) {
 }
 
 estts::Status validate_crc(std::string buf, std::string crc) {
+    SPDLOG_TRACE("Found CRC: {}", crc);
     return estts::ES_OK;
 }
