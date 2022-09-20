@@ -1,0 +1,397 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						5,
+						10,
+						11,
+						12,
+						13
+					],
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "src",
+					"jsonFile" : "directory-src-Debug-b6cf2213fc5053b67c22.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "src",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "runtime",
+					"jsonFile" : "directory-runtime-Debug-aa77dd525374e6c519b8.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "runtime",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "lib/spdlog",
+					"jsonFile" : "directory-lib.spdlog-Debug-cca069e7a04983dae516.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "lib/spdlog",
+					"targetIndexes" : 
+					[
+						11
+					]
+				},
+				{
+					"build" : "lib/json",
+					"jsonFile" : "directory-lib.json-Debug-c37a91530972672c3d9c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 2,
+					"source" : "lib/json"
+				},
+				{
+					"build" : "lib/sgp4",
+					"childIndexes" : 
+					[
+						6,
+						7,
+						8,
+						9
+					],
+					"jsonFile" : "directory-lib.sgp4-Debug-94469b5a46da46f50a05.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.13.4"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 3,
+					"source" : "lib/sgp4",
+					"targetIndexes" : 
+					[
+						9,
+						10
+					]
+				},
+				{
+					"build" : "lib/sgp4/libsgp4",
+					"jsonFile" : "directory-lib.sgp4.libsgp4-Debug-f68672be22291fb60bee.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.13.4"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 3,
+					"source" : "lib/sgp4/libsgp4"
+				},
+				{
+					"build" : "lib/sgp4/sattrack",
+					"jsonFile" : "directory-lib.sgp4.sattrack-Debug-7ae147f7eaf6c046ca5d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.13.4"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 3,
+					"source" : "lib/sgp4/sattrack",
+					"targetIndexes" : 
+					[
+						7
+					]
+				},
+				{
+					"build" : "lib/sgp4/runtest",
+					"jsonFile" : "directory-lib.sgp4.runtest-Debug-865307122d06bfd4bf17.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.13.4"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 3,
+					"source" : "lib/sgp4/runtest",
+					"targetIndexes" : 
+					[
+						6
+					]
+				},
+				{
+					"build" : "lib/sgp4/passpredict",
+					"jsonFile" : "directory-lib.sgp4.passpredict-Debug-5828d655560da94d4f84.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.13.4"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 3,
+					"source" : "lib/sgp4/passpredict",
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"build" : "tests/serial-test",
+					"jsonFile" : "directory-tests.serial-test-Debug-da0a76f3c9968d2d81f6.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "tests/serial-test",
+					"targetIndexes" : 
+					[
+						8
+					]
+				},
+				{
+					"build" : "tests/cosmos-groundstation-range-testbed",
+					"jsonFile" : "directory-tests.cosmos-groundstation-range-testbed-Debug-37ec6de48b4b43df2368.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "tests/cosmos-groundstation-range-testbed",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "tests/doppler",
+					"jsonFile" : "directory-tests.doppler-Debug-cd665f6083d70e7c2844.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "tests/doppler",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "tests/orbit-test",
+					"jsonFile" : "directory-tests.orbit-test-Debug-a2bc002ecc89c8819b29.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "tests/orbit-test",
+					"targetIndexes" : 
+					[
+						4
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						10,
+						11,
+						12,
+						13
+					],
+					"name" : "estts",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						8
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3
+					],
+					"name" : "spdlog",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						11
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						4
+					],
+					"name" : "nlohmann_json",
+					"parentIndex" : 0
+				},
+				{
+					"directoryIndexes" : 
+					[
+						5,
+						6,
+						7,
+						8,
+						9
+					],
+					"name" : "SGP4",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						5,
+						6,
+						7,
+						9,
+						10
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 11,
+					"id" : "cosmos-groundstation-range-testbed::@ab21aa09fba22bd61613",
+					"jsonFile" : "target-cosmos-groundstation-range-testbed-Debug-f6dece6d04fce91bb68d.json",
+					"name" : "cosmos-groundstation-range-testbed",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 12,
+					"id" : "doppler::@bb7c620f90723e37ac22",
+					"jsonFile" : "target-doppler-Debug-0e0b56244dba73600758.json",
+					"name" : "doppler",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "estts::@145eef247bfb46b6828c",
+					"jsonFile" : "target-estts-Debug-3dc94bf5c771e23936d9.json",
+					"name" : "estts",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "estts-runtime::@dcf6d6b3a78d87189fa9",
+					"jsonFile" : "target-estts-runtime-Debug-36c18c7c5c0fce628c20.json",
+					"name" : "estts-runtime",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "orbit-test::@9067138b47e78a106add",
+					"jsonFile" : "target-orbit-test-Debug-dfc730f2bf3f98e96e29.json",
+					"name" : "orbit-test",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "passpredict::@62f31a1e28fe793246c6",
+					"jsonFile" : "target-passpredict-Debug-62e6f37105dda8fe6998.json",
+					"name" : "passpredict",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "runtest::@a289cba7e656b3e67af3",
+					"jsonFile" : "target-runtest-Debug-306038251694ee68f421.json",
+					"name" : "runtest",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "sattrack::@8a11634c3e9f1bc00ae1",
+					"jsonFile" : "target-sattrack-Debug-4b8e9eb39241f60054c8.json",
+					"name" : "sattrack",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "serial-test::@d54aa6cacde46a653e39",
+					"jsonFile" : "target-serial-test-Debug-eba72397ecb8c593d6ec.json",
+					"name" : "serial-test",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "sgp4::@d257a0bc8f78c916708c",
+					"jsonFile" : "target-sgp4-Debug-fa5e74ba69b021f0d28e.json",
+					"name" : "sgp4",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "sgp4s::@d257a0bc8f78c916708c",
+					"jsonFile" : "target-sgp4s-Debug-52f18c353254b38a1be2.json",
+					"name" : "sgp4s",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "spdlog::@83ae2c9e0cfde2973663",
+					"jsonFile" : "target-spdlog-Debug-9b279424dd5fad0fb8d7.json",
+					"name" : "spdlog",
+					"projectIndex" : 1
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host",
+		"source" : "/tmp/tmp.cvIXXKse5W"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

@@ -11,7 +11,9 @@ target_include_directories(
         ${estts_include_directories}
 )
 
-target_link_libraries(estts-runtime PUBLIC estts)
+target_link_libraries(
+        estts-runtime PUBLIC estts
+)
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     message(STATUS "${CMAKE_BUILD_TYPE} build type detected, setting __DEV__")

@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "tests/cosmos-groundstation-range-testbed",
+		"source" : "tests/cosmos-groundstation-range-testbed"
+	}
+}

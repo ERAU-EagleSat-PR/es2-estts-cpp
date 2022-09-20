@@ -73,6 +73,11 @@ public:
         return m_geo;
     }
 
+    Eci GetEci() const
+    {
+        return m_eci;
+    }
+
     /**
      * Get the look angle for the observers position to the object
      * @param[in] eci the object to find the look angle to
