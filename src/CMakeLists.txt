@@ -73,6 +73,8 @@ target_link_libraries(
         ${Boost_LIBRARIES}
 )
 
+target_link_libraries(estts PUBLIC sgp4)
+
 if (TI_DEV_MODE)
     target_compile_definitions(
             estts

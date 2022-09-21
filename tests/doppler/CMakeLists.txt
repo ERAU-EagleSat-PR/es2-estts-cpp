@@ -13,3 +13,4 @@ target_include_directories(
 
 # Link GSTTS library to build
 target_link_libraries(doppler PUBLIC estts)
+target_link_libraries(doppler PUBLIC sgp4)

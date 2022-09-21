@@ -1,0 +1,177 @@
+[
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++  -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -std=c++11 -o CMakeFiles/sgp4.dir/libsgp4/CoordGeodetic.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/CoordGeodetic.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/CoordGeodetic.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++  -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -std=c++11 -o CMakeFiles/sgp4.dir/libsgp4/CoordTopocentric.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/CoordTopocentric.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/CoordTopocentric.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++  -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -std=c++11 -o CMakeFiles/sgp4.dir/libsgp4/DateTime.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/DateTime.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/DateTime.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++  -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -std=c++11 -o CMakeFiles/sgp4.dir/libsgp4/DecayedException.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/DecayedException.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/DecayedException.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++  -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -std=c++11 -o CMakeFiles/sgp4.dir/libsgp4/Eci.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Eci.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Eci.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++  -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -std=c++11 -o CMakeFiles/sgp4.dir/libsgp4/Globals.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Globals.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Globals.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++  -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -std=c++11 -o CMakeFiles/sgp4.dir/libsgp4/Observer.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Observer.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Observer.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++  -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -std=c++11 -o CMakeFiles/sgp4.dir/libsgp4/OrbitalElements.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/OrbitalElements.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/OrbitalElements.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++  -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -std=c++11 -o CMakeFiles/sgp4.dir/libsgp4/SGP4.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/SGP4.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/SGP4.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++  -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -std=c++11 -o CMakeFiles/sgp4.dir/libsgp4/SatelliteException.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/SatelliteException.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/SatelliteException.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++  -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -std=c++11 -o CMakeFiles/sgp4.dir/libsgp4/SolarPosition.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/SolarPosition.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/SolarPosition.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++  -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -std=c++11 -o CMakeFiles/sgp4.dir/libsgp4/TimeSpan.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/TimeSpan.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/TimeSpan.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++  -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -std=c++11 -o CMakeFiles/sgp4.dir/libsgp4/Tle.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Tle.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Tle.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++  -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -std=c++11 -o CMakeFiles/sgp4.dir/libsgp4/TleException.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/TleException.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/TleException.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++  -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -std=c++11 -o CMakeFiles/sgp4.dir/libsgp4/Util.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Util.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Util.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++  -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -std=c++11 -o CMakeFiles/sgp4.dir/libsgp4/Vector.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Vector.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Vector.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++ -Dsgp4s_EXPORTS -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -fPIC -std=c++11 -o CMakeFiles/sgp4s.dir/libsgp4/CoordGeodetic.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/CoordGeodetic.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/CoordGeodetic.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++ -Dsgp4s_EXPORTS -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -fPIC -std=c++11 -o CMakeFiles/sgp4s.dir/libsgp4/CoordTopocentric.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/CoordTopocentric.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/CoordTopocentric.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++ -Dsgp4s_EXPORTS -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -fPIC -std=c++11 -o CMakeFiles/sgp4s.dir/libsgp4/DateTime.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/DateTime.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/DateTime.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++ -Dsgp4s_EXPORTS -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -fPIC -std=c++11 -o CMakeFiles/sgp4s.dir/libsgp4/DecayedException.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/DecayedException.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/DecayedException.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++ -Dsgp4s_EXPORTS -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -fPIC -std=c++11 -o CMakeFiles/sgp4s.dir/libsgp4/Eci.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Eci.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Eci.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++ -Dsgp4s_EXPORTS -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -fPIC -std=c++11 -o CMakeFiles/sgp4s.dir/libsgp4/Globals.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Globals.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Globals.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++ -Dsgp4s_EXPORTS -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -fPIC -std=c++11 -o CMakeFiles/sgp4s.dir/libsgp4/Observer.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Observer.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Observer.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++ -Dsgp4s_EXPORTS -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -fPIC -std=c++11 -o CMakeFiles/sgp4s.dir/libsgp4/OrbitalElements.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/OrbitalElements.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/OrbitalElements.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++ -Dsgp4s_EXPORTS -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -fPIC -std=c++11 -o CMakeFiles/sgp4s.dir/libsgp4/SGP4.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/SGP4.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/SGP4.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++ -Dsgp4s_EXPORTS -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -fPIC -std=c++11 -o CMakeFiles/sgp4s.dir/libsgp4/SatelliteException.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/SatelliteException.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/SatelliteException.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++ -Dsgp4s_EXPORTS -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -fPIC -std=c++11 -o CMakeFiles/sgp4s.dir/libsgp4/SolarPosition.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/SolarPosition.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/SolarPosition.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++ -Dsgp4s_EXPORTS -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -fPIC -std=c++11 -o CMakeFiles/sgp4s.dir/libsgp4/TimeSpan.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/TimeSpan.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/TimeSpan.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++ -Dsgp4s_EXPORTS -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -fPIC -std=c++11 -o CMakeFiles/sgp4s.dir/libsgp4/Tle.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Tle.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Tle.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++ -Dsgp4s_EXPORTS -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -fPIC -std=c++11 -o CMakeFiles/sgp4s.dir/libsgp4/TleException.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/TleException.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/TleException.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++ -Dsgp4s_EXPORTS -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -fPIC -std=c++11 -o CMakeFiles/sgp4s.dir/libsgp4/Util.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Util.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Util.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4",
+  "command": "/usr/bin/c++ -Dsgp4s_EXPORTS -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -fPIC -std=c++11 -o CMakeFiles/sgp4s.dir/libsgp4/Vector.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Vector.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4/Vector.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4/sattrack",
+  "command": "/usr/bin/c++  -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -std=c++11 -o CMakeFiles/sattrack.dir/sattrack.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/sattrack/sattrack.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/sattrack/sattrack.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4/runtest",
+  "command": "/usr/bin/c++  -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -std=c++11 -o CMakeFiles/runtest.dir/runtest.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/runtest/runtest.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/runtest/runtest.cc"
+},
+{
+  "directory": "/tmp/tmp.cvIXXKse5W/cmake-build-debug-remote-host/lib/sgp4/passpredict",
+  "command": "/usr/bin/c++  -I/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g -std=c++11 -o CMakeFiles/passpredict.dir/passpredict.cc.o -c /tmp/tmp.cvIXXKse5W/lib/sgp4/passpredict/passpredict.cc",
+  "file": "/tmp/tmp.cvIXXKse5W/lib/sgp4/passpredict/passpredict.cc"
+}
+]

@@ -1,0 +1,209 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "tests/orbit-test/orbit-test"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"target_link_libraries",
+			"target_include_directories"
+		],
+		"files" : 
+		[
+			"tests/orbit-test/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 6,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 15,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 16,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 8,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g"
+				},
+				{
+					"fragment" : "-std=c++14"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 2,
+					"define" : "BOOST_ALL_NO_LIB"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "BOOST_SYSTEM_DYN_LINK"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "SPDLOG_COMPILED_LIB"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "__DEV__"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 4,
+					"path" : "/tmp/tmp.cvIXXKse5W/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/tmp/tmp.cvIXXKse5W/src/fapi"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/tmp/tmp.cvIXXKse5W/src/fapi/command_handler"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/tmp/tmp.cvIXXKse5W/src/tnc_emulator"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/tmp/tmp.cvIXXKse5W/src/ti"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/tmp/tmp.cvIXXKse5W/src/utils"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/tmp/tmp.cvIXXKse5W/lib/spdlog/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/tmp/tmp.cvIXXKse5W/lib/sgp4/libsgp4"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "14"
+			},
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "estts::@145eef247bfb46b6828c"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "spdlog::@83ae2c9e0cfde2973663"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "sgp4::@d257a0bc8f78c916708c"
+		}
+	],
+	"id" : "orbit-test::@9067138b47e78a106add",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-g",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "../../src/libestts.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "../../lib/sgp4/libsgp4.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../lib/spdlog/libspdlogd.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "/usr/lib/x86_64-linux-gnu/libboost_system.so.1.74.0",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "orbit-test",
+	"nameOnDisk" : "orbit-test",
+	"paths" : 
+	{
+		"build" : "tests/orbit-test",
+		"source" : "tests/orbit-test"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "tests/orbit-test/src/main.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "EXECUTABLE"
+}

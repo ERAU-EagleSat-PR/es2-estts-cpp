@@ -41,6 +41,14 @@ private:
     bool dynamic_doppler_mode = true;
 
     session_manager_modifier * build_session_modifier();
+
+    /**
+    * Local thread object that executes the doppler shift method
+    */
+    std::thread ds_worker;
+
+    [[noreturn]] void doppler_cosmos_worker();
+
 public:
     /**
      * Default constructor that initializes socket.
@@ -63,6 +71,9 @@ public:
     estts::Status cosmos_groundstation_init(groundstation_manager * gm);
 
     void set_satellite_txvr_nominal_frequency_hz(double freq) { satellite_txvr_nominal_frequency_hz = freq; }
+
+    double get_doppler(void);
+
 };
 
 

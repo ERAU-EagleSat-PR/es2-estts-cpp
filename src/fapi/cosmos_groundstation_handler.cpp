@@ -8,6 +8,9 @@
 #include "constants.h"
 #include "session_manager_modifier.h"
 #include "helper.h"
+#include "CoordTopocentric.h"
+#include "Observer.h"
+#include "SGP4.h"
 
 #define TWO_TO_THE_19th 524288
 
@@ -71,6 +74,8 @@ estts::Status cosmos_groundstation_handler::cosmos_groundstation_init(groundstat
 
     cosmos_worker = std::thread(&cosmos_groundstation_handler::groundstation_cosmos_worker, this);
     SPDLOG_TRACE("Created groundstation COSMOS worker thread with ID {}", std::hash<std::thread::id>{}(cosmos_worker.get_id()));
+    ds_worker = std::thread(&cosmos_groundstation_handler::doppler_cosmos_worker, this);
+    SPDLOG_TRACE("Created doppler COSMOS worker thread with ID {}", std::hash<std::thread::id>{}(ds_worker.get_id()));
 
     return estts::ES_OK;
 }
@@ -368,4 +373,42 @@ std::function<Status()> get_groundstation_session_start_session_func() {
 
 std::function<Status()> get_groundstation_session_end_session_func() {
     return [] () -> Status { return ES_OK; };
+}
+
+void cosmos_groundstation_handler::doppler_cosmos_worker() {
+
+    auto timestamp = high_resolution_clock::now();
+    std::string command;
+    auto duration_ms = 20000;
+
+    //calculate doppler reading every 20 seconds
+    for (;;) {
+        if (duration_cast<milliseconds>(high_resolution_clock::now() - timestamp).count() > duration_ms) {
+            double doppler435 = cosmos_groundstation_handler::get_doppler();
+            std::stringstream str_doppler;
+            str_doppler << (satellite_txvr_nominal_frequency_hz + doppler435) / 1000000.0;
+            SPDLOG_DEBUG("Doppler = {}", (satellite_txvr_nominal_frequency_hz + doppler435) / 1000000.0);
+            sm->schedule_command("ES+W2201" + str_doppler.str(), get_groundstation_command_callback_lambda(command, sock));
+            timestamp = high_resolution_clock::now();
+        }
+    }
+}
+
+double cosmos_groundstation_handler::get_doppler(void){
+
+    //temp ground-station coordinates
+    Observer obs(51.507406923983446, -0.12773752212524414, 0.05);
+
+    //temp TLE value
+    Tle tle = Tle("UK-DMC 2                ",
+                  "1 35683U 09041C   12289.23158813  .00000484  00000-0  89219-4 0  5863",
+                  "2 35683  98.0221 185.3682 0001499 100.5295 259.6088 14.69819587172294");
+
+    //Calculate the doppler shift
+    SGP4 sgp4(tle);
+    DateTime dt = tle.Epoch();
+    Eci sat_eci = sgp4.FindPosition(dt);
+    double sat_range_rate = obs.GetLookAngle(sat_eci).range_rate;
+    double doppler435 = -satellite_txvr_nominal_frequency_hz *((sat_range_rate*1000.0)/299792458.0);
+    return doppler435;
 }
