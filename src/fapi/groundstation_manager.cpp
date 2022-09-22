@@ -409,6 +409,7 @@ void groundstation_manager::session_manager::dispatch() {
                     SPDLOG_ERROR("Failed to request session from session handler with endpoint {}",
                                  gm->get_endpoint_enum_string(this->endpoint));
                     gm->notify_session_executor_exiting(endpoint);
+                    sleep_until(system_clock::now() + seconds (1));
                     return;
                 }
             }

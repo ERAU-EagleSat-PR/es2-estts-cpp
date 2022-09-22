@@ -142,6 +142,8 @@ size_t serial_handler::write_serial_uc(unsigned char *data, int size) {
 
     SPDLOG_TRACE("{}", get_write_trace_msg(data, written, port));
 
+    last_transmission_byte_count = written;
+
     return written;
 }
 

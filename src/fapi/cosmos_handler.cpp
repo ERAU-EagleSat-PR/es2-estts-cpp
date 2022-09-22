@@ -209,13 +209,6 @@ std::function<Status()> get_obc_session_start_session_func(groundstation_manager
 
         // Now, try to enable PIPE on the satellite.
         while (true) {
-            // Verify that process hasn't exceeded max retry tolerance
-            if (retries > MAX_RETRIES) {
-                spdlog::error("Failed to enable PIPE on satellite transceiver. ({}/{} retries)", retries, MAX_RETRIES);
-                // COSMOS write command 02 parameter 0 = DISCONNECTED
-                gm->groundstation_telemetry_callback("ES+W69020");
-                return ES_UNSUCCESSFUL;
-            }
 
             // Try to enable PIPE on the satellite
             gm->write_serial_s(pipe_en);
@@ -226,13 +219,13 @@ std::function<Status()> get_obc_session_start_session_func(groundstation_manager
 
                 std::stringstream buf1;
                 // Now, wait for OBC to be able to receive requests by pinging it
-                gm->set_delimiter_timeout_ms(50);
+                gm->set_delimiter_timeout_ms(100);
 
                 bool conn = false;
                 for (int ms_elapsed = 0; ms_elapsed < ESTTS_AWAIT_RESPONSE_PERIOD_SEC * 10; ms_elapsed++) {
                     buf.clear();
                     gm->write_serial_s(obc_version_cmd);
-                    sleep_until(system_clock::now() + milliseconds (50));
+                    sleep_until(system_clock::now() + milliseconds (100));
                     buf1 << gm->read_to_delimeter('\r');
                     if (buf1.str().find("OK+") != std::string::npos) {
                         auto version = buf1.str().erase(0, 3);
@@ -241,7 +234,7 @@ std::function<Status()> get_obc_session_start_session_func(groundstation_manager
                         //gm->read_to_delimeter('\r');
                         break;
                     }
-                    sleep_until(system_clock::now() + milliseconds (100));
+                    //sleep_until(system_clock::now() + milliseconds (100));
                 }
 
                 gm->set_delimiter_timeout_ms(400);
@@ -249,6 +242,15 @@ std::function<Status()> get_obc_session_start_session_func(groundstation_manager
                     break;
             }
             retries++;
+
+            // Verify that process hasn't exceeded max retry tolerance
+            if (retries > MAX_RETRIES) {
+                spdlog::error("Failed to enable PIPE on satellite transceiver. ({}/{} retries)", retries, MAX_RETRIES);
+                // COSMOS write command 02 parameter 0 = DISCONNECTED
+                gm->groundstation_telemetry_callback("ES+W69020");
+                return ES_UNSUCCESSFUL;
+            }
+
             spdlog::warn("Failed to enable PIPE on satellite. Waiting {} seconds (retry {}/{})", WAIT_TIME_SEC, retries, MAX_RETRIES);
             sleep_until(system_clock::now() + seconds(WAIT_TIME_SEC));
             // Once again don't clear buf, maybe confirmation got lost in the weeds.

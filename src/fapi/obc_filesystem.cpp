@@ -152,7 +152,10 @@ std::string obc_filesystem::download_file(const std::string& filename) {
                     read_buf.resize(read_buf.size() - 10);
 
                 pos += read_buf.size();
-                data += read_buf;
+                if (read_buf.substr(0, 3) != "ERR") {
+                    data += read_buf;
+                }
+
                 break;
             }
             SPDLOG_WARN("File CRC verification failed. Retrying {}/{}", j + 1, estts::endurosat::MAX_RETRIES);
@@ -198,4 +201,13 @@ std::string obc_filesystem::download_file(const std::string& filename) {
 obc_filesystem::obc_filesystem(estts::session_config *config) {
     session = config;
     file_size = 0;
+}
+
+std::string obc_filesystem::download_all_files() {
+    if (execute_command("ES+D11FL*\r").find("ERR") != std::string::npos) {
+        SPDLOG_WARN("Failed to download file list");
+        return "";
+    }
+
+    return std::string();
 }

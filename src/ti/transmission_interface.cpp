@@ -24,8 +24,6 @@ transmission_interface::transmission_interface() : socket_handler(ti_socket::TI_
     mtx.unlock();
 }
 
-
-
 Status transmission_interface::transmit(const std::string &value) {
     using namespace std::this_thread; // sleep_for, sleep_until
     using namespace std::chrono; // nanoseconds, system_clock, seconds
@@ -40,6 +38,11 @@ Status transmission_interface::transmit(const std::string &value) {
         clear_serial_fifo();
 #ifndef __TI_DEV_MODE__
     clear_serial_fifo();
+
+    // EnduroSat manual says that at 115200 baud, around 1ms should be waited per byte transmitted
+    if (pipe_mode == estts::endurosat::PIPE_ON && duration_cast<milliseconds>(high_resolution_clock::now() - tx_trace_timestamp).count() < last_transmission_byte_count )
+        sleep_until(system_clock::now() + milliseconds (last_transmission_byte_count));
+
     if (this->write_serial_s(value) != ES_OK) {
         SPDLOG_ERROR("Failed to transmit.");
         mtx.unlock();
@@ -120,6 +123,11 @@ Status transmission_interface::transmit(const unsigned char *value, int length) 
 #ifndef __TI_DEV_MODE__
     retries = 0;
     clear_serial_fifo();
+
+    // EnduroSat manual says that at 115200 baud, around 1ms should be waited per byte transmitted
+    if (pipe_mode == estts::endurosat::PIPE_ON && duration_cast<milliseconds>(high_resolution_clock::now() - tx_trace_timestamp).count() < last_transmission_byte_count )
+        sleep_until(system_clock::now() + milliseconds (last_transmission_byte_count));
+
     while (this->write_serial_uc((unsigned char *)value, length) < length) {
         spdlog::error("Failed to transmit. Waiting {} seconds", endurosat::WAIT_TIME_SEC);
         sleep_until(system_clock::now() + seconds(endurosat::WAIT_TIME_SEC));

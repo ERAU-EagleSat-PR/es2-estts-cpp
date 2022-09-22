@@ -1,1 +1,0 @@
-/usr/bin/c++ -g CMakeFiles/estts-runtime.dir/src/main.cpp.o -o estts-runtime  ../src/libestts.a ../lib/spdlog/libspdlogd.a /usr/lib/x86_64-linux-gnu/libboost_system.so.1.74.0 ../lib/sgp4/libsgp4.a 

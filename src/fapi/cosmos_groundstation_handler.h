@@ -36,9 +36,11 @@ private:
      */
     [[noreturn]] void groundstation_cosmos_worker();
 
-    double satellite_txvr_nominal_frequency_hz = 435000000;
+    double satellite_txvr_nominal_frequency_hz = 4350000000;
 
-    bool dynamic_doppler_mode = true;
+    bool dynamic_doppler_mode = false;
+
+    std::string tle;
 
     session_manager_modifier * build_session_modifier();
 

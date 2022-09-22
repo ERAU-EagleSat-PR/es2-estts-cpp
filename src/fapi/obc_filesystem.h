@@ -32,6 +32,7 @@ public:
 
     std::string download_file(const std::string& filename);
 
+    std::string download_all_files();
 };
 
 

@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g CMakeFiles/runtest.dir/runtest.cc.o -o runtest  ../libsgp4.a 

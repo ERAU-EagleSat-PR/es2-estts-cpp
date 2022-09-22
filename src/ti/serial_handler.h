@@ -32,6 +32,8 @@ protected:
     // Note - cleared every time read is called
     std::stringstream cache;
 
+    unsigned int last_transmission_byte_count;
+
     char async_buf[MAX_SERIAL_READ];
 
     std::chrono::time_point<std::chrono::high_resolution_clock> tx_trace_timestamp;

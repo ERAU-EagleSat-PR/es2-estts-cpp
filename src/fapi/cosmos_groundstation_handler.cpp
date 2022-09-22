@@ -85,8 +85,10 @@ double get_fc_frac_conv(double fc_frac) {
 }
 
 estts::Status cosmos_groundstation_handler::set_transceiver_frequency(double frequency) {
-    // Frequency is in Hz
+    if (!sm)
+        return estts::ES_UNINITIALIZED;
 
+    // Frequency is in Hz
     SPDLOG_INFO("Setting UHF frequency to {}Hz", frequency);
 
     auto f_req_xo = 26000000;
@@ -383,21 +385,25 @@ void cosmos_groundstation_handler::doppler_cosmos_worker() {
 
     //calculate doppler reading every 20 seconds
     for (;;) {
-        if (duration_cast<milliseconds>(high_resolution_clock::now() - timestamp).count() > duration_ms) {
-            double doppler435 = cosmos_groundstation_handler::get_doppler();
-            std::stringstream str_doppler;
-            str_doppler << (satellite_txvr_nominal_frequency_hz + doppler435) / 1000000.0;
-            SPDLOG_DEBUG("Doppler = {}", (satellite_txvr_nominal_frequency_hz + doppler435) / 1000000.0);
-            sm->schedule_command("ES+W2201" + str_doppler.str(), get_groundstation_command_callback_lambda(command, sock));
-            timestamp = high_resolution_clock::now();
+        if (dynamic_doppler_mode) {
+            if (duration_cast<milliseconds>(high_resolution_clock::now() - timestamp).count() > duration_ms) {
+                double doppler435 = cosmos_groundstation_handler::get_doppler();
+                std::stringstream str_doppler;
+                str_doppler << (satellite_txvr_nominal_frequency_hz + doppler435) / 1000000.0;
+                SPDLOG_DEBUG("Doppler = {}", (satellite_txvr_nominal_frequency_hz + doppler435) / 1000000.0);
+                sm->schedule_command("ES+W2201" + str_doppler.str(), get_groundstation_command_callback_lambda(command, sock));
+                timestamp = high_resolution_clock::now();
+            }
+        } else {
+            sleep_until(system_clock::now() + seconds (1));
         }
     }
 }
 
-double cosmos_groundstation_handler::get_doppler(void){
+double cosmos_groundstation_handler::get_doppler(){
 
     //temp ground-station coordinates
-    Observer obs(51.507406923983446, -0.12773752212524414, 0.05);
+    Observer obs(34.615958343657448, -112.450680112272447, 1.578);
 
     //temp TLE value
     Tle tle = Tle("UK-DMC 2                ",
