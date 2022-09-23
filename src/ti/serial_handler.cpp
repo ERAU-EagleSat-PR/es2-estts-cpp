@@ -366,7 +366,7 @@ Status serial_handler::find_serial_port() {
     if (d == nullptr) return estts::ES_UNSUCCESSFUL; // if was not able to open path, return
     struct dirent * dir;
     while ((dir = readdir(d)) != nullptr) {
-        if (dir->d_type == DT_LNK && strcmp(dir->d_name,".")!=0 && strcmp(dir->d_name,"..")!=0 ) {
+        if (dir->d_type == DT_LNK&& strcmp(dir->d_name,estts::ti_serial::SERIAL_DEVICE_SN) == 0) {
             // Basically if we get here whatever is inside by-id is a symlink pointing to the /dev
             // location we want to connect to. We need to get the absolute path.
             temp_sym << serial_dir << "/" << dir->d_name;
