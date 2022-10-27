@@ -2,7 +2,7 @@
     <img src=".github/Embry-Riddle_Aeronautical_University_seal.svg.png" alt="Terraform logo" title="K8s" align="left" height="50" />
 </a>
 
-# EagleSat Telemetry and Telecommand System [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/keyfactor/ejbca-k8s-csr-signer?label=release)](https://github.com/keyfactor/ejbca-k8s-csr-signer/releases) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) [![license](https://img.shields.io/github/license/keyfactor/ejbca-k8s-csr-signer.svg)]()
+# EagleSat Telemetry and Telecommand System [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/ERAU-EagleSat-PR/es2-estts-cpp?label=release)](https://github.com/ERAU-EagleSat-PR/es2-estts-cpp/releases) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) [![license](https://img.shields.io/github/license/ERAU-EagleSat-PR/es2-estts-cpp.svg)]()
 EagleSat is a student-led organization at Embry-Riddle Aeronautical University. The EagleSat Telemetry and Telecommand System 
 (ESTTS) is a software package that facilitates communication between a ground
 Command and Control system (C2) like [Ball Aerospace COSMOS](https://github.com/BallAerospace/COSMOS) and satellite in orbit.
