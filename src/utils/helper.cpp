@@ -3,6 +3,7 @@
 //
 
 #include <algorithm>
+#include <iomanip>
 #include <dirent.h>
 #include <sstream>
 #include <condition_variable>
@@ -106,11 +107,29 @@ std::string get_write_trace_msg(unsigned char *message_uc, size_t bytes, const s
 }
 
 std::string get_read_trace_msg(unsigned char *message_uc, size_t bytes, const std::string& endpoint) {
+    std::stringstream message_ss;
     std::string message(reinterpret_cast<char*>(message_uc));
-    std::replace( message.begin(), message.end(), '\r', ' ');
-    message.append("\0");
+
+    if (message.find("OK+ADCS ") != std::string::npos) {
+        for (int i = 0; i < 8; i++)
+            message_ss << message_uc[i];
+        message_ss << "0x";
+        for (int i = 8; i < bytes - 10; i++) {
+            message_ss << std::setw(2) << std::setfill('0') << std::hex << (int)message_uc[i] << std::dec;
+            printf("0x%02X ", message_uc[i]);
+        }
+
+        message_ss << " ";
+        for (int i = bytes - 10; i < bytes - 1; i++)
+            message_ss << message_uc[i];
+    } else {
+        std::replace(message.begin(), message.end(), '\r', ' ');
+        message.append("\0");
+        message_ss << message;
+    }
+
     std::stringstream temp;
-    temp << "Read '" << message << "' (size=" << bytes << " bytes) from " << endpoint;
+    temp << "Read '" << message_ss.str() << "' (size=" << bytes << " bytes) from " << endpoint;
     return temp.str();
 }
 

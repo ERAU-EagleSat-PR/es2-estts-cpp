@@ -63,10 +63,9 @@ estts::Status obc_filesystem::close_file() {
 }
 
 std::string obc_filesystem::read_file(unsigned int position, unsigned int size) {
-    std::string read_file_cmd = "ES+D11FR";
 
-    char buf[20];
-    sprintf(buf, "%s%08X%04X", read_file_cmd.c_str(), position, size);
+    char buf[21];
+    sprintf(buf, "ES+D11FR%08X%04X", position, size);
 
     SPDLOG_TRACE("Reading {} bytes at position {} => {}", size, position, buf);
 
@@ -84,8 +83,7 @@ estts::Status obc_filesystem::delete_file(const std::string& filename) {
     if (resp.empty() || resp.find("ERR") != std::string::npos) {
         SPDLOG_WARN("Failed to close currently opened file: {}", resp);
         status = estts::ES_UNSUCCESSFUL;
-    }
-    else {
+    } else {
         SPDLOG_INFO("File is closed.");
         status = estts::ES_OK;
     }
@@ -165,6 +163,10 @@ std::string obc_filesystem::download_file(const std::string& filename) {
     if (remainder_size > 0) {
         for (int i = 0; i < estts::endurosat::MAX_RETRIES; i++) {
             read_buf = read_file(pos, remainder_size);
+            if (read_buf.empty()) {
+                // TODO error
+                return "Bruh";
+            }
             // TODO validate error code:
 
             // Grab CRC

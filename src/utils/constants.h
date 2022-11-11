@@ -21,7 +21,7 @@ namespace estts {
     //bool DYNAMIC_DOPPLER_SHIFT_ACCOMODATION = true;
 
     namespace cosmos {
-        const char COSMOS_SERVER_ADDR[] = "172.19.35.150"; // "172.19.35.150"; // 172.30.95.164 172.19.35.160
+        const char COSMOS_SERVER_ADDR[] = "172.19.35.150";// "172.19.35.150"; // "172.19.35.150"; // 172.30.95.164 172.19.35.160
         const int COSMOS_PRIMARY_CMD_TELEM_PORT = 65432;
         const int COSMOS_GROUNDSTATION_CMD_TELEM_PORT = 8046;
         const int COSMOS_SATELLITE_TXVR_CMD_TELEM_PORT = 55927;
