@@ -164,6 +164,7 @@ std::string obc_filesystem::download_file(const std::string& filename) {
         for (int i = 0; i < estts::endurosat::MAX_RETRIES; i++) {
             read_buf = read_file(pos, remainder_size);
             if (read_buf.empty()) {
+                SPDLOG_WARN("OBC returned empty string.");
                 // TODO error
                 return "Bruh";
             }

@@ -169,7 +169,7 @@ std::function<Status(std::string)> get_obc_session_transmit_func(groundstation_m
 
 std::function<std::string()> get_obc_session_receive_func(groundstation_manager * gm) {
     return [gm] () -> std::string {
-        return gm->receive();
+        return gm->receive_from_obc();
     };
 }
 

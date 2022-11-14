@@ -53,6 +53,8 @@ Status transmission_interface::transmit(const std::string &value) {
     return ES_OK;
 }
 
+
+
 std::string transmission_interface::receive() {
     mtx.lock();
     reset_sync_buf();
@@ -85,6 +87,25 @@ std::string transmission_interface::internal_receive() {
         return "";
     }
     auto buf = this->read_to_delimeter('\r');
+    return buf;
+}
+
+std::string transmission_interface::receive_from_obc() {
+    mtx.lock();
+    int bytes_avail;
+    for (int ms_elapsed = 0; ms_elapsed < ESTTS_AWAIT_RESPONSE_PERIOD_SEC * 20; ms_elapsed++) {
+        bytes_avail = check_serial_bytes_avail();
+        if (bytes_avail > 0) {
+            break;
+        }
+        sleep_until(system_clock::now() + milliseconds (50));
+    }
+    if (bytes_avail <= 0) {
+        SPDLOG_WARN("Receive timeout - {} seconds elapsed with no response", ESTTS_AWAIT_RESPONSE_PERIOD_SEC);
+        return "";
+    }
+    auto buf = this->read_to_delimeter(endurosat::OBC_ESTTC_DELIMETER, endurosat::OBC_ESTTC_DELIMETER_SIZE);
+    mtx.unlock();
     return buf;
 }
 

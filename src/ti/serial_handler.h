@@ -63,6 +63,8 @@ protected:
 public:
     void set_delimiter_timeout_ms(unsigned int timeout) { delimiter_timeout_ms = timeout; }
 
+    std::string read_to_delimeter(const unsigned char * delimiter, int size);
+
     std::string read_to_delimeter(unsigned char delimiter);
 
     estts::Status write_serial_s(const std::string &data);

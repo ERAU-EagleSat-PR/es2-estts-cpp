@@ -60,6 +60,8 @@ namespace estts {
         const int MAX_ESTTC_PACKET_SIZE = 256;
         const int MAX_RETRIES = 2;
         const int WAIT_TIME_SEC = 2;
+        const unsigned char OBC_ESTTC_DELIMETER[] = "\r\r\r";
+        const int OBC_ESTTC_DELIMETER_SIZE = 3;
         enum PIPE_State {
             PIPE_OFF = 0,
             PIPE_WAITING = 1,

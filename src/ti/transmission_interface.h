@@ -120,6 +120,8 @@ public:
      */
     std::string receive();
 
+    std::string receive_from_obc();
+
     /**
      * Nonblocking receive that returns immediately if no data is available.
      * @return "" if no data is available, or a string if data is received.
