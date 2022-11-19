@@ -40,6 +40,7 @@ Status transmission_interface::transmit(const std::string &value) {
     clear_serial_fifo();
 
     // EnduroSat manual says that at 115200 baud, around 1ms should be waited per byte transmitted
+    // TODO fuck em don't wait that long
     if (pipe_mode == estts::endurosat::PIPE_ON && duration_cast<milliseconds>(high_resolution_clock::now() - tx_trace_timestamp).count() < last_transmission_byte_count )
         sleep_until(system_clock::now() + milliseconds (last_transmission_byte_count));
 
@@ -180,7 +181,7 @@ std::string transmission_interface::nonblock_receive() {
     if (!mtx.try_lock())
         return "";
     int bytes;
-    sleep_until(system_clock::now() + milliseconds (20));
+    sleep_until(system_clock::now() + milliseconds (20)); // TODO reduce delay
     if ((bytes = check_serial_bytes_avail()) > 0) {
         mtx.unlock();
         return this->read_serial_s(bytes);
@@ -226,6 +227,7 @@ Status transmission_interface::enable_pipe() {
 
         // This for loop is redundant in like 99% of cases, but it vastly reduces the risk of double enabling
         // PIPE on whatever device is listening.
+        /*
         for (int i = 0; i < 3; i++) {
             buf << read_to_delimeter('\r') << read_to_delimeter('\r'); // This is looking for two delimiters, so call read twice
             if (buf.str().find("OK+3323\r") != std::string::npos && buf.str().find("+PIPE\r") != std::string::npos) {
@@ -233,6 +235,12 @@ Status transmission_interface::enable_pipe() {
                 break;
             }
             sleep_until(system_clock::now() + milliseconds (50));
+        } */
+
+        buf << read_to_delimeter('\r') << read_to_delimeter('\r'); // This is looking for two delimiters, so call read twice
+        if (buf.str().find("OK+3323\r") != std::string::npos && buf.str().find("+PIPE\r") != std::string::npos) {
+            pipe_mode = PIPE_ON;
+            break;
         }
 
         if (pipe_mode == PIPE_ON) {
@@ -275,7 +283,7 @@ Status transmission_interface::disable_pipe() {
         if (buf.str().find("+ESTTC") != std::string::npos)
             break;
 
-        sleep_until(system_clock::now() + seconds(1));
+        sleep_until(system_clock::now() + seconds(1)); // TODO reduce delay
         retries--;
         if (retries <= 0) {
             SPDLOG_WARN("Oof PIPE didn't exit properly..");
@@ -294,7 +302,7 @@ void transmission_interface::maintain_pipe() {
         // Only send something across interface if the time since the last packet is greater than PIPE_DURATION_SEC * 0.8
         if (duration_cast<milliseconds>(high_resolution_clock::now() - tx_trace_timestamp).count() > duration_ms - (int)(duration_ms * 0.2)) {
             this->write_serial_uc((unsigned char *) " ", 1);
-            sleep_until(system_clock::now() + milliseconds (50));
+            sleep_until(system_clock::now() + milliseconds (50)); // TODO check for pipe disable like every 1ms.
         }
 
         // Serial handler tracks the mode implicitly. Verify that desired state is still active.

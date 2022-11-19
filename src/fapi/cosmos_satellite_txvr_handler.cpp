@@ -56,7 +56,7 @@ void cosmos_satellite_txvr_handler::satellite_txvr_cosmos_worker() {
     for (;;) {
         command = sock->read_socket_s();
         if (not command.empty()) {
-            command_handle->schedule_command(command, get_satellite_txvr_command_callback_lambda(command, sock));
+            command_handle->schedule_command(command, get_satellite_txvr_command_callback_lambda(command, sock), false);
         }
     }
 }

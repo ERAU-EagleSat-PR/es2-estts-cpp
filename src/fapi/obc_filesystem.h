@@ -28,11 +28,11 @@ class obc_filesystem {
 
 public:
 
+    estts::Status handle_file(const std::string& filename, const std::string& data);
+
     explicit obc_filesystem(estts::session_config * config);
 
     std::string download_file(const std::string& filename);
-
-    std::string download_all_files();
 };
 
 

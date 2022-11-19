@@ -33,6 +33,12 @@ std::string get_read_trace_msg(unsigned char *message_uc, size_t bytes, const st
 
 unsigned char HexToBin(unsigned char hb, unsigned char lb);
 
-estts::Status validate_crc(std::string buf, std::string crc);
+estts::Status validate_crc(const std::string& buf, uint32_t crc);
+
+estts::Status validate_crc(const std::string& buf, const std::string& crc);
+
+uint32_t hex_string_to_int(std::string hex_val);
+
+estts::Status execute_shell(const std::string& cmd, std::string result);
 
 #endif //ESTTS_HELPER_H

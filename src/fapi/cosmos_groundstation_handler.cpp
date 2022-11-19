@@ -56,7 +56,7 @@ void cosmos_groundstation_handler::groundstation_cosmos_worker() {
     for (;;) {
         command = sock->read_socket_s();
         if (not command.empty()) {
-            sm->schedule_command(command, get_groundstation_command_callback_lambda(command, sock));
+            sm->schedule_command(command, get_groundstation_command_callback_lambda(command, sock), false);
         }
     }
 }
@@ -246,13 +246,13 @@ std::function<estts::Status(std::string)> get_read_txvr_scw_modifier(cosmos_grou
         }
 
         scw_uc = const_cast<unsigned char *>(reinterpret_cast<const unsigned char *>(scw.c_str()));
-        spdlog::trace("string scw: {} uc scw: {}", scw, scw_uc);
 
         for (int i = 0, j = 0; i < 4; i += 2, j++)
             scw_uc[j] = HexToBin(scw_uc[i], scw_uc[i + 1]);
         scw_uc[3] = '\0';
 
         std::string new_scw(reinterpret_cast<char const *>(scw_uc));
+        spdlog::trace("string scw: {} uc scw: {}", scw, new_scw);
 
         std::stringstream reconstructed_scw;
         reconstructed_scw << "OK+" << resp.substr(3, 6);
@@ -391,7 +391,7 @@ void cosmos_groundstation_handler::doppler_cosmos_worker() {
                 std::stringstream str_doppler;
                 str_doppler << (satellite_txvr_nominal_frequency_hz + doppler435) / 1000000.0;
                 SPDLOG_DEBUG("Doppler = {}", (satellite_txvr_nominal_frequency_hz + doppler435) / 1000000.0);
-                sm->schedule_command("ES+W2201" + str_doppler.str(), get_groundstation_command_callback_lambda(command, sock));
+                sm->schedule_command("ES+W2201" + str_doppler.str(), get_groundstation_command_callback_lambda(command, sock), false);
                 timestamp = high_resolution_clock::now();
             }
         } else {

@@ -10,6 +10,7 @@
 #include <random>
 #include <utility>
 #include "helper.h"
+#include "crc32.h"
 
 std::string ascii_to_hex(const std::string& in) {
     std::stringstream ret;
@@ -133,6 +134,27 @@ std::string get_read_trace_msg(unsigned char *message_uc, size_t bytes, const st
     return temp.str();
 }
 
+uint32_t hex_string_to_int(std::string hex_val) {
+    std::transform(hex_val.begin(), hex_val.end(),hex_val.begin(), ::toupper);
+    if (hex_val.size() % 2 != 0) {
+        hex_val.insert(0, "0");
+    }
+
+    std::string copy = hex_val;
+    unsigned char *uc_val;
+    uc_val = const_cast<unsigned char *>(reinterpret_cast<const unsigned char *>(copy.c_str()));
+
+    for (int i = 0, j = 0; i < hex_val.size(); i += 2, j++)
+        uc_val[j] = HexToBin(uc_val[i], uc_val[i + 1]);
+    uc_val[hex_val.size() / 2] = '\0';
+
+    uint32_t ret = 0;
+    for (int i = 0, j = (int)hex_val.size() / 2 - 1; i < hex_val.size() / 2; i++, j--)
+        ret += (uint32_t)(uc_val[i] << (j * 8));
+
+    return ret;
+}
+
 // stolen from endurosat
 unsigned char HexToBin(unsigned char hb, unsigned char lb) {
     if (hb > '9')
@@ -141,10 +163,46 @@ unsigned char HexToBin(unsigned char hb, unsigned char lb) {
     if (lb > '9')
         lb += 9;
 
-    return (hb << 4) + (lb & 0x0f);
+    unsigned char ret = (hb << 4) + (lb & 0x0f);
+    return ret;
 }
 
-estts::Status validate_crc(std::string buf, std::string crc) {
-    SPDLOG_TRACE("Found CRC: {}", crc);
+estts::Status validate_crc(const std::string& buf, const std::string& crc) {
+    return validate_crc(buf, hex_string_to_int(crc));
+}
+
+estts::Status validate_crc(const std::string& buf, uint32_t crc) {
+    unsigned int calc_crc = crc32b((unsigned char *)buf.c_str());
+
+    if (crc == calc_crc) {
+        SPDLOG_TRACE("CRC matches.");
+    } else {
+        SPDLOG_WARN("CRC doesn't match. Expected {} but got {}", crc, calc_crc);
+        return estts::ES_UNSUCCESSFUL;
+    }
+
+    return estts::ES_OK;
+}
+
+estts::Status execute_shell(const std::string& cmd, std::string result) {
+    SPDLOG_TRACE("Sending {}", cmd);
+    char buffer[128];
+    FILE* pipe = popen(cmd.c_str(), "r");
+    if (!pipe) {
+        SPDLOG_WARN("execute_shell: popen() failed!");
+        return estts::ES_UNSUCCESSFUL;
+    }
+    try {
+        while (fgets(buffer, sizeof buffer, pipe) != nullptr) {
+            result += buffer;
+        }
+    } catch (...) {
+        pclose(pipe);
+        SPDLOG_WARN("execute_shell: popen() failed!");
+        return estts::ES_UNSUCCESSFUL;
+    }
+    pclose(pipe);
+
+    SPDLOG_TRACE("Got back: {}", result);
     return estts::ES_OK;
 }

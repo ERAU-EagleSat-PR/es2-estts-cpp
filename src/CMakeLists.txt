@@ -6,6 +6,7 @@
 set(
         estts-src
         utils/helper.cpp
+        utils/crc32.cpp
         fapi/cosmos_handler.cpp
         fapi/cosmos_groundstation_handler.cpp
         fapi/cosmos_satellite_txvr_handler.cpp

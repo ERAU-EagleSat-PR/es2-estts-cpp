@@ -409,7 +409,7 @@ void groundstation_manager::session_manager::dispatch() {
                     SPDLOG_ERROR("Failed to request session from session handler with endpoint {}",
                                  gm->get_endpoint_enum_string(this->endpoint));
                     gm->notify_session_executor_exiting(endpoint);
-                    sleep_until(system_clock::now() + seconds (1));
+                    sleep_until(system_clock::now() + seconds (1)); // TODO reduce wait
                     return;
                 }
             }
@@ -419,8 +419,11 @@ void groundstation_manager::session_manager::dispatch() {
             auto command = waiting.front();
             bool executed = false;
 
+            // If session object has declared modifiers, call execute_command_modifier with frame.
             if (this->modifier) {
+                // execute_command_modifier returns ES_NOTFOUND if command doesn't have a modifier.
                 if (ES_NOTFOUND != modifier->execute_command_modifier(command->frame)) {
+                    // If command did have a modifier, getting to this point means the command was executed.
                     waiting.pop_front();
                     gm->notify_session_active(endpoint);
                     executed = true;
@@ -428,7 +431,6 @@ void groundstation_manager::session_manager::dispatch() {
             }
 
             if (!executed) {
-
                 auto resp = this->default_command_executor(command->frame, command->serial_number);
                 if (resp.empty()) {
                     SPDLOG_WARN("Command with serial number {} failed to execute. Possible session issue, voluntarily exiting.", command->serial_number);
@@ -451,7 +453,7 @@ void groundstation_manager::session_manager::dispatch() {
             if (duration > 5)
                 session_active = false;
             else
-                sleep_until(system_clock::now() + milliseconds (100));
+                sleep_until(system_clock::now() + milliseconds (100)); // TODO reduce wait
         }
 
         if (!session_active) {
@@ -487,9 +489,9 @@ std::string groundstation_manager::session_manager::default_command_executor(con
         SPDLOG_INFO("Successfully transmitted command with serial number {}", sn);
 
         SPDLOG_DEBUG("Waiting for a response");
-        sleep_until(system_clock::now() + milliseconds(100));
+        sleep_until(system_clock::now() + milliseconds(100)); // TODO reduce wait
 
-        resp = receive_func();
+        resp = receive_func(); // TODO calculate and verify CRC if necessary.
         if (!resp.empty()) {
             break;
         }
@@ -500,7 +502,7 @@ std::string groundstation_manager::session_manager::default_command_executor(con
     return resp;
 }
 
-std::string groundstation_manager::session_manager::schedule_command(const std::string& command, const std::function<estts::Status(std::string)>& callback) {
+std::string groundstation_manager::session_manager::schedule_command(const std::string& command, const std::function<estts::Status(std::string)>& callback, bool crc_expected) {
     if (gm == nullptr) {
         SPDLOG_ERROR("Ground station manager not initialized.");
         return "";
@@ -514,6 +516,7 @@ std::string groundstation_manager::session_manager::schedule_command(const std::
     new_command->frame = command;
     new_command->serial_number = generate_serial_number();
     new_command->str_callback = callback;
+    new_command->crc_expected_with_response = crc_expected;
 
     waiting.push_back(new_command);
 

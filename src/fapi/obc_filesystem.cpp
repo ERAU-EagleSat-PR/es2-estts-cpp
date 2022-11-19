@@ -5,8 +5,12 @@
 #include <sstream>
 #include <iostream>
 #include <fstream>
+#include <dirent.h>
 #include "obc_filesystem.h"
 #include "helper.h"
+
+estts::Status validate_obc_file_data(const std::string& data);
+int get_read_bytes_from_frs(const std::string& msg);
 
 estts::Status obc_filesystem::open_file(const std::string& filename) {
     std::string open_file_cmd = "ES+D11FI";
@@ -96,18 +100,24 @@ estts::Status obc_filesystem::delete_file(const std::string& filename) {
 std::string obc_filesystem::execute_command(const std::string& command) {
     estts::Status status;
     std::string resp;
+    auto begin_ts = std::chrono::high_resolution_clock::now();
     for (int i = 0; i < estts::ESTTS_MAX_RETRIES; i++) {
-
         status = session->transmit_func(command);
         if (status != estts::ES_OK) {
             SPDLOG_ERROR("Failed to transmit command.");
-            return resp;
+            return "";
         }
-        resp = session->receive_func();
-        if (!resp.empty()) break;
+        resp = session->receive_func(); // TODO this model breaks down if a \0 is found
+        SPDLOG_TRACE("resp.size(): {}", resp.size());
+        // Verify CRC.
+        if (!resp.empty() && resp.size() >= 8 + 1 && estts::ES_OK == validate_crc(resp.substr(0, resp.size() - 9), resp.substr(resp.size() - 8, 8))) {
+            break;
+        }
 
         SPDLOG_DEBUG("Retrying");
     }
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - begin_ts).count();
+    SPDLOG_TRACE("Effective data rate: {0:.3f}kB/s", (resp.size() * 0.001) / (duration * 0.001));
 
     return resp;
 }
@@ -118,87 +128,120 @@ std::string obc_filesystem::download_file(const std::string& filename) {
     if (open_file(filename) != estts::ES_OK)
         return "";
 
+    auto begin_ts = std::chrono::high_resolution_clock::now();
     std::string data;
+    estts::Status status;
     unsigned int round_iterations = file_size / estts::endurosat::MAX_ESTTC_PACKET_SIZE;
-    unsigned int remainder_size = file_size - (round_iterations * estts::endurosat::MAX_ESTTC_PACKET_SIZE) - 1;
+    unsigned int remainder_size = (file_size - (round_iterations * estts::endurosat::MAX_ESTTC_PACKET_SIZE)); // TODO this number seems to change frequently. Something isn't right
     unsigned int pos = 0;
 
     SPDLOG_TRACE("{} requires {} collections of {} bytes and 1 collection of {} bytes", filename, round_iterations, estts::endurosat::MAX_ESTTC_PACKET_SIZE, remainder_size);
 
     std::string read_buf;
     for (int i = 0; i < round_iterations; i++) {
-        for (int j = 0; j < estts::endurosat::MAX_RETRIES; j++) {
-            read_buf = read_file(pos, estts::endurosat::MAX_ESTTC_PACKET_SIZE);
-            // TODO validate error code:
-            /*
-             * Answer: ERR+FIH<CR> - No opened file.
-             * Answer: ERR+FIP=fpos-fsize,size-num<CR> - invalid position/size parameters
-             * Answer: ERR+FIS(code)=fpos<CR> - invalid file position seek operation and error code
-             * Answer: ERR+FIR(code)=num<CR> - fail to read from file error code
-             * Answer: ERR+FRS(size)=num<CR> – invalid number of read bytes
-             * Answer: ERR – Wrong CRC <CR>
-             */
-
-            // Grab CRC
-            std::string crc;
-            if (read_buf.size() >= 9)
-                crc = read_buf.substr(read_buf.size() - 9, 8);
-
-            if (validate_crc(read_buf, crc) == estts::ES_OK) {
-                // Delete space, CRC, and carriage return
-                if (read_buf.size() >= 10)
-                    read_buf.resize(read_buf.size() - 10);
-
-                pos += read_buf.size();
-                if (read_buf.substr(0, 3) != "ERR") {
-                    data += read_buf;
-                }
-
+        read_buf = read_file(pos, estts::endurosat::MAX_ESTTC_PACKET_SIZE);
+        status = validate_obc_file_data(read_buf);
+        if (status != estts::ES_OK) {
+            if (status != estts::ES_READ_BYTE_MISMATCH) {
                 break;
             }
-            SPDLOG_WARN("File CRC verification failed. Retrying {}/{}", j + 1, estts::endurosat::MAX_RETRIES);
+
+            auto correct_size = get_read_bytes_from_frs(read_buf);
+            if (correct_size > 0) {
+                read_buf = read_file(pos, correct_size);
+            }
+        }
+
+        // Delete space, CRC, and delimiter
+        if (read_buf.size() >= (1 + 8))
+            read_buf.resize(read_buf.size() - (1 + 8));
+
+        pos += read_buf.size();
+        if (read_buf.substr(0, 3) != "ERR") {
+            data += read_buf;
         }
     }
 
     if (remainder_size > 0) {
-        for (int i = 0; i < estts::endurosat::MAX_RETRIES; i++) {
-            read_buf = read_file(pos, remainder_size);
-            if (read_buf.empty()) {
-                SPDLOG_WARN("OBC returned empty string.");
-                // TODO error
-                return "Bruh";
+        read_buf = read_file(pos, remainder_size);
+        status = validate_obc_file_data(read_buf);
+        if (status == estts::ES_READ_BYTE_MISMATCH) {
+            auto correct_size = get_read_bytes_from_frs(read_buf);
+            if (correct_size > 0) {
+                SPDLOG_TRACE("OBC reported correct size as {} bytes. Retrying", correct_size);
+                read_buf = read_file(pos, correct_size);
+                status = validate_obc_file_data(read_buf);
             }
-            // TODO validate error code:
+        }
+        if (estts::ES_OK == status) {
+            // Delete space and CRC
+            if (read_buf.size() >= (1 + 8))
+                read_buf.resize(read_buf.size() - (1 + 8));
 
-            // Grab CRC
-            auto crc = read_buf.substr(read_buf.size() - 9, 8);
-
-            if (validate_crc(read_buf, crc) == estts::ES_OK) {
-                // Delete space, CRC, and carriage return
-                if (read_buf.size() >= 10)
-                    read_buf.resize(read_buf.size() - 10);
-
-                pos += read_buf.size();
-                data += read_buf;
-                break;
-            }
+            pos += read_buf.size();
+            data += read_buf;
         }
     }
 
     close_file();
 
-    std::ofstream file;
-    SPDLOG_DEBUG("Opening /opt/estts/{}", filename);
-    file.open("/opt/estts/" + filename, std::ios::in | std::ios::out | std::ios::app);
-    if (file.is_open()) {
-        SPDLOG_TRACE("File is open");
-        file << data;
-    } else
-        SPDLOG_TRACE("File is not open");
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - begin_ts).count();
 
-    file.close();
+    handle_file(filename, data);
 
+    SPDLOG_INFO("{} bytes downloaded in {} seconds (average {}kB/s)", (int)data.size(), duration * 0.001, (data.size() * 0.001) / (duration * 0.001));
     return data;
+}
+
+int get_read_bytes_from_frs(const std::string& msg) {
+    // Example: ERR+FRS(149)=18
+    int actual_len = 0;
+
+    auto start_pos = msg.find('=') + 1;
+    auto end_pos = msg.find(' ');
+
+    auto temp = msg.substr(start_pos, end_pos - start_pos);
+
+    try {
+        actual_len = stoi(temp);
+    } catch (std::invalid_argument &e) {
+        SPDLOG_WARN("{} is not a number: {}", actual_len, e.what());
+    }
+
+    return actual_len;
+}
+
+estts::Status validate_obc_file_data(const std::string& data) {
+    if (data.empty()) {
+        return estts::ES_MEMORY_ERROR;
+    }
+    /*
+     * Answer: ERR+FIH<CR> - No opened file.
+     * Answer: ERR+FIP=fpos-fsize,size-num<CR> - invalid position/size parameters
+     * Answer: ERR+FIS(code)=fpos<CR> - invalid file position seek operation and error code
+     * Answer: ERR+FIR(code)=num<CR> - fail to read from file error code
+     * Answer: ERR+FRS(size)=num<CR> – invalid number of read bytes
+     * Answer: ERR – Wrong CRC <CR>
+     */
+
+    if (data.find("ERR+FIH") != std::string::npos) {
+        SPDLOG_WARN("No file is open on OBC");
+        return estts::ES_NOTFOUND;
+    } else if (data.find("ERR+FIH") != std::string::npos) {
+        SPDLOG_WARN("Invalid position/size parameters when reading from file on OBC.");
+        return estts::ES_BAD_OPTION;
+    } else if (data.find("ERR+FIH") != std::string::npos) {
+        SPDLOG_WARN("Invalid file position seek operation. Raw string: {}", data);
+        return estts::ES_BAD_OPTION;
+    } else if (data.find("ERR+FIR") != std::string::npos) {
+        SPDLOG_WARN("Failed to read from file. Raw string: {}", data);
+        return estts::ES_UNSUCCESSFUL;
+    } else if (data.find("ERR+FRS") != std::string::npos) {
+        SPDLOG_WARN("Invalid number of read bytes. Raw string: {}", data);
+        return estts::ES_READ_BYTE_MISMATCH;
+    }
+    
+    return estts::ES_OK;
 }
 
 obc_filesystem::obc_filesystem(estts::session_config *config) {
@@ -206,11 +249,81 @@ obc_filesystem::obc_filesystem(estts::session_config *config) {
     file_size = 0;
 }
 
-std::string obc_filesystem::download_all_files() {
-    if (execute_command("ES+D11FL*\r").find("ERR") != std::string::npos) {
-        SPDLOG_WARN("Failed to download file list");
-        return "";
+estts::Status obc_filesystem::handle_file(const std::string& filename, const std::string& data) {
+    std::ofstream file;
+    struct dirent * dir;
+    std::string cmd_resp;
+    estts::Status status;
+    std::stringstream command;
+    std::time_t rawtime;
+    std::tm* timeinfo;
+
+    command << "mkdir " << estts::filesystem::BASE_GIT_DIRECTORY;
+    execute_shell(command.str(), cmd_resp);
+
+    DIR * d = opendir(estts::filesystem::BASE_GIT_DIRECTORY);
+
+    bool git_repo_is_local = false;
+    while ((dir = readdir(d)) != nullptr) {
+        if (strcmp(dir->d_name, ".git") == 0) {
+            SPDLOG_DEBUG("Git directory found in {}.", estts::filesystem::BASE_GIT_DIRECTORY);
+            git_repo_is_local = true;
+            break;
+        }
     }
 
-    return std::string();
+    closedir(d);
+
+    if (!git_repo_is_local) {
+        command.str("");
+        command << "git clone " << estts::filesystem::GIT_REPO_URL << " " << estts::filesystem::BASE_GIT_DIRECTORY;
+        status = execute_shell(command.str(), cmd_resp);
+        if (status != estts::ES_OK) {
+            return estts::ES_UNSUCCESSFUL;
+        }
+    }
+
+    d = opendir(estts::filesystem::BASE_GIT_DIRECTORY);
+    while ((dir = readdir(d)) != nullptr) {
+        if (strcmp(dir->d_name, ".git") == 0) {
+            SPDLOG_DEBUG("Git directory found in {}.", estts::filesystem::BASE_GIT_DIRECTORY);
+            git_repo_is_local = true;
+            break;
+        }
+    }
+
+    std::time(&rawtime);
+    timeinfo = std::localtime(&rawtime);
+
+    char datebuf [80];
+    std::strftime(datebuf, 80, "%Y-%m-%d-%H-%M-%S", timeinfo);
+
+    command.str("");
+    command << "mkdir " << estts::filesystem::BASE_GIT_DIRECTORY << "/" << datebuf;
+    execute_shell(command.str(), cmd_resp);
+
+    SPDLOG_DEBUG("Opening {}/{}/{}", estts::filesystem::BASE_GIT_DIRECTORY, datebuf, filename);
+    std::stringstream path;
+    path << estts::filesystem::BASE_GIT_DIRECTORY << "/" << datebuf << "/" << filename;
+    file.open(path.str(), std::ios::in | std::ios::out | std::ios::app);
+    if (file.is_open()) {
+        SPDLOG_TRACE("File is open");
+        SPDLOG_TRACE("Writing {}", data);
+        file << data;
+    }
+    file.close();
+
+    command.str("");
+    command << "git -C " << estts::filesystem::BASE_GIT_DIRECTORY << " add .";
+    execute_shell(command.str(), cmd_resp);
+
+    command.str("");
+    command << "git -C " << estts::filesystem::BASE_GIT_DIRECTORY << " commit -m \"" << datebuf << "\" ";
+    execute_shell(command.str(), cmd_resp);
+
+    command.str("");
+    command << "git -C " << estts::filesystem::BASE_GIT_DIRECTORY << " push";
+    execute_shell(command.str(), cmd_resp);
+
+    return estts::ES_UNINITIALIZED;
 }

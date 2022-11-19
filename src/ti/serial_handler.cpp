@@ -279,15 +279,21 @@ std::string serial_handler::read_to_delimeter(const unsigned char * delimiter, i
     std::chrono::time_point<std::chrono::high_resolution_clock> last_received_timepoint = high_resolution_clock::now();
     std::stringstream read_buf;
     int consecutive_delimeter_chars_found = 0;
+    bool delim_found = false;
     for (;;) {
         if (check_serial_bytes_avail() > 0) {
             if (internal_read_serial_uc(1) == 1) {
                 last_received_timepoint = high_resolution_clock::now();
-                read_buf << sync_buf[0];
+                // TODO this needs a better workaround.
+                //if (sync_buf[0] == '\0')
+                //    read_buf << "0";
+                //else
+                    read_buf << sync_buf[0];
 
                 if (sync_buf[0] == delimiter[consecutive_delimeter_chars_found]) {
                     consecutive_delimeter_chars_found++;
                     if (consecutive_delimeter_chars_found == size) {
+                        delim_found = true;
                         break;
                     }
                 } else {
@@ -301,9 +307,11 @@ std::string serial_handler::read_to_delimeter(const unsigned char * delimiter, i
             break;
         }
     }
-    if (!read_buf.str().empty()) {
+
+    if (delim_found) {
         auto uc = const_cast<unsigned char *>(reinterpret_cast<const unsigned char *>(read_buf.str().c_str()));
         SPDLOG_TRACE("Delimiter found. {}", get_read_trace_msg(uc, read_buf.str().size(), port));
+        return read_buf.str().substr(0, read_buf.str().size() - consecutive_delimeter_chars_found);
     }
 
     return read_buf.str();

@@ -9,6 +9,7 @@
 #include <utility>
 #include <unistd.h>
 #include "cosmos_handler.h"
+#include "helper.h"
 #include "obc_filesystem.h"
 
 using namespace std::this_thread; // sleep_for, sleep_until
@@ -77,11 +78,9 @@ Status cosmos_handler::cosmos_init() {
     for (;;) {
         temp_string = sock->read_socket_s();
         if (!temp_string.empty()) {
-            command_handle->schedule_command(temp_string, get_primary_command_callback_lambda(temp_string, sock));
+            command_handle->schedule_command(temp_string, get_primary_command_callback_lambda(temp_string, sock), true);
         }
     }
-
-    delete modifier;
 }
 
 std::function<estts::Status(std::string)> get_download_file_modifier(cosmos_handler * ch) {
@@ -112,13 +111,13 @@ std::function<Status(std::string)> get_primary_command_callback_lambda(const std
         }
         std::stringstream temp;
         temp << trim_command_arguments(command) << telem;
-        sock->write_socket_s(temp.str());
+        sock->write_socket_s(temp.str()); // TODO append delimiter for COSMOS
         return ES_OK;
     };
 }
 
 std::string trim_command_arguments(std::string command) {
-    // ESTTC protocol uses commands of length ES+R1100
+    // ESTTC protocol uses commands of length len(ES+R1100)
     auto temp = std::move(command);
 
     // If the address is EPS, we want to preserve the argument.
@@ -225,7 +224,7 @@ std::function<Status()> get_obc_session_start_session_func(groundstation_manager
                 for (int ms_elapsed = 0; ms_elapsed < ESTTS_AWAIT_RESPONSE_PERIOD_SEC * 10; ms_elapsed++) {
                     buf.clear();
                     gm->write_serial_s(obc_version_cmd);
-                    sleep_until(system_clock::now() + milliseconds (100));
+                    sleep_until(system_clock::now() + milliseconds (100)); // TODO reduce wait
                     buf1 << gm->read_to_delimeter('\r');
                     if (buf1.str().find("OK+") != std::string::npos) {
                         auto version = buf1.str().erase(0, 3);
@@ -276,7 +275,7 @@ std::function<Status()> get_obc_session_end_session_func(groundstation_manager *
         gm->groundstation_telemetry_callback("ES+W69022");
         auto status = gm->disable_pipe();
         if (status == ES_OK) {
-            sleep_until(system_clock::now() + seconds(1));
+            sleep_until(system_clock::now() + seconds(1)); // TODO reduce delay
             gm->set_session_status(false);
         }
 

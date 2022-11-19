@@ -108,7 +108,7 @@ public:
          * @param callback Callback that is called upon successful execution of the command.
          * @return Unique serial number used to track the current status of the command after scheduling.
          */
-        std::string schedule_command(const std::string& command, const std::function<estts::Status(std::string)>& callback);
+        std::string schedule_command(const std::string& command, const std::function<estts::Status(std::string)>& callback, bool crc_expected);
 
         /**
          * Internal use only. Method used to force the end of a currently executing session.

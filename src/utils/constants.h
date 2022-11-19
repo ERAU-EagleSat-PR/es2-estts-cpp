@@ -18,6 +18,11 @@ namespace estts {
     const int ESTTS_MAX_SATELLITE_RANGE_CHECK_INTERVAL_SEC = 60;
     const int ESTTS_MIN_SATELLITE_RANGE_CHECK_INTERVAL_SEC = 20;
 
+    namespace filesystem {
+        const char BASE_GIT_DIRECTORY[] = "/home/parallels/telemetry";
+        const char GIT_REPO_URL[] = "git@github.com:ERAU-EagleSat-PR/eaglesat-2-telemetry.git";
+    }
+
     //bool DYNAMIC_DOPPLER_SHIFT_ACCOMODATION = true;
 
     namespace cosmos {
@@ -48,12 +53,11 @@ namespace estts {
         ES_UNSUCCESSFUL = 1,
         ES_UNINITIALIZED = 2,
         ES_MEMORY_ERROR = 3,
-        ES_WAITING = 3,
         ES_BAD_OPTION = 405,
         ES_UNAUTHORIZED = 403,
         ES_SERVER_ERROR = 500,
-        ES_INPROGRESS = 300,
-        ES_NOTFOUND = 404
+        ES_NOTFOUND = 404,
+        ES_READ_BYTE_MISMATCH = 300
     };
 
     namespace endurosat {
@@ -127,6 +131,7 @@ namespace estts {
         std::string frame;
         std::string serial_number;
         std::function<estts::Status(std::string)> str_callback;
+        bool crc_expected_with_response;
     } waiting_command;
 
     enum SessionEndpoint {
