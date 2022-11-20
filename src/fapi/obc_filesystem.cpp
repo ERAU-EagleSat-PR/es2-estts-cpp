@@ -187,9 +187,9 @@ std::string obc_filesystem::download_file(const std::string& filename) {
 
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - begin_ts).count();
 
-    handle_file(filename, data);
-
     SPDLOG_INFO("{} bytes downloaded in {} seconds (average {}kB/s)", (int)data.size(), duration * 0.001, (data.size() * 0.001) / (duration * 0.001));
+
+    publish_file_to_git(filename, data);
     return data;
 }
 
@@ -247,83 +247,4 @@ estts::Status validate_obc_file_data(const std::string& data) {
 obc_filesystem::obc_filesystem(estts::session_config *config) {
     session = config;
     file_size = 0;
-}
-
-estts::Status obc_filesystem::handle_file(const std::string& filename, const std::string& data) {
-    std::ofstream file;
-    struct dirent * dir;
-    std::string cmd_resp;
-    estts::Status status;
-    std::stringstream command;
-    std::time_t rawtime;
-    std::tm* timeinfo;
-
-    command << "mkdir " << estts::filesystem::BASE_GIT_DIRECTORY;
-    execute_shell(command.str(), cmd_resp);
-
-    DIR * d = opendir(estts::filesystem::BASE_GIT_DIRECTORY);
-
-    bool git_repo_is_local = false;
-    while ((dir = readdir(d)) != nullptr) {
-        if (strcmp(dir->d_name, ".git") == 0) {
-            SPDLOG_DEBUG("Git directory found in {}.", estts::filesystem::BASE_GIT_DIRECTORY);
-            git_repo_is_local = true;
-            break;
-        }
-    }
-
-    closedir(d);
-
-    if (!git_repo_is_local) {
-        command.str("");
-        command << "git clone " << estts::filesystem::GIT_REPO_URL << " " << estts::filesystem::BASE_GIT_DIRECTORY;
-        status = execute_shell(command.str(), cmd_resp);
-        if (status != estts::ES_OK) {
-            return estts::ES_UNSUCCESSFUL;
-        }
-    }
-
-    d = opendir(estts::filesystem::BASE_GIT_DIRECTORY);
-    while ((dir = readdir(d)) != nullptr) {
-        if (strcmp(dir->d_name, ".git") == 0) {
-            SPDLOG_DEBUG("Git directory found in {}.", estts::filesystem::BASE_GIT_DIRECTORY);
-            git_repo_is_local = true;
-            break;
-        }
-    }
-
-    std::time(&rawtime);
-    timeinfo = std::localtime(&rawtime);
-
-    char datebuf [80];
-    std::strftime(datebuf, 80, "%Y-%m-%d-%H-%M-%S", timeinfo);
-
-    command.str("");
-    command << "mkdir " << estts::filesystem::BASE_GIT_DIRECTORY << "/" << datebuf;
-    execute_shell(command.str(), cmd_resp);
-
-    SPDLOG_DEBUG("Opening {}/{}/{}", estts::filesystem::BASE_GIT_DIRECTORY, datebuf, filename);
-    std::stringstream path;
-    path << estts::filesystem::BASE_GIT_DIRECTORY << "/" << datebuf << "/" << filename;
-    file.open(path.str(), std::ios::in | std::ios::out | std::ios::app);
-    if (file.is_open()) {
-        SPDLOG_TRACE("File is open");
-        SPDLOG_TRACE("Writing {}", data);
-        file << data;
-    }
-    file.close();
-
-    command.str("");
-    command << "git -C " << estts::filesystem::BASE_GIT_DIRECTORY << " add .";
-    execute_shell(command.str(), cmd_resp);
-
-    command.str("");
-    command << "git -C " << estts::filesystem::BASE_GIT_DIRECTORY << " commit -m \"" << datebuf << "\" ";
-    execute_shell(command.str(), cmd_resp);
-
-    command.str("");
-    command << "git -C " << estts::filesystem::BASE_GIT_DIRECTORY << " push";
-    execute_shell(command.str(), cmd_resp);
-
-    return estts::ES_UNINITIALIZED;
 }

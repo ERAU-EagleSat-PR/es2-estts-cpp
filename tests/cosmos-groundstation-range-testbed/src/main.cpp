@@ -21,9 +21,7 @@ using namespace estts;
 int main() {
     spdlog::set_level(spdlog::level::trace);
 
-    auto fs = new obc_filesystem(nullptr);
-
-    fs->handle_file("telem.csv", "KAJFKSJFLSDJLF");
+    publish_file_to_git("telem.csv", "KAJFKSJFLSDJLF");
 
     return 0;
 }

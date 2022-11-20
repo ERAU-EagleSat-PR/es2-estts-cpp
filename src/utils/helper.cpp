@@ -2,13 +2,12 @@
 // Created by Hayden Roszell on 12/28/21.
 //
 
+#include <fstream>
 #include <algorithm>
 #include <iomanip>
 #include <dirent.h>
 #include <sstream>
-#include <condition_variable>
 #include <random>
-#include <utility>
 #include "helper.h"
 #include "crc32.h"
 
@@ -184,9 +183,9 @@ estts::Status validate_crc(const std::string& buf, uint32_t crc) {
     return estts::ES_OK;
 }
 
-estts::Status execute_shell(const std::string& cmd, std::string result) {
-    SPDLOG_TRACE("Sending {}", cmd);
+estts::Status execute_shell(const std::string& cmd) {
     char buffer[128];
+    std::string result;
     FILE* pipe = popen(cmd.c_str(), "r");
     if (!pipe) {
         SPDLOG_WARN("execute_shell: popen() failed!");
@@ -202,7 +201,113 @@ estts::Status execute_shell(const std::string& cmd, std::string result) {
         return estts::ES_UNSUCCESSFUL;
     }
     pclose(pipe);
+    return estts::ES_OK;
+}
 
-    SPDLOG_TRACE("Got back: {}", result);
+estts::Status publish_file_to_git(const std::string& filename, const std::string& data) {
+    std::ofstream file;
+    struct dirent * dir;
+    std::stringstream command;
+
+    SPDLOG_INFO("Publishing {} to {}", filename, estts::filesystem::GIT_REPO_URL);
+
+    // Create base git directory
+    command << "mkdir " << estts::filesystem::BASE_GIT_DIRECTORY;
+    execute_shell(command.str());
+
+    // Determine if git repo is cloned -> .git will exist
+    DIR * d = opendir(estts::filesystem::BASE_GIT_DIRECTORY);
+    bool git_repo_is_local = false;
+    while ((dir = readdir(d)) != nullptr) {
+        if (strcmp(dir->d_name, ".git") == 0) {
+            SPDLOG_DEBUG("Git directory found in {}.", estts::filesystem::BASE_GIT_DIRECTORY);
+            git_repo_is_local = true;
+
+            command.str("");
+            command << "git -C " << estts::filesystem::BASE_GIT_DIRECTORY << " pull";
+            execute_shell(command.str());
+            break;
+        }
+    }
+    closedir(d);
+
+    // If it doesn't exist, clone it
+    if (!git_repo_is_local) {
+        command.str("");
+        command << "git clone " << estts::filesystem::GIT_REPO_URL << " " << estts::filesystem::BASE_GIT_DIRECTORY;
+        execute_shell(command.str());
+    }
+
+    // Then, create a directory with the date in Y-m-d format if it doesn't exist
+    std::time_t rawtime;
+    std::tm* timeinfo;
+
+    std::time(&rawtime);
+    timeinfo = std::localtime(&rawtime);
+
+    std::stringstream datebuf;
+    datebuf << timeinfo->tm_year + 1900 << "-" << timeinfo->tm_mon + 1 << "-" << timeinfo->tm_mday;
+
+    std::stringstream timebuf;
+    timebuf << timeinfo->tm_hour << "-" << timeinfo->tm_min << "-" << timeinfo->tm_sec;
+
+    auto folder_exists_for_date = false;
+
+    d = opendir(estts::filesystem::BASE_GIT_DIRECTORY);
+    while ((dir = readdir(d)) != nullptr) {
+        if (strcmp(dir->d_name, datebuf.str().c_str()) == 0) {
+            SPDLOG_DEBUG("Date directory already exists.");
+            folder_exists_for_date = true;
+            break;
+        }
+    }
+
+    if (!folder_exists_for_date) {
+        SPDLOG_DEBUG("Date directory does not exist. Creating {}", datebuf.str());
+        command.str("");
+        command << "mkdir " << estts::filesystem::BASE_GIT_DIRECTORY << "/" << datebuf.str();
+        execute_shell(command.str());
+    }
+
+    // Modify the filename by appending date before type
+    std::stringstream mod_filename;
+
+    auto filename_without_type_len = filename.find('.');
+    if (filename_without_type_len != std::string::npos) {
+        mod_filename << filename.substr(0, filename_without_type_len) << "_" << timebuf.str() << filename.substr(filename_without_type_len);
+    } else {
+        mod_filename << filename << "_" << timebuf.str();
+    }
+
+    SPDLOG_TRACE("Modifying filename from {} to {}", filename, mod_filename.str());
+
+    SPDLOG_DEBUG("Opening {}/{}/{}", estts::filesystem::BASE_GIT_DIRECTORY, datebuf.str(), mod_filename.str());
+    std::stringstream path;
+    path << estts::filesystem::BASE_GIT_DIRECTORY << "/" << datebuf.str() << "/" << mod_filename.str();
+    file.open(path.str(), std::ios::in | std::ios::out | std::ios::app);
+    if (file.is_open()) {
+        SPDLOG_TRACE("File is open");
+        SPDLOG_TRACE("Writing {}", data);
+        file << data;
+    }
+    file.close();
+
+    SPDLOG_TRACE("Staging changes");
+    command.str("");
+    command << "git -C " << estts::filesystem::BASE_GIT_DIRECTORY << " add .";
+    execute_shell(command.str());
+
+    std::stringstream commit_msg;
+    commit_msg << "\"estts git automation: added " << mod_filename.str() << " to directory " << datebuf.str() << "\"";
+    SPDLOG_DEBUG("Creating new commit with message {}", commit_msg.str());
+    command.str("");
+    command << "git -C " << estts::filesystem::BASE_GIT_DIRECTORY << " commit -m " << commit_msg.str();
+    execute_shell(command.str());
+
+    SPDLOG_TRACE("Pushing to origin");
+    command.str("");
+    command << "git -C " << estts::filesystem::BASE_GIT_DIRECTORY << " push";
+    execute_shell(command.str());
+
     return estts::ES_OK;
 }

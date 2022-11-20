@@ -39,6 +39,8 @@ estts::Status validate_crc(const std::string& buf, const std::string& crc);
 
 uint32_t hex_string_to_int(std::string hex_val);
 
-estts::Status execute_shell(const std::string& cmd, std::string result);
+estts::Status execute_shell(const std::string& cmd);
+
+estts::Status publish_file_to_git(const std::string& filename, const std::string& data);
 
 #endif //ESTTS_HELPER_H
