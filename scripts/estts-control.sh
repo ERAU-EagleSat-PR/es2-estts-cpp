@@ -13,18 +13,36 @@ Install () {
   echo "Setting support directory to $supportdir"
   echo "Setting log directory to $logdir"
 
+  echo "Running updates"
+  apt update &> /dev/null
+  apt upgrade -y &> /dev/null
+
   ldconfig -p | grep libboost_system >/dev/null 2>&1 && {
-    echo "libboost is installed. Installing ESTTS"
+    echo "Boost is installed on system."
   } || {
     echo "Boost is not installed. Installing it now"
-    apt update
-    apt upgrade -y
-    apt install libboost-all-dev -y
+    apt install libboost-all-dev -y &> /dev/null
   }
+
+  if ! command -v cmake &> /dev/null
+  then
+      echo "CMake is not installed. Installing it now"
+      apt install cmake -y &> /dev/null
+  else
+     echo "Found CMake on system."
+  fi
+
+  if ! command -v clang &> /dev/null
+    then
+        echo "Clang is not installed. Installing it now"
+        apt install clang -y &> /dev/null
+    else
+       echo "Found Clang on system."
+    fi
 
   if [ ! -d $supportdir ]
   then
-    echo "$supportdir does not exist. creating it now"
+    echo "$supportdir does not exist. Creating it now"
     mkdir $supportdir
   fi
 
@@ -37,7 +55,10 @@ Install () {
 
   cp "$sourcedir/scripts/estts.service" $supportdir
 
+  echo "Creating build scripts"
   cmake -S "$sourcedir" -B $builddir >/dev/null 2>&1
+
+  echo "Building ESTTS. This will take some time.."
   cd $builddir || exit
   make >/dev/null 2>&1
 
