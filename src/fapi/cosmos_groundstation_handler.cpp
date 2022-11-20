@@ -132,7 +132,7 @@ estts::Status cosmos_groundstation_handler::set_transceiver_frequency(double fre
     freq_equiv << fc_frac_little_s << fc_inte_ss.str();
 
     SPDLOG_DEBUG("Converted {}Hz to {} in accordance with SiliconLabs Si4463 PLL synth", frequency, freq_equiv.str());
-    auto resp = sm->default_command_executor("ES+W2201" + freq_equiv.str(), "");
+    auto resp = sm->default_command_executor("ES+W2201" + freq_equiv.str(), "", false);
 
     if (resp.empty()) {
         SPDLOG_ERROR("Failed to receive response to set frequency command.");
@@ -200,7 +200,7 @@ std::function<estts::Status(std::string)> get_set_txvr_scw_modifier(cosmos_groun
         std::string encoded_scw = original_command + hex;
         spdlog::debug("Complete command modifier: {}", encoded_scw);
 
-        auto resp = cgsh->get_session_manager()->default_command_executor(encoded_scw, "");
+        auto resp = cgsh->get_session_manager()->default_command_executor(encoded_scw, "", false);
 
         if (resp.empty()) {
             spdlog::error("Failed to receive response to set SCW command.");
@@ -223,7 +223,7 @@ std::function<estts::Status(std::string)> get_read_txvr_scw_modifier(cosmos_grou
     return [cgsh] (const std::string& command) -> estts::Status {
         std::string original_command = "ES+R2200";
 
-        auto resp = cgsh->get_session_manager()->default_command_executor(original_command, "");
+        auto resp = cgsh->get_session_manager()->default_command_executor(original_command, "", false);
 
         if (resp.empty()) {
             spdlog::error("Failed to receive response to get SCW.");
