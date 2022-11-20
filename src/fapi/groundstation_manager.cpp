@@ -431,7 +431,7 @@ void groundstation_manager::session_manager::dispatch() {
             }
 
             if (!executed) {
-                auto resp = this->default_command_executor(command->frame, command->serial_number);
+                auto resp = this->default_command_executor(command->frame, command->serial_number, command->crc_expected_with_response);
                 if (resp.empty()) {
                     SPDLOG_WARN("Command with serial number {} failed to execute. Possible session issue, voluntarily exiting.", command->serial_number);
                     session_active = false;
@@ -469,7 +469,7 @@ void groundstation_manager::session_manager::dispatch() {
     }
 }
 
-std::string groundstation_manager::session_manager::default_command_executor(const std::string& command, std::string sn) {
+std::string groundstation_manager::session_manager::default_command_executor(const std::string& command, std::string sn, bool verify_crc) {
     std::string resp;
     estts::Status status;
     std::string sn_string;
@@ -491,10 +491,11 @@ std::string groundstation_manager::session_manager::default_command_executor(con
         SPDLOG_DEBUG("Waiting for a response");
         sleep_until(system_clock::now() + milliseconds(100)); // TODO reduce wait
 
-        resp = receive_func(); // TODO calculate and verify CRC if necessary.
-        if (!resp.empty()) {
+        resp = receive_func();
+        if (verify_crc && resp.size() >= 8 + 1 && estts::ES_OK == validate_crc(resp.substr(0, resp.size() - 9), resp.substr(resp.size() - 8, 8)))
             break;
-        }
+        else if (!resp.empty())
+            break;
 
         SPDLOG_DEBUG("Retrying command with serial number {}", sn);
     }

@@ -126,7 +126,7 @@ public:
          */
         void dispatch();
 
-        std::string default_command_executor(const std::string& command, std::string sn);
+        std::string default_command_executor(const std::string& command, std::string sn, bool verify_crc);
     };
 private:
     /**
