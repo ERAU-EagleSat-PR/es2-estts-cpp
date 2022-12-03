@@ -19,7 +19,7 @@ namespace estts {
     const int ESTTS_MIN_SATELLITE_RANGE_CHECK_INTERVAL_SEC = 20;
 
     namespace filesystem {
-        const char BASE_GIT_DIRECTORY[] = "/home/parallels/telemetry";
+        const char BASE_GIT_DIRECTORY[] = "/home/sbeve/telemetry";
         const char GIT_REPO_URL[] = "git@github.com:ERAU-EagleSat-PR/eaglesat-2-telemetry.git";
     }
 
