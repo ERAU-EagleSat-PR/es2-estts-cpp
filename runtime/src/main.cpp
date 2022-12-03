@@ -12,7 +12,8 @@
 
 #include "helper.h"
 
-int main() {
+int main(int argc, char *argv[]) {
+
 #ifdef __DEV__
     auto stdoutsink = spdlog::level::trace;
 #else

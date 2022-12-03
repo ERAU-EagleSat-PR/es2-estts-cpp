@@ -44,7 +44,7 @@ Status cosmos_handler::cosmos_init() {
 
     gm->groundstation_manager_init();
 
-    gm->set_connectionless_telem_callback(get_primary_telemetry_callback_lambda(sock));
+    gm->set_connectionless_telem_callback(get_primary_telemetry_callback_lambda(telem_sock));
 
     config = new session_config;
     config->receive_func = get_obc_session_receive_func(gm);

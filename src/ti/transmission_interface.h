@@ -13,11 +13,6 @@
 
 class transmission_interface : virtual public esttc, virtual public socket_handler {
 private:
-    /**
-     * Function pointer used by flush_transmission_interface() if configured to save data that comes through the serial
-     * port with no destination.
-     */
-    std::function<estts::Status(std::string)> connectionless_telem_cb;
 
     /**
      * Local thread object that the transmission interfaces uses to maintain an active PIPE on the configured transceiver.
@@ -51,6 +46,14 @@ private:
     void maintain_pipe();
 
     void refresh_constants();
+
+protected:
+
+/**
+ * Function pointer used by flush_transmission_interface() if configured to save data that comes through the serial
+ * port with no destination.
+ */
+std::function<estts::Status(std::string)> connectionless_telem_cb;
 
 public:
 

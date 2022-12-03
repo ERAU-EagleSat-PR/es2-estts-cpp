@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="nlohmann_json"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\lib\;CMake Files\lib\sgp4\;CMake Files\lib\sgp4\libsgp4\;CMake Files\lib\sgp4\sattrack\;CMake Files\lib\sgp4\runtest\;CMake Files\lib\sgp4\passpredict\;CMake Files\lib\spdlog\;CMake Files\lib\spdlog\cmake\;CMake Files\lib\json\;CMake Files\lib\json\cmake\;CMake Files\src\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\usr\;CMake Files\..\..\usr\lib\;CMake Files\..\..\usr\lib\arm-linux-gnueabihf\;CMake Files\..\..\usr\lib\arm-linux-gnueabihf\cmake\;CMake Files\..\..\usr\lib\arm-linux-gnueabihf\cmake\Boost-1.74.0\;CMake Files\..\..\usr\lib\arm-linux-gnueabihf\cmake\boost_headers-1.74.0\;CMake Files\..\..\usr\lib\arm-linux-gnueabihf\cmake\boost_system-1.74.0\;CMake Files\runtime\;CMake Files\tests\;CMake Files\tests\serial-test\;CMake Files\tests\cosmos-groundstation-range-testbed\;CMake Files\tests\doppler\;CMake Files\tests\orbit-test\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/tmp/es2-estts-cpp/cmake-build-debug-remote-host---rpi/lib/json"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j4 -f &quot;/tmp/es2-estts-cpp/cmake-build-debug-remote-host---rpi/lib/json/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/tmp/es2-estts-cpp/cmake-build-debug-remote-host---rpi/lib/json/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j4 -f &quot;/tmp/es2-estts-cpp/cmake-build-debug-remote-host---rpi/lib/json/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j4 -f &quot;/tmp/es2-estts-cpp/cmake-build-debug-remote-host---rpi/lib/json/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/tmp/es2-estts-cpp/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/lib/sgp4/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\sgp4\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/lib/sgp4/libsgp4/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\sgp4\libsgp4\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/lib/sgp4/sattrack/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\sgp4\sattrack\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/lib/sgp4/runtest/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\sgp4\runtest\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/lib/sgp4/passpredict/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\sgp4\passpredict\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/lib/spdlog/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\spdlog\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/lib/spdlog/cmake/ide.cmake">
+			<Option virtualFolder="CMake Files\lib\spdlog\cmake\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/lib/spdlog/cmake/utils.cmake">
+			<Option virtualFolder="CMake Files\lib\spdlog\cmake\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/lib/json/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\json\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/lib/json/cmake/config.cmake.in">
+			<Option virtualFolder="CMake Files\lib\json\cmake\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/lib/json/cmake/nlohmann_jsonConfigVersion.cmake.in">
+			<Option virtualFolder="CMake Files\lib\json\cmake\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/lib/json/cmake/pkg-config.pc.in">
+			<Option virtualFolder="CMake Files\lib\json\cmake\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/../../usr/lib/arm-linux-gnueabihf/cmake/BoostDetectToolset-1.74.0.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\arm-linux-gnueabihf\cmake\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/../../usr/lib/arm-linux-gnueabihf/cmake/Boost-1.74.0/BoostConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\arm-linux-gnueabihf\cmake\Boost-1.74.0\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/../../usr/lib/arm-linux-gnueabihf/cmake/Boost-1.74.0/BoostConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\arm-linux-gnueabihf\cmake\Boost-1.74.0\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/../../usr/lib/arm-linux-gnueabihf/cmake/boost_headers-1.74.0/boost_headers-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\arm-linux-gnueabihf\cmake\boost_headers-1.74.0\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/../../usr/lib/arm-linux-gnueabihf/cmake/boost_headers-1.74.0/boost_headers-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\arm-linux-gnueabihf\cmake\boost_headers-1.74.0\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/../../usr/lib/arm-linux-gnueabihf/cmake/boost_system-1.74.0/boost_system-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\arm-linux-gnueabihf\cmake\boost_system-1.74.0\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/../../usr/lib/arm-linux-gnueabihf/cmake/boost_system-1.74.0/boost_system-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\arm-linux-gnueabihf\cmake\boost_system-1.74.0\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/../../usr/lib/arm-linux-gnueabihf/cmake/boost_system-1.74.0/libboost_system-variant-shared.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\arm-linux-gnueabihf\cmake\boost_system-1.74.0\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/../../usr/lib/arm-linux-gnueabihf/cmake/boost_system-1.74.0/libboost_system-variant-static.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\arm-linux-gnueabihf\cmake\boost_system-1.74.0\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/runtime/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\runtime\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/tests/serial-test/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\tests\serial-test\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/tests/cosmos-groundstation-range-testbed/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\tests\cosmos-groundstation-range-testbed\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/tests/doppler/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\tests\doppler\"/>
+		</Unit>
+		<Unit filename="/tmp/es2-estts-cpp/tests/orbit-test/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\tests\orbit-test\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

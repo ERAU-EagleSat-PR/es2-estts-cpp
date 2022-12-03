@@ -1,0 +1,227 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "tests/doppler/doppler"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"target_link_libraries",
+			"target_include_directories"
+		],
+		"files" : 
+		[
+			"tests/doppler/CMakeLists.txt",
+			"src/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 6,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 15,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 16,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 53,
+				"parent" : 4
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 70,
+				"parent" : 4
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 8,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -fcolor-diagnostics"
+				},
+				{
+					"fragment" : "-std=c++14"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 2,
+					"define" : "BOOST_ALL_NO_LIB"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "BOOST_SYSTEM_DYN_LINK"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "SPDLOG_COMPILED_LIB"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "__DEV__"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 7,
+					"path" : "/tmp/es2-estts-cpp/src"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/tmp/es2-estts-cpp/src/fapi"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/tmp/es2-estts-cpp/src/fapi/command_handler"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/tmp/es2-estts-cpp/src/tnc_emulator"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/tmp/es2-estts-cpp/src/ti"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/tmp/es2-estts-cpp/src/utils"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/tmp/es2-estts-cpp/lib/spdlog/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/tmp/es2-estts-cpp/lib/sgp4/libsgp4"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "14"
+			},
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "estts::@145eef247bfb46b6828c"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "spdlog::@83ae2c9e0cfde2973663"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "sgp4::@d257a0bc8f78c916708c"
+		}
+	],
+	"id" : "doppler::@bb7c620f90723e37ac22",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-g",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "../../src/libestts.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "../../lib/sgp4/libsgp4.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 5,
+				"fragment" : "../../lib/spdlog/libspdlogd.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "/usr/lib/aarch64-linux-gnu/libboost_system.so.1.74.0",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "doppler",
+	"nameOnDisk" : "doppler",
+	"paths" : 
+	{
+		"build" : "tests/doppler",
+		"source" : "tests/doppler"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "tests/doppler/src/main.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "EXECUTABLE"
+}

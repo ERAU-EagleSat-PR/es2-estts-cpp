@@ -1,0 +1,60 @@
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
+Change Dir: /tmp/es2-estts-cpp/cmake-build-debug-remote-host---rpi/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake cmTC_31e5c/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_31e5c.dir/build.make CMakeFiles/cmTC_31e5c.dir/build
+gmake[1]: Entering directory '/tmp/es2-estts-cpp/cmake-build-debug-remote-host---rpi/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_31e5c.dir/src.c.o
+/usr/bin/cc   -DCMAKE_HAVE_LIBC_PTHREAD -o CMakeFiles/cmTC_31e5c.dir/src.c.o -c /tmp/es2-estts-cpp/cmake-build-debug-remote-host---rpi/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_31e5c
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_31e5c.dir/link.txt --verbose=1
+/usr/bin/cc  -DCMAKE_HAVE_LIBC_PTHREAD CMakeFiles/cmTC_31e5c.dir/src.c.o -o cmTC_31e5c 
+/usr/bin/ld: CMakeFiles/cmTC_31e5c.dir/src.c.o: in function `main':
+src.c:(.text+0x40): undefined reference to `pthread_create'
+/usr/bin/ld: src.c:(.text+0x4c): undefined reference to `pthread_detach'
+/usr/bin/ld: src.c:(.text+0x58): undefined reference to `pthread_cancel'
+/usr/bin/ld: src.c:(.text+0x68): undefined reference to `pthread_join'
+collect2: error: ld returned 1 exit status
+gmake[1]: *** [CMakeFiles/cmTC_31e5c.dir/build.make:106: cmTC_31e5c] Error 1
+gmake[1]: Leaving directory '/tmp/es2-estts-cpp/cmake-build-debug-remote-host---rpi/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:140: cmTC_31e5c/fast] Error 2
+
+
+Source file was:
+#include <pthread.h>
+
+void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_cancel(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /tmp/es2-estts-cpp/cmake-build-debug-remote-host---rpi/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake cmTC_40aab/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_40aab.dir/build.make CMakeFiles/cmTC_40aab.dir/build
+gmake[1]: Entering directory '/tmp/es2-estts-cpp/cmake-build-debug-remote-host---rpi/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_40aab.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create -o CMakeFiles/cmTC_40aab.dir/CheckFunctionExists.c.o -c /usr/share/cmake-3.18/Modules/CheckFunctionExists.c
+Linking C executable cmTC_40aab
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_40aab.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create CMakeFiles/cmTC_40aab.dir/CheckFunctionExists.c.o -o cmTC_40aab  -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+gmake[1]: *** [CMakeFiles/cmTC_40aab.dir/build.make:106: cmTC_40aab] Error 1
+gmake[1]: Leaving directory '/tmp/es2-estts-cpp/cmake-build-debug-remote-host---rpi/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:140: cmTC_40aab/fast] Error 2
+
+
+

@@ -188,10 +188,10 @@ void groundstation_manager::manage() {
             }
         }
 
-        if (!currently_executing && groundstation_telemetry_callback) {
+        if (!currently_executing && connectionless_telem_cb) {
             auto telem = nonblock_receive();
             if (!telem.empty())
-                groundstation_telemetry_callback(telem);
+                connectionless_telem_cb(telem);
         }
 
         // If the time since the satellite's range was last checked is greater than ESTTS_MAX_SATELLITE_RANGE_CHECK_INTERVAL_SEC,
