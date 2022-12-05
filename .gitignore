@@ -40,8 +40,4 @@ build
 # MacOS generated files
 .DS_Store
 */.DS_Store
-cmake-build-debug---remote/
-cmake-build-debug-remote-host---parallelubuntu
-cmake-build-debug/
-cmake-build-debug-remote-host/
-cmake-build-debug-remote-host---rpi
+cmake-build-debug*

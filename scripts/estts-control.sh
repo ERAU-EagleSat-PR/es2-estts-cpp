@@ -2,21 +2,17 @@
 
 Install () {
   cwd=$(pwd)
-  sourcedir="$cwd/.."
-  builddir="/tmp/estts_build"
+  sourcedir="/tmp/esttsinstall"
   installdir="/usr/bin"
   supportdir="/opt/estts"
   logdir="/opt/estts/log"
 
   echo "Setting source directory to $sourcedir"
-  echo "Setting build directory to $builddir"
   echo "Setting support directory to $supportdir"
   echo "Setting log directory to $logdir"
+  echo "Setting install directory to $installdir"
 
-  echo "Running updates"
-  apt update &> /dev/null
-  apt upgrade -y &> /dev/null
-
+  # Install dependencies
   ldconfig -p | grep libboost_system >/dev/null 2>&1 && {
     echo "Boost is installed on system."
   } || {
@@ -33,16 +29,31 @@ Install () {
   fi
 
   if ! command -v clang &> /dev/null
-    then
-        echo "Clang is not installed. Installing it now"
-        apt install clang -y &> /dev/null
-    else
-       echo "Found Clang on system."
-    fi
+  then
+      echo "Clang is not installed. Installing it now"
+      apt install clang -y &> /dev/null
+  else
+     echo "Found Clang on system."
+  fi
+
+  # Verify that the support directories exists
+  if [ ! -d $sourcedir ]
+  then
+    echo "$sourcedir does not exist. Creating it now"
+    mkdir $sourcedir
+  else
+    echo "$sourcedir exists. Removing it now"
+    rm -rf $sourcedir
+    mkdir $sourcedir
+  fi
 
   if [ ! -d $supportdir ]
   then
     echo "$supportdir does not exist. Creating it now"
+    mkdir $supportdir
+  else
+    echo "$supportdir exists. Removing it now"
+    rm -rf $supportdir
     mkdir $supportdir
   fi
 
@@ -51,16 +62,12 @@ Install () {
     echo "$logdir does not exist. creating it now"
     mkdir $logdir
     touch $logdir/estts_errors.log
+  else
+    echo "$logdir exists. Removing it now"
+    rm -rf $logdir
+    mkdir $logdir
+    touch $logdir/estts_errors.log
   fi
-
-  cp "$sourcedir/scripts/estts.service" $supportdir
-
-  echo "Creating build scripts"
-  cmake -S "$sourcedir" -B $builddir >/dev/null 2>&1
-
-  echo "Building ESTTS. This will take some time.."
-  cd $builddir || exit
-  make >/dev/null 2>&1
 
   if [ ! -d $installdir ]
   then
@@ -68,21 +75,64 @@ Install () {
     mkdir $installdir
   fi
 
-  echo "Copying $builddir/runtime/estts-runtime to install directory at $installdir."
-  cp "$builddir/runtime/estts-runtime" $installdir
-
   if [ -f /etc/systemd/system/estts.service ]
   then
     rm /etc/systemd/system/estts.service
   fi
 
+  # Download dependencies
+  echo "Downloading ESTTS"
+  git clone https://github.com/ERAU-EagleSat-PR/es2-estts-cpp.git $sourcedir --recurse-submodules || {
+    echo "Failed to download ESTTS. Please check your internet connection and try again."
+    exit 1
+  }
+
+  # Build the project
+  echo "Creating build scripts"
+  cmake -S "$sourcedir" -B $sourcedir || {
+    echo "Failed to create build scripts."
+    exit 1
+  }
+
+  echo "Building ESTTS. This will take some time.."
+  cd $sourcedir || exit
+  make -j 4 || {
+    echo "Failed to build ESTTS."
+    exit 1
+  }
+
+  # Move downloaded files to their locations
+  echo "Copying $sourcedir/scripts/estts.service to support directory at $supportdir."
+  cp "$sourcedir/scripts/estts.service" $supportdir || {
+    echo "Failed to copy estts.service to support directory."
+    exit 1
+  }
+
+  # Rename binary
+  mv "$sourcedir/runtime/estts-runtime" "$sourcedir/estts" || {
+    echo "Failed to rename estts-runtime to estts."
+    exit 1
+  }
+
+  echo "Copying $sourcedir/estts to install directory at $installdir."
+  cp "$sourcedir/estts" $installdir || {
+    echo "Failed to copy estts to install directory."
+    exit 1
+  }
+
   echo "Creating symbolic link from $supportdir/estts.service to /etc/systemd/system/"
-  ln -s $supportdir/estts.service /etc/systemd/system/
+  ln -s $supportdir/estts.service /etc/systemd/system/ || {
+    echo "Failed to create symbolic link from $supportdir/estts.service to /etc/systemd/system/"
+    exit 1
+  }
 
   echo "Reloading systemd daemon and enabling ESTTS service"
   systemctl daemon-reload
   systemctl enable estts
   systemctl start estts
+
+  echo "Cleaning up"
+  rm -rf $sourcedir
 }
 
 Uninstall () {
