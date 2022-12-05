@@ -3,6 +3,7 @@
 #include <sstream>
 #include <iostream>
 #include <iomanip>
+#include <utility>
 #include "cosmos_groundstation_handler.h"
 #include "socket_handler.h"
 #include "constants.h"
@@ -33,7 +34,7 @@ std::function<estts::Status(std::string)> get_set_satellite_nominal_frequency_mo
 
 cosmos_groundstation_handler::cosmos_groundstation_handler() {
     gm = nullptr;
-    sock = new socket_handler(estts::cosmos::COSMOS_SERVER_ADDR, estts::cosmos::COSMOS_GROUNDSTATION_CMD_TELEM_PORT);
+    sock = new socket_handler();
     sm = nullptr;
 }
 
@@ -61,13 +62,17 @@ void cosmos_groundstation_handler::groundstation_cosmos_worker() {
     }
 }
 
-estts::Status cosmos_groundstation_handler::cosmos_groundstation_init(groundstation_manager * temp_gm) {
-    while (sock->init_socket_handle() != ES_OK) {
+estts::Status cosmos_groundstation_handler::cosmos_groundstation_init(groundstation_manager * temp_gm, std::string cosmos_server_address_) {
+    if (cosmos_server_address_.empty())
+        return estts::ES_UNINITIALIZED;
+
+    this->cosmos_server_address = std::move(cosmos_server_address_);
+
+    while (sock->init_socket_handle(cosmos_server_address.c_str(), estts::cosmos::COSMOS_GROUNDSTATION_CMD_TELEM_PORT) != ES_OK) {
         SPDLOG_WARN("Socket handler init failed. Retry in 1 second.");
         sleep_until(system_clock::now() + seconds(1));
     }
 
-    sock->init_socket_handle();
     this->gm = temp_gm;
 
     gm->set_groundstation_telemetry_callback(get_groundstation_telemetry_callback_lambda(sock));

@@ -4,10 +4,16 @@
 #define ESTTS_COSMOS_SATELLITE_TXVR_HANDLER_H
 
 #include <thread>
+#include <utility>
 #include "constants.h"
 #include "socket_handler.h"
 
 class cosmos_satellite_txvr_handler {
+    /**
+     * IP address used for communicating with COSMOS.
+     */
+    std::string cosmos_server_address;
+
     /**
      * Ground station manager object configured by the primary COSMOS handler.
      */
@@ -44,7 +50,7 @@ public:
      * the COSMOS worker thread
      * @return ES_OK if successful, anything else if not
      */
-    estts::Status cosmos_satellite_txvr_init(groundstation_manager * gm);
+    estts::Status cosmos_satellite_txvr_init(groundstation_manager * gm, std::string cosmos_server_address_);
 };
 
 

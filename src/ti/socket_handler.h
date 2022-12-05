@@ -37,7 +37,7 @@ public:
 
     int sock, port;
 
-    socket_handler(const char *address, int port);
+    socket_handler();
 
     ~socket_handler();
 
@@ -49,7 +49,7 @@ public:
 
     ssize_t write_socket_uc(unsigned char *data, int size);
 
-    estts::Status init_socket_handle();
+    estts::Status init_socket_handle(const char *address_, int port_);
 };
 
 

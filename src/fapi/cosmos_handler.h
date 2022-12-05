@@ -24,6 +24,11 @@ std::string trim_command_arguments(std::string command);
 class cosmos_handler : virtual public cosmos_groundstation_handler, virtual public cosmos_satellite_txvr_handler {
 private:
     /**
+     * IP address used for communicating with COSMOS.
+     */
+    std::string cosmos_server_address;
+
+    /**
      * Primary ground station manager object used for all ground station use.
      */
     groundstation_manager * gm;
@@ -52,6 +57,16 @@ private:
     estts::session_config * config;
 public:
     /**
+     * Base git repo SSH address use for telemetry storage
+     */
+    std::string telem_git_repo_url;
+
+    /**
+     * Base git repo path use for telemetry storage
+     */
+    std::string base_git_dir;
+
+    /**
      * Default constructor that initializes socket.
      */
     cosmos_handler();
@@ -74,6 +89,10 @@ public:
     groundstation_manager * get_gm() { return gm; };
 
     socket_handler * get_sh() { return sock; }
+
+    void set_cosmos_server_address(std::string address) { cosmos_server_address = std::move(address);}
+    void set_telem_git_repo(std::string repo) { telem_git_repo_url = std::move(repo); }
+    void set_base_git_dir(std::string dir) { base_git_dir = std::move(dir); }
 };
 
 

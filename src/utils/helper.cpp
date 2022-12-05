@@ -204,27 +204,27 @@ estts::Status execute_shell(const std::string& cmd) {
     return estts::ES_OK;
 }
 
-estts::Status publish_file_to_git(const std::string& filename, const std::string& data) {
+estts::Status publish_file_to_git(const std::string& base_git_dir, const std::string& repo, const std::string& filename, const std::string& data) {
     std::ofstream file;
     struct dirent * dir;
     std::stringstream command;
 
-    SPDLOG_INFO("Publishing {} to {}", filename, estts::filesystem::GIT_REPO_URL);
+    SPDLOG_INFO("Publishing {} to {}", filename, base_git_dir);
 
     // Create base git directory
-    command << "mkdir " << estts::filesystem::BASE_GIT_DIRECTORY;
+    command << "mkdir " << base_git_dir;
     execute_shell(command.str());
 
     // Determine if git repo is cloned -> .git will exist
-    DIR * d = opendir(estts::filesystem::BASE_GIT_DIRECTORY);
+    DIR * d = opendir(base_git_dir.c_str());
     bool git_repo_is_local = false;
     while ((dir = readdir(d)) != nullptr) {
         if (strcmp(dir->d_name, ".git") == 0) {
-            SPDLOG_DEBUG("Git directory found in {}.", estts::filesystem::BASE_GIT_DIRECTORY);
+            SPDLOG_DEBUG("Git directory found in {}.", base_git_dir);
             git_repo_is_local = true;
 
             command.str("");
-            command << "git -C " << estts::filesystem::BASE_GIT_DIRECTORY << " pull";
+            command << "git -C " << base_git_dir << " pull";
             execute_shell(command.str());
             break;
         }
@@ -234,7 +234,7 @@ estts::Status publish_file_to_git(const std::string& filename, const std::string
     // If it doesn't exist, clone it
     if (!git_repo_is_local) {
         command.str("");
-        command << "git clone " << estts::filesystem::GIT_REPO_URL << " " << estts::filesystem::BASE_GIT_DIRECTORY;
+        command << "git clone " << repo << " " << base_git_dir;
         execute_shell(command.str());
     }
 
@@ -253,7 +253,7 @@ estts::Status publish_file_to_git(const std::string& filename, const std::string
 
     auto folder_exists_for_date = false;
 
-    d = opendir(estts::filesystem::BASE_GIT_DIRECTORY);
+    d = opendir(base_git_dir.c_str());
     while ((dir = readdir(d)) != nullptr) {
         if (strcmp(dir->d_name, datebuf.str().c_str()) == 0) {
             SPDLOG_DEBUG("Date directory already exists.");
@@ -265,7 +265,7 @@ estts::Status publish_file_to_git(const std::string& filename, const std::string
     if (!folder_exists_for_date) {
         SPDLOG_DEBUG("Date directory does not exist. Creating {}", datebuf.str());
         command.str("");
-        command << "mkdir " << estts::filesystem::BASE_GIT_DIRECTORY << "/" << datebuf.str();
+        command << "mkdir " << base_git_dir << "/" << datebuf.str();
         execute_shell(command.str());
     }
 
@@ -281,9 +281,9 @@ estts::Status publish_file_to_git(const std::string& filename, const std::string
 
     SPDLOG_TRACE("Modifying filename from {} to {}", filename, mod_filename.str());
 
-    SPDLOG_DEBUG("Opening {}/{}/{}", estts::filesystem::BASE_GIT_DIRECTORY, datebuf.str(), mod_filename.str());
+    SPDLOG_DEBUG("Opening {}/{}/{}", base_git_dir, datebuf.str(), mod_filename.str());
     std::stringstream path;
-    path << estts::filesystem::BASE_GIT_DIRECTORY << "/" << datebuf.str() << "/" << mod_filename.str();
+    path << base_git_dir << "/" << datebuf.str() << "/" << mod_filename.str();
     file.open(path.str(), std::ios::in | std::ios::out | std::ios::app);
     if (file.is_open()) {
         SPDLOG_TRACE("File is open");
@@ -294,19 +294,19 @@ estts::Status publish_file_to_git(const std::string& filename, const std::string
 
     SPDLOG_TRACE("Staging changes");
     command.str("");
-    command << "git -C " << estts::filesystem::BASE_GIT_DIRECTORY << " add .";
+    command << "git -C " << base_git_dir << " add .";
     execute_shell(command.str());
 
     std::stringstream commit_msg;
     commit_msg << "\"estts git automation: added " << mod_filename.str() << " to directory " << datebuf.str() << "\"";
     SPDLOG_DEBUG("Creating new commit with message {}", commit_msg.str());
     command.str("");
-    command << "git -C " << estts::filesystem::BASE_GIT_DIRECTORY << " commit -m " << commit_msg.str();
+    command << "git -C " << base_git_dir << " commit -m " << commit_msg.str();
     execute_shell(command.str());
 
     SPDLOG_TRACE("Pushing to origin");
     command.str("");
-    command << "git -C " << estts::filesystem::BASE_GIT_DIRECTORY << " push";
+    command << "git -C " << base_git_dir << " push";
     execute_shell(command.str());
 
     return estts::ES_OK;

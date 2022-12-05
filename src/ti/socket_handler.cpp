@@ -24,11 +24,9 @@ using namespace std::chrono; // nanoseconds, system_clock, seconds
  * @param port Server port to connect to (EX 8080)
  * @return None
  */
-socket_handler::socket_handler(const char *address, int port) {
+socket_handler::socket_handler() {
     sock = -1;
     serv_addr = {0};
-    this->port = port;
-    this->address = address;
     std::stringstream temp;
     temp << address << ":" << port;
     this->endpoint = temp.str();
@@ -82,7 +80,7 @@ estts::Status socket_handler::handle_failure() {
     failures++;
     if (failures > 3) {
         SPDLOG_ERROR("Socket handler failure. Re-initializing socket at address {}:{}", address, port);
-        init_socket_handle();
+        init_socket_handle(address, port);
         failures = 0;
     }
     sleep_until(system_clock::now() + seconds(1));
@@ -212,8 +210,10 @@ int socket_handler::check_sock_bytes_avail() const {
     return count;
 }
 
-estts::Status socket_handler::init_socket_handle() {
-    SPDLOG_DEBUG("Opening socket at {}:{}", address, port);
+estts::Status socket_handler::init_socket_handle(const char *address_, int port_) {
+    this->address = address_;
+    this->port = port_;
+    SPDLOG_DEBUG("Opening socket at {}:{}", address_, port_);
     if (estts::ES_OK != open_socket()) {
         SPDLOG_ERROR("Failed to open socket.");
         return estts::ES_UNINITIALIZED;

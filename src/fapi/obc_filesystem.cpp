@@ -189,7 +189,9 @@ std::string obc_filesystem::download_file(const std::string& filename) {
 
     SPDLOG_INFO("{} bytes downloaded in {} seconds (average {}kB/s)", (int)data.size(), duration * 0.001, (data.size() * 0.001) / (duration * 0.001));
 
-    publish_file_to_git(filename, data);
+    if (!git_ssh_url.empty() && !base_git_dir.empty())
+        publish_file_to_git(base_git_dir, git_ssh_url, filename, data);
+
     return data;
 }
 

@@ -18,15 +18,9 @@ namespace estts {
     const int ESTTS_MAX_SATELLITE_RANGE_CHECK_INTERVAL_SEC = 60;
     const int ESTTS_MIN_SATELLITE_RANGE_CHECK_INTERVAL_SEC = 20;
 
-    namespace filesystem {
-        const char BASE_GIT_DIRECTORY[] = "/home/sbeve/telemetry";
-        const char GIT_REPO_URL[] = "git@github.com:ERAU-EagleSat-PR/eaglesat-2-telemetry.git";
-    }
-
     //bool DYNAMIC_DOPPLER_SHIFT_ACCOMODATION = true;
 
     namespace cosmos {
-        const char COSMOS_SERVER_ADDR[] = "172.19.35.150";// "172.19.35.150"; // "172.19.35.150"; // 172.30.95.164 172.19.35.160
         const int COSMOS_PRIMARY_CMD_TELEM_PORT = 65432;
         const int COSMOS_GROUNDSTATION_CMD_TELEM_PORT = 8046;
         const int COSMOS_SATELLITE_TXVR_CMD_TELEM_PORT = 55927;
@@ -61,7 +55,7 @@ namespace estts {
     };
 
     namespace endurosat {
-        const int MAX_ESTTC_PACKET_SIZE = 256;
+        const int MAX_ESTTC_PACKET_SIZE = 1024;
         const int MAX_RETRIES = 2;
         const int WAIT_TIME_SEC = 2;
         const unsigned char OBC_ESTTC_DELIMETER[] = "\r\r\r";

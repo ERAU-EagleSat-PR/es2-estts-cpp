@@ -13,8 +13,7 @@ using namespace std::chrono; // nanoseconds, system_clock, seconds
 using namespace estts;
 using namespace estts::endurosat;
 
-transmission_interface::transmission_interface() : socket_handler(ti_socket::TI_SOCKET_ADDRESS,
-                                                                                        ti_socket::TI_SOCKET_PORT) {
+transmission_interface::transmission_interface() {
     connectionless_telem_cb = nullptr;
     pipe_mode = PIPE_OFF;
     pipe_duration_sec = 5;

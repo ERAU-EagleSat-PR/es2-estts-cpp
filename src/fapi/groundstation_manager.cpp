@@ -15,8 +15,7 @@ using namespace std::this_thread; // sleep_for, sleep_until
 using namespace std::chrono; // nanoseconds, system_clock, seconds
 using namespace estts::endurosat;
 
-groundstation_manager::groundstation_manager() : socket_handler(ti_socket::TI_SOCKET_ADDRESS,
-                                                                ti_socket::TI_SOCKET_PORT) {
+groundstation_manager::groundstation_manager() {
     satellite_in_range = false;
     highest_session_priority = 0;
     currently_executing = nullptr;

@@ -11,6 +11,11 @@
 class cosmos_groundstation_handler {
 private:
     /**
+     * IP address used for communicating with COSMOS.
+     */
+    std::string cosmos_server_address;
+
+    /**
      * Socket interface used for communicating with the COSMOS ground station target.
      */
     socket_handler * sock;
@@ -70,7 +75,7 @@ public:
      * the COSMOS worker thread
      * @return ES_OK if successful, anything else if not
      */
-    estts::Status cosmos_groundstation_init(groundstation_manager * gm);
+    estts::Status cosmos_groundstation_init(groundstation_manager * gm, std::string cosmos_server_address_);
 
     void set_satellite_txvr_nominal_frequency_hz(double freq) { satellite_txvr_nominal_frequency_hz = freq; }
 

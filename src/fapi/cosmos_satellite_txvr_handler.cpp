@@ -2,6 +2,8 @@
 
 #include "groundstation_manager.h"
 #include "cosmos_satellite_txvr_handler.h"
+
+#include <utility>
 #include "helper.h"
 
 using namespace estts;
@@ -20,12 +22,21 @@ std::function<estts::Status(std::string)> get_read_txvr_scw_modifier(cosmos_sate
 std::function<estts::Status(std::string)> get_set_txvr_scw_modifier(cosmos_satellite_txvr_handler * csth);
 
 cosmos_satellite_txvr_handler::cosmos_satellite_txvr_handler() {
-    sock = new socket_handler(estts::cosmos::COSMOS_SERVER_ADDR, estts::cosmos::COSMOS_SATELLITE_TXVR_CMD_TELEM_PORT);
+    sock = new socket_handler();
 }
 
-estts::Status cosmos_satellite_txvr_handler::cosmos_satellite_txvr_init(groundstation_manager * gm) {
+estts::Status cosmos_satellite_txvr_handler::cosmos_satellite_txvr_init(groundstation_manager * gm, std::string cosmos_server_address_) {
+    if (cosmos_server_address_.empty())
+        return estts::ES_UNINITIALIZED;
+
+    this->cosmos_server_address = std::move(cosmos_server_address_);
+
+    while (sock->init_socket_handle(cosmos_server_address.c_str(), estts::cosmos::COSMOS_SATELLITE_TXVR_CMD_TELEM_PORT) != ES_OK) {
+        SPDLOG_WARN("Socket handler init failed. Retry in 1 second.");
+        sleep_until(system_clock::now() + seconds(1));
+    }
+
     this->gm = gm;
-    sock->init_socket_handle();
 
     cosmos_worker = std::thread(&cosmos_satellite_txvr_handler::satellite_txvr_cosmos_worker, this);
     SPDLOG_TRACE("Created satellite transceiver COSMOS worker thread with ID {}", std::hash<std::thread::id>{}(cosmos_worker.get_id()));

@@ -24,12 +24,16 @@ int main(int argc, char *argv[]) {
     //publish_file_to_git("telem.csv", "KAJFKSJFLSDJLF");
 
     for (int i = 1; i < argc; i += 2) {
-        // --log-level trace --cosmos-server-addr 172.19.35.150 --working-log-dir /home/parallels/telemetry
+        // --log-level trace --cosmos-server-addr 172.19.35.150 --working-log-dir /home/parallels/telemetry --telemetry-git-repo git@github.com:ERAU-EagleSat-PR/eaglesat-2-telemetry.git
         if (strcmp(argv[i], "--log-level") == 0) {
             SPDLOG_INFO("Argument {} is {}", argv[i], argv[i+1]);
         } else if (strcmp(argv[i], "--cosmos-server-addr") == 0) {
             SPDLOG_INFO("Argument {} is {}", argv[i], argv[i+1]);
         } else if (strcmp(argv[i], "--working-log-dir") == 0) {
+            SPDLOG_INFO("Argument {} is {}", argv[i], argv[i+1]);
+        } else if (strcmp(argv[i], "--telemetry-git-repo") == 0) {
+            SPDLOG_INFO("Argument {} is {}", argv[i], argv[i+1]);
+        } else if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0) {
             SPDLOG_INFO("Argument {} is {}", argv[i], argv[i+1]);
         } else {
             SPDLOG_WARN("Unrecognized program argument: {}", argv[i]);

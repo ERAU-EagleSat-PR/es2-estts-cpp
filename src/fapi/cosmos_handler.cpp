@@ -28,16 +28,20 @@ std::function<estts::Status(std::string)> get_download_file_modifier(cosmos_hand
 
 cosmos_handler::cosmos_handler() {
     gm = new groundstation_manager();
-    this->sock = new socket_handler(cosmos::COSMOS_SERVER_ADDR, cosmos::COSMOS_PRIMARY_CMD_TELEM_PORT);
-    this->telem_sock = new socket_handler(cosmos::COSMOS_SERVER_ADDR, cosmos::COSMOS_PRIMARY_AX25_TELEM_PORT);
+    this->sock = new socket_handler();
+    this->telem_sock = new socket_handler();
 }
 
 Status cosmos_handler::cosmos_init() {
-    while (sock->init_socket_handle() != ES_OK) {
+    if (cosmos_server_address.empty()) {
+        return Status::ES_UNINITIALIZED;
+    }
+
+    while (sock->init_socket_handle(cosmos_server_address.c_str(), cosmos::COSMOS_PRIMARY_CMD_TELEM_PORT) != ES_OK) {
         SPDLOG_WARN("Socket handler init failed. Retry in 1 second.");
         sleep_until(system_clock::now() + seconds(1));
     }
-    while (telem_sock->init_socket_handle() != ES_OK) {
+    while (telem_sock->init_socket_handle(cosmos_server_address.c_str(), cosmos::COSMOS_PRIMARY_AX25_TELEM_PORT) != ES_OK) {
         SPDLOG_WARN("Socket handler init failed. Retry in 1 second.");
         sleep_until(system_clock::now() + seconds(1));
     }
@@ -58,8 +62,8 @@ Status cosmos_handler::cosmos_init() {
     cosmos_worker = std::thread(&cosmos_handler::primary_cosmos_worker, this);
     SPDLOG_TRACE("Created primary COSMOS worker thread with ID {}", std::hash<std::thread::id>{}(cosmos_worker.get_id()));
 
-    this->cosmos_satellite_txvr_init(gm);
-    this->cosmos_groundstation_init(gm);
+    this->cosmos_satellite_txvr_init(gm, cosmos_server_address);
+    this->cosmos_groundstation_init(gm, cosmos_server_address);
 
     return ES_OK;
 }
@@ -91,6 +95,8 @@ std::function<estts::Status(std::string)> get_download_file_modifier(cosmos_hand
         filename.erase(0, 8);
 
         obc_filesystem obc(ch->get_session_config());
+        obc.set_base_git_dir(ch->base_git_dir);
+        obc.set_git_ssh_url(ch->telem_git_repo_url);
         std::string data = obc.download_file(filename);
 
         return get_primary_command_callback_lambda(original, ch->get_sh())(data);
