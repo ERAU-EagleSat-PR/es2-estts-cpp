@@ -47,6 +47,16 @@ Install () {
     mkdir $sourcedir
   fi
 
+  if [ ! -d /tmp/estts ]
+  then
+    echo "/tmp/estts does not exist. Creating it now"
+    mkdir /tmp/estts
+  else
+    echo "/tmp/estts exists. Removing it now"
+    rm -rf /tmp/estts
+    mkdir /tmp/estts
+  fi
+
   if [ ! -d $supportdir ]
   then
     echo "$supportdir does not exist. Creating it now"
@@ -75,6 +85,11 @@ Install () {
     mkdir $installdir
   fi
 
+  if [ -d /tmp/estts ]
+  then
+    rm -rf /tmp/estts
+  fi
+
   if [ -f /etc/systemd/system/estts.service ]
   then
     rm /etc/systemd/system/estts.service
@@ -101,6 +116,26 @@ Install () {
     exit 1
   }
 
+  # Create environment file
+  echo "Creating environment file"
+  touch $supportdir/estts.env
+#  {
+#    echo "LL=--log-level";
+#    echo "LLA=trace";
+#    echo "CSA=--cosmos-server-addr";
+#    echo "CSAA=172.19.35.150";
+#    echo "WLD=--working-log-dir";
+#    echo "WLDA=/tmp/estts/";
+#    echo "BGD=--base-git-dir";
+#    echo "BGDA=/home/parallels/telemetry";
+#    echo "TGR=--telemetry-git-repo";
+#    echo "TGRA=git@github.com:ERAU-EagleSat-PR/eaglesat-2-telemetry.git";
+#  } >> $supportdir/estts.env
+
+  {
+    echo "ESTTS_OPTS=\"--log-level trace --cosmos-server-addr 172.19.35.150 --working-log-dir /tmp/estts/ --base-git-dir /home/parallels/telemetry --telemetry-git-repo\""
+  } >> $supportdir/estts.env
+
   # Move downloaded files to their locations
   echo "Copying $sourcedir/scripts/estts.service to support directory at $supportdir."
   cp "$sourcedir/scripts/estts.service" $supportdir || {
@@ -114,12 +149,14 @@ Install () {
     exit 1
   }
 
-  echo "Copying $sourcedir/estts to install directory at $installdir."
+  # Copy binary to bin directory
+  echo "Copying $sourcedir/estts to bin directory at $installdir."
   cp "$sourcedir/estts" $installdir || {
     echo "Failed to copy estts to install directory."
     exit 1
   }
 
+  # Create symbolic link between $supportdir and /etc/systemd/system
   echo "Creating symbolic link from $supportdir/estts.service to /etc/systemd/system/"
   ln -s $supportdir/estts.service /etc/systemd/system/ || {
     echo "Failed to create symbolic link from $supportdir/estts.service to /etc/systemd/system/"
@@ -156,10 +193,10 @@ Uninstall () {
     rm /usr/lib/systemd/system/estts.service
   fi
 
-  if [ -f $installdir/estts-runtime ]
+  if [ -f $installdir/estts ]
   then
     echo "Removing runtime binary"
-    rm $installdir/estts-runtime
+    rm $installdir/estts
   fi
 
   if [ -d $supportdir ]

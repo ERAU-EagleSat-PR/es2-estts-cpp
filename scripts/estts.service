@@ -6,7 +6,8 @@ After=network.target network-online.target
 [Service]
 Type=simple
 LimitNOFILE=16384
-ExecStart=/usr/bin/estts
+EnvironmentFile=/opt/estts/estts.env
+ExecStart=/usr/bin/estts $ESTTS_OPTS
 ExecReload=/bin/kill -HUP $MAINPID
 LimitCORE=infinity
 Restart=always
