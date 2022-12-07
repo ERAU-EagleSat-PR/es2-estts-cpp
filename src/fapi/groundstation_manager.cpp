@@ -77,13 +77,16 @@ groundstation_manager::internal_session *groundstation_manager::get_highest_prio
 estts::Status groundstation_manager::validate_session_approval(estts::SessionEndpoint endpoint) {
     bool approved = true;
     if (get_highest_priority_session()->endpoint != endpoint) {
-        SPDLOG_INFO("Session with endpoint {} is not the highest priority. Validation failed.", get_endpoint_enum_string(endpoint));
+        SPDLOG_INFO("Session with endpoint {} is not the highest priority. Validation failed.",
+                    get_endpoint_enum_string(endpoint));
         approved = false;
     }
-    for (auto i : session_list)
+    for (auto i: session_list)
         if (i->endpoint == endpoint) {
             if (i->satellite_range_required_for_execution && !is_satellite_in_range()) {
-                SPDLOG_INFO("Session with endpoint {} requires that the satellite is in range. Satellite is not in range; Validation failed.", get_endpoint_enum_string(endpoint));
+                SPDLOG_INFO(
+                        "Session with endpoint {} requires that the satellite is in range. Satellite is not in range; Validation failed.",
+                        get_endpoint_enum_string(endpoint));
                 approved = false;
             }
             break;

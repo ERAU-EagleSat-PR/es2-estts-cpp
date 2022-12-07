@@ -119,22 +119,22 @@ Install () {
   # Create environment file
   echo "Creating environment file"
   touch $supportdir/estts.env
-#  {
-#    echo "LL=--log-level";
-#    echo "LLA=trace";
-#    echo "CSA=--cosmos-server-addr";
-#    echo "CSAA=172.19.35.150";
-#    echo "WLD=--working-log-dir";
-#    echo "WLDA=/tmp/estts/";
-#    echo "BGD=--base-git-dir";
-#    echo "BGDA=/home/parallels/telemetry";
-#    echo "TGR=--telemetry-git-repo";
-#    echo "TGRA=git@github.com:ERAU-EagleSat-PR/eaglesat-2-telemetry.git";
-#  } >> $supportdir/estts.env
-
   {
-    echo "ESTTS_OPTS=\"--log-level trace --cosmos-server-addr 172.19.35.150 --working-log-dir /tmp/estts/ --base-git-dir /home/parallels/telemetry --telemetry-git-repo\""
+    echo "LL=--log-level";
+    echo "LLA=trace";
+    echo "CSA=--cosmos-server-addr";
+    echo "CSAA=172.19.35.150";
+    echo "WLD=--working-log-dir";
+    echo "WLDA=/tmp/estts/";
+    echo "BGD=--base-git-dir";
+    echo "BGDA=/home/parallels/telemetry";
+    echo "TGR=--telemetry-git-repo";
+    echo "TGRA=git@github.com:ERAU-EagleSat-PR/eaglesat-2-telemetry.git";
   } >> $supportdir/estts.env
+
+#  {
+#    echo "ESTTS_OPTS=\"--log-level trace --cosmos-server-addr 172.19.35.150 --working-log-dir /tmp/estts/ --base-git-dir /home/parallels/telemetry --telemetry-git-repo\""
+#  } >> $supportdir/estts.env
 
   # Move downloaded files to their locations
   echo "Copying $sourcedir/scripts/estts.service to support directory at $supportdir."
