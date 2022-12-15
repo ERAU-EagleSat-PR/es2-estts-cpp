@@ -1,1 +1,0 @@
-/usr/bin/c++ -g CMakeFiles/orbit-test.dir/src/main.cpp.o -o orbit-test  ../../src/libestts.a ../../lib/sgp4/libsgp4.a ../../lib/spdlog/libspdlogd.a -lpthread /usr/lib/arm-linux-gnueabihf/libboost_system.so.1.74.0 

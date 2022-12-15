@@ -20,7 +20,7 @@ private:
     std::string port;
     int baud, restarts;
     unsigned char * sync_buf;
-    unsigned int delimiter_timeout_ms = 400;
+    unsigned int delimiter_timeout_ms;
 
     estts::Status handle_failure();
 

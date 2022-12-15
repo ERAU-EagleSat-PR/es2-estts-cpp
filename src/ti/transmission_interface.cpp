@@ -5,6 +5,7 @@
 
 #include <chrono>
 #include <thread>
+#include "helper.h"
 
 #include "transmission_interface.h"
 
@@ -16,7 +17,7 @@ using namespace estts::endurosat;
 transmission_interface::transmission_interface() {
     connectionless_telem_cb = nullptr;
     pipe_mode = PIPE_OFF;
-    pipe_duration_sec = 5;
+    pipe_duration_sec = 0;
     session_active = false;
 
     refresh_constants();
@@ -102,6 +103,7 @@ std::string transmission_interface::receive_from_obc() {
     }
     if (bytes_avail <= 0) {
         SPDLOG_WARN("Receive timeout - {} seconds elapsed with no response", ESTTS_AWAIT_RESPONSE_PERIOD_SEC);
+        mtx.unlock();
         return "";
     }
     auto buf = this->read_to_delimeter(endurosat::OBC_ESTTC_DELIMETER, endurosat::OBC_ESTTC_DELIMETER_SIZE);
@@ -265,7 +267,7 @@ Status transmission_interface::enable_pipe() {
 
 Status transmission_interface::disable_pipe() {
     SPDLOG_DEBUG("Exiting PIPE mode");
-    int retries = pipe_duration_sec * 2;
+    unsigned int retries = pipe_duration_sec * 2;
 
     if (pipe_mode != PIPE_ON)
         return ES_OK;
@@ -320,15 +322,62 @@ void transmission_interface::flush_transmission_interface() {
 }
 
 void transmission_interface::refresh_constants() {
-    if (ES_OK == write_serial_s("ES+R2206\r")) {
-        auto resp = read_to_delimeter('\r');
-        if (resp.find("ES+")) {
-            resp.erase(0, 11);
-            try {
-                pipe_duration_sec = stoi(resp);
-            } catch (...) { SPDLOG_WARN("{} is not an integer.", resp); }
+    SPDLOG_INFO("Syncing constants with transceiver");
+    validate_pipe_duration(PIPE_DURATION_SEC);
+}
 
-            SPDLOG_INFO("Setting PIPE duration to {} seconds", pipe_duration_sec);
+estts::Status transmission_interface::validate_pipe_duration(int duration) {
+    // First, get current PIPE duration
+    get_pipe_duration();
+
+    // If the current duration doesn't equal the desired duration, set it
+    if (pipe_duration_sec != duration) {
+        SPDLOG_INFO("Setting pipe duration to {} seconds", duration);
+        char hex_buf[10];
+        sprintf(hex_buf, "%08X", duration);
+        std::string cmd = "ES+W2206" + std::string(hex_buf) + "\r";
+        for (int i = 0; i < ESTTS_MAX_RETRIES; i++) {
+            if (ES_OK == write_serial_s(cmd)) {
+                auto resp = read_to_delimeter('\r');
+                if (resp.find("OK+")) {
+                    SPDLOG_INFO("Pipe duration set to {} seconds", duration);
+                    pipe_duration_sec = duration;
+                    return ES_OK;
+                }
+            }
         }
     }
+}
+
+estts::Status transmission_interface::get_pipe_duration() {
+    unsigned int pipe_duration = 0;
+    for (int i = 0; i < ESTTS_MAX_RETRIES; i++) {
+        if (ES_OK == write_serial_s("ES+R2206\r")) {
+            auto resp = read_to_delimeter('\r');
+            if (resp.find("ES+")) {
+                try {
+                    resp.erase(0, 5);
+                    // Remove the last character of resp
+                    resp.pop_back();
+                    pipe_duration = hex_string_to_int(resp);
+                } catch (std::exception &e) {
+                    SPDLOG_ERROR("Failed to parse pipe duration: {}", e.what());
+                    continue;
+                }
+
+                break;
+            }
+        }
+    }
+
+    if (pipe_duration == 0) {
+        SPDLOG_WARN("Failed to get pipe duration. Setting to default value of 10 seconds.");
+        pipe_duration_sec = 10;
+        return estts::ES_UNSUCCESSFUL;
+    } else {
+        SPDLOG_DEBUG("Pipe duration is {} seconds", pipe_duration_sec);
+        pipe_duration_sec = pipe_duration;
+    }
+
+    return ES_OK;
 }

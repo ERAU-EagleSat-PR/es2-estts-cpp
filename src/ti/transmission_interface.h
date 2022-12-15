@@ -36,7 +36,7 @@ private:
      */
     std::mutex mtx;
 
-    int pipe_duration_sec;
+    unsigned int pipe_duration_sec;
 
     /**
      * Function designed to run on its own thread that sends a single character through the UART to the transceiver
@@ -47,15 +47,27 @@ private:
 
     void refresh_constants();
 
+    estts::Status get_pipe_duration();
+
 protected:
 
-/**
- * Function pointer used by flush_transmission_interface() if configured to save data that comes through the serial
- * port with no destination.
- */
-std::function<estts::Status(std::string)> connectionless_telem_cb;
+    /**
+     * Function pointer used by flush_transmission_interface() if configured to save data that comes through the serial
+     * port with no destination.
+     */
+    std::function<estts::Status(std::string)> connectionless_telem_cb;
 
 public:
+
+    /**
+     * Function that validates the PIPE duration value with the transceiver. If the PIPE durations don't match the value
+     * passed, the function will attempt to set the PIPE duration to the value passed.
+     * The context that this function is run is important. If the communication context is not with a transceiver, whether
+     * on the satellite or on the ground, behavior is undefined.
+     * @param duration The expected PIPE duration in seconds.
+     * @return ES_OK if the PIPE duration is set to the value passed, ES_UNSUCCESSFUL if the PIPE duration is not set to the value passed.
+     */
+    estts::Status validate_pipe_duration(int duration);
 
     /**
      * Internal receive that should ONLY be used if you know exactly what is calling this function.

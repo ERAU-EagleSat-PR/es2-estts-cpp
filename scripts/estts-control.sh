@@ -127,14 +127,10 @@ Install () {
     echo "WLD=--working-log-dir";
     echo "WLDA=/tmp/estts/";
     echo "BGD=--base-git-dir";
-    echo "BGDA=/home/parallels/telemetry";
+    echo "BGDA=/home/sbeve/telemetry";
     echo "TGR=--telemetry-git-repo";
     echo "TGRA=git@github.com:ERAU-EagleSat-PR/eaglesat-2-telemetry.git";
   } >> $supportdir/estts.env
-
-#  {
-#    echo "ESTTS_OPTS=\"--log-level trace --cosmos-server-addr 172.19.35.150 --working-log-dir /tmp/estts/ --base-git-dir /home/parallels/telemetry --telemetry-git-repo\""
-#  } >> $supportdir/estts.env
 
   # Move downloaded files to their locations
   echo "Copying $sourcedir/scripts/estts.service to support directory at $supportdir."

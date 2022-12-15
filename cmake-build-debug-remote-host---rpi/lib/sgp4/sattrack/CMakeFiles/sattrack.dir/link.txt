@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long -Wcast-align -Wsign-conversion -g CMakeFiles/sattrack.dir/sattrack.cc.o -o sattrack  ../libsgp4.a 

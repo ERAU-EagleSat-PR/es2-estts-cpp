@@ -36,6 +36,7 @@ serial_handler::serial_handler() : io(), serial(io) {
 #endif
     this->baud = 115200;
     failures = 0;
+    delimiter_timeout_ms = 400;
 
     sync_buf = new unsigned char[MAX_SERIAL_READ];
 
@@ -221,13 +222,11 @@ serial_handler::~serial_handler() {
 }
 
 void serial_handler::clear_serial_fifo() {
-    SPDLOG_TRACE("Clearing serial FIFO buffer");
     while (check_serial_bytes_avail() > 0)
         read_serial_uc(check_serial_bytes_avail());
 }
 
 void serial_handler::clear_serial_fifo(const std::function<estts::Status(std::string)> &cb) {
-    SPDLOG_TRACE("Clearing serial FIFO buffer");
     cb(read_serial_s(check_serial_bytes_avail()));
 }
 

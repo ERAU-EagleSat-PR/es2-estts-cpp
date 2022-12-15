@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
         working_log_directory = "/tmp/estts/";
 
     if (telem_git_repo.empty())
-        base_git_dir = "/home/parallels/telemetry";
+        base_git_dir = "/home/sbeve/telemetry";
 
     if (base_git_dir.empty())
         telem_git_repo = "git@github.com:ERAU-EagleSat-PR/eaglesat-2-telemetry.git";

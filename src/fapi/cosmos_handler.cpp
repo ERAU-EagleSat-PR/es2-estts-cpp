@@ -212,41 +212,43 @@ std::function<Status()> get_obc_session_start_session_func(groundstation_manager
         // Clear FIFO buffer
         gm->flush_transmission_interface();
 
+        // Sync ground station PIPE expectations with OBC
+        spdlog::debug("Syncing ground station PIPE expectations with satellite");
+        gm->validate_pipe_duration(PIPE_DURATION_SEC);
+
         // Now, try to enable PIPE on the satellite.
         while (true) {
-
             // Try to enable PIPE on the satellite
             gm->write_serial_s(pipe_en);
 
             // Figure out if transceiver registered the request
             buf << gm->internal_receive();
-            if (buf.str().find("OK+3323\r") != std::string::npos) {
-
-                std::stringstream buf1;
-                // Now, wait for OBC to be able to receive requests by pinging it
-                gm->set_delimiter_timeout_ms(100);
-
-                bool conn = false;
-                for (int ms_elapsed = 0; ms_elapsed < ESTTS_AWAIT_RESPONSE_PERIOD_SEC * 10; ms_elapsed++) {
-                    buf.clear();
-                    gm->write_serial_s(obc_version_cmd);
-                    sleep_until(system_clock::now() + milliseconds (100)); // TODO reduce wait
-                    buf1 << gm->read_to_delimeter('\r');
-                    if (buf1.str().find("OK+") != std::string::npos) {
-                        auto version = buf1.str().erase(0, 3);
-                        spdlog::info("Connection established with OBC. Version/boot string: {}", version);
-                        conn = true;
-                        //gm->read_to_delimeter('\r');
-                        break;
-                    }
-                    //sleep_until(system_clock::now() + milliseconds (100));
-                }
-
-                gm->set_delimiter_timeout_ms(400);
-                if (conn)
-                    break;
+            if (buf.str().find("OK+3323\r") == std::string::npos) {
+                retries++;
+                continue;
             }
-            retries++;
+
+            std::stringstream buf1;
+            // Now, wait for OBC to be able to receive requests by pinging it
+            gm->set_delimiter_timeout_ms(1000);
+
+            bool conn = false;
+            for (int ms_elapsed = 0; ms_elapsed < ESTTS_AWAIT_RESPONSE_PERIOD_SEC * 10; ms_elapsed++) {
+                buf.clear();
+                gm->write_serial_s(obc_version_cmd);
+                buf1 << gm->read_to_delimeter(OBC_ESTTC_DELIMETER, OBC_ESTTC_DELIMETER_SIZE);
+                if (buf1.str().find("OK+") != std::string::npos) {
+                    auto version = buf1.str().erase(0, 3);
+                    spdlog::info("Connection established with OBC. Version/boot string: {}", version);
+                    conn = true;
+                    break;
+                }
+                sleep_until(system_clock::now() + milliseconds (100));
+            }
+
+            gm->set_delimiter_timeout_ms(400);
+            if (conn)
+                break;
 
             // Verify that process hasn't exceeded max retry tolerance
             if (retries > MAX_RETRIES) {
