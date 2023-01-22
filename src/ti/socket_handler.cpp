@@ -25,12 +25,13 @@ using namespace std::chrono; // nanoseconds, system_clock, seconds
  * @return None
  */
 socket_handler::socket_handler() {
+    // Initialize all variables
     sock = -1;
     serv_addr = {0};
-    std::stringstream temp;
-    temp << address << ":" << port;
-    this->endpoint = temp.str();
     failures = 0;
+    address = "";
+    port = 0;
+    serv_addr = {0};
 
     sync_buf = new unsigned char[estts::ti_socket::TI_SOCKET_BUF_SZ];
 }
@@ -99,7 +100,14 @@ ssize_t socket_handler::write_socket_uc(unsigned char *data, int size) {
     if (sock < 0) {
         return -1;
     }
-    ssize_t written = send(sock, data, size, 0);
+    ssize_t written = -1;
+    try {
+        written = send(sock, data, size, 0);
+    } catch (std::exception &e) {
+        handle_failure();
+        return -1;
+    }
+
     if (written < 1) {
         handle_failure();
         return -1;
@@ -127,7 +135,13 @@ unsigned char *socket_handler::read_socket_uc() {
     // auto buf = new unsigned char[estts::ti_socket::TI_SOCKET_BUF_SZ];
 
     // Use read system call to read data in sock to buf
-    auto n = read(sock, sync_buf, estts::ti_socket::TI_SOCKET_BUF_SZ);
+    ssize_t n = -1;
+    try {
+        n = read(sock, sync_buf, estts::ti_socket::TI_SOCKET_BUF_SZ);
+    } catch (std::exception &e) {
+        handle_failure();
+        return nullptr;
+    }
     if (n < 1) {
         // Can't receive a negative number of bytes ;)
         handle_failure();
@@ -223,6 +237,11 @@ estts::Status socket_handler::init_socket_handle(const char *address_, int port_
         return estts::ES_UNINITIALIZED;
     }
     SPDLOG_DEBUG("Socket configuration complete.");
+
+    std::stringstream temp;
+    temp << address << ":" << port;
+    this->endpoint = temp.str();
+
     return estts::ES_OK;
 }
 

@@ -21,10 +21,10 @@ namespace estts {
     //bool DYNAMIC_DOPPLER_SHIFT_ACCOMODATION = true;
 
     namespace cosmos {
-        const int COSMOS_PRIMARY_CMD_TELEM_PORT = 65432;
-        const int COSMOS_GROUNDSTATION_CMD_TELEM_PORT = 8046;
-        const int COSMOS_SATELLITE_TXVR_CMD_TELEM_PORT = 55927;
-        const int COSMOS_PRIMARY_AX25_TELEM_PORT = 55482;
+        const int COSMOS_OBC_CMD_TELEM_PORT = 8090;
+        const int COSMOS_GROUNDSTATION_CMD_TELEM_PORT = 8091;
+        const int COSMOS_SATELLITE_TXVR_CMD_TELEM_PORT = 8092;
+        const int COSMOS_PRIMARY_AX25_TELEM_PORT = 8093;
     }
 
     namespace ti_serial {
@@ -58,7 +58,7 @@ namespace estts {
         const int MAX_ESTTC_PACKET_SIZE = 1024;
         const int MAX_RETRIES = 2;
         const int WAIT_TIME_SEC = 2;
-        const int PIPE_DURATION_SEC = 5;
+        const int PIPE_DURATION_SEC = 3;
         const unsigned char OBC_ESTTC_DELIMETER[] = "\r\r\r";
         const int OBC_ESTTC_DELIMETER_SIZE = 3;
         enum PIPE_State {

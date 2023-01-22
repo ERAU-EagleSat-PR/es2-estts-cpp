@@ -168,6 +168,7 @@ void groundstation_manager::manage() {
         auto highest = get_highest_priority_session();
 
         // If the highest priority session has priority of 0.0, there are no commands to execute. Detect if the satellite is in range.
+        // TODO sometimes session that is currently executing will have a priority of 0.0
         if (highest != nullptr && highest->priority > 0.0) {
             // If the highest priority session is currently executing, let it execute.
             // If the highest priority session is not currently executing, replace it with the highest session.
@@ -491,7 +492,6 @@ std::string groundstation_manager::session_manager::default_command_executor(con
         SPDLOG_INFO("Successfully transmitted command with serial number {}", sn);
 
         SPDLOG_DEBUG("Waiting for a response");
-        sleep_until(system_clock::now() + milliseconds(100)); // TODO reduce wait
 
         resp = receive_func();
         if (verify_crc && resp.size() >= 8 + 1 && estts::ES_OK == validate_crc(resp.substr(0, resp.size() - 9), resp.substr(resp.size() - 8, 8)))

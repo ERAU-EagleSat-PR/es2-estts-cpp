@@ -226,18 +226,6 @@ Status transmission_interface::enable_pipe() {
         write_serial_s(pipe_en);
         sleep_until(system_clock::now() + milliseconds (50));
 
-        // This for loop is redundant in like 99% of cases, but it vastly reduces the risk of double enabling
-        // PIPE on whatever device is listening.
-        /*
-        for (int i = 0; i < 3; i++) {
-            buf << read_to_delimeter('\r') << read_to_delimeter('\r'); // This is looking for two delimiters, so call read twice
-            if (buf.str().find("OK+3323\r") != std::string::npos && buf.str().find("+PIPE\r") != std::string::npos) {
-                pipe_mode = PIPE_ON;
-                break;
-            }
-            sleep_until(system_clock::now() + milliseconds (50));
-        } */
-
         buf << read_to_delimeter('\r') << read_to_delimeter('\r'); // This is looking for two delimiters, so call read twice
         if (buf.str().find("OK+3323\r") != std::string::npos && buf.str().find("+PIPE\r") != std::string::npos) {
             pipe_mode = PIPE_ON;
@@ -267,7 +255,7 @@ Status transmission_interface::enable_pipe() {
 
 Status transmission_interface::disable_pipe() {
     SPDLOG_DEBUG("Exiting PIPE mode");
-    unsigned int retries = pipe_duration_sec * 2;
+    auto max_time_to_wait_ms = pipe_duration_sec * 1000 * 2; // Wait up to two times the max pipe duration
 
     if (pipe_mode != PIPE_ON)
         return ES_OK;
@@ -277,6 +265,7 @@ Status transmission_interface::disable_pipe() {
     std::string resp;
     std::stringstream buf;
 
+    auto start_time = high_resolution_clock::now();
     while (true) {
         if (check_serial_bytes_avail() > 0)
             buf << read_to_delimeter('\r');
@@ -284,10 +273,10 @@ Status transmission_interface::disable_pipe() {
         if (buf.str().find("+ESTTC") != std::string::npos)
             break;
 
-        sleep_until(system_clock::now() + seconds(1)); // TODO reduce delay
-        retries--;
-        if (retries <= 0) {
-            SPDLOG_WARN("Oof PIPE didn't exit properly..");
+        sleep_until(system_clock::now() + milliseconds (50)); // TODO reduce delay
+
+        if (duration_cast<milliseconds>(high_resolution_clock::now() - start_time).count() > max_time_to_wait_ms) {
+            SPDLOG_ERROR("Oof PIPE didn't exit properly...");
             pipe_mode = PIPE_OFF;
             return ES_UNSUCCESSFUL;
         }
@@ -298,14 +287,14 @@ Status transmission_interface::disable_pipe() {
 }
 
 void transmission_interface::maintain_pipe() {
-    auto duration_ms = 1000 * pipe_duration_sec;
+    auto check_interval_ms = (int)((1000 * pipe_duration_sec) * .7); // Check 70% of the way through the pipe duration
     while (pipe_mode == PIPE_ON) {
-        // Only send something across interface if the time since the last packet is greater than PIPE_DURATION_SEC * 0.8
-        if (duration_cast<milliseconds>(high_resolution_clock::now() - tx_trace_timestamp).count() > duration_ms - (int)(duration_ms * 0.2)) {
+        // Only send something across interface if the time since the last packet is greater than check_interval_ms
+        if (duration_cast<milliseconds>(high_resolution_clock::now() - tx_trace_timestamp).count() > check_interval_ms) {
             this->write_serial_uc((unsigned char *) " ", 1);
-            sleep_until(system_clock::now() + milliseconds (50)); // TODO check for pipe disable like every 1ms.
         }
 
+        sleep_until(system_clock::now() + milliseconds (1));
         // Serial handler tracks the mode implicitly. Verify that desired state is still active.
     }
 }
@@ -362,6 +351,7 @@ estts::Status transmission_interface::get_pipe_duration() {
                     pipe_duration = hex_string_to_int(resp);
                 } catch (std::exception &e) {
                     SPDLOG_ERROR("Failed to parse pipe duration: {}", e.what());
+                    SPDLOG_DEBUG("Retry");
                     continue;
                 }
 
@@ -375,7 +365,7 @@ estts::Status transmission_interface::get_pipe_duration() {
         pipe_duration_sec = 10;
         return estts::ES_UNSUCCESSFUL;
     } else {
-        SPDLOG_DEBUG("Pipe duration is {} seconds", pipe_duration_sec);
+        SPDLOG_DEBUG("Pipe duration is {} seconds", pipe_duration);
         pipe_duration_sec = pipe_duration;
     }
 
