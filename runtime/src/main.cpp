@@ -62,10 +62,11 @@ int main(int argc, char *argv[]) {
         working_log_directory = "/tmp/estts/";
 
     if (telem_git_repo.empty())
-        base_git_dir = "/home/sbeve/telemetry";
+        telem_git_repo = "git@github.com:ERAU-EagleSat-PR/eaglesat-2-telemetry.git";
 
     if (base_git_dir.empty())
-        telem_git_repo = "git@github.com:ERAU-EagleSat-PR/eaglesat-2-telemetry.git";
+        base_git_dir = "/home/sbeve/telemetry";
+
 
     std::stringstream log_path;
     auto logname = "estts_log";
