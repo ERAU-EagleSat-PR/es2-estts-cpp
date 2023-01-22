@@ -99,10 +99,28 @@ std::string find_removable_storage() {
 
 std::string get_write_trace_msg(unsigned char *message_uc, size_t bytes, const std::string& endpoint) {
     std::string message(reinterpret_cast<char*>(message_uc));
-    std::replace( message.begin(), message.end(), '\r', ' ');
-    message.append("\0");
+    std::stringstream message_ss;
+
+    if (message.find("OK+ADCS ") != std::string::npos) {
+        for (int i = 0; i < 8; i++)
+            message_ss << message_uc[i];
+        message_ss << "0x";
+        for (int i = 8; i < bytes - 10; i++) {
+            message_ss << std::setw(2) << std::setfill('0') << std::hex << (int)message_uc[i] << std::dec;
+            printf("0x%02X ", message_uc[i]);
+        }
+
+        message_ss << " ";
+        for (int i = bytes - 10; i < bytes - 1; i++)
+            message_ss << message_uc[i];
+    } else {
+        std::replace(message.begin(), message.end(), '\r', ' ');
+        message.append("\0");
+        message_ss << message;
+    }
+
     std::stringstream temp;
-    temp << "Wrote '" << message << "' (size=" << bytes << " bytes) to " << endpoint;
+    temp << "Wrote '" << message_ss.str() << "' (size=" << bytes << " bytes) to " << endpoint;
     return temp.str();
 }
 
@@ -217,6 +235,10 @@ estts::Status publish_file_to_git(const std::string& base_git_dir, const std::st
 
     // Determine if git repo is cloned -> .git will exist
     DIR * d = opendir(base_git_dir.c_str());
+    if (!d) {
+        SPDLOG_WARN("publish_file_to_git: opendir() failed!");
+        return estts::ES_UNSUCCESSFUL;
+    }
     bool git_repo_is_local = false;
     while ((dir = readdir(d)) != nullptr) {
         if (strcmp(dir->d_name, ".git") == 0) {
